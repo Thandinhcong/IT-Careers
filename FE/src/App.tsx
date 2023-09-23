@@ -1,6 +1,7 @@
 import React from "react"
 import "./index.css"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Main from "./pages/main"
 
 function App() {
 
@@ -9,6 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route>
+          <Route index element={<Main />} />
         </Route>
       </Routes>
     </BrowserRouter>
