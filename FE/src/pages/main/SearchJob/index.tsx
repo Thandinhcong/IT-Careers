@@ -4,7 +4,7 @@ import { MdRoom } from "react-icons/md";
 import { AiOutlineArrowRight } from "react-icons/ai"
 const SearchJob = () => {
     return (
-        <section className=' px-5 lg:px-12  bg-blue-100/50 pb-10 lg:pb-36' >
+        <section className=' px-5 lg:px-12  bg-blue-100/50 pb-10 lg:pb-36 pt-10' >
             <h2 className='text-2xl mb-2'>Khám phá cơ hội nghề nghiệp</h2>
             <p>Dễ dàng tìm một công việc mơ ước tại công ty hàng đầu Việt Nam</p>
             <form className='lg:flex gap-2 my-5 '>
