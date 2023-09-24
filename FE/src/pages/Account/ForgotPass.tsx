@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 
 const ForgotPass = () => {
@@ -56,15 +57,11 @@ const ForgotPass = () => {
 
                     <p className="text-center text-sm text-gray-600">
                         Bạn chưa có Tài Khoản ?
-                        <a className="underline text-indigo-600" href="/signup"> Đăng ký ngay nhé !</a>
+                        <Link className="underline text-indigo-600" to="/signup"> Đăng ký ngay nhé !</Link>
                     </p>
 
 
                 </form>
-                {/* <p className="text-center text-sm text-gray-500">
-                    Trở Thành Nhà Tuyển Dụng
-                    <a className="underline" href="/signup"> Đăng ký ngay nhé !</a>
-                </p> */}
             </div>
         </div>
     )

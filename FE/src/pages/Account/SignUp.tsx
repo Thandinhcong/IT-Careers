@@ -1,20 +1,18 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
     return (
-
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-lg">
                 <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
                     Chào Mừng Đến Với IT Careers
                 </h1>
-
-
                 <form
                     action=""
                     className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
@@ -22,7 +20,24 @@ const Login = () => {
                     <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
                         Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng tại IT Careers nhé !!!
                     </p>
-
+                    <div>
+                        <div className="relative">
+                            <input
+                                type="text"
+                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                placeholder="Họ và Tên"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div className="relative">
+                            <input
+                                type="number"
+                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                placeholder="Số Điện Thoại"
+                            />
+                        </div>
+                    </div>
 
                     <div>
                         <div className="relative">
@@ -50,6 +65,7 @@ const Login = () => {
                             </span>
                         </div>
                     </div>
+
                     <div>
                         <div className="relative">
                             <input
@@ -58,7 +74,7 @@ const Login = () => {
                                 placeholder="Mật Khẩu"
                             />
 
-                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4" onClick={togglePasswordVisibility}>
+                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4 " onClick={togglePasswordVisibility}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-4 w-4 text-gray-400"
@@ -82,69 +98,37 @@ const Login = () => {
                             </span>
                         </div>
                     </div>
-                    <p className="text-right text-sm text-gray-600">
-                        <a className="underline text-indigo-600" href="/forgot"> Quên Mật Khẩu</a>
-                    </p>
+
+                    <div className="col-span-6">
+                        <label htmlFor="MarketingAccept" className="flex gap-4">
+                            <input
+                                type="checkbox"
+                                id="MarketingAccept"
+                                name="marketing_accept"
+                                className="h-5 w-5 rounded-md border-gray-200 bg-white shadow-sm"
+                            />
+
+                            <span className="text-sm text-gray-700">
+                                Tôi đồng ý với quy chế hoạt động và chính sách bảo mật thông tin của IT Careesr
+                            </span>
+                        </label>
+                    </div>
+
                     <button
                         type="submit"
                         className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
                     >
-                        Đăng Nhập
+                        Đăng Ký
                     </button>
 
-                    <div className="flex justify-center">
-                        <button className="rounded-lg bg-gray-600 text-white flex items-center space-x-2 px-4 py-2 mt-4 mr-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path
-                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0v3m0 0h6m-6 0H6"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                />
-                            </svg>
-                            <span>Đăng nhập bằng Google</span>
-                        </button>
-                        <button className="rounded-lg bg-blue-600 text-white flex items-center space-x-2 px-4 py-2 mt-4 ml-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                                />
-                            </svg>
-                            <span>Đăng nhập bằng Facebook</span>
-                        </button>
-                    </div>
-
-
-
-                    <p className="text-center text-sm text-gray-600">
-                        Bạn chưa có Tài Khoản ?
-                        <a className="underline text-indigo-600" href="/signup"> Đăng ký ngay nhé !</a>
+                    <p className="text-center text-sm text-gray-500">
+                        Bạn đã có Tài Khoản ?
+                        <Link className="underline text-indigo-600" to="/signin"> Đăng Nhập ngay nhé !</Link>
                     </p>
-
-
                 </form>
-                {/* <p className="text-center text-sm text-gray-500">
-                    Trở Thành Nhà Tuyển Dụng
-                    <a className="underline" href="/signup"> Đăng ký ngay nhé !</a>
-                </p> */}
             </div>
         </div>
     )
 }
 
-export default Login
+export default SignUp

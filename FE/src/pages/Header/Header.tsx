@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { AiOutlineBars, AiFillCaretDown, AiOutlineClose, AiOutlineHeart, AiOutlineProfile } from 'react-icons/ai'
+import { Link } from 'react-router-dom';
 
 
 const CV = [
@@ -18,10 +19,10 @@ const Header = () => {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6" aria-label="Global">
         <div className="flex lg:flex-none mr-10">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link to="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img className="h-8 w-auto" src="https://123job.vn/images/logo_tim.png" alt="" />
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -91,11 +92,11 @@ const Header = () => {
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
             <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link to="/signin" className="text-sm font-semibold leading-6 text-gray-900">
             Đăng nhập <span aria-hidden="true"></span>
-          </a>
+          </Link>
           <p className='border-r-2 mx-4 border-gray-400 '></p>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/signup" className="text-sm font-semibold leading-6 text-gray-900">
             Đăng Ký <span aria-hidden="true"></span>
           </a>
         </div>
@@ -182,13 +183,13 @@ const Header = () => {
                   Tin đã lưu <AiOutlineHeart className="inline-block base-line" />
                 </a>
                 <a
-                  href="#"
+                  href="/signin"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng nhập
                 </a>
                 <a
-                  href="#"
+                  href="/signup"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng ký
