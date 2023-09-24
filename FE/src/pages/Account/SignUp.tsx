@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -123,7 +124,7 @@ const SignUp = () => {
 
                     <p className="text-center text-sm text-gray-500">
                         Bạn đã có Tài Khoản ?
-                        <a className="underline text-indigo-600" href="/signin"> Đăng Nhập ngay nhé !</a>
+                        <Link className="underline text-indigo-600" to="/signin"> Đăng Nhập ngay nhé !</Link>
                     </p>
                 </form>
             </div>

@@ -1,10 +1,13 @@
 
-import ForgotPass from "./component/Account/ForgotPass"
-import SignIn from "./component/Account/SignIn"
-import SignUp from "./component/Account/SignUp"
-import ChangePass from "./component/Account/ChangePass"
+import ForgotPass from "./pages/Account/ForgotPass"
+import SignIn from "./pages/Account/SignIn"
+import SignUp from "./pages/Account/SignUp"
+import ChangePass from "./pages/Account/ChangePass"
 import "./index.css"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Main from "./pages/main"
+import Contact from "./pages/Contacts/Contact"
+import Layout from "./Layout/customer"
 
 function App() {
 
@@ -12,12 +15,18 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path='signin' element={< SignIn />} />
-        <Route path='signup' element={<SignUp />} />
-        <Route path='/forgot' element={<ForgotPass />} />
-        <Route path='/change' element={<ChangePass />} />
+        <Route path='/' element={< Layout />}>
+          <Route index element={<Main />} />
+          <Route path='lien-he' element={< Contact />} />
+        </Route>
+        <Route>
+          <Route path='/signin' element={< SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/forgot' element={<ForgotPass />} />
+          <Route path='/change' element={<ChangePass />} />
+        </Route>
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter >
 
   )
 }
