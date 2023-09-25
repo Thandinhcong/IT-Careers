@@ -1,5 +1,3 @@
-import React from 'react'
-import SearchJob from './SearchJob'
 import RecruiterEmployer from './recruiter'
 import PopularSearches from './Popularsearches'
 import Recruitment from './Recruitment'
@@ -9,13 +7,14 @@ import Utilities from './Utilities'
 import Connect from './connect'
 import Reviews from './Review'
 import ToRecruitment from './ToRecruitment'
+import Banner from './Banner'
 
 
 const Main = () => {
     return (
-        <div>
-            <SearchJob />
-            <div className='px-5 sm:px-12'>
+        <div className=''>
+            <Banner />
+            <div className='max-w-screen-xl mx-auto'>
                 <RecruiterEmployer />
                 <PopularSearches />
                 <Recruitment />
