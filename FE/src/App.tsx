@@ -6,8 +6,10 @@ import ChangePass from "./pages/Account/ChangePass"
 import "./index.css"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Main from "./pages/main"
-import Contact from "./pages/Contacts/Contact"
+import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
+import Help from "./pages/Help/Help"
+import Recruit from "./pages/Recruit"
 
 function App() {
 
@@ -17,7 +19,11 @@ function App() {
       <Routes>
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
-          <Route path='lien-he' element={< Contact />} />
+          <Route path="recruit" element={<Recruit />} />
+          <Route path='help' element={<Help />}>
+            <Route path='contact' element={< Contact />} />
+          </Route>
+
         </Route>
         <Route>
           <Route path='/signin' element={< SignIn />} />

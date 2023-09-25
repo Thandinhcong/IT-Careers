@@ -4,7 +4,153 @@ import { AiFillLinkedin, AiOutlineFacebook, AiOutlineYoutube } from "react-icons
 const Footer = () => {
     return (
         <footer className="bg-white">
-            <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+            <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8 lg:pt-24">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 py-4">
+                    <div className="">
+                        <p className="font-bold text-gray-900">Về 123job.vn</p>
+                        <ul className="mt-6 space-y-4 text-sm">
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Giới thiệu
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="recruit" className="text-gray-900 transition hover:opacity-75">
+                                    Tuyển dụng
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="help/contact" className="text-gray-900 transition hover:opacity-75">
+                                    Liên hệ
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="help/policy" className="text-gray-900 transition hover:opacity-75">
+                                    Điều khoản sử dụng
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Quy chế hoạt động
+                                </a>
+                            </li>
+                            <li>
+                                <a href="help/faq" className="text-gray-900 transition hover:opacity-75">
+                                    Câu hỏi thường gặp
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Giải quyết khiếu nại
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className="">
+                        <p className="font-bold text-gray-900">Người tìm việc</p>
+
+                        <ul className="mt-6 space-y-4 text-sm">
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Profile cá nhân
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Mẫu CV xin việc
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Mẫu Cover Letter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Mẫu CV file word
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Hướng dẫn viết CV
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className="">
+                        <p className="font-bold text-gray-900">Nhà tuyển dụng</p>
+
+                        <ul className="mt-6 space-y-4 text-sm">
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Đăng tin tuyển dụng
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Tìm kiếm hồ sơ
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Chuyên trang tuyển dụng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Kết nối ứng viên
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Cẩm nang tuyển dụng
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className="">
+                        <p className="font-bold text-gray-900">Tìm việc làm</p>
+
+                        <ul className="mt-6 space-y-4 text-sm">
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Việc theo chức danh
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Việc theo địa điểm
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Việc theo công ty
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                    Việc khu công nghiệp
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr className="my-6" />
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div>
                         <div className="">
@@ -67,7 +213,7 @@ const Footer = () => {
                                             />
                                         </svg>
 
-                                        <span className="flex-1 text-gray-700">Email: contact@123job.vn</span>
+                                        <span className="flex-1 text-gray-900">Email: contact@123job.vn</span>
                                     </a>
                                 </li>
 
@@ -91,7 +237,7 @@ const Footer = () => {
                                             />
                                         </svg>
 
-                                        <span className="flex-1 text-gray-700"> Zalo/Phone: 0368.201.788 - Ngọc Bích</span>
+                                        <span className="flex-1 text-gray-900"> Zalo/Phone: 0368.201.788 - Ngọc Bích</span>
                                     </a>
                                 </li>
 
@@ -112,7 +258,7 @@ const Footer = () => {
                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                                         />
                                     </svg>
-                                    <address className="-mt-0.5 flex-1 not-italic text-gray-700">
+                                    <address className="-mt-0.5 flex-1 not-italic text-gray-900">
                                         Liên hệ hợp tác: 0333.383.630 - Nguyễn Hưng
                                     </address>
                                 </li>
@@ -130,6 +276,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
+
                 <hr className="my-6" />
                 <div className="pt-6">
                     <div className="text-center">

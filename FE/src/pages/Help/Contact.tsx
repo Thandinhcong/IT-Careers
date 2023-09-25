@@ -2,7 +2,7 @@
 
 const Contact = () => {
     return (
-        <div className="max-w-screen-lg mx-auto">
+        <div className="col-span-2">
             <h1 className="font-bold text-xl my-4">Liên hệ chúng tôi</h1>
             <hr />
             <p className="py-4"><span className="w-10 inline-block base-line"></span>Cảm ơn bạn đã gia nhập mạng ưới tuyển dụng 123Job.vn của chúng tôi, là 1 website tuyển dụng lớn nhất tại Việt Nam hiện nay. Bạn có thể liên hệ với chúng tôi theo một trong những cách sau:
