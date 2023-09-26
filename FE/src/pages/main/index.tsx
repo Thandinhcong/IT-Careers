@@ -13,7 +13,7 @@ import ToRecruitment from './ToRecruitment'
 
 const Main = () => {
     return (
-        <div>
+        <div className='max-w-screen-xl mx-auto'>
             <SearchJob />
             <div className='px-5 sm:px-12'>
                 <RecruiterEmployer />
