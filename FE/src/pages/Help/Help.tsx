@@ -2,12 +2,12 @@ import { Outlet } from "react-router-dom"
 
 const Help = () => {
   return (
-    <div className="max-w-screen-lg mx-auto grid grid-cols-3 gap-8">
-      <div className="col-span-1">
+    <div className="max-w-screen-lg mx-auto grid grid-cols-4 gap-8 py-10">
+      <div className="col-span-1 shadow-3xl py-4 max-h-60 overflow-y-auto">
         <ul className="space-y-1">
           <li>
             <a
-              href="/contact"
+              href="contact"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Liên hệ
@@ -16,7 +16,7 @@ const Help = () => {
 
           <li>
             <a
-              href="/policy"
+              href="policy"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Điều khoản sử dụng
@@ -34,7 +34,7 @@ const Help = () => {
 
           <li>
             <a
-              href="/faq"
+              href="faq"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Câu hỏi thường gặp
@@ -43,7 +43,7 @@ const Help = () => {
 
           <li>
             <a
-              href=""
+              href="dispute-resolution"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Giải quyết khiếu nại

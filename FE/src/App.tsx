@@ -10,6 +10,9 @@ import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
+import Policy from "./pages/Help/Policy"
+import FAQ from "./pages/Help/FAQ"
+import DisputeResolution from "./pages/Help/DisputeResolution"
 
 function App() {
 
@@ -20,8 +23,11 @@ function App() {
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="recruit" element={<Recruit />} />
-          <Route path='help' element={<Help />}>
+          <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
+            <Route path='policy' element={< Policy />} />
+            <Route path='faq' element={< FAQ />} />
+            <Route path='dispute-resolution' element={< DisputeResolution />} />
           </Route>
 
         </Route>
