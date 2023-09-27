@@ -10,6 +10,7 @@ import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
+import LayoutCompany from "./Layout/company"
 
 function App() {
 
@@ -30,6 +31,9 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
+        </Route>
+        <Route path="/company" element={<LayoutCompany />} >
+          <Route />
         </Route>
       </Routes>
     </BrowserRouter >
