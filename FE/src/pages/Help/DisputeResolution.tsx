@@ -5,7 +5,7 @@ const DisputeResolution = () => {
             <h1 className="font-bold text-xl my-4">Quy trình giải quyết tranh chấp</h1>
             <hr />
             <div>
-                <div className="flex justify-start">
+                <div className="flex justify-start my-4">
                     <span className="bg-gray-600 text-white font-bold px-4 py-2 text-center">1</span>
                     <p className="border-b border-gray-900 w-full pl-4 font-bold pt-1 text-lg">Khi phát sinh khiếu nại liên quan đến Tin Tuyển Dụng, Người Tìm Việc/Nhà Tuyển Dụng thực hiện theo quy trình sau:</p>
                 </div>
