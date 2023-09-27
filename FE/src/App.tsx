@@ -10,6 +10,10 @@ import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
+import LayoutUser from "./pages/User"
+import JobApply from "./pages/User/JobApply"
+import JobFavor from "./pages/User/JobFavor"
+import ListCV from "./pages/User/ListCV"
 
 function App() {
 
@@ -22,6 +26,11 @@ function App() {
           <Route path="recruit" element={<Recruit />} />
           <Route path='help' element={<Help />}>
             <Route path='contact' element={< Contact />} />
+          </Route>
+          <Route path='user' element={<LayoutUser />}>
+            <Route path='listcv' element={< ListCV />} />
+            <Route path='jobapply' element={< JobApply />} />
+            <Route path='jobfavor' element={< JobFavor />} />
           </Route>
 
         </Route>
