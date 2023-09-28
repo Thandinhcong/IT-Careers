@@ -15,11 +15,11 @@ const HeaderCompany = () => {
     ]
 
     return (
-        <div className='border flex items-center gap-2 p-2 font-medium justify-end'>
+        <div className='border flex fixed top-0 w-[80%] right-0 max-w-screen-2xl items-center gap-2 p-2 font-medium justify-end'>
             <Link to="" className='flex items-center gap-2 px-5 py-2 relative rounded text-white bg-blue-500 group'>
                 <BiEdit />
                 <p className='text-xs'>Đăng tin mới</p>
-                <div className='absolute left-0 right-0 mx-auto -bottom-9 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-xs px-3 rounded'>
+                <div className='absolute left-0 right-0 mx-auto -bottom-9 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-lg px-3 rounded'>
                     Đăng mới một tin tuyển dụng
                 </div>
             </Link>
