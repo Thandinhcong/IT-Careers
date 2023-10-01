@@ -8,7 +8,7 @@ const ContentCompany = () => {
         <div className='bg-gray-100'>
             <div className='max-w-screen-xl mx-auto px-8 grid grid-cols-3 gap-8 py-6'>
                 <div className='grid grid-cols-1 gap-7 col-span-2'>
-                    <Link to={""} className='bg-white p-6 shadow-md hover:shadow-xl h-[320px]'>
+                    <Link to="detail" className='bg-white p-6 shadow-md hover:shadow-xl h-[320px]'>
                         <div className='flex justify-between gap-8'>
                             <div className='flex justify-normal gap-4'>
                                 <div className='w-1/6'>

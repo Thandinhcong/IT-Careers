@@ -1,6 +1,6 @@
 import { BsSearch } from 'react-icons/bs'
 import { MdRoom } from 'react-icons/md'
-import ContentCompany from '../Company/Content'
+// import ContentCompany from '../Company/Content'
 
 const SearchJobs = () => {
     return (
@@ -17,7 +17,6 @@ const SearchJobs = () => {
                 <span className='pr-5'><MdRoom /></span>
             </div>
             <button className='bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-full text-white font-semibold  w-full lg:w-auto  py-2'>Tìm việc</button>
-            <ContentCompany />
         </form>
     )
 }
