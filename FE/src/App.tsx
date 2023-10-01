@@ -11,6 +11,7 @@ import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
 import LayoutCompany from "./Layout/company"
+import Companys from "./pages/Companys"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
         <Route path="/company" element={<LayoutCompany />} >
+          <Route index element={<Companys />} />
           <Route />
         </Route>
       </Routes>
