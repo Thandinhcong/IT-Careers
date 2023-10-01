@@ -1,4 +1,5 @@
 import { AiFillStar, AiOutlineCreditCard, AiOutlineShareAlt } from "react-icons/ai"
+import { Link } from "react-router-dom"
 
 const HeaderCompanyDetail = () => {
     return (
@@ -30,10 +31,10 @@ const HeaderCompanyDetail = () => {
                         <AiFillStar />
                         <p>Theo dõi</p>
                     </button>
-                    <button className="bg-white text-blue-500 rounded-lg font-semibold w-40 flex items-center justify-center border border-blue-500">
+                    <Link to={'reviews'} className="bg-white text-blue-500 rounded-lg font-semibold w-40 flex items-center justify-center border border-blue-500">
                         <AiOutlineCreditCard />
                         <p>Viết review </p>
-                    </button>
+                    </Link>
                     <button className="bg-white text-blue-500 p-3 border border-blue-500 rounded-lg">
                         <AiOutlineShareAlt className="text-xl font-bold" />
                     </button>
