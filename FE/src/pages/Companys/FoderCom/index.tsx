@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom'
 const Forder = () => {
     return (
         <div className='shadow-inner border p-2 mt-5'>
-            <h6 className='font-semibold'>
+            <h6 className='font-semibold flex justify-between' >
                 Bạn có thể quan tâm
-
+                <Link to="" className='flex gap-1 items-center'>
+                    Xem báo cáo
+                    <span><BsArrowRightShort /></span>
+                </Link>
             </h6>
             <div className='grid grid-cols-4 gap-6'>
                 <div className='p-2 border shadow mt-3'>
