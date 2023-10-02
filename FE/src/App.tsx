@@ -21,6 +21,7 @@ import Profile from "./pages/User/Profile"
 import Company from "./pages/Company"
 import CompanyDetail from "./pages/Company-detail"
 import Reviews from "./pages/Company-detail-reviews/Reviews"
+import LayoutCompany from "./Layout/company"
 
 function App() {
 
@@ -53,6 +54,9 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
+        </Route>
+        <Route path="/company" element={<LayoutCompany />} >
+          <Route />
         </Route>
       </Routes>
     </BrowserRouter >
