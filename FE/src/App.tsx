@@ -10,6 +10,9 @@ import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
+import CompanyDetail from "./pages/Detail/CompanyDetail"
+import Reviews from "./pages/main/Review"
+import Policy from "./pages/Help/Policy"
 
 function App() {
 
@@ -21,6 +24,7 @@ function App() {
           <Route index element={<Main />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
+
           <Route path="company/detail" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path='help/' element={<Help />}>

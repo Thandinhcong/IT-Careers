@@ -1,6 +1,7 @@
 import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
+import React from 'react';
 
 const Company = () => {
     const textList = [
