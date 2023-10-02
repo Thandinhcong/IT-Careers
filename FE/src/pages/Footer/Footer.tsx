@@ -1,9 +1,10 @@
 import { AiFillLinkedin, AiOutlineFacebook, AiOutlineYoutube } from "react-icons/ai"
+import { Link } from "react-router-dom"
 
 
 const Footer = () => {
     return (
-        <footer className="bg-white">
+        <footer className="bg-slate-50 w-full">
             <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8 lg:pt-24">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 py-4">
                     <div className="">
@@ -22,31 +23,31 @@ const Footer = () => {
                             </li>
 
                             <li>
-                                <a href="help/contact" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="help/contact" className="text-gray-900 transition hover:opacity-75">
                                     Liên hệ
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a href="help/policy" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="help/policy" className="text-gray-900 transition hover:opacity-75">
                                     Điều khoản sử dụng
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
                                     Quy chế hoạt động
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="help/faq" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="help/faq" className="text-gray-900 transition hover:opacity-75">
                                     Câu hỏi thường gặp
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="help/dispute-resolution" className="text-gray-900 transition hover:opacity-75">
                                     Giải quyết khiếu nại
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
