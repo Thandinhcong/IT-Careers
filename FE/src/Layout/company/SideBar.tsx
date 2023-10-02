@@ -11,6 +11,8 @@ import { HiSquare3Stack3D } from "react-icons/hi2"
 import { TbBrandCampaignmonitor } from "react-icons/tb"
 
 import { IoDocumentTextOutline } from "react-icons/io5"
+import { Link } from 'react-router-dom'
+import BusinessSetting from '../../pages/Companys/Business_Setting/Business'
 
 
 const SideBarCompany = () => {
@@ -134,7 +136,7 @@ const SideBarCompany = () => {
             </div>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiTwotoneSetting /> </p>
-                <p className='mr-3'>Cài đặt tài khoản</p>
+                <Link to='business_setting'><p className='mr-3'>Cài đặt tài khoản</p></Link>
             </div>
         </div>
     )
