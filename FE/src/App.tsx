@@ -17,6 +17,7 @@ import LayoutUser from "./pages/User"
 import ListCV from "./pages/User/ListCV"
 import JobApply from "./pages/User/JobApply"
 import JobFavor from "./pages/User/JobFavor"
+import Profile from "./pages/User/Profile"
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
             <Route path='listcv' element={< ListCV />} />
             <Route path='jobapply' element={< JobApply />} />
             <Route path='jobfavor' element={< JobFavor />} />
+            <Route path='profile' element={< Profile />} />
           </Route>
 
         </Route>
