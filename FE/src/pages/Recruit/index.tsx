@@ -3,6 +3,7 @@ import { AiFillCaretRight, AiOutlineCheckCircle, AiOutlineHeart, AiOutlinePlus, 
 import SearchJobs from './SearchJobs'
 import FilterBySalary from './FilterBySalary';
 import FilterByLocation from './FilterByLocation';
+// import ContentCompany from '../Company/Content';
 
 const Recruit = () => {
     const [isFollowing, setIsFollowing] = useState(false);
