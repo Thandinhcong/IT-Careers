@@ -1,7 +1,6 @@
 import { Button } from 'antd';
 
 const ListCV = () => {
-
     return (
         <div className=''>
             <div className='flex justify-between shadow-sm shadow-blue-300 h-auto py-4'>

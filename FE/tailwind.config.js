@@ -7,6 +7,9 @@ export default {
         '3xl': [
           ' 0px 0px 15px rgba(225,237,255,.65)',
         ],
+        '4xl': [
+          ' 0px 0px 15px rgba(0 0 0 / 0.25)',
+        ],
       },
     },
     // colors: {

@@ -17,6 +17,13 @@ import LayoutUser from "./pages/User"
 import ListCV from "./pages/User/ListCV"
 import JobApply from "./pages/User/JobApply"
 import JobFavor from "./pages/User/JobFavor"
+import Profile from "./pages/User/Profile"
+import Company from "./pages/Company"
+import CompanyDetail from "./pages/Company-detail"
+import Reviews from "./pages/Company-detail-reviews/Reviews"
+import LayoutCompany from "./Layout/company"
+import Companys from "./pages/Companys"
+import CreateCampaign from "./pages/Companys/Create_campaign"
 
 function App() {
 
@@ -27,6 +34,9 @@ function App() {
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="recruit" element={<Recruit />} />
+          <Route path="company" element={<Company />} />
+          <Route path="company/detail" element={<CompanyDetail />} />
+          <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -37,6 +47,7 @@ function App() {
             <Route path='listcv' element={< ListCV />} />
             <Route path='jobapply' element={< JobApply />} />
             <Route path='jobfavor' element={< JobFavor />} />
+            <Route path='profile' element={< Profile />} />
           </Route>
 
         </Route>
@@ -45,6 +56,10 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
+        </Route>
+        <Route path="/companys" element={<LayoutCompany />} >
+          <Route index element={<Companys />} />
+          <Route path="create_campaign" element={<CreateCampaign />} />
         </Route>
       </Routes>
     </BrowserRouter >
