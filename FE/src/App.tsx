@@ -23,6 +23,7 @@ import CompanyDetail from "./pages/Company-detail"
 import Reviews from "./pages/Company-detail-reviews/Reviews"
 import LayoutCompany from "./Layout/company"
 import Companys from "./pages/Companys"
+import CreateCampaign from "./pages/Companys/Create_campaign"
 
 function App() {
 
@@ -58,7 +59,7 @@ function App() {
         </Route>
         <Route path="/companys" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
-          <Route />
+          <Route path="create_campaign" element={<CreateCampaign />} />
         </Route>
       </Routes>
     </BrowserRouter >
