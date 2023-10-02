@@ -10,6 +10,7 @@ import Contact from "./pages/Help/Contact"
 import Layout from "./Layout/customer"
 import Help from "./pages/Help/Help"
 import Recruit from "./pages/Recruit"
+import CompanyDetail from "./pages/Detail/CompanyDetail"
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='help' element={<Help />}>
             <Route path='contact' element={< Contact />} />
           </Route>
+          <Route path='company-detail' element={< CompanyDetail />} />
 
         </Route>
         <Route>
