@@ -20,6 +20,7 @@ import JobFavor from "./pages/User/JobFavor"
 import Profile from "./pages/User/Profile"
 import Company from "./pages/Company"
 import CompanyDetail from "./pages/Company-detail"
+import Reviews from "./pages/Company-detail-reviews/Reviews"
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail" element={<CompanyDetail />} />
+          <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
