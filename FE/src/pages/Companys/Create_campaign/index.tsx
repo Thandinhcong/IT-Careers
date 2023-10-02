@@ -13,7 +13,7 @@ const CreateCampaign = () => {
                 <a href=""> Chiến dịch tuyển dụng</a> /
                 <span className='text-gray-500'> Đăng tin chiến dịch</span>
             </p>
-            <div className='border shadow p-3'>
+            <div className='border shadow p-3 mr-3'>
                 <h3 className='text-lg font-semibold py-4'>Bạn muốn đăng tin cho chiến dịch nào?</h3>
                 <div className='p-3 my-5 flex items-center justify-between border shadow'>
                     <div className='flex items-center gap-2 text-blue-500 font-sans  '>
@@ -23,7 +23,7 @@ const CreateCampaign = () => {
                         <span>Đăng tin với chiến dịch tuyển dụng mới</span>
                     </div>
                     <div>
-                        <Link to="" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
+                        <Link to="/company/recruitment-campaign/form/create" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
                     </div>
                 </div>
                 <div className='border shadow'>

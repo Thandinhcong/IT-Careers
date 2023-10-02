@@ -13,6 +13,7 @@ import Recruit from "./pages/Recruit"
 import LayoutCompany from "./Layout/company"
 import Companys from "./pages/Companys"
 import CreateCampaign from "./pages/Companys/Create_campaign"
+import RecruimentCampaign from "./pages/Companys/Recruiment_campaign"
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/company" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
+          <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
         </Route>
       </Routes>
     </BrowserRouter >
