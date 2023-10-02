@@ -1,6 +1,7 @@
 import React from 'react'
 import SideBarCompany from './SideBar'
 import HeaderCompany from './Header'
+import { Outlet } from 'react-router-dom'
 
 const LayoutCompany = () => {
     return (
@@ -8,6 +9,7 @@ const LayoutCompany = () => {
             <SideBarCompany />
             <div>
                 <HeaderCompany />
+                <Outlet />
             </div>
         </div>
     )

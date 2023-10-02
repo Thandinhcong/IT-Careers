@@ -22,6 +22,7 @@ import Company from "./pages/Company"
 import CompanyDetail from "./pages/Company-detail"
 import Reviews from "./pages/Company-detail-reviews/Reviews"
 import LayoutCompany from "./Layout/company"
+import Companys from "./pages/Companys"
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
         <Route path="/company" element={<LayoutCompany />} >
+          <Route index element={<Companys />} />
           <Route />
         </Route>
       </Routes>
