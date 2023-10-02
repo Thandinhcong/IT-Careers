@@ -56,7 +56,7 @@ function App() {
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
         </Route>
-        <Route path="/company" element={<LayoutCompany />} >
+        <Route path="/companys" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route />
         </Route>
