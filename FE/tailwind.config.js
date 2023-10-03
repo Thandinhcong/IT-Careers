@@ -16,6 +16,11 @@ export default {
     //   "banner-1": "#66CCFF",
     //   "banner-2": "#CCCCFF"
     // }
+    fontFamily: {
+      sans: ['Roboto', 'Arial', 'sans-serif'],
+      serif: ['Merriweather', 'Georgia', 'serif'],
+      mono: ['Courier New', 'monospace'],
+    },
   },
   plugins: [],
 }
