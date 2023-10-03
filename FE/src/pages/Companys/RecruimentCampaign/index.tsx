@@ -1,13 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiChevronsRight } from "react-icons/fi"
-
+import { Select } from 'antd';
+import type { SelectProps } from 'antd';
+import { BsArrowRight } from 'react-icons/bs';
 
 const RecruimentCampaign = () => {
+    const options: SelectProps['options'] = [];
+
+    for (let i = 10; i < 36; i++) {
+        options.push({
+            value: i.toString(36) + i,
+            label: i.toString(36) + i,
+        });
+    }
+
+    const handleChange = (value: string) => {
+        console.log(`selected ${value}`);
+    };
     return (
         <div className='mt-16 ml-3 py-2'>
             <p className='text-sm'>
-                <Link className='text-gray-600' to="/companys/dashboard">Bảng tin</Link> /
+                <Link className='text-gray-600' to="/companys">Bảng tin</Link> /
                 <Link className='text-gray-600' to={'#'}> Chiến dịch tuyển dụng</Link> /
                 <span className='text-gray-400'> Tạo chiến dịch mới</span>
             </p>
@@ -57,19 +71,47 @@ const RecruimentCampaign = () => {
                 </h1>
                 <hr className='my-5 w-full' />
                 <form >
-                    <div>
-                        <label htmlFor="" className='font-semibold '>Tên chiến dịch tuyển dụng <span className='text-red-500'>*</span></label> <br />
-                        <input type="text" className=' mt-2 border outline-none border-solid border-blue-500 px-3 py-1' />
+                    <div className='flex justify-between gap-2 items-center'>
+                        <div className=''>
+                            <label htmlFor="" className='font-semibold '>Tên chiến dịch tuyển dụng <span className='text-red-500'>*</span></label> <br />
+                            <input
+                                type="text"
+                                className=' w-[450px] p-1 mt-2 border border-solid border-gray-400 px-3 rounded outline-blue-300'
+                                placeholder='VD:Tuyển thực tập sinh ReactJS '
+                            />
+                        </div>
+                        <div className='w-[50%]'>
+                            <label htmlFor="" className='font-semibold mb-2'>Vị trí tuyển dụng</label> <br />
+                            <Select
+                                className='mt-2 p-2'
+                                mode="tags"
+                                style={{ width: '100%' }}
+                                placeholder="Tags Mode"
+                                onChange={handleChange}
+                                options={options}
+                            />
+                        </div>
+
                     </div>
-                    <select name="" id="">
-                        <option value="">
-                            --Vị trí tuyển dụng
-                        </option>
-                    </select>
+                    <div>
+                        <label htmlFor="" className='font-semibold '>Khu vực làm việc</label> <br />
+                        <Select
+                            className='mt-2 p-1'
+                            mode="tags"
+                            style={{ width: '100%' }}
+                            placeholder="Tags Mode"
+                            onChange={handleChange}
+                            options={options}
+                        />
+                    </div>
+                    <button className='my-5 mx-auto  flex items-center  gap-2 text-white bg-blue-500 rounded px-2 py-1'>
+                        Tiếp theo
+                        <span><BsArrowRight /></span>
+                    </button>
                 </form>
             </div>
         </div>
     )
 }
 
-export default RecruimentCampaign
+export default RecruimentCampaign 

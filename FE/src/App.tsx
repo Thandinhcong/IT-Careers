@@ -69,7 +69,7 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
         <Route path="/companys" element={<LayoutCompany />} >
-          <Route path="dashboard" element={<Companys />} />
+          <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="business_setting" element={<LayoutBusinessSetting />} >
             <Route index element={<ContactCompanySetting />} />

@@ -33,7 +33,7 @@ const SideBarCompany = () => {
                 <p className='mr-3'>Số xu</p>
                 <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
             </div>
-            <Link to="/companys/dashboard" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>
                 <p className='mr-3'>Bảng tin</p>
             </Link>
