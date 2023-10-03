@@ -23,7 +23,7 @@ const CreateCampaign = () => {
                         <span>Đăng tin với chiến dịch tuyển dụng mới</span>
                     </div>
                     <div>
-                        <Link to="/company/recruitment-campaign/form/create" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
+                        <Link to="/companys/recruitment-campaign/form/create" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
                     </div>
                 </div>
                 <div className='border shadow'>

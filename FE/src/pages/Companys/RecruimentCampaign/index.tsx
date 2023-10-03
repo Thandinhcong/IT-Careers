@@ -7,7 +7,7 @@ const RecruimentCampaign = () => {
     return (
         <div className='mt-16 ml-3 py-2'>
             <p className='text-sm'>
-                <Link className='text-gray-600' to="/company">Bảng tin</Link> /
+                <Link className='text-gray-600' to="/companys/dashboard">Bảng tin</Link> /
                 <Link className='text-gray-600' to={'#'}> Chiến dịch tuyển dụng</Link> /
                 <span className='text-gray-400'> Tạo chiến dịch mới</span>
             </p>
