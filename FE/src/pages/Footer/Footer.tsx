@@ -11,15 +11,15 @@ const Footer = () => {
                         <p className="font-bold text-gray-900">Về 123job.vn</p>
                         <ul className="mt-6 space-y-4 text-sm">
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
                                     Giới thiệu
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a href="recruit" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="recruit" className="text-gray-900 transition hover:opacity-75">
                                     Tuyển dụng
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
@@ -57,31 +57,31 @@ const Footer = () => {
 
                         <ul className="mt-6 space-y-4 text-sm">
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="/user/profile" className="text-gray-900 transition hover:opacity-75">
                                     Profile cá nhân
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
                                     Mẫu CV xin việc
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
                                     Mẫu Cover Letter
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
                                     Mẫu CV file word
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="/guide" className="text-gray-900 transition hover:opacity-75">
                                     Hướng dẫn viết CV
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

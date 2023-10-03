@@ -19,7 +19,7 @@ const Recruitment = () => {
                         <div className='flex gap-2'>
                             <img src="https://cdn.123job.vn/123job/uploads/2023/09/18/2023_09_18______57489ca66e204611c4df5e4c8c4c3ed0.png" alt="" className='border rounded-md p-2' width={70} />
                             <div>
-                                <Link to="">
+                                <Link to="/">
                                     <p className='text-slate-500 font-semibold text-base'>Thực tập sinh ReactJS</p>
                                 </Link>
                                 <p>FPT Software</p>

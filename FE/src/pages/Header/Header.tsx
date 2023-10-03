@@ -19,7 +19,7 @@ const Header = () => {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6" aria-label="Global">
         <div className="flex lg:flex-none mr-10">
-          <Link to="#" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img className="h-8 w-auto" src="https://123job.vn/images/logo_tim.png" alt="" />
           </Link>
@@ -75,18 +75,18 @@ const Header = () => {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link to="#" className="text-sm font-semibold leading-6 text-gray-900">
             Việc làm
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </Link>
+          <Link to="company" className="text-sm font-semibold leading-6 text-gray-900">
             Công ty
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </Link>
+          <Link to="#" className="text-sm font-semibold leading-6 text-gray-900">
             Sự nghiệp phát triền
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          </Link>
+          <Link to="#" className="text-sm font-semibold leading-6 text-gray-900">
             Công cụ
-          </a>
+          </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end " >
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
