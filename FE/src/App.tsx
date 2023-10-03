@@ -25,8 +25,8 @@ import LayoutCompany from "./Layout/company"
 import Companys from "./pages/Companys"
 import CreateCampaign from "./pages/Companys/Create_campaign"
 import LayoutBusinessSetting from "./pages/Companys/Business_Setting"
-import CompanySetting from "./pages/Companys/Business_Setting/Company"
-import BusinessSetting from "./pages/Companys/Business_Setting/Business"
+// import CompanySetting from "./pages/Companys/Business_Setting/Company"
+// import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
 import Guide from "./pages/Guide/Guide"
@@ -69,8 +69,8 @@ function App() {
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="business_setting" element={<LayoutBusinessSetting />} >
             <Route index element={<ContactCompanySetting />} />
-            <Route path="company" element={<CompanySetting />} />
-            <Route path="business" element={<BusinessSetting />} />
+            {/* <Route path="company" element={<CompanySetting />} />
+            <Route path="business" element={<BusinessSetting />} /> */}
             <Route path="contact" element={<ContactCompanySetting />} />
             <Route path="changepass" element={<ChangePassCompany />} />
           </Route>
