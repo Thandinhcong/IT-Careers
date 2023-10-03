@@ -9,10 +9,8 @@ import { ImFilesEmpty } from "react-icons/im"
 import { RiVipCrownLine } from "react-icons/ri"
 import { HiSquare3Stack3D } from "react-icons/hi2"
 import { TbBrandCampaignmonitor } from "react-icons/tb"
-
 import { IoDocumentTextOutline } from "react-icons/io5"
 import { Link } from 'react-router-dom'
-import BusinessSetting from '../../pages/Companys/Business_Setting/Business'
 
 
 const SideBarCompany = () => {
@@ -35,30 +33,30 @@ const SideBarCompany = () => {
                 <p className='mr-3'>Số xu</p>
                 <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
             </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys/dashboard" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>
                 <p className='mr-3'>Bảng tin</p>
-            </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            </Link>
+            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <IoDocumentTextOutline /> </p>
                 <p className='mr-3'>Quản lý tuyển dụng</p>
-            </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            </Link>
+            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
                 <p className='mr-3'>Chiến dịch tuyển dụng</p>
-            </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            </Link>
+            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
-            </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            </Link>
+            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <RiVipCrownLine /> </p>
                 <p className='mr-3'>Tài khản pro</p>
-            </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            </Link>
+            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>
                 <p className='mr-3'>Báo cáo tổng quan</p>
-            </div>
+            </Link>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'><AiOutlineUsergroupAdd /> </p>
                 <Menu as="div" className="relative  inline-block text-left">

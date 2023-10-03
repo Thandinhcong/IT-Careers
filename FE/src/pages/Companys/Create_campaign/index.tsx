@@ -9,8 +9,8 @@ const CreateCampaign = () => {
 
         <div className='mt-16   '>
             <p className='text-sm my-5 ml-3' >
-                <a href="">Bảng tin </a> /
-                <a href=""> Chiến dịch tuyển dụng</a> /
+                <Link to="/companys/dashboard">Bảng tin </Link> /
+                <Link to=""> Chiến dịch tuyển dụng</Link> /
                 <span className='text-gray-500'> Đăng tin chiến dịch</span>
             </p>
             <div className='border shadow p-3'>
