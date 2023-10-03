@@ -12,6 +12,7 @@ import Banner from './Banner'
 
 const Main = () => {
     return (
+
         <div className=''>
             <Banner />
             <div className='max-w-screen-xl mx-auto'>

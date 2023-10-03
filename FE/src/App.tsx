@@ -29,6 +29,7 @@ import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
+import Guide from "./pages/Guide/Guide"
 
 function App() {
 
@@ -42,6 +43,8 @@ function App() {
           <Route path="company" element={<Company />} />
           <Route path="company/detail" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
+          <Route path="guide" element={<Guide />} />
+
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -54,7 +57,6 @@ function App() {
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
           </Route>
-
         </Route>
         <Route>
           <Route path='/signin' element={< SignIn />} />

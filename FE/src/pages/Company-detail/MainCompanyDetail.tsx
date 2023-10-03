@@ -8,6 +8,7 @@ import {
 import TabsOverview from "./TabsOverview";
 import TabAffair from "./TabAffair";
 import TabsFeedback from "./TabsFeedback";
+import React from "react";
 
 const MainCompanyDetail = () => {
     const [basicActive, setBasicActive] = useState("tab1");
