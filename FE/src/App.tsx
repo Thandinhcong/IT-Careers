@@ -33,6 +33,7 @@ import Guide from "./pages/Guide/Guide"
 import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
+import JobCreate from "./pages/Companys/JobCreate"
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
             <Route path="changepass" element={<ChangePassCompany />} />
           </Route>
           <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
+          <Route path="jobs/create" element={<JobCreate />} />
         </Route>
       </Routes>
     </BrowserRouter >

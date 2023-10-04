@@ -1,23 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiChevronsRight } from "react-icons/fi"
-import { Select } from 'antd';
-import type { SelectProps } from 'antd';
 import { BsArrowRight } from 'react-icons/bs';
+import Select from "react-select"
+import makeAnimated from 'react-select/animated';
 
 const RecruimentCampaign = () => {
-    const options: SelectProps['options'] = [];
-
-    for (let i = 10; i < 36; i++) {
-        options.push({
-            value: i.toString(36) + i,
-            label: i.toString(36) + i,
-        });
-    }
-
-    const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
-    };
+    const makeAnimate = makeAnimated();
+    const option = [
+        { value: 'IT-Phần mềm', label: 'IT - Phần mềm' },
+        { value: 'Lập trình viên website', label: 'Lập trình viên website' },
+        { value: 'Lập trình viên PHP', label: 'Lập trình viên PHP' },
+        { value: 'Lập trình viên Front-end', label: 'Lập trình viên Front-end' },
+    ]
+    const areas = [
+        { value: 'Hà Nội', label: 'Hà Nội' },
+        { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' },
+        { value: 'Hải Phòng', label: 'Hải Phòng' },
+        { value: 'Thái Bình', label: 'Thái Bình' },
+    ]
     return (
         <div className='mt-16 ml-3 py-2'>
             <p className='text-sm'>
@@ -82,26 +83,18 @@ const RecruimentCampaign = () => {
                         </div>
                         <div className='w-[50%]'>
                             <label htmlFor="" className='font-semibold mb-2'>Vị trí tuyển dụng</label> <br />
-                            <Select
-                                className='mt-2 p-2'
-                                mode="tags"
-                                style={{ width: '100%' }}
-                                placeholder="Tags Mode"
-                                onChange={handleChange}
-                                options={options}
-                            />
+                            <Select options={option} className='mt-2' />
                         </div>
 
                     </div>
-                    <div>
+                    <div className='my-4'>
                         <label htmlFor="" className='font-semibold '>Khu vực làm việc</label> <br />
                         <Select
-                            className='mt-2 p-1'
-                            mode="tags"
-                            style={{ width: '100%' }}
-                            placeholder="Tags Mode"
-                            onChange={handleChange}
-                            options={options}
+                            closeMenuOnSelect={false}
+                            components={makeAnimate}
+                            isMulti
+                            options={areas}
+                            className='mt-2'
                         />
                     </div>
                     <button className='my-5 mx-auto  flex items-center  gap-2 text-white bg-blue-500 rounded px-2 py-1'>
