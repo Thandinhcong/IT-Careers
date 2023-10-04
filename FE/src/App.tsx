@@ -24,6 +24,7 @@ import Reviews from "./pages/Company-detail-reviews/Reviews"
 import LayoutCompany from "./Layout/company"
 import Companys from "./pages/Companys"
 import CreateCampaign from "./pages/Companys/Create_campaign"
+import JobDetail from "./pages/Job-detail/JobDetail"
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
+          <Route path="job-detail" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail" element={<CompanyDetail />} />
