@@ -18,7 +18,7 @@ const SideBarCompany = () => {
         return classes.filter(Boolean).join(' ')
     }
     return (
-        <div className='p-2 border font-normal'>
+        <div className='p-2 border font-medium text-[#526484]'>
             <div className='flex items-center gap-2'>
                 <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" className='rounded-full border p-1' alt="logo công ty" width={50} />
                 <p>Công ty cổ phần công nghệ INTP</p>
@@ -60,13 +60,10 @@ const SideBarCompany = () => {
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'><AiOutlineUsergroupAdd /> </p>
                 <Menu as="div" className="relative  inline-block text-left">
-                    <div>
-                        <Menu.Button className="inline-flex w-full  justify-center gap-x-1.5  bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                            Quản lý doanh nghiệp
-                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-                        </Menu.Button>
-                    </div>
-
+                    <Menu.Button className="inline-flex w-full border-none justify-center gap-x-1.5  bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                        Quản lý doanh nghiệp
+                        <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </Menu.Button>
                     <Transition
                         as={Fragment}
                         enter="transition ease-out duration-100"
