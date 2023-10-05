@@ -9,7 +9,9 @@ const LayoutCompany = () => {
             <SideBarCompany />
             <div>
                 <HeaderCompany />
-                <Outlet />
+                <div className='mt-14'>
+                    <Outlet />
+                </div>
             </div>
         </div>
     )
