@@ -34,6 +34,7 @@ import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
 import FindJob from "./pages/Companys/Find-job"
+import Deposit from "./pages/Companys/Deposit/Deposit"
 
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
           </Route>
           <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
           <Route path="find-job" element={<FindJob />} />
+          <Route path="deposit" element={<Deposit />} />
         </Route>
       </Routes>
     </BrowserRouter >
