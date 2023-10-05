@@ -34,6 +34,7 @@ import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
 
+import JobDetail from "./pages/Job-detail/JobDetail"
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
       <Routes>
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
+          <Route path="job-detail" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail" element={<CompanyDetail />} />
