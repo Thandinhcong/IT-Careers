@@ -34,6 +34,9 @@ import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
 
+import Helpcompanys from "./pages/Help-Company"
+import HelpText1 from "./pages/Help-Company/HelpText1"
+
 
 function App() {
 
@@ -80,6 +83,12 @@ function App() {
           </Route>
           <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
         </Route>
+        <Route path='help-companys/' element={<Helpcompanys />}>
+          <Route index element={< HelpText1 />} />
+          <Route path="help-text1" element={< HelpText1 />} />
+
+        </Route>
+
       </Routes>
     </BrowserRouter >
 
