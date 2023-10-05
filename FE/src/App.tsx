@@ -37,6 +37,9 @@ import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 
 import JobDetail from "./pages/Job-detail/JobDetail"
+import Helpcompanys from "./pages/Help-Company"
+import HelpText1 from "./pages/Help-Company/HelpText1"
+
 
 function App() {
 
@@ -86,6 +89,12 @@ function App() {
           <Route path="find-job" element={<FindJob />} />
           <Route path="deposit" element={<Deposit />} />
         </Route>
+        <Route path='help-companys/' element={<Helpcompanys />}>
+          <Route index element={< HelpText1 />} />
+          <Route path="help-text1" element={< HelpText1 />} />
+
+        </Route>
+
       </Routes>
     </BrowserRouter >
 

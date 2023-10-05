@@ -18,7 +18,7 @@ const SideBarCompany = () => {
         return classes.filter(Boolean).join(' ')
     }
     return (
-        <div className='p-2 border font-medium text-[#526484]'>
+        <div className='p-2 border font-normal sidebar sticky top-0 h-screen overflow-y-auto'>
             <div className='flex items-center gap-2'>
                 <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" className='rounded-full border p-1' alt="logo công ty" width={50} />
                 <p>Công ty cổ phần công nghệ INTP</p>
