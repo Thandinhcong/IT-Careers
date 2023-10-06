@@ -14,7 +14,7 @@ const MainFindJob = () => {
     const [showModal, setShowModal] = useState(false);
     return (
         <div>
-            <div className="flex gap-4 text-sm">
+            <div className="flex gap-4 text-sm my-4">
                 <input type="text" placeholder="Tìm tên việc, chức danh" className="border border-gray-200 p-2 rounded-md outline-blue-400 w-1/4" />
                 <select
                     name=""
