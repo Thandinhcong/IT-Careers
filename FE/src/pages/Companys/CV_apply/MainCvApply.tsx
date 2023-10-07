@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AiOutlineCalendar, AiOutlineClose, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClose, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import {
     TEModal,
     TEModalDialog,
@@ -13,6 +13,12 @@ import {
 const MainCvApply = () => {
     const [currentStatus, setCurrentStatus] = useState(false);
     const [showModalLg, setShowModalLg] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleDropdownToggle = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
     const handleStatusChange = () => {
         setCurrentStatus(!currentStatus);
     };
@@ -66,7 +72,38 @@ const MainCvApply = () => {
                     ><AiOutlineEdit /><span> Đánh giá</span>
                     </button>
                 </TERipple>
-                <button className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm"><AiOutlineSetting /><span> Thao tác</span></button>
+                <div className="relative">
+                    <button
+                        className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm"
+                        onClick={handleDropdownToggle}
+                    >
+                        <AiOutlineSetting />
+                        <span> Thao tác</span>
+                    </button>
+
+                    {isDropdownOpen && (
+                        <div className="absolute end-0 z-10 mt-2 w-48 rounded-md border border-gray-100 bg-white shadow-lg">
+                            <ul className="p-1">
+                                <li>
+                                    <a
+                                        href="#"
+                                        className="block rounded-lg px-4 py-2 text-[13px] text-gray-500 hover:bg-gray-50 hover:text-blue-500"                                    >
+                                        <AiOutlineDownload className="inline-block mr-1" />Tải xuống cv
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#"
+                                        className="block rounded-lg px-4 py-2 text-[13px] text-gray-500 hover:bg-gray-50 hover:text-blue-500"                                    >
+                                        <AiOutlineSwap className="inline-block mr-1" />
+                                        Lịch sử ghi chú
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    )}
+                </div>
             </div>
             <TEModal show={showModalLg} setShow={setShowModalLg}>
                 <TEModalDialog size="lg" centered>
