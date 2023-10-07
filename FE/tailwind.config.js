@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,js,ts,tsx}"],
+  content: ["./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/tw-elements-react/dist/js/**/*.js"],
   theme: {
     extend: {
       boxShadow: {
@@ -12,15 +14,12 @@ export default {
         ],
       },
     },
-    // colors: {
-    //   "banner-1": "#66CCFF",
-    //   "banner-2": "#CCCCFF"
-    // }
     fontFamily: {
       sans: ['Roboto', 'Arial', 'sans-serif'],
       serif: ['Merriweather', 'Georgia', 'serif'],
       mono: ['Courier New', 'monospace'],
     },
   },
-  plugins: [],
+  // eslint-disable-next-line no-undef
+  plugins: [require("tw-elements-react/dist/plugin.cjs")],
 }
