@@ -7,7 +7,7 @@ const Forder = () => {
         <div className='shadow-inner border p-2 mt-5'>
             <h6 className='font-semibold flex justify-between' >
                 Bạn có thể quan tâm
-                <Link to="" className='flex gap-1 items-center'>
+                <Link to="/companys/reports" className='flex gap-1 items-center'>
                     Xem báo cáo
                     <span><BsArrowRightShort /></span>
                 </Link>
