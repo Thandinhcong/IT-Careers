@@ -16,7 +16,7 @@ const Forder = () => {
                 <div className='p-2 border shadow mt-3'>
                     <p className='font-medium'>Hồ sơ mới</p>
                     <p className='text-red-500 text-2xl my-2'>0</p>
-                    <p className='flex items-center gap-3 text-gray-400'><span className='font-normal text-sm'>CV ứng tuyển mới </span>  <Link to='' className='flex items-center justify-between text-sm gap-1'>Xem <BsArrowRightShort /> </Link> </p>
+                    <p className='flex items-center justify-between gap-3 text-gray-400'><span className='font-normal text-sm'>CV ứng tuyển mới </span>  <Link to='' className='flex items-center justify-between text-sm gap-1'>Xem <BsArrowRightShort /> </Link> </p>
                 </div>
                 <div className='p-2 border shadow mt-3'>
                     <p className='font-medium'>Tin tuyển dụng hiển thị</p>

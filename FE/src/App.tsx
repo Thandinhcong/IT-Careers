@@ -53,6 +53,7 @@ import Brand_Refer from "./pages/Companys/Transaction"
 import Transaction from "./pages/Companys/Transaction"
 import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
+import JobCreate from "./pages/Companys/JobCreate"
 
 
 function App() {
@@ -92,7 +93,7 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
         <Route path="/companys" element={<LayoutCompany />} >
-          <Route path="dashboard" element={<Companys />} />
+          <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
 
@@ -119,6 +120,7 @@ function App() {
           <Route path="find-job" element={<FindJob />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
+          <Route path="jobs/create" element={<JobCreate />} />
         </Route>
         <Route path='help-companys/' element={<Helpcompanys />}>
           <Route index element={< HelpText1 />} />
