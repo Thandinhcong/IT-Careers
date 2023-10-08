@@ -29,7 +29,7 @@ ChartJS.register(
 )
 const CompanyReports = () => {
     const datas: any = {
-        labels: ['Violet', 'Blue', 'Yellow'],
+        labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [
             {
                 label: '# of Hủy nạp',
@@ -93,8 +93,8 @@ const CompanyReports = () => {
                 <nav className=' '>
                     <ul className='flex gap-8'>
                         <li><a href="">Tổng quát</a></li>
-                        <li><a href="">Hiệu xuất tin</a></li>
-                        <li><a href="">Báo cáo tài chính</a></li>
+                        <li><a href="#hieu-xuat-tin">Hiệu xuất tin</a></li>
+                        <li><a href="#bao-cao-tai-chinh">Báo cáo tài chính</a></li>
                     </ul>
                 </nav>
                 <hr className='w-full my-5 ' />
@@ -243,8 +243,7 @@ const CompanyReports = () => {
                     </div>
                 </div>
             </div>
-            <div className=" shadow border p-5 mt-5">
-
+            <div className=" shadow border p-5 mt-5" id='hieu-xuat-tin'>
                 <div className='flex justify-between items-center'>
                     <h4 className='text-lg font-semibold'>Hiệu xuất tin đăng</h4>
                     <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
@@ -313,7 +312,7 @@ const CompanyReports = () => {
 
                     </div>
                 </div>
-                <div className='shadow border p-5 mt-5' >
+                <div className='shadow border p-5 mt-5' id='bao-cao-tai-chinh' >
                     <div className='flex justify-between items-center'>
                         <h4 className='text-base font-semibold'>Báo cáo tài chính</h4>
                         <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
