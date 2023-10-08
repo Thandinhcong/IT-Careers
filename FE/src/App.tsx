@@ -39,6 +39,7 @@ import Deposit from "./pages/Companys/Deposit/Deposit"
 import JobDetail from "./pages/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
+import Jobs from "./pages/Jobs"
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path="company/detail" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="guide" element={<Guide />} />
+          <Route path="jobs" element={<Jobs />} />
 
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />

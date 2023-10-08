@@ -133,6 +133,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <AiTwotoneSetting /> </p>
                 <Link to='business_setting'><p className='mr-3'>Cài đặt tài khoản</p></Link>
             </div>
+
         </div>
     )
 }
