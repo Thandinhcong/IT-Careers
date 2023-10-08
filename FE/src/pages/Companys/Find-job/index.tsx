@@ -6,7 +6,7 @@ import MainFindJob from './Main';
 const FindJob = () => {
     return (
         <div className='bg-gray-100'>
-            <div className='max-w-[1050px] mx-auto py-7'>
+            <div className='max-w-[1000px] mx-auto py-7'>
                 <div className='bg-[#d4f1f5] border border-[#b5edf5] p-4 text-[#06889b] leading-10'>
                     <p className='font-semibold flex items-center gap-2'>
                         <AiFillInfoCircle className="text-xl" />
