@@ -18,9 +18,11 @@
     "antd": "^5.9.2",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.0",
+    "chart.js": "^4.4.0",
     "env": "^0.0.2",
     "postcss-cli": "^10.1.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "react-icons": "^4.11.0",
@@ -31,9 +33,9 @@
     "react-text-loop": "^2.3.0",
     "react-typist": "^2.0.5",
     "redux-persist": "^6.0.0",
+    "slick-carousel": "^1.8.1",
     "swiper": "^10.3.1",
     "tw-elements-react": "^1.0.0-alpha1",
-    "slick-carousel": "^1.8.1",
     "yup": "^1.2.0"
   },
   "devDependencies": {

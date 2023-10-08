@@ -40,6 +40,7 @@ import JobDetail from "./pages/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
 import Jobs from "./pages/Jobs"
+import CompanyReports from "./pages/Companys/Company_reports"
 
 
 function App() {
@@ -80,6 +81,8 @@ function App() {
         <Route path="/companys" element={<LayoutCompany />} >
           <Route path="dashboard" element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
+          <Route path="reports" element={<CompanyReports />} />
+
           <Route path="business_setting" element={<LayoutBusinessSetting />} >
             <Route index element={<ContactCompanySetting />} />
             <Route path="company" element={<CompanySetting />} />
