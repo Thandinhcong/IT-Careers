@@ -45,7 +45,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
                 <p className='mr-3'>Chiến dịch tuyển dụng</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys/cv-apply" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
             </Link>
@@ -121,10 +121,10 @@ const SideBarCompany = () => {
                 </Menu>
 
             </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={'/companys/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
-            </div>
+            </Link>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdHistory /> </p>
                 <Link to='activity_history'><p className='mr-3'>Lịch sử hoạt động</p></Link>
