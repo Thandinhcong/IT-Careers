@@ -127,7 +127,7 @@ const SideBarCompany = () => {
             </div>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdHistory /> </p>
-                <p className='mr-3'>Lịch sử hoạt động</p>
+                <Link to='activity_history'><p className='mr-3'>Lịch sử hoạt động</p></Link>
             </div>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiTwotoneSetting /> </p>

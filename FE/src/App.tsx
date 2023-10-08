@@ -42,6 +42,13 @@ import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
 import Jobs from "./pages/Jobs"
 import CompanyReports from "./pages/Companys/Company_reports"
+import Activity_History from "./pages/Companys/Activity_History"
+import All_History from "./pages/Companys/Activity_History/All"
+import History_Recruitment from "./pages/Companys/Activity_History/Recruitment"
+import History_Transaction from "./pages/Companys/Activity_History/Transaction"
+import History_Account from "./pages/Companys/Activity_History/Account"
+import History_Candidate from "./pages/Companys/Activity_History/Candidate"
+import History_Other from "./pages/Companys/Activity_History/Other"
 
 
 function App() {
@@ -72,6 +79,7 @@ function App() {
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
           </Route>
+
         </Route>
         <Route>
           <Route path='/signin' element={< SignIn />} />
@@ -84,6 +92,14 @@ function App() {
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
 
+          <Route path='activity_history' element={<Activity_History />}>
+            <Route index element={< All_History />} />
+            <Route path='transaction' element={< History_Transaction />} />
+            <Route path='recruitment' element={< History_Recruitment />} />
+            <Route path='account' element={< History_Account />} />
+            <Route path='candidate' element={< History_Candidate />} />
+            <Route path='other' element={< History_Other />} />
+          </Route>
           <Route path="business_setting" element={<LayoutBusinessSetting />} >
             <Route index element={<ContactCompanySetting />} />
             <Route path="company" element={<CompanySetting />} />
