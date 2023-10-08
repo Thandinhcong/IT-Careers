@@ -53,7 +53,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <RiVipCrownLine /> </p>
                 <p className='mr-3'>Tài khản pro</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys/reports" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>
                 <p className='mr-3'>Báo cáo tổng quan</p>
             </Link>
