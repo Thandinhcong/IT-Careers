@@ -49,6 +49,10 @@ import History_Transaction from "./pages/Companys/Activity_History/Transaction"
 import History_Account from "./pages/Companys/Activity_History/Account"
 import History_Candidate from "./pages/Companys/Activity_History/Candidate"
 import History_Other from "./pages/Companys/Activity_History/Other"
+import Brand_Refer from "./pages/Companys/Transaction"
+import Transaction from "./pages/Companys/Transaction"
+import Add_Money from "./pages/Companys/Transaction/Add_Money"
+import Payment from "./pages/Companys/Transaction/Payment"
 
 
 function App() {
@@ -92,6 +96,10 @@ function App() {
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
 
+          <Route path="transaction" element={<Transaction />} >
+            <Route path="add_money" element={<Add_Money />} />
+            <Route path="payment" element={<Payment />} />
+          </Route>
           <Route path='activity_history' element={<Activity_History />}>
             <Route index element={< All_History />} />
             <Route path='transaction' element={< History_Transaction />} />
