@@ -10,13 +10,13 @@ const CV = [
   { name: 'Mẫu CV', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
 ]
 const profile = [
-  { name: 'Profile cá nhân', href: 'user/profile', icon: <AiOutlineUser className="text-xl" /> },
-  { name: 'Quản lý CV', href: 'user/listcv', icon: <AiOutlineProfile className="text-xl" /> },
-  { name: 'Việc làm đã ứng tuyển', href: 'user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
-  { name: 'Việc làm đã lưu', href: 'user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
+  { name: 'Profile cá nhân', href: '/user/profile', icon: <AiOutlineUser className="text-xl" /> },
+  { name: 'Quản lý CV', href: '/user/listcv', icon: <AiOutlineProfile className="text-xl" /> },
+  { name: 'Việc làm đã ứng tuyển', href: '/user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
+  { name: 'Việc làm đã lưu', href: '/user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
   { name: 'Đổi mật khẩu', href: '/change', icon: <AiOutlineKey className="text-xl" /> },
-  { name: 'Thiết lập tài khoản', href: 'user/jobfavor', icon: <AiOutlineSetting className="text-xl" /> },
-  { name: 'Đăng xuất', href: 'user/jobfavor', icon: <AiOutlineLogout className="text-xl" /> },
+  { name: 'Thiết lập tài khoản', href: '/user/jobfavor', icon: <AiOutlineSetting className="text-xl" /> },
+  { name: 'Đăng xuất', href: '/user/jobfavor', icon: <AiOutlineLogout className="text-xl" /> },
 ]
 
 function classNames(...classes: string[]) {
@@ -28,7 +28,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="bg-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6" aria-label="Global">
+      <nav className="mx-auto flex items-center justify-between p-6" aria-label="Global">
         <div className="flex lg:flex-none mr-10">
           <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
