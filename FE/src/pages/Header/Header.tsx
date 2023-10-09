@@ -1,13 +1,24 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
-import { AiOutlineBars, AiFillCaretDown, AiOutlineClose, AiOutlineHeart, AiOutlineProfile } from 'react-icons/ai'
+import { AiOutlineBars, AiFillCaretDown, AiOutlineClose, AiOutlineHeart, AiOutlineProfile, AiOutlineUser, AiOutlineCalendar, AiOutlineLogout, AiOutlineKey, AiOutlineSetting } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
+
 
 
 const CV = [
   { name: 'Hồ sơ của tôi  ', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
   { name: 'Mẫu CV', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
 ]
+const profile = [
+  { name: 'Profile cá nhân', href: 'user/profile', icon: <AiOutlineUser className="text-xl" /> },
+  { name: 'Quản lý CV', href: 'user/listcv', icon: <AiOutlineProfile className="text-xl" /> },
+  { name: 'Việc làm đã ứng tuyển', href: 'user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
+  { name: 'Việc làm đã lưu', href: 'user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
+  { name: 'Đổi mật khẩu', href: '/change', icon: <AiOutlineKey className="text-xl" /> },
+  { name: 'Thiết lập tài khoản', href: 'user/jobfavor', icon: <AiOutlineSetting className="text-xl" /> },
+  { name: 'Đăng xuất', href: 'user/jobfavor', icon: <AiOutlineLogout className="text-xl" /> },
+]
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -88,10 +99,52 @@ const Header = () => {
             Công cụ
           </Link>
         </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end " >
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center" >
+          <Link to={"user/jobfavor"} className="text-sm font-semibold leading-6 text-gray-900">
             <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
-          </a>
+          </Link>
+
+          <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5 mr-3">
+            <Popover className="relative">
+              <Popover.Button
+                className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+              >
+                <img src="https://123job.vn/images/no_user.png" className='rounded-full border' alt="logo công ty" width={40} />
+              </Popover.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <Popover.Panel className="absolute -left-1 top-full z-10 mt-3 w-screen max-w-[250px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                  <div className="p-2">
+                    {profile.map((item) => (
+                      <div
+                        key={item.name}
+                        className="group relative flex items-center gap-2 rounded-lg p-2 text-sm leading-6 hover:bg-blue-100"
+                      >
+                        <div className=' text-gray-600'>
+                          {item.icon}
+                        </div>
+                        <div className="flex-auto">
+                          <a href={item.href} className="block font-medium text-gray-600">
+                            {item.name}
+                            <span className="absolute inset-0" />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </Popover>
+          </Popover.Group>
+
           <Link to="/signin" className="text-sm font-semibold leading-6 text-gray-900">
             Đăng nhập <span aria-hidden="true"></span>
           </Link>
@@ -101,6 +154,8 @@ const Header = () => {
           </a>
         </div>
       </nav>
+
+      {/* mobile */}
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -176,12 +231,12 @@ const Header = () => {
                 </a>
               </div>
               <div className="py-3">
-                <a
-                  href="#"
+                <Link
+                  to={"jobfavor"}
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Tin đã lưu <AiOutlineHeart className="inline-block base-line" />
-                </a>
+                </Link>
                 <a
                   href="/signin"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
