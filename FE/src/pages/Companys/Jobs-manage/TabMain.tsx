@@ -4,20 +4,17 @@ import { Button, Divider, Drawer, Dropdown, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { MenuProps } from 'antd';
 import FormEdit from "./FormEdit";
-
-
+interface DataType {
+    key: React.Key;
+    title: string;
+    type: string;
+    status: string;
+    display: number;
+    views: number;
+    profile: number;
+}
 const TabMain = () => {
-    interface DataType {
-        key: React.Key;
-        title: string;
-        type: string;
-        status: string;
-        display: number;
-        views: number;
-        profile: number;
-    }
     const [open, setOpen] = useState(false);
-
     const showDrawer = () => {
         setOpen(true);
     };
@@ -25,6 +22,7 @@ const TabMain = () => {
     const onClose = () => {
         setOpen(false);
     };
+
     const items: MenuProps['items'] = [
         {
             key: '1',
