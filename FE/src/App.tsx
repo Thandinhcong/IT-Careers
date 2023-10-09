@@ -50,11 +50,11 @@ import History_Transaction from "./pages/Companys/Activity_History/Transaction"
 import History_Account from "./pages/Companys/Activity_History/Account"
 import History_Candidate from "./pages/Companys/Activity_History/Candidate"
 import History_Other from "./pages/Companys/Activity_History/Other"
-import Brand_Refer from "./pages/Companys/Transaction"
 import Transaction from "./pages/Companys/Transaction"
 import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
 import JobCreate from "./pages/Companys/JobCreate"
+import AccountPro from "./pages/Companys/Account_pro"
 
 
 function App() {
@@ -98,7 +98,6 @@ function App() {
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
-
           <Route path="transaction" element={<Transaction />} >
             <Route path="add_money" element={<Add_Money />} />
             <Route path="payment" element={<Payment />} />
@@ -123,6 +122,7 @@ function App() {
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
           <Route path="jobs-manage" element={<JobsManage />} />
+          <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
         </Route>
         <Route path='help-companys/' element={<Helpcompanys />}>
