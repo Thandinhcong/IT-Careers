@@ -18,7 +18,7 @@ const SideBarCompany = () => {
         return classes.filter(Boolean).join(' ')
     }
     return (
-        <div className='p-2 border font-medium text-[#526484]'>
+        <div className='p-2 border font-medium text-[#526484] text-sm'>
             <div className='flex items-center gap-2'>
                 <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" className='rounded-full border p-1' alt="logo công ty" width={50} />
                 <p>Công ty cổ phần công nghệ INTP</p>
@@ -37,7 +37,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <AiOutlineHome /> </p>
                 <p className='mr-3'>Bảng tin</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={"jobs-manage"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <IoDocumentTextOutline /> </p>
                 <p className='mr-3'>Quản lý tuyển dụng</p>
             </Link>
@@ -45,7 +45,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
                 <p className='mr-3'>Chiến dịch tuyển dụng</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={"cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
             </Link>
