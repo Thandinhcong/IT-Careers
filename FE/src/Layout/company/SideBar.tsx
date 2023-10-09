@@ -33,7 +33,7 @@ const SideBarCompany = () => {
                 <p className='mr-3'>Số xu</p>
                 <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
             </div>
-            <Link to="/companys/dashboard" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>
                 <p className='mr-3'>Bảng tin</p>
             </Link>
@@ -53,7 +53,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <RiVipCrownLine /> </p>
                 <p className='mr-3'>Tài khản pro</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/companys/reports" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>
                 <p className='mr-3'>Báo cáo tổng quan</p>
             </Link>
@@ -121,18 +121,19 @@ const SideBarCompany = () => {
                 </Menu>
 
             </div>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={'/companys/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
-            </div>
+            </Link>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdHistory /> </p>
-                <p className='mr-3'>Lịch sử hoạt động</p>
+                <Link to='activity_history'><p className='mr-3'>Lịch sử hoạt động</p></Link>
             </div>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiTwotoneSetting /> </p>
                 <Link to='business_setting'><p className='mr-3'>Cài đặt tài khoản</p></Link>
             </div>
+
         </div>
     )
 }

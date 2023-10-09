@@ -38,8 +38,27 @@ import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
 import JobsManage from "./pages/Companys/Jobs-manage"
 
+import JobDetail from "./pages/Job-detail/JobDetail"
+import Helpcompanys from "./pages/Help-Company"
+import HelpText1 from "./pages/Help-Company/HelpText1"
+import Jobs from "./pages/Jobs"
+import CompanyReports from "./pages/Companys/Company_reports"
+import Activity_History from "./pages/Companys/Activity_History"
+import All_History from "./pages/Companys/Activity_History/All"
+import History_Recruitment from "./pages/Companys/Activity_History/Recruitment"
+import History_Transaction from "./pages/Companys/Activity_History/Transaction"
+import History_Account from "./pages/Companys/Activity_History/Account"
+import History_Candidate from "./pages/Companys/Activity_History/Candidate"
+import History_Other from "./pages/Companys/Activity_History/Other"
+import Brand_Refer from "./pages/Companys/Transaction"
+import Transaction from "./pages/Companys/Transaction"
+import Add_Money from "./pages/Companys/Transaction/Add_Money"
+import Payment from "./pages/Companys/Transaction/Payment"
+import JobCreate from "./pages/Companys/JobCreate"
+
 
 function App() {
+
 
   return (
 
@@ -47,11 +66,13 @@ function App() {
       <Routes>
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
+          <Route path="job-detail" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="guide" element={<Guide />} />
+          <Route path="jobs" element={<Jobs />} />
 
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
@@ -65,6 +86,7 @@ function App() {
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
           </Route>
+
         </Route>
         <Route>
           <Route path='/signin' element={< SignIn />} />
@@ -73,8 +95,22 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
         <Route path="/companys" element={<LayoutCompany />} >
-          <Route path="dashboard" element={<Companys />} />
+          <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
+          <Route path="reports" element={<CompanyReports />} />
+
+          <Route path="transaction" element={<Transaction />} >
+            <Route path="add_money" element={<Add_Money />} />
+            <Route path="payment" element={<Payment />} />
+          </Route>
+          <Route path='activity_history' element={<Activity_History />}>
+            <Route index element={< All_History />} />
+            <Route path='transaction' element={< History_Transaction />} />
+            <Route path='recruitment' element={< History_Recruitment />} />
+            <Route path='account' element={< History_Account />} />
+            <Route path='candidate' element={< History_Candidate />} />
+            <Route path='other' element={< History_Other />} />
+          </Route>
           <Route path="business_setting" element={<LayoutBusinessSetting />} >
             <Route index element={<ContactCompanySetting />} />
             <Route path="company" element={<CompanySetting />} />
@@ -87,7 +123,15 @@ function App() {
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
           <Route path="jobs-manage" element={<JobsManage />} />
+          <Route path="jobs/create" element={<JobCreate />} />
         </Route>
+        <Route path='help-companys/' element={<Helpcompanys />}>
+          <Route index element={< HelpText1 />} />
+          <Route path="help-text1" element={< HelpText1 />} />
+
+>>>>>>> develop
+        </Route>
+
       </Routes>
     </BrowserRouter >
 

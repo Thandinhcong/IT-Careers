@@ -271,7 +271,6 @@ const Footer = () => {
                                     <a href=""><AiOutlineFacebook className="text-blue-500" /></a>
                                     <a href=""><AiOutlineYoutube className=" text-red-600" /></a>
                                     <a href=""><AiFillLinkedin className="text-blue-500" /></a>
-
                                 </span>
                             </div>
                         </div>

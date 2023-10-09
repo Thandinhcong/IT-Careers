@@ -7,7 +7,7 @@ const Forder = () => {
         <div className='shadow-inner border p-2 mt-5'>
             <h6 className='font-semibold flex justify-between' >
                 Bạn có thể quan tâm
-                <Link to="" className='flex gap-1 items-center'>
+                <Link to="/companys/reports" className='flex gap-1 items-center'>
                     Xem báo cáo
                     <span><BsArrowRightShort /></span>
                 </Link>
@@ -16,7 +16,7 @@ const Forder = () => {
                 <div className='p-2 border shadow mt-3'>
                     <p className='font-medium'>Hồ sơ mới</p>
                     <p className='text-red-500 text-2xl my-2'>0</p>
-                    <p className='flex items-center gap-3 text-gray-400'><span className='font-normal text-sm'>CV ứng tuyển mới </span>  <Link to='' className='flex items-center justify-between text-sm gap-1'>Xem <BsArrowRightShort /> </Link> </p>
+                    <p className='flex items-center justify-between gap-3 text-gray-400'><span className='font-normal text-sm'>CV ứng tuyển mới </span>  <Link to='/companys/cv-apply' className='flex items-center justify-between text-sm gap-1'>Xem <BsArrowRightShort /> </Link> </p>
                 </div>
                 <div className='p-2 border shadow mt-3'>
                     <p className='font-medium'>Tin tuyển dụng hiển thị</p>
@@ -31,7 +31,9 @@ const Forder = () => {
                 <div className='p-2 border shadow mt-3'>
                     <p className='font-medium'>Lượt đẩy tin tuyển dụng</p>
                     <p className='text-red-500 text-2xl my-2'>0</p>
-                    <p className='flex items-center gap-3 text-gray-400 justify-between'><span className='font-normal text-sm'>Đẩy top tin tìm kiếm</span>  <Link to='' className='flex items-center gap-1 text-sm'>Xem <BsArrowRightShort /> </Link> </p>
+                    <p className='flex items-center gap-3 text-gray-400 justify-between'>
+                        <span className='font-normal text-sm'>Đẩy top tin tìm kiếm</span>
+                    </p>
                 </div>
             </div>
         </div>

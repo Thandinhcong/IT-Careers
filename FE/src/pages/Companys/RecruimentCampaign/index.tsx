@@ -1,13 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiChevronsRight } from "react-icons/fi"
-
+import { BsArrowRight } from 'react-icons/bs';
+import Select from "react-select"
+import makeAnimated from 'react-select/animated';
 
 const RecruimentCampaign = () => {
+    const makeAnimate = makeAnimated();
+    const option = [
+        { value: 'IT-Phần mềm', label: 'IT - Phần mềm' },
+        { value: 'Lập trình viên website', label: 'Lập trình viên website' },
+        { value: 'Lập trình viên PHP', label: 'Lập trình viên PHP' },
+        { value: 'Lập trình viên Front-end', label: 'Lập trình viên Front-end' },
+    ]
+    const areas = [
+        { value: 'Hà Nội', label: 'Hà Nội' },
+        { value: 'Hồ Chí Minh', label: 'Hồ Chí Minh' },
+        { value: 'Hải Phòng', label: 'Hải Phòng' },
+        { value: 'Thái Bình', label: 'Thái Bình' },
+    ]
     return (
         <div className='mt-16 ml-3 py-2'>
             <p className='text-sm'>
-                <Link className='text-gray-600' to="/companys/dashboard">Bảng tin</Link> /
+                <Link className='text-gray-600' to="/companys">Bảng tin</Link> /
                 <Link className='text-gray-600' to={'#'}> Chiến dịch tuyển dụng</Link> /
                 <span className='text-gray-400'> Tạo chiến dịch mới</span>
             </p>
@@ -57,19 +72,39 @@ const RecruimentCampaign = () => {
                 </h1>
                 <hr className='my-5 w-full' />
                 <form >
-                    <div>
-                        <label htmlFor="" className='font-semibold '>Tên chiến dịch tuyển dụng <span className='text-red-500'>*</span></label> <br />
-                        <input type="text" className=' mt-2 border outline-none border-solid border-blue-500 px-3 py-1' />
+                    <div className='flex justify-between gap-2 items-center'>
+                        <div className=''>
+                            <label htmlFor="" className='font-semibold '>Tên chiến dịch tuyển dụng <span className='text-red-500'>*</span></label> <br />
+                            <input
+                                type="text"
+                                className=' w-[450px] p-1 mt-2 border border-solid border-gray-400 px-3 rounded outline-blue-300'
+                                placeholder='VD:Tuyển thực tập sinh ReactJS '
+                            />
+                        </div>
+                        <div className='w-[50%]'>
+                            <label htmlFor="" className='font-semibold mb-2'>Vị trí tuyển dụng</label> <br />
+                            <Select options={option} className='mt-2' />
+                        </div>
+
                     </div>
-                    <select name="" id="">
-                        <option value="">
-                            --Vị trí tuyển dụng
-                        </option>
-                    </select>
+                    <div className='my-4'>
+                        <label htmlFor="" className='font-semibold '>Khu vực làm việc</label> <br />
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={makeAnimate}
+                            isMulti
+                            options={areas}
+                            className='mt-2'
+                        />
+                    </div>
+                    <button className='my-5 mx-auto  flex items-center  gap-2 text-white bg-blue-500 rounded px-2 py-1'>
+                        Tiếp theo
+                        <span><BsArrowRight /></span>
+                    </button>
                 </form>
             </div>
         </div>
     )
 }
 
-export default RecruimentCampaign
+export default RecruimentCampaign 
