@@ -128,8 +128,6 @@ function App() {
         <Route path='help-companys/' element={<Helpcompanys />}>
           <Route index element={< HelpText1 />} />
           <Route path="help-text1" element={< HelpText1 />} />
-
->>>>>>> develop
         </Route>
 
       </Routes>
