@@ -55,6 +55,8 @@ import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
 import JobCreate from "./pages/Companys/JobCreate"
 import AccountPro from "./pages/Companys/Account_pro"
+import LayoutAdmin from "./Layout/admin/LayoutAdmin"
+import DashBoard from "./pages/admin/Dashboard"
 
 
 function App() {
@@ -64,6 +66,7 @@ function App() {
 
     <BrowserRouter>
       <Routes>
+        {/* site */}
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="job-detail" element={<JobDetail />} />
@@ -88,12 +91,16 @@ function App() {
           </Route>
 
         </Route>
+
+        {/* login */}
         <Route>
           <Route path='/signin' element={< SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
         </Route>
+
+        {/* buisness */}
         <Route path="/companys" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
@@ -125,9 +132,16 @@ function App() {
           <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
         </Route>
+
+        {/* Help */}
         <Route path='help-companys/' element={<Helpcompanys />}>
           <Route index element={< HelpText1 />} />
           <Route path="help-text1" element={< HelpText1 />} />
+        </Route>
+
+        {/* admin */}
+        <Route path="/admin" element={<LayoutAdmin />}>
+          <Route index element={<DashBoard />} />
         </Route>
 
       </Routes>
