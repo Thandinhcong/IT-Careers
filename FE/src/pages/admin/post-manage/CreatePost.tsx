@@ -1,11 +1,10 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { ArrowLeftOutlined } from "@ant-design/icons"
 const CreatePost = () => {
     return (
         <div>
-            CreatePost
-            <Link to="/admin/post-manage">Quay lại</Link>
+            <Link to="/admin/post-manage"> <ArrowLeftOutlined className='mr-1' />Quay lại</Link>
+
         </div>
 
     )
