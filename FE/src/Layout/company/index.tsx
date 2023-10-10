@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 const LayoutCompany = () => {
     return (
-        <div className='grid grid-cols-[20%,80%]'>
+        <div className='grid grid-cols-[18%,82%]'>
             <SideBarCompany />
             <div>
                 <HeaderCompany />

@@ -36,6 +36,7 @@ import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
 import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
+import JobsManage from "./pages/Companys/Jobs-manage"
 
 import JobDetail from "./pages/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
@@ -59,6 +60,7 @@ import AccRank from "./pages/Companys/Account_Rank"
 
 
 function App() {
+
 
   return (
 
@@ -123,12 +125,12 @@ function App() {
           <Route path="find-job" element={<FindJob />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
+          <Route path="jobs-manage" element={<JobsManage />} />
           <Route path="jobs/create" element={<JobCreate />} />
         </Route>
         <Route path='help-companys/' element={<Helpcompanys />}>
           <Route index element={< HelpText1 />} />
           <Route path="help-text1" element={< HelpText1 />} />
-
         </Route>
 
       </Routes>
