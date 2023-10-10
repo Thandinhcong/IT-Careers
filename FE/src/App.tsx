@@ -60,6 +60,8 @@ import PostManage from "./pages/admin/post-manage"
 import CreatePost from "./pages/admin/post-manage/CreatePost"
 import AccountPro from "./pages/Companys/Account_pro"
 import AccRank from "./pages/Companys/Account_Rank"
+import Companymanage from "./pages/admin/Company-manage"
+import Createcompany from "./pages/admin/Company-manage/Create-company"
 
 
 function App() {
@@ -149,6 +151,8 @@ function App() {
           <Route index path="dashboard" element={<DashBoard />} />
           <Route path="post-manage" element={<PostManage />} />
           <Route path="post-manage/create-post" element={<CreatePost />} />
+          <Route path="company-manage" element={<Companymanage />} />
+          <Route path="company-manage/create-company" element={<Createcompany />} />
         </Route>
 
       </Routes>
