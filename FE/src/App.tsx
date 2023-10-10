@@ -54,6 +54,8 @@ import Transaction from "./pages/Companys/Transaction"
 import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
 import JobCreate from "./pages/Companys/JobCreate"
+import AccPro from "./pages/Companys/Account_Rank"
+import AccRank from "./pages/Companys/Account_Rank"
 
 
 function App() {
@@ -96,6 +98,7 @@ function App() {
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
+          <Route path="accrank" element={<AccRank />} />
 
           <Route path="transaction" element={<Transaction />} >
             <Route path="add_money" element={<Add_Money />} />
