@@ -1,14 +1,7 @@
 import { useState } from 'react';
 import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    FundProjectionScreenOutlined,
-    DownOutlined,
-    LoginOutlined,
-    SettingFilled, RollbackOutlined, QuestionCircleOutlined
+    MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
+    LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
@@ -23,22 +16,11 @@ const LayoutAdmin = () => {
     } = theme.useToken();
 
     const menuItems = [
-        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: '#' },
-        {
-            key: '2', icon: <VideoCameraOutlined />, label: 'nav 2', path: '',
-            children: [
-                {
-                    key: '2.1',
-                    label: 'Menu con 2.1',
-                },
-                {
-                    key: '2.2',
-                    label: 'Menu con 2.2',
-                },
-            ],
-        },
+        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
+        { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
         { key: '3', icon: <UploadOutlined />, label: 'nav 3', path: '' },
     ];
+
     const items: MenuProps['items'] = [
         { key: '0', label: <a href="#" className='mx-4'><UserOutlined className='mr-2' />My profile</a>, },
         { label: <a href="#" className='mx-4'><SettingFilled className='mr-2' />Setting</a>, key: '1', },
@@ -46,26 +28,16 @@ const LayoutAdmin = () => {
         { label: <a href="#" className='mx-4'><LoginOutlined className='mr-2' />Logout</a>, key: '3', },
     ];
     const handleBreadcrumbClick = (key: string) => {
-        // Tìm menu item đã chọn và các menu item cha trong mảng menuItems
         const selectedMenuItem = menuItems.find(item => item.key === key);
         const parentItems = [];
+
         if (selectedMenuItem) {
             parentItems.push(selectedMenuItem.label);
-
-            // Kiểm tra xem menu item đã chọn có menu item cha hay không
-            if (selectedMenuItem.children) {
-                const selectedChild = selectedMenuItem.children.find(child => child.key === key);
-                if (selectedChild) {
-                    parentItems.push(selectedChild.label);
-                }
-            }
         }
 
-        // Cập nhật breadcrumbItems với các menu item cha
         const newBreadcrumbItems = ['Admin', ...parentItems];
         setBreadcrumbItems(newBreadcrumbItems);
     };
-
     return (
         <Layout className='h-screen'>
             <Sider trigger={null} collapsible collapsed={collapsed} style={{ backgroundColor: "rgba(31,41,55)" }}>
@@ -127,7 +99,6 @@ const LayoutAdmin = () => {
                     style={{
                         margin: '0px 20px',
                         padding: 24,
-                        minHeight: 280,
                         background: colorBgContainer,
                     }}
                 >

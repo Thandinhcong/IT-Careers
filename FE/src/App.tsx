@@ -57,6 +57,8 @@ import JobCreate from "./pages/Companys/JobCreate"
 import AccountPro from "./pages/Companys/Account_pro"
 import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
+import PostManage from "./pages/admin/post-manage"
+import CreatePost from "./pages/admin/post-manage/CreatePost"
 
 
 function App() {
@@ -141,7 +143,9 @@ function App() {
 
         {/* admin */}
         <Route path="/admin" element={<LayoutAdmin />}>
-          <Route index element={<DashBoard />} />
+          <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="post-manage" element={<PostManage />} />
+          <Route path="post-manage/create-post" element={<CreatePost />} />
         </Route>
 
       </Routes>
