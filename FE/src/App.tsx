@@ -59,6 +59,7 @@ import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
 import CreatePost from "./pages/admin/post-manage/CreatePost"
+import ListWorkingForm from "./pages/admin/WorkingForm/ListWorkingForm"
 
 
 function App() {
@@ -146,6 +147,7 @@ function App() {
           <Route index path="dashboard" element={<DashBoard />} />
           <Route path="post-manage" element={<PostManage />} />
           <Route path="post-manage/create-post" element={<CreatePost />} />
+          <Route path="working-form" element={<ListWorkingForm />} />
         </Route>
 
       </Routes>
