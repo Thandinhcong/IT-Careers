@@ -75,7 +75,7 @@ const Header = () => {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <Link to="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link to="/jobs" className="text-sm font-semibold leading-6 text-gray-900">
             Việc làm
           </Link>
           <Link to="company" className="text-sm font-semibold leading-6 text-gray-900">
@@ -151,7 +151,7 @@ const Header = () => {
                   )}
                 </Disclosure>
                 <a
-                  href="#"
+                  href="/jobs"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Việc làm
