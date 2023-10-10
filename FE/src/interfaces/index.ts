@@ -7,3 +7,8 @@ export interface IMajors {
     major: string,
     description: string,
 }
+export interface IWorkingForm {
+    id?: number,
+    working_form: string,
+    description: string,
+}
