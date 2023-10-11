@@ -6,13 +6,7 @@ import type { MenuProps } from 'antd';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineMore } from "react-icons/ai";
 interface DataType {
     key: string;
-    name: string;
-    email: string;
-    phone_number: string;
-    password: string;
-    avatar: string;
-    // status: number;
-    // remember_token: boolean;
+    level: string;
 }
 
 const confirm = () => {
@@ -27,7 +21,7 @@ const cancel = () => {
 
 const items: MenuProps['items'] = [
     {
-        label: <Button className="bg-blue-400 border-none hover:bg-blue-300" href="account-manage/update-account">
+        label: <Button className="bg-blue-400 border-none hover:bg-blue-300" href="level-manage/update-level">
             <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
         </Button>,
         key: '0'
@@ -46,33 +40,18 @@ const items: MenuProps['items'] = [
         </Popconfirm>, key: '1'
     },
 ];
-const AccountManage = () => {
+const LevelManage = () => {
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Username',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'STT',
+            dataIndex: 'key',
+            key: 'key',
 
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: 'Số điện thoại',
-            dataIndex: 'phone_number',
-            key: 'phone_number',
-        },
-        {
-            title: 'Mật khẩu',
-            dataIndex: 'password',
-            key: 'password',
-        },
-        {
-            title: 'Ảnh đại diện',
-            dataIndex: 'avatar',
-            key: 'avatar',
+            title: 'Trình độ',
+            dataIndex: 'level',
+            key: 'level',
         },
         {
             title: 'Action',
@@ -94,42 +73,30 @@ const AccountManage = () => {
     const data: DataType[] = [
         {
             key: '1',
-            name: 'Le Quoc Dat',
-            email: 'dat123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '1.jpg',
+            level: 'Intern',
         },
         {
             key: '2',
-            name: 'Nguyen Duy Trung',
-            email: 'trung123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '2.jpg',
+            level: 'Fresher',
         },
         {
             key: '3',
-            name: 'Nguyen Duy Tu',
-            email: 'tu123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '3.jpg',
+            level: 'Senior',
         },
     ];
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý tài khoản</h2>
+                <h2 className="text-2xl font-semibold">Quản lý trình độ</h2>
                 <Button type="primary" className="bg-blue-500">
-                    <Link to={"create-account"}>Thêm tài khoản</Link>
+                    <Link to={"create-level"}>Thêm trình độ</Link>
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} /> {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={data} scroll={{ x: 10 }} /> {/* Chỉnh độ rộng của bảng */}
 
         </div>
     )
 }
 
-export default AccountManage
+export default LevelManage

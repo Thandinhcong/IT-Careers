@@ -25,8 +25,10 @@ const LayoutAdmin = () => {
         { key: '6', icon: <MdComputer />, label: 'Quản lý Công Ty', path: 'company-manage' },
         { key: '7', icon: <MdComputer />, label: 'Quản lý Chức vụ', path: 'jobposition-manage' },
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
-        { key: '3', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
-        { key: '4', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
+        { key: '9', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
+        { key: '10', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
+        { key: '11', icon: <UploadOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
+        { key: '12', icon: <UploadOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
     ];
 
     const items: MenuProps['items'] = [

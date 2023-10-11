@@ -77,6 +77,9 @@ import EditSkill from "./pages/admin/skill-manage/EditSkill"
 import PackageManage from "./pages/admin/package-manage"
 import AddPackage from "./pages/admin/package-manage/AddPackage"
 import EditPackage from "./pages/admin/package-manage/EditPackage"
+import LevelManage from "./pages/admin/Level-manage"
+import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
+import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
 
 
 function App() {
@@ -164,6 +167,9 @@ function App() {
         {/* admin */}
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="level-manage" element={<LevelManage />} />
+          <Route path="level-manage/create-level" element={<CreateLevel />} />
+          <Route path="level-manage/update-level" element={<UpdateLevel />} />
           <Route path="account-manage" element={<AccountManage />} />
           <Route path="account-manage/create-account" element={<CreateAccount />} />
           <Route path="account-manage/update-account" element={<UpdateAccount />} />
