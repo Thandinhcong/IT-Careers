@@ -8,9 +8,13 @@ import Connect from './connect'
 import Reviews from './Review'
 import ToRecruitment from './ToRecruitment'
 import Banner from './Banner'
+import { useGetMajorQuery } from '../../api/majorApi'
 
 
 const Main = () => {
+    const { data, isLoading, error } = useGetMajorQuery();
+    console.log(data);
+
     return (
 
         <div className=''>

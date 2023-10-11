@@ -50,11 +50,15 @@ import History_Transaction from "./pages/Companys/Activity_History/Transaction"
 import History_Account from "./pages/Companys/Activity_History/Account"
 import History_Candidate from "./pages/Companys/Activity_History/Candidate"
 import History_Other from "./pages/Companys/Activity_History/Other"
-import Brand_Refer from "./pages/Companys/Transaction"
 import Transaction from "./pages/Companys/Transaction"
 import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
 import JobCreate from "./pages/Companys/JobCreate"
+import AccountPro from "./pages/Companys/Account_pro"
+import LayoutAdmin from "./Layout/admin/LayoutAdmin"
+import DashBoard from "./pages/admin/Dashboard"
+import PostManage from "./pages/admin/post-manage"
+import CreatePost from "./pages/admin/post-manage/CreatePost"
 
 
 function App() {
@@ -64,6 +68,7 @@ function App() {
 
     <BrowserRouter>
       <Routes>
+        {/* site */}
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="job-detail" element={<JobDetail />} />
@@ -88,17 +93,20 @@ function App() {
           </Route>
 
         </Route>
+
+        {/* login */}
         <Route>
           <Route path='/signin' element={< SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
         </Route>
+
+        {/* buisness */}
         <Route path="/companys" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
-
           <Route path="transaction" element={<Transaction />} >
             <Route path="add_money" element={<Add_Money />} />
             <Route path="payment" element={<Payment />} />
@@ -123,11 +131,21 @@ function App() {
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
           <Route path="jobs-manage" element={<JobsManage />} />
+          <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
         </Route>
+
+        {/* Help */}
         <Route path='help-companys/' element={<Helpcompanys />}>
           <Route index element={< HelpText1 />} />
           <Route path="help-text1" element={< HelpText1 />} />
+        </Route>
+
+        {/* admin */}
+        <Route path="/admin" element={<LayoutAdmin />}>
+          <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="post-manage" element={<PostManage />} />
+          <Route path="post-manage/create-post" element={<CreatePost />} />
         </Route>
 
       </Routes>
