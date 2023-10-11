@@ -17,7 +17,7 @@ interface DataType {
 const items: MenuProps['items'] = [
     { label: <a href="#">Xem chi tiết </a>, key: '0', icon: <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} /> },
     {
-        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="#">
+        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="company-manage/edit-company">
             <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
         </Button>,
         key: '0'
