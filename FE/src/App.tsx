@@ -56,7 +56,7 @@ import JobCreate from "./pages/Companys/JobCreate"
 import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
-import CreatePost from "./pages/admin/post-manage/CreatePost"
+// import CreatePost from "./pages/admin/post-manage/CreatePost"
 import ListWorkingForm from "./pages/admin/WorkingForm/ListWorkingForm"
 import AddWorkingForm from "./pages/admin/WorkingForm/AddWorkingForm"
 import UpdateWorkingForm from "./pages/admin/WorkingForm/UpdateWorkingForm"
@@ -168,7 +168,7 @@ function App() {
           <Route path="account-manage/create-account" element={<CreateAccount />} />
           <Route path="account-manage/update-account" element={<UpdateAccount />} />
           <Route path="post-manage" element={<PostManage />} />
-          <Route path="post-manage/create-post" element={<CreatePost />} />
+          {/* <Route path="post-manage/create-post" element={<CreatePost />} /> */}
           <Route path="working-form" element={<ListWorkingForm />} />
           <Route path="add/working-form" element={<AddWorkingForm />} />
           <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
