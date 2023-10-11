@@ -10,6 +10,7 @@ const Companys = () => {
             <JobSeekers />
 
 
+
         </div>
     )
 }

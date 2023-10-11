@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FcGoogle } from 'react-icons/fc';
+import { SlSocialFacebook } from 'react-icons/sl';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -95,38 +97,13 @@ const Login = () => {
                     </button>
 
                     <div className="flex justify-center">
-                        <button className="rounded-lg bg-gray-600 text-white flex items-center space-x-2 px-4 py-2 mt-4 mr-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                                <path
-                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0v3m0 0h6m-6 0H6"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                />
-                            </svg>
+                        <button className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-4 py-2 mt-4 mr-2">
+                            <span className="w-10"><FcGoogle /></span>
+
                             <span>Đăng nhập bằng Google</span>
                         </button>
-                        <button className="rounded-lg bg-blue-600 text-white flex items-center space-x-2 px-4 py-2 mt-4 ml-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                                />
-                            </svg>
+                        <button className="rounded-lg bg-blue-800 text-white flex items-center space-x-2 px-4 py-2 mt-4 ml-2">
+                            <span className="w-10">< SlSocialFacebook /></span>
                             <span>Đăng nhập bằng Facebook</span>
                         </button>
                     </div>

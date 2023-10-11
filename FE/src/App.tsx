@@ -54,7 +54,6 @@ import Transaction from "./pages/Companys/Transaction"
 import Add_Money from "./pages/Companys/Transaction/Add_Money"
 import Payment from "./pages/Companys/Transaction/Payment"
 import JobCreate from "./pages/Companys/JobCreate"
-import AccountPro from "./pages/Companys/Account_pro"
 import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
@@ -65,6 +64,12 @@ import UpdateWorkingForm from "./pages/admin/WorkingForm/UpdateWorkingForm"
 import AccountManage from "./pages/admin/Account-manage"
 import CreateAccount from "./pages/admin/Account-manage/CreateAccount"
 import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
+import AccountPro from "./pages/Companys/Account_pro"
+import AccRank from "./pages/Companys/Account_Rank"
+import Companymanage from "./pages/admin/Company-manage"
+import Createcompany from "./pages/admin/Company-manage/Create-company"
+import JobpositionManage from "./pages/admin/Jobposition-manage"
+import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
 
 
 function App() {
@@ -113,6 +118,8 @@ function App() {
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
+          <Route path="accrank" element={<AccRank />} />
+
           <Route path="transaction" element={<Transaction />} >
             <Route path="add_money" element={<Add_Money />} />
             <Route path="payment" element={<Payment />} />
@@ -158,6 +165,10 @@ function App() {
           <Route path="working-form" element={<ListWorkingForm />} />
           <Route path="add/working-form" element={<AddWorkingForm />} />
           <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
+          <Route path="company-manage" element={<Companymanage />} />
+          <Route path="company-manage/create-company" element={<Createcompany />} />
+          <Route path="jobposition-manage" element={<JobpositionManage />} />
+          <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
         </Route>
 
       </Routes>

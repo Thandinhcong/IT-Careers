@@ -15,12 +15,12 @@ const Jobs = () => {
             <div className='max-w-screen-xl mx-auto'>
                 <SearchJobs />
                 <RecruiterEmployer />
+                <Connect />
                 <Recruitment />
                 <DreamJob />
                 <PopularSearches />
                 <Recruitment />
                 <Utilities />
-                <Connect />
                 <ToRecruitment />
             </div>
         </div>

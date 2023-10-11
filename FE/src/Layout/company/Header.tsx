@@ -44,7 +44,10 @@ const HeaderCompany = () => {
             <Link to="" className='text-2xl  mr-5'>
                 <IoMdNotificationsOutline /> </Link>
             <Link to="" className='text-2xl mr-5 '> <BiHomeAlt2 />
+
             </Link>
+
+
             <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5">
                 <Popover className="relative">
                     <Popover.Button
@@ -87,6 +90,12 @@ const HeaderCompany = () => {
                 </Popover>
 
             </Popover.Group>
+            <Link to="accrank" className="relative inline-block">
+                <img src="https://business.123job.vn/images/rank_0.png" className="w-10 ml-3" />
+                <span className="hidden absolute top-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-0 transition-opacity duration-300">
+                    Chưa có hạng
+                </span>
+            </Link>
         </div>
     )
 }
