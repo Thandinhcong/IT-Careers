@@ -37,7 +37,6 @@ import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
 import JobsManage from "./pages/Companys/Jobs-manage"
-
 import JobDetail from "./pages/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
@@ -72,6 +71,9 @@ import JobpositionManage from "./pages/admin/Jobposition-manage"
 import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
 import EditJobposition from "./pages/admin/Jobposition-manage/edit-jobposition"
 import Editcompany from "./pages/admin/Company-manage/Edit-company"
+import SkillManage from "./pages/admin/skill-manage"
+import AddSkill from "./pages/admin/skill-manage/AddSkill"
+import EditSkill from "./pages/admin/skill-manage/EditSkill"
 
 
 function App() {
@@ -173,6 +175,9 @@ function App() {
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
           <Route path="jobposition-manage/edit-jobposition" element={<EditJobposition />} />
+          <Route path="skill-manage" element={<SkillManage />} />
+          <Route path="skill-manage/add" element={<AddSkill />} />
+          <Route path="skill-manage/:id/edit" element={<EditSkill />} />
         </Route>
       </Routes>
     </BrowserRouter >

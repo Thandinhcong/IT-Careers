@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
-    MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
-    LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined
+    MenuFoldOutlined, MenuUnfoldOutlined, ControlOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
+    LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined, UploadOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
@@ -24,6 +24,7 @@ const LayoutAdmin = () => {
         { key: '5', icon: <UploadOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
         { key: '6', icon: <MdComputer />, label: 'Quản lý Công Ty', path: 'company-manage' },
         { key: '7', icon: <MdComputer />, label: 'Quản lý Chức vụ', path: 'jobposition-manage' },
+        { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
     ];
 
     const items: MenuProps['items'] = [
