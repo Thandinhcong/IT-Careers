@@ -1,5 +1,5 @@
 import { AiOutlineArrowRight } from "react-icons/ai"
-import SearchJobs from '../../Recruit/SearchJobs';
+import SearchJobs from '../../Site/Recruit/SearchJobs';
 const Banner = () => {
     return (
         <div className='bg-blue-100/50'>

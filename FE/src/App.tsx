@@ -6,22 +6,22 @@ import ChangePass from "./pages/Account/ChangePass"
 import "./index.css"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Main from "./pages/main"
-import Contact from "./pages/Help/Contact"
+import Contact from "./pages/Site/Help/Contact"
 import Layout from "./Layout/customer"
-import Help from "./pages/Help/Help"
-import Recruit from "./pages/Recruit"
-import Policy from "./pages/Help/Policy"
-import FAQ from "./pages/Help/FAQ"
-import DisputeResolution from "./pages/Help/DisputeResolution"
-import LayoutUser from "./pages/User"
-import ListCV from "./pages/User/ListCV"
-import JobApply from "./pages/User/JobApply"
-import JobFavor from "./pages/User/JobFavor"
-import Profile from "./pages/User/Profile"
-import Company from "./pages/Company"
-import CompanyDetail from "./pages/Company-detail"
-import Reviews from "./pages/Company-detail-reviews/Reviews"
-import LayoutCompany from "./Layout/company"
+import Help from "./pages/Site/Help/Help"
+import Recruit from "./pages/Site/Recruit"
+import Policy from "./pages/Site/Help/Policy"
+import FAQ from "./pages/Site/Help/FAQ"
+import DisputeResolution from "./pages/Site/Help/DisputeResolution"
+import LayoutUser from "./pages/Site/User"
+import ListCV from "./pages/Site/User/ListCV"
+import JobApply from "./pages/Site/User/JobApply"
+import JobFavor from "./pages/Site/User/JobFavor"
+import Profile from "./pages/Site/User/Profile"
+import Company from "./pages/Site/Company"
+import CompanyDetail from "./pages/Site/Company-detail"
+import Reviews from "./pages/Site/Company-detail-reviews/Reviews"
+import LayoutCompany from "./Layout/buisness"
 import Companys from "./pages/Companys"
 import CreateCampaign from "./pages/Companys/Create_campaign"
 import LayoutBusinessSetting from "./pages/Companys/Business_Setting"
@@ -29,7 +29,7 @@ import LayoutBusinessSetting from "./pages/Companys/Business_Setting"
 // import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
-import Guide from "./pages/Guide/Guide"
+import Guide from "./pages/Site/Guide/Guide"
 import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
@@ -37,10 +37,10 @@ import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
 import JobsManage from "./pages/Companys/Jobs-manage"
-import JobDetail from "./pages/Job-detail/JobDetail"
+import JobDetail from "./pages/Site/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
-import Jobs from "./pages/Jobs"
+import Jobs from "./pages/Site/Jobs"
 import CompanyReports from "./pages/Companys/Company_reports"
 import Activity_History from "./pages/Companys/Activity_History"
 import All_History from "./pages/Companys/Activity_History/All"
@@ -115,7 +115,7 @@ function App() {
 
         </Route>
 
-        {/* login */}
+        {/* Account */}
         <Route>
           <Route path='/signin' element={< SignIn />} />
           <Route path='/signup' element={<SignUp />} />
@@ -123,7 +123,7 @@ function App() {
           <Route path='/change' element={<ChangePass />} />
         </Route>
 
-        {/* buisness */}
+        {/* Buisness */}
         <Route path="/companys" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
