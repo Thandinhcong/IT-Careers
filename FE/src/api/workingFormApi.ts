@@ -6,7 +6,7 @@ const workingFormApi = createApi({
     reducerPath: "workingForm",
     tagTypes: ['WorkingForm'],
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.API_URL,
+        baseUrl: "http://127.0.0.1:8000/api",
         fetchFn: async (...arg) => {
             await pause(1000);
             return fetch(...arg)
@@ -14,16 +14,16 @@ const workingFormApi = createApi({
     }),
     endpoints: (builder) => ({
         getWorkingForm: builder.query<IWorkingForm[], void>({
-            query: () => "/working_form",
+            query: () => "/working-form",
             providesTags: ['WorkingForm']
         }),
         getWorkingFormById: builder.query<IWorkingForm, number | string>({
-            query: (id) => "/working_form/" + id,
+            query: (id) => "/working-form/" + id,
             providesTags: ['WorkingForm']
         }),
         addWorkingForm: builder.mutation({
             query: (workingForm: IWorkingForm) => ({
-                url: "/working_form",
+                url: "/working-form",
                 method: "POST",
                 body: workingForm
             }),
@@ -31,7 +31,7 @@ const workingFormApi = createApi({
         }),
         updateWorkingForm: builder.mutation<IWorkingForm, IWorkingForm>({
             query: (workingForm: IWorkingForm) => ({
-                url: `/working_form/${workingForm.id}`,
+                url: `/working-form/${workingForm.id}`,
                 method: "PUT",
                 body: workingForm
             }),
@@ -39,7 +39,7 @@ const workingFormApi = createApi({
         }),
         deleteWorkingForm: builder.mutation<{ id: number }, number>({
             query: (id) => ({
-                url: `/working_form/${id}`,
+                url: `/working-form/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ['WorkingForm']

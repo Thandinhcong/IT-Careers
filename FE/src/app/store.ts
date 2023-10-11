@@ -12,6 +12,8 @@ import {
 
 import storage from 'redux-persist/lib/storage';
 import majorApi, { majorReducer } from '../api/majorApi';
+import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
+
 
 const persistConfig = {
     key: 'root',
@@ -19,9 +21,10 @@ const persistConfig = {
     whitelist: ['cart', "auth"]
 }
 const rootReducer = combineReducers({
-    [majorApi.reducerPath]: majorReducer
+    [majorApi.reducerPath]: majorReducer,
+    [workingFormApi.reducerPath]: workingFormReducer
 })
-const middleware = [majorApi.middleware]
+const middleware = [majorApi.middleware, workingFormApi.middleware]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
