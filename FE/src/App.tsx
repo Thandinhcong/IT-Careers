@@ -37,7 +37,6 @@ import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
 import JobsManage from "./pages/Companys/Jobs-manage"
-
 import JobDetail from "./pages/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
@@ -58,7 +57,9 @@ import AccountPro from "./pages/Companys/Account_pro"
 import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
-import CreatePost from "./pages/admin/post-manage/CreatePost"
+import SkillManage from "./pages/admin/skill-manage"
+import AddSkill from "./pages/admin/skill-manage/AddSkill"
+import EditSkill from "./pages/admin/skill-manage/EditSkill"
 
 
 function App() {
@@ -145,7 +146,9 @@ function App() {
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
           <Route path="post-manage" element={<PostManage />} />
-          <Route path="post-manage/create-post" element={<CreatePost />} />
+          <Route path="skill-manage" element={<SkillManage />} />
+          <Route path="skill-manage/add" element={<AddSkill />} />
+          <Route path="skill-manage/:id/edit" element={<EditSkill />} />
         </Route>
 
       </Routes>

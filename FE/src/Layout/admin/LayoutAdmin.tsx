@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-    MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
+    MenuFoldOutlined, MenuUnfoldOutlined, ControlOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
     LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
@@ -18,7 +18,7 @@ const LayoutAdmin = () => {
     const menuItems = [
         { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
-        { key: '3', icon: <UploadOutlined />, label: 'nav 3', path: '' },
+        { key: '3', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
     ];
 
     const items: MenuProps['items'] = [
