@@ -74,6 +74,9 @@ import Editcompany from "./pages/admin/Company-manage/Edit-company"
 import SkillManage from "./pages/admin/skill-manage"
 import AddSkill from "./pages/admin/skill-manage/AddSkill"
 import EditSkill from "./pages/admin/skill-manage/EditSkill"
+import PackageManage from "./pages/admin/package-manage"
+import AddPackage from "./pages/admin/package-manage/AddPackage"
+import EditPackage from "./pages/admin/package-manage/EditPackage"
 
 
 function App() {
@@ -178,6 +181,9 @@ function App() {
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
           <Route path="skill-manage/:id/edit" element={<EditSkill />} />
+          <Route path="package-manage" element={<PackageManage />} />
+          <Route path="package-manage/add" element={<AddPackage />} />
+          <Route path="package-manage/:id/edit" element={<EditPackage />} />
         </Route>
       </Routes>
     </BrowserRouter >
