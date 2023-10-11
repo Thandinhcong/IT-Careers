@@ -62,6 +62,8 @@ import AccountPro from "./pages/Companys/Account_pro"
 import AccRank from "./pages/Companys/Account_Rank"
 import Companymanage from "./pages/admin/Company-manage"
 import Createcompany from "./pages/admin/Company-manage/Create-company"
+import JobpositionManage from "./pages/admin/Jobposition-manage"
+import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
 
 
 function App() {
@@ -153,6 +155,8 @@ function App() {
           <Route path="post-manage/create-post" element={<CreatePost />} />
           <Route path="company-manage" element={<Companymanage />} />
           <Route path="company-manage/create-company" element={<Createcompany />} />
+          <Route path="jobposition-manage" element={<JobpositionManage />} />
+          <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
         </Route>
 
       </Routes>
