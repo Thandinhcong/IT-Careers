@@ -59,6 +59,9 @@ import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
 import CreatePost from "./pages/admin/post-manage/CreatePost"
+import AccountManage from "./pages/admin/Account-manage"
+import CreateAccount from "./pages/admin/Account-manage/CreateAccount"
+import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
 
 
 function App() {
@@ -144,6 +147,9 @@ function App() {
         {/* admin */}
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="account-manage" element={<AccountManage />} />
+          <Route path="account-manage/create-account" element={<CreateAccount />} />
+          <Route path="account-manage/update-account" element={<UpdateAccount />} />
           <Route path="post-manage" element={<PostManage />} />
           <Route path="post-manage/create-post" element={<CreatePost />} />
         </Route>
