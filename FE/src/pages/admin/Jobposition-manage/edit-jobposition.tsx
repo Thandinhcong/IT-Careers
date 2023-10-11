@@ -39,7 +39,6 @@ const AddJobposition = () => {
                 >
                     <Input />
                 </Form.Item>
-
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
                         Sửa

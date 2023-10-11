@@ -38,7 +38,6 @@ const items: MenuProps['items'] = [
         </Popconfirm>, key: '1'
     },
 
-
 ];
 const JobpositionManage = () => {
     const columns: ColumnsType<DataType> = [

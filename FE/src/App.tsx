@@ -158,7 +158,6 @@ function App() {
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
         </Route>
-
       </Routes>
     </BrowserRouter >
 
