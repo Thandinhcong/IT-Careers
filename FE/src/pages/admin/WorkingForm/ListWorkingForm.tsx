@@ -1,5 +1,5 @@
 import { Button, Popconfirm, Skeleton, Table } from 'antd';
-import { useGetWorkingFormQuery } from '../../../api/workingFormApi';
+import { useDeleteWorkingFormMutation, useGetWorkingFormQuery } from '../../../api/workingFormApi';
 import { Link } from 'react-router-dom';
 import { IWorkingForm } from '../../../interfaces';
 
@@ -7,8 +7,9 @@ import { IWorkingForm } from '../../../interfaces';
 
 const ListWorkingForm = () => {
     const { data, isLoading, error } = useGetWorkingFormQuery();
-
+    const [removeWorking, { isLoading: isRemoveLoading }] = useDeleteWorkingFormMutation();
     if (isLoading) return <Skeleton loading />;
+    if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
     const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
         console.log(data);
@@ -40,7 +41,7 @@ const ListWorkingForm = () => {
                         <Popconfirm
                             placement='topLeft'
                             title={"Có muốn xóa không em?"}
-                            // onConfirm={() => removeProduct(id)}
+                            onConfirm={() => removeWorking(id)}
                             cancelText="no"
                             okText="yes"
                         >
