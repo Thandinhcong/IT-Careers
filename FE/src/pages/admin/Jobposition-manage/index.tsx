@@ -19,7 +19,7 @@ const cancel = () => {
 };
 const items: MenuProps['items'] = [
     {
-        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="#">
+        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="/admin/jobposition-manage/edit-jobposition">
             <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
         </Button>,
         key: '0'
@@ -37,7 +37,6 @@ const items: MenuProps['items'] = [
             <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />Xoá</Button >
         </Popconfirm>, key: '1'
     },
-
 
 ];
 const JobpositionManage = () => {

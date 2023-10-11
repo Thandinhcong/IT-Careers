@@ -13,7 +13,7 @@ const onFinishFailed = (errorInfo: any) => {
 type FieldType = {
     namejobposition?: string;
 };
-const AddJobposition = () => {
+const EditJobposition = () => {
     return (
         <div>
             <Link to="/admin/jobposition-manage">Quay lại <EnterOutlined /></Link>
@@ -39,7 +39,6 @@ const AddJobposition = () => {
                 >
                     <Input />
                 </Form.Item>
-
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
                         Sửa
@@ -50,4 +49,4 @@ const AddJobposition = () => {
     )
 }
 
-export default AddJobposition
+export default EditJobposition  

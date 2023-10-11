@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Createcompany = () => {
+const Editcompany = () => {
     return (
         < section className="bg-gray-100" >
             <div className="mx-auto  px-4 py-16 sm:px-6 lg:px-8 ">
@@ -226,4 +226,4 @@ const Createcompany = () => {
     )
 }
 
-export default Createcompany
+export default Editcompany 

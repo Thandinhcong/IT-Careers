@@ -9,7 +9,6 @@ const onFinish = (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
 };
-
 type FieldType = {
     namejobposition?: string;
 };
