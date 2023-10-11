@@ -62,6 +62,9 @@ import CreatePost from "./pages/admin/post-manage/CreatePost"
 import AccountManage from "./pages/admin/Account-manage"
 import CreateAccount from "./pages/admin/Account-manage/CreateAccount"
 import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
+import LevelManage from "./pages/admin/Level-manage"
+import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
+import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
 
 
 function App() {
@@ -147,6 +150,9 @@ function App() {
         {/* admin */}
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="level-manage" element={<LevelManage />} />
+          <Route path="level-manage/create-level" element={<CreateLevel />} />
+          <Route path="level-manage/update-level" element={<UpdateLevel />} />
           <Route path="account-manage" element={<AccountManage />} />
           <Route path="account-manage/create-account" element={<CreateAccount />} />
           <Route path="account-manage/update-account" element={<UpdateAccount />} />

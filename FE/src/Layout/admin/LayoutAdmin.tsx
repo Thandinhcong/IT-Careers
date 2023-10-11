@@ -19,6 +19,7 @@ const LayoutAdmin = () => {
         { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
         { key: '3', icon: <UploadOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
+        { key: '4', icon: <UploadOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
     ];
 
     const items: MenuProps['items'] = [
