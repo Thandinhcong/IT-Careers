@@ -62,6 +62,9 @@ import CreatePost from "./pages/admin/post-manage/CreatePost"
 import ListWorkingForm from "./pages/admin/WorkingForm/ListWorkingForm"
 import AddWorkingForm from "./pages/admin/WorkingForm/AddWorkingForm"
 import UpdateWorkingForm from "./pages/admin/WorkingForm/UpdateWorkingForm"
+import AccountManage from "./pages/admin/Account-manage"
+import CreateAccount from "./pages/admin/Account-manage/CreateAccount"
+import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
 
 
 function App() {
@@ -147,6 +150,9 @@ function App() {
         {/* admin */}
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
+          <Route path="account-manage" element={<AccountManage />} />
+          <Route path="account-manage/create-account" element={<CreateAccount />} />
+          <Route path="account-manage/update-account" element={<UpdateAccount />} />
           <Route path="post-manage" element={<PostManage />} />
           <Route path="post-manage/create-post" element={<CreatePost />} />
           <Route path="working-form" element={<ListWorkingForm />} />
