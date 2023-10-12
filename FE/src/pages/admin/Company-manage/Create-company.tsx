@@ -187,9 +187,9 @@ const Createcompany = () => {
                                         className="w-full rounded-lg border border-gray-500 p-3 text-sm mt-2.5"
                                     >
                                         <option value="">Please select</option>
-                                        <option value="JM">John Mayer</option>
-                                        <option value="SRV">Stevie Ray Vaughn</option>
-                                        <option value="JH">Jimi Hendrix</option>
+                                        <option value="KH">Kích Hoạt</option>
+                                        <option value="CKH"> Chưa Kích Hoạt</option>
+                                        <option value="CH">Chặn</option>
                                     </select>
                                 </div>
                             </div>

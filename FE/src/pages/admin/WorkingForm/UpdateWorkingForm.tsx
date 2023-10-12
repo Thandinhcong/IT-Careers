@@ -53,9 +53,7 @@ const UpdateWorkingForm = () => {
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 autoComplete="off"
-
             >
-
                 <Form.Item<FieldType>
                     label="Name"
                     name="working_form"

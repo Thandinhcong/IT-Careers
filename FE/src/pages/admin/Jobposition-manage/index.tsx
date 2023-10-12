@@ -1,98 +1,75 @@
 import { Link } from "react-router-dom"
-import { Button, Space, Table, Dropdown, Popconfirm, message } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import type { MenuProps } from 'antd';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineMore } from "react-icons/ai";
+import { Button, Table, Popconfirm, Skeleton } from 'antd';
+import { useDeletejobpositionMutation, useGetjobpositionQuery } from "../../../api/jobpositionApi";
+import { IJobposition } from "../../../interfaces";
 
-interface DataType {
-    key: string;
-    name: string;
-}
-const confirm = () => {
-
-    message.success('Click on Yes');
-};
-
-const cancel = () => {
-
-    message.error('Click on No');
-};
-const items: MenuProps['items'] = [
-    {
-        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="/admin/jobposition-manage/edit-jobposition">
-            <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-        </Button>,
-        key: '0'
-    },
-    {
-        label: <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            okType="default"
-            cancelText="No"
-        >
-            <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />Xoá</Button >
-        </Popconfirm>, key: '1'
-    },
-
-];
 const JobpositionManage = () => {
-    const columns: ColumnsType<DataType> = [
+    const { data, isLoading, error } = useGetjobpositionQuery();
+    const [deleteJobposition, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
+    if (isLoading) return <Skeleton loading />;
+    if (isRemoveLoading) return <Skeleton />
+    if (error) return <div>error</div>;
+    const dataSource = data?.Job_position?.map(({ id, job_position, description }: IJobposition) => {
+        console.log(data);
+
+        return {
+            key: id,
+            job_position,
+            description,
+        }
+    })
+    const columns: any = [
         {
-            title: 'STT',
-            dataIndex: 'key',
-            key: 'key',
-            width: 10,
+            key: "job_position",
+            title: 'Chức Vụ',
+            dataIndex: 'job_position',
+            width: 50,
         },
         {
-            title: 'Chức Vụ',
-            dataIndex: 'name',
-            key: 'name',
-            width: 50,
+            key: "description",
+            title: 'Description',
+            dataIndex: 'description',
+            width: 150,
         },
         {
             title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: () => (
-                <Dropdown menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()} className="text-center" >
-                        <Space>
-                            <AiOutlineMore />
-                        </Space>
-                    </a>
-                </Dropdown>
-            ),
+            render: ({ key: id }: any) => {
+                return (
+                    <>
+                        <Popconfirm
+                            placement='topLeft'
+                            title={"Bạn Chắc Chắn Xóa k?"}
+                            onConfirm={() => deleteJobposition(id)}
+                            cancelText="no"
+                            okText="yes"
+                        >
+                            <Button danger type='primary' className='m-2'>
+                                Delete
+                            </Button>
+                        </Popconfirm >
+                        <Button type='primary' className='bg-yellow-500'><Link to={{
+                            pathname: `/admin/jobposition-manage/edit-jobposition/${id}`
+                        }
+                        }>update</Link></Button>
+                    </>
+                )
+            }
         },
     ];
-    const data: DataType[] = [
-        {
-            key: '1',
-            name: 'Nhân Viên ',
-        },
-        {
-            key: '2',
-            name: 'Trưởng Phòng',
-        },
-        {
-            key: '3',
-            name: 'Phó Giám Đốc',
-        },
-    ];
+
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý kĩ năng</h2>
+                <h2 className="text-2xl font-semibold">Quản lý Chức Vụ</h2>
                 <Button type="primary" className="bg-blue-500">
                     <Link to="create-jobposition">Thêm Chức Vụ</Link>
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={data} />; {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataSource} />; {/* Chỉnh độ rộng của bảng */}
 
         </div>
     )

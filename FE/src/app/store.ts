@@ -13,6 +13,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import majorApi, { majorReducer } from '../api/majorApi';
 import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
+import jobpositionApi, { JoppositionFormReducer } from '../api/jobpositionApi';
 
 
 const persistConfig = {
@@ -22,9 +23,10 @@ const persistConfig = {
 }
 const rootReducer = combineReducers({
     [majorApi.reducerPath]: majorReducer,
-    [workingFormApi.reducerPath]: workingFormReducer
+    [workingFormApi.reducerPath]: workingFormReducer,
+    [jobpositionApi.reducerPath]: JoppositionFormReducer,
 })
-const middleware = [majorApi.middleware, workingFormApi.middleware]
+const middleware = [majorApi.middleware, workingFormApi.middleware, jobpositionApi.middleware]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
