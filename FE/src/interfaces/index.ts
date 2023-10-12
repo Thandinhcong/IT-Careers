@@ -14,3 +14,9 @@ export interface IWorkingForm {
     working_form: string,
     description: string,
 }
+
+export interface ISkill {
+    id?: number,
+    skill?: string,
+    description?: string,
+}

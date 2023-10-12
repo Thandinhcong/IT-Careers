@@ -1,24 +1,47 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
+import { useEditSkillMutation, useGetSkillByIdQuery } from "../../../api/skill";
+import { ISkill } from "../../../interfaces";
+import { pause } from "../../../utils/pause";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { countdown } from "../../../utils/coutdown";
+import { useEffect } from "react";
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
+const AddSkill = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [editSkill, { isLoading: isUpdateLoading }] = useEditSkillMutation();
+    const { data: skillData } = useGetSkillByIdQuery(id || "");
+    const [form] = Form.useForm();
+    useEffect(() => {
+        form.setFieldsValue({
+            skill: skillData?.data?.skill,
+            description: skillData?.data?.description,
+        });
+    }, [skillData]);
+    const onFinish = (values: ISkill) => {
+        editSkill({ ...values, id: Number(id) })
+            .unwrap()
+            .then(async () => {
+                countdown(3, (seconds) => {
+                    message.success(`Sửa thành công sẽ chuyển trang sau ${seconds}s`);
+                })
+                await pause(3000);
+                navigate("/admin/skill-manage");
+            });
+    };
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo);
+    };
 
-type FieldType = {
-    skillname?: string;
-};
-const EditSkill = () => {
     return (
         <div>
             <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
             <h2 className="m-6 text-2xl font-semibold">Sửa kĩ năng</h2>
             <Form className="mx-40"
+                form={form}
                 name="basic"
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
@@ -29,9 +52,9 @@ const EditSkill = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<ISkill>
                     label="Tên kĩ năng"
-                    name="skillname"
+                    name="skill"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
                         { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
@@ -42,7 +65,11 @@ const EditSkill = () => {
 
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
-                        Sửa
+                        {isUpdateLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                        ) : (
+                            "Sửa kĩ năng"
+                        )}
                     </Button>
                 </Form.Item>
             </Form>
@@ -50,4 +77,4 @@ const EditSkill = () => {
     )
 }
 
-export default EditSkill
+export default AddSkill

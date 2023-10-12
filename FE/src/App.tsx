@@ -186,7 +186,7 @@ function App() {
           <Route path="jobposition-manage/edit-jobposition" element={<EditJobposition />} />
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
-          <Route path="skill-manage/:id/edit" element={<EditSkill />} />
+          <Route path="skill-manage/edit/:id" element={<EditSkill />} />
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
           <Route path="package-manage/:id/edit" element={<EditPackage />} />
