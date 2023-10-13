@@ -20,3 +20,8 @@ export interface ISkill {
     skill?: string,
     description?: string,
 }
+export interface IJobposition {
+    id?: number,
+    job_position: string,
+    description: string,
+}

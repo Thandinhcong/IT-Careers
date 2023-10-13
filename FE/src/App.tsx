@@ -183,7 +183,7 @@ function App() {
           <Route path="company-manage/edit-company" element={<Editcompany />} />
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
-          <Route path="jobposition-manage/edit-jobposition" element={<EditJobposition />} />
+          <Route path="jobposition-manage/edit-jobposition/:id" element={<EditJobposition />} />
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
           <Route path="skill-manage/edit/:id" element={<EditSkill />} />
