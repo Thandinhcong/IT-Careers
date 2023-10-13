@@ -51,7 +51,6 @@ const AddPackage = () => {
                     name="coin"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
                     ]}
                 >
                     <Input />
@@ -62,7 +61,6 @@ const AddPackage = () => {
                     name="price"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
                     ]}
                 >
                     <Input />
@@ -73,15 +71,14 @@ const AddPackage = () => {
                     name="type_account"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    name="gender"
-                    label="Gender"
+                    name="status"
+                    label="status"
                     rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
                 >
                     <Select placeholder="Chọn trạng thái gói nạp">
