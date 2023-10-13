@@ -10,27 +10,29 @@ const ListWorkingForm = () => {
     const [removeWorking, { isLoading: isRemoveLoading }] = useDeleteWorkingFormMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
-    if (error) {
-        if (error.status === 404) {
-            return (
-                <Result
-                    status="404"
-                    title="404"
-                    subTitle="Forbidden: You do not have permission to access this resource."
-                    extra={<Button type="primary">Back Home</Button>}
-                />
-            );
-        } else {
-            return (
-                <Result
-                    status="500"
-                    title="500"
-                    subTitle="Sorry, something went wrong."
-                    extra={<Button type="primary">Back Home</Button>}
-                />
-            );
-        }
-    }
+    console.log(data);
+
+    // if (error) {
+    //     if (error.status === 404) {
+    //         return (
+    //             <Result
+    //                 status="404"
+    //                 title="404"
+    //                 subTitle="Forbidden: You do not have permission to access this resource."
+    //                 extra={<Button type="primary">Back Home</Button>}
+    //             />
+    //         );
+    //     } else {
+    //         return (
+    //             <Result
+    //                 status="500"
+    //                 title="500"
+    //                 subTitle="Sorry, something went wrong."
+    //                 extra={<Button type="primary">Back Home</Button>}
+    //             />
+    //         );
+    //     }
+    // }
     const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
         console.log(data);
         return {

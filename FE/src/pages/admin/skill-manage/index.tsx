@@ -12,29 +12,29 @@ const SkillManage = () => {
     const { data, isLoading, error } = useGetSkillQuery();
     const [removeSkill, { isLoading: isRemoveLoading }] = useDeleteSkillMutation();
     if (isLoading) return <Skeleton loading />;
-    if (error) {
-        if ('status' in error) {
-            if (error.status === 404) {
-                return (
-                    <Result
-                        status="404"
-                        title="404"
-                        subTitle="Forbidden: You do not have permission to access this resource."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            } else {
-                return (
-                    <Result
-                        status="403"
-                        title="403"
-                        subTitle="Sorry, something went wrong."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            }
-        }
-    }
+    // if (error) {
+    //     if ('status' in error) {
+    //         if (error.status === 404) {
+    //             return (
+    //                 <Result
+    //                     status="404"
+    //                     title="404"
+    //                     subTitle="Forbidden: You do not have permission to access this resource."
+    //                     extra={<Button type="primary">Back Home</Button>}
+    //                 />
+    //             );
+    //         } else {
+    //             return (
+    //                 <Result
+    //                     status="403"
+    //                     title="403"
+    //                     subTitle="Sorry, something went wrong."
+    //                     extra={<Button type="primary">Back Home</Button>}
+    //                 />
+    //             );
+    //         }
+    //     }
+    // }
 
     const skillData = data?.data?.map(({ id, skill, description }: ISkill) => {
         console.log(data);

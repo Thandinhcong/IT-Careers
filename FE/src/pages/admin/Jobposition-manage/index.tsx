@@ -6,12 +6,12 @@ import { IJobposition } from "../../../interfaces";
 const JobpositionManage = () => {
     const { data, isLoading, error } = useGetjobpositionQuery();
     const [deleteJobposition, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
+    console.log(data);
+
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
     const dataSource = data?.Job_position?.map(({ id, job_position, description }: IJobposition) => {
-        console.log(data);
-
         return {
             key: id,
             job_position,
