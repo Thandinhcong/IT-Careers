@@ -40,7 +40,8 @@ const AddPackage = () => {
                     name="title"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                        { pattern: /^\S{6,}$/, message: "Gói nạp phải trên 6 kí tự" }
+
                     ]}
                 >
                     <Input />
@@ -51,6 +52,7 @@ const AddPackage = () => {
                     name="coin"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
+                        { pattern: /^[1-9]\d*$/, message: 'Xu phải là số và không âm !' },
                     ]}
                 >
                     <Input />
@@ -61,6 +63,7 @@ const AddPackage = () => {
                     name="price"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
+                        { pattern: /^[1-9]\d*$/, message: 'Giá phải là số và không âm !' },
                     ]}
                 >
                     <Input />
@@ -71,6 +74,7 @@ const AddPackage = () => {
                     name="type_account"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
+                        { pattern: /^[1-9]\d*$/, message: 'Giảm giá phải là số và không âm !' },
                     ]}
                 >
                     <Input />
@@ -84,7 +88,6 @@ const AddPackage = () => {
                     <Select placeholder="Chọn trạng thái gói nạp">
                         <Option value="a">A</Option>
                         <Option value="b">B</Option>
-                        <Option value="c">C</Option>
                     </Select>
                 </Form.Item>
 

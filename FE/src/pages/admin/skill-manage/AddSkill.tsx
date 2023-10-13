@@ -3,9 +3,7 @@ import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
 import { useAddSkillMutation } from "../../../api/skill";
 import { ISkill } from "../../../interfaces";
-import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { countdown } from "../../../utils/coutdown";
 
 const AddSkill = () => {
     const [addSkill, { isLoading }] = useAddSkillMutation();
@@ -14,11 +12,8 @@ const AddSkill = () => {
     const onFinish = (values: ISkill) => {
         addSkill(values)
             .unwrap()
-            .then(async () => {
-                countdown(3, (seconds) => {
-                    message.success(`Thêm thành công sẽ chuyển trang sau ${seconds}s`);
-                })
-                await pause(3000);
+            .then(() => {
+                message.success(`Thêm thành công`);
                 navigate("/admin/skill-manage");
             });
     };
@@ -47,7 +42,7 @@ const AddSkill = () => {
                     name="skill"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                        { pattern: /^\S{6,}$/, message: "Kỹ năng phải trên 6 kí tự" }
                     ]}
                 >
                     <Input />
@@ -63,7 +58,7 @@ const AddSkill = () => {
                     </Button>
                 </Form.Item>
             </Form>
-        </div>
+        </div >
     )
 }
 

@@ -1,9 +1,3 @@
-// import { Button, Result, Skeleton, Table, Tag } from 'antd';
-// import type { ColumnsType } from 'antd/es/table';
-// import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-// import { AiOutlineLoading3Quarters } from "react-icons/ai";
-// import { IJobPost } from "../../../interfaces";
-// import { useEditJobPostStatusMutation, useGetJobPostQuery } from "../../../api/jobPost";
 import { Button, Result, Skeleton, Table, Tag, Modal, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
@@ -31,6 +25,7 @@ const PostManage = () => {
         } else {
             // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
             updateStatus({ id: jobPostId, status: newStatus });
+            message.success("Cập nhật trạng thái thành công");
         }
     };
 
@@ -38,7 +33,7 @@ const PostManage = () => {
         if (selectedJobPost) {
             const updatedJobPost = { ...selectedJobPost, status: newStatus };
             updateStatus(updatedJobPost);
-            message.success("Cập nhật trạng thái thái thành công")
+            message.success("Cập nhật trạng thái thành công");
         }
 
         setModalVisible(false);

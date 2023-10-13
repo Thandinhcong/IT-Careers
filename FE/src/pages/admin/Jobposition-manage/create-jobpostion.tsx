@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Skeleton } from 'antd';
+import { Button, Form, Input, Skeleton, message } from 'antd';
 import { useAddjobpositionMutation } from "../../../api/jobpositionApi";
+import { IJobposition } from "../../../interfaces";
 
 
 
@@ -10,20 +11,17 @@ const AddJobposition = () => {
     const navigate = useNavigate();
 
     if (isLoading) return <Skeleton />
-    const onFinish = (values: any) => {
+    const onFinish = (values: IJobposition) => {
         addjobposition(values)
             .unwrap()
             .then(() => {
+                message.success("Thêm thành công")
                 return navigate({
                     pathname: "/admin/jobposition-manage"
                 })
             });
     }
 
-    type FieldType = {
-        job_position?: string;
-        description?: string;
-    };
     return (
         <div>
             <Link to="/admin/jobposition-manage">Quay lại <EnterOutlined /></Link>
@@ -38,23 +36,19 @@ const AddJobposition = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<IJobposition>
                     label="Chức Vụ "
                     name="job_position"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: " Phải trên 6 kí tự" }
+                        { pattern: /^\S{3,}$/, message: "Tên chức vụ phải trên 3 kí tự" }
                     ]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<FieldType>
+                <Form.Item<IJobposition>
                     label="Description "
                     name="description"
-                    rules={[
-                        { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Phải trên 6 kí tự" }
-                    ]}
                 >
                     <Input />
                 </Form.Item>

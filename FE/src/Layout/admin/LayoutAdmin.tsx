@@ -19,8 +19,8 @@ const LayoutAdmin = () => {
     const menuItems = [
         { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
-        { key: '3', icon: <UploadOutlined />, label: 'nav 3', path: '#' },
-        { key: '4', icon: <AiOutlineCalendar />, label: 'Working-form', path: 'working-form' },
+        { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'exp-manage' },
+        { key: '4', icon: <AiOutlineCalendar />, label: 'Quản lý hình thức', path: 'working-form' },
         { key: '5', icon: <UserOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
         { key: '6', icon: <HddOutlined />, label: 'Quản lý Công Ty', path: 'company-manage' },
         { key: '7', icon: <ApartmentOutlined />, label: 'Quản lý Chức vụ', path: 'jobposition-manage' },

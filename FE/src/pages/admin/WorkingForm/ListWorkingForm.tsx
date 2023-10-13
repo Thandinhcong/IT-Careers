@@ -1,38 +1,18 @@
-import { Button, Popconfirm, Result, Skeleton, Table } from 'antd';
+import { Button, Popconfirm, Skeleton, Table } from 'antd';
 import { useDeleteWorkingFormMutation, useGetWorkingFormQuery } from '../../../api/workingFormApi';
 import { Link } from 'react-router-dom';
 import { IWorkingForm } from '../../../interfaces';
+import { ColumnsType } from 'antd/es/table';
 
 
 
 const ListWorkingForm = () => {
-    const { data, isLoading, error } = useGetWorkingFormQuery();
+    const { data, isLoading } = useGetWorkingFormQuery();
     const [removeWorking, { isLoading: isRemoveLoading }] = useDeleteWorkingFormMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     console.log(data);
 
-    // if (error) {
-    //     if (error.status === 404) {
-    //         return (
-    //             <Result
-    //                 status="404"
-    //                 title="404"
-    //                 subTitle="Forbidden: You do not have permission to access this resource."
-    //                 extra={<Button type="primary">Back Home</Button>}
-    //             />
-    //         );
-    //     } else {
-    //         return (
-    //             <Result
-    //                 status="500"
-    //                 title="500"
-    //                 subTitle="Sorry, something went wrong."
-    //                 extra={<Button type="primary">Back Home</Button>}
-    //             />
-    //         );
-    //     }
-    // }
     const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
         console.log(data);
         return {
@@ -43,7 +23,7 @@ const ListWorkingForm = () => {
     })
     console.log(dataSource);
 
-    const columns: any = [
+    const columns: ColumnsType<IWorkingForm> = [
         {
             key: "working_form",
             title: 'Name',
@@ -57,24 +37,24 @@ const ListWorkingForm = () => {
         {
             key: "actions",
             title: 'actions',
-            render: ({ key: id }: any) => {
+            render: ({ key: id }: { key: number | string }) => {
                 return (
                     <>
                         <Popconfirm
                             placement='topLeft'
                             title={"Có muốn xóa không em?"}
-                            onConfirm={() => removeWorking(id)}
-                            cancelText="no"
+                            onConfirm={() => removeWorking(id as number)}
                             okText="yes"
+                            cancelText="no"
                         >
                             <Button danger type='primary' className='m-2'>
-                                Delete
+                                Xoá
                             </Button>
                         </Popconfirm >
-                        <Button type='primary' className='bg-yellow-500'><Link to={{
+                        <Button type='primary' className='bg-blue-500'><Link to={{
                             pathname: `/admin/update/working-form/${id}`
                         }
-                        }>update</Link></Button>
+                        }>Cập nhật</Link></Button>
                     </>
                 )
             }
@@ -82,11 +62,16 @@ const ListWorkingForm = () => {
     ];
 
     return (
-        <div className='row row-cols-2 '>
-            <div className='mt-5 col-9'>
-                <Link className='border px-2 py-1 rounded ' to="/admin/add/working-form">Add Product</Link>
-                <Table className='mt-5' columns={columns} dataSource={dataSource} />
+        <div>
+            <div className="flex justify-between mb-6">
+                <h2 className="text-2xl font-semibold">Quản lý hình thức làm việc</h2>
+                <Button type="primary" className="bg-blue-500">
+                    <Link to="/admin/add/working-form">Thêm hình thức </Link>
+                </Button>
             </div>
+
+            <Table className='mt-5' columns={columns} dataSource={dataSource} />
+
         </div>
     )
 }

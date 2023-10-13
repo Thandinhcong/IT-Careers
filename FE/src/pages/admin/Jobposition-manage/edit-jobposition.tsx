@@ -3,6 +3,7 @@ import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, Skeleton, message } from 'antd';
 import { useGetjobpositionByIdQuery, useUpdatejobpositionMutation } from "../../../api/jobpositionApi";
 import { useEffect } from "react";
+import { IJobposition } from "../../../interfaces";
 
 const EditJobposition = () => {
     const { id } = useParams();
@@ -20,10 +21,10 @@ const EditJobposition = () => {
         })
     }, [data])
     if (isUpdateLoading) return <Skeleton loading />
-    const onFinish = (values: any) => {
+    const onFinish = (values: IJobposition) => {
         UpdateJobposition({
             ...values,
-            id: id
+            id: Number(id)
         })
             .unwrap()
             .then(() => {
@@ -62,7 +63,7 @@ const EditJobposition = () => {
                     name="job_position"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: " Phải trên 6 kí tự" }
+                        { pattern: /^\S{3,}$/, message: "Tên chức vụ phải trên 3 kí tự" }
                     ]}
                 >
                     <Input />
@@ -70,10 +71,6 @@ const EditJobposition = () => {
                 <Form.Item<FieldType>
                     label="Description "
                     name="description"
-                    rules={[
-                        { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: " Phải trên 6 kí tự" }
-                    ]}
                 >
                     <Input />
                 </Form.Item>

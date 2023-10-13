@@ -3,9 +3,7 @@ import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
 import { useEditSkillMutation, useGetSkillByIdQuery } from "../../../api/skill";
 import { ISkill } from "../../../interfaces";
-import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { countdown } from "../../../utils/coutdown";
 import { useEffect } from "react";
 
 const AddSkill = () => {
@@ -25,19 +23,11 @@ const AddSkill = () => {
     const onFinish = (values: ISkill) => {
         editSkill({ ...values, id: Number(id) })
             .unwrap()
-            .then(async () => {
-                countdown(3, (seconds) => {
-                    message.success(`Sửa thành công sẽ chuyển trang sau ${seconds}s`);
-                })
-                await pause(3000);
+            .then(() => {
+                message.success(`Cập nhật thành công`);
                 navigate("/admin/skill-manage");
             });
     };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
-
     return (
         <div>
             <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
@@ -50,7 +40,6 @@ const AddSkill = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off"
             >
@@ -70,7 +59,7 @@ const AddSkill = () => {
                         {isUpdateLoading ? (
                             <AiOutlineLoading3Quarters className="animate-spin" />
                         ) : (
-                            "Sửa kĩ năng"
+                            "Sửa kỹ năng"
                         )}
                     </Button>
                 </Form.Item>

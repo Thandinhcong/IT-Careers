@@ -2,12 +2,11 @@ import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, Skeleton } from 'antd';
 import { useDeletejobpositionMutation, useGetjobpositionQuery } from "../../../api/jobpositionApi";
 import { IJobposition } from "../../../interfaces";
+import { ColumnsType } from "antd/es/table";
 
 const JobpositionManage = () => {
     const { data, isLoading, error } = useGetjobpositionQuery();
     const [deleteJobposition, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
-    console.log(data);
-
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
@@ -18,7 +17,7 @@ const JobpositionManage = () => {
             description,
         }
     })
-    const columns: any = [
+    const columns: ColumnsType<IJobposition> = [
         {
             key: "job_position",
             title: 'Chức Vụ',
@@ -36,24 +35,25 @@ const JobpositionManage = () => {
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: ({ key: id }: any) => {
+            render: ({ key: id }: { key: number | string }) => {
                 return (
                     <>
                         <Popconfirm
                             placement='topLeft'
                             title={"Bạn Chắc Chắn Xóa k?"}
-                            onConfirm={() => deleteJobposition(id)}
-                            cancelText="no"
+                            onConfirm={() => deleteJobposition(id as number)}
                             okText="yes"
+                            okType="default"
+                            cancelText="no"
                         >
                             <Button danger type='primary' className='m-2'>
-                                Delete
+                                Xoá
                             </Button>
                         </Popconfirm >
                         <Button type='primary' className='bg-yellow-500'><Link to={{
                             pathname: `/admin/jobposition-manage/edit-jobposition/${id}`
                         }
-                        }>update</Link></Button>
+                        }>Sửa</Link></Button>
                     </>
                 )
             }
