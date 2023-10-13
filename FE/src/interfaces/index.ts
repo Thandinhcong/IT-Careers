@@ -1,5 +1,11 @@
 export interface IPackages {
     id?: number,
+    title?: string,
+    coin?: number,
+    price?: number,
+    reduced_price?: number,
+    status?: number,
+    type_account?: number
 
 }
 export interface IMajors {
@@ -7,7 +13,6 @@ export interface IMajors {
     major: string,
     description: string,
 }
-
 
 export interface IWorkingForm {
     id?: number,
@@ -19,4 +24,26 @@ export interface ISkill {
     id?: number,
     skill?: string,
     description?: string,
+}
+
+export interface IJobPost {
+    id?: number,
+    title?: string,
+    job_position_id?: number,
+    exp_id?: number,
+    skill_id?: number,
+    quantity?: number,
+    gender?: number,
+    require?: string,
+    interest?: string,
+    level_id?: number,
+    company_id?: number,
+    area_id?: number,
+    working_form_id?: number,
+    academic_level_id?: number,
+    ranks_id?: number,
+    major_id?: number,
+    start_date?: Date,
+    end_date?: Date,
+    status?: number,
 }
