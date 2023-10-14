@@ -38,7 +38,7 @@ const AddWorkingForm = () => {
                     name="working_form"
                     rules={[
                         { required: true, message: 'Vui lòng nhập hình thức làm việc!' },
-                        { pattern: /^\S{3,}$/, message: "Kỹ năng phải trên 3 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){10,}$/u, message: "Kỹ năng phải trên 3 kí tự" }
                     ]}
                 >
                     <Input />
@@ -49,7 +49,7 @@ const AddWorkingForm = () => {
                     name="description"
                     rules={[
                         { required: true, message: 'Vui lòng nhập mô tả!' },
-                        { pattern: /^\S{10,}$/, message: "Kỹ năng phải trên 10 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){10,}$/u, message: "Kỹ năng phải trên 10 kí tự" }
 
                     ]}
                 >

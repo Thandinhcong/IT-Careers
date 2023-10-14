@@ -1,28 +1,29 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, message } from 'antd';
 import { Option } from "antd/es/mentions";
+import { useAddPackageMutation } from "../../../api/package";
+import { IPackages } from "../../../interfaces";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
-
-type FieldType = {
-    title?: string;
-    coin?: number;
-    price?: number;
-    reduced_price?: number;
-    status?: string[];
-    type_account?: string;
-};
 const AddPackage = () => {
+    const [addPackage, { isLoading }] = useAddPackageMutation();
+    const navigate = useNavigate();
+    const onFinish = (values: IPackages) => {
+        addPackage(values)
+            .unwrap()
+            .then(() => {
+                message.success(`Thêm thành công`);
+                navigate("/admin/package-manage");
+            });
+    };
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo);
+    };
     return (
         <div>
-            <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
+            <Link to="/admin/package-manage">Quay lại <EnterOutlined /></Link>
             <h2 className="my-6 mx-28 text-2xl font-semibold">Tạo Gói nạp</h2>
             <Form className="mx-60"
                 name="basic"
@@ -35,19 +36,19 @@ const AddPackage = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Tên gói nạp"
                     name="title"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^\S{6,}$/, message: "Gói nạp phải trên 6 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
 
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Xu gói nạp"
                     name="coin"
                     rules={[
@@ -58,7 +59,7 @@ const AddPackage = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Giá gói nạp"
                     name="price"
                     rules={[
@@ -69,9 +70,9 @@ const AddPackage = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Giá giảm gói nạp"
-                    name="type_account"
+                    name="reduced_price"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
                         { pattern: /^[1-9]\d*$/, message: 'Giảm giá phải là số và không âm !' },
@@ -82,18 +83,33 @@ const AddPackage = () => {
 
                 <Form.Item
                     name="status"
-                    label="status"
-                    rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+                    label="Trạng thái gói nạp"
                 >
-                    <Select placeholder="Chọn trạng thái gói nạp">
-                        <Option value="a">A</Option>
-                        <Option value="b">B</Option>
+                    <Select>
+                        <Option value="0">Chưa kích hoạt</Option>
+                    </Select>
+                </Form.Item>
+
+
+                <Form.Item
+                    name="type_account"
+                    label="Gói nạp dành cho"
+                    rules={[
+                        { required: true, message: 'Vui lòng chọn gói nạp !' },]}
+                >
+                    <Select placeholder="Vui lòng chọn gói nạp">
+                        <Option value="0">Nhà tuyển dụng</Option>
+                        <Option value="1">Ứng viên</Option>
                     </Select>
                 </Form.Item>
 
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
-                        Thêm
+                        {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                        ) : (
+                            "Thêm"
+                        )}
                     </Button>
                 </Form.Item>
             </Form>

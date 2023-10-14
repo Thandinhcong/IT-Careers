@@ -12,7 +12,7 @@ const AddSkill = () => {
     const [editSkill, { isLoading: isUpdateLoading }] = useEditSkillMutation();
     const { data: skillData } = useGetSkillByIdQuery(id || "");
     const [form] = Form.useForm();
-    console.log(skillData);
+
 
     useEffect(() => {
         form.setFieldsValue({

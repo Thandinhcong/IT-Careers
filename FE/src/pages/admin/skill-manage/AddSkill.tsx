@@ -18,7 +18,7 @@ const AddSkill = () => {
             });
     };
 
-    const onFinishFailed = (errorInfo: unknown) => {
+    const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
     };
 
@@ -42,7 +42,8 @@ const AddSkill = () => {
                     name="skill"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^\S{6,}$/, message: "Kỹ năng phải trên 6 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
+
                     ]}
                 >
                     <Input />

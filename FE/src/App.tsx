@@ -189,7 +189,7 @@ function App() {
           <Route path="skill-manage/edit/:id" element={<EditSkill />} />
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
-          <Route path="package-manage/:id/edit" element={<EditPackage />} />
+          <Route path="package-manage/edit/:id" element={<EditPackage />} />
         </Route>
       </Routes>
     </BrowserRouter >
