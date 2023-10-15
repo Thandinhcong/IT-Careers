@@ -27,6 +27,7 @@ const LayoutAdmin = () => {
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
         { key: '9', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
         { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
+        { key: '11', icon: <FileProtectOutlined />, label: 'Quản lý kinh nghiệm', path: 'experience-manage' },
     ];
 
     const items: MenuProps['items'] = [

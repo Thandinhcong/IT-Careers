@@ -20,3 +20,14 @@ export interface ISkill {
     skill?: string,
     description?: string,
 }
+
+export interface ILevel {
+    id?: number,
+    level?: string,
+    description?: string,
+}
+export interface IExperience {
+    id?: number,
+    experience?: string,
+    description?: string,
+}

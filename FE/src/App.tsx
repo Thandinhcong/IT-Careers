@@ -80,6 +80,11 @@ import EditPackage from "./pages/admin/package-manage/EditPackage"
 import LevelManage from "./pages/admin/Level-manage"
 import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
 import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
+import ExperienceManage from "./pages/admin/Experience-manage"
+import AddExperience from "./pages/admin/Experience-manage/AddExperience"
+import EditExperience from "./pages/admin/Experience-manage/EditExperience"
+import AddLevel from "./pages/admin/Level-manage/CreateLevel"
+import EditLevel from "./pages/admin/Level-manage/EditLevel"
 
 
 function App() {
@@ -184,6 +189,12 @@ function App() {
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
           <Route path="jobposition-manage/edit-jobposition" element={<EditJobposition />} />
+          <Route path="experience-manage" element={<ExperienceManage />} />
+          <Route path="experience-manage/add" element={<AddExperience />} />
+          <Route path="experience-manage/edit/:id" element={<EditExperience />} />
+          <Route path="level-manage" element={<LevelManage />} />
+          <Route path="level-manage/add" element={<AddLevel />} />
+          <Route path="level-manage/edit/:id" element={<EditLevel />} />
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
           <Route path="skill-manage/edit/:id" element={<EditSkill />} />

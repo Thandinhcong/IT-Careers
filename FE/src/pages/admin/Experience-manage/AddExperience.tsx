@@ -1,25 +1,25 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
-import { ILevel } from "../../../interfaces";
+import { IExperience } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { countdown } from "../../../utils/coutdown";
-import { useAddLevelMutation } from "../../../api/levelApi";
+import { useAddExperienceMutation } from "../../../api/experienceApi";
 
-const AddLevel = () => {
-    const [addLevel, { isLoading }] = useAddLevelMutation();
+const AddExperience = () => {
+    const [addExperience, { isLoading }] = useAddExperienceMutation();
     const navigate = useNavigate();
 
-    const onFinish = (values: ILevel) => {
-        addLevel(values)
+    const onFinish = (values: IExperience) => {
+        addExperience(values)
             .unwrap()
             .then(async () => {
                 countdown(3, (seconds) => {
                     message.success(`Thêm thành công sẽ chuyển trang sau ${seconds}s`);
                 })
                 await pause(3000);
-                navigate("/admin/level-manage");
+                navigate("/admin/experience-manage");
             });
     };
 
@@ -29,7 +29,7 @@ const AddLevel = () => {
 
     return (
         <div>
-            <Link to="/admin/level-manage">Quay lại <EnterOutlined /></Link>
+            <Link to="/admin/experience-manage">Quay lại <EnterOutlined /></Link>
             <h2 className="m-6 text-2xl font-semibold">Tạo kinh nghiệm</h2>
             <Form className="mx-40"
                 name="basic"
@@ -42,9 +42,9 @@ const AddLevel = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<ILevel>
+                <Form.Item<IExperience>
                     label="Tên kinh nghiệm"
-                    name="level"
+                    name="experience"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
                         { min: 6, message: "Tên kinh nghiệm phải trên 6 kí tự" }
@@ -53,7 +53,7 @@ const AddLevel = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item<ILevel>
+                <Form.Item<IExperience>
                     label="Mô tả kinh nghiệm"
                     name="description"
                     rules={[
@@ -78,4 +78,4 @@ const AddLevel = () => {
     )
 }
 
-export default AddLevel
+export default AddExperience
