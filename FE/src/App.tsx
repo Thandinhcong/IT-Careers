@@ -80,6 +80,9 @@ import EditPackage from "./pages/admin/package-manage/EditPackage"
 import LevelManage from "./pages/admin/Level-manage"
 import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
 import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
+import MajorManage from "./pages/admin/Major-manage"
+import AddMajors from "./pages/admin/Major-manage/Addmajor"
+import EditMajors from "./pages/admin/Major-manage/Editmajor"
 
 
 function App() {
@@ -190,6 +193,9 @@ function App() {
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
           <Route path="package-manage/:id/edit" element={<EditPackage />} />
+          <Route path="major-manage" element={<MajorManage />} />
+          <Route path="major-manage/create-major" element={<AddMajors />} />
+          <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
       </Routes>
     </BrowserRouter >

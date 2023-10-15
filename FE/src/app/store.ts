@@ -11,11 +11,11 @@ import {
 } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
-import majorApi, { majorReducer } from '../api/majorApi';
 import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
 import jobpositionApi, { JoppositionFormReducer } from '../api/jobpositionApi';
 import skillApi, { skillReducer } from '../api/skill';
 import JobPostApi, { jobPostReducer } from '../api/jobPost';
+import MajorApi, { MajorReducer } from '../api/majorApi';
 
 const persistConfig = {
     key: 'root',
@@ -23,14 +23,14 @@ const persistConfig = {
     whitelist: ['cart', "auth"]
 }
 const rootReducer = combineReducers({
-    [majorApi.reducerPath]: majorReducer,
+    [MajorApi.reducerPath]: MajorReducer,
     [workingFormApi.reducerPath]: workingFormReducer,
     [jobpositionApi.reducerPath]: JoppositionFormReducer,
     [skillApi.reducerPath]: skillReducer,
     [JobPostApi.reducerPath]: jobPostReducer
 })
 const middleware = [
-    majorApi.middleware,
+    MajorApi.middleware,
     workingFormApi.middleware,
     jobpositionApi.middleware,
     skillApi.middleware,

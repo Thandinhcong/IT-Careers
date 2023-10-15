@@ -1,59 +1,60 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { pause } from '../utils/pause';
-import { IMajors } from '../interfaces';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { pause } from "../utils/pause";
+import { IMajors, } from "../interfaces";
 
-const majorApi = createApi({
-    reducerPath: "major",
-    tagTypes: ['Major'],
+const MajorApi = createApi({
+    reducerPath: "Major",
+    tagTypes: ['Majors'],
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
-
-        fetchFn: async (...args) => {
+        fetchFn: async (...arg) => {
             await pause(1000);
-            return fetch(...args);
-        },
+            return fetch(...arg)
+        }
     }),
     endpoints: (builder) => ({
         getMajor: builder.query<IMajors[], void>({
-            query: () => `/major`,
-            providesTags: ['Major']
+            query: () => "/major",
+            providesTags: ['Majors']
         }),
-        getById: builder.query<IMajors, number | string>({
-            query: (id) => `/major/` + id,
-            providesTags: ['Major']
+        getMajorById: builder.query<IMajors, number | string>({
+            query: (id) => "/major/" + id,
+            providesTags: ['Majors']
+        }),
+        addMajor: builder.mutation({
+            query: (jobposition: IMajors) => ({
+                url: "/major",
+                method: "POST",
+                body: jobposition
+            }),
+            invalidatesTags: ['Majors']
+        }),
+        updateMajor: builder.mutation<IMajors, IMajors>({
+            query: (jobposition: IMajors) => ({
+                url: `/major/${jobposition.id}`,
+                method: "PUT",
+                body: jobposition
+            }),
+            invalidatesTags: ['Majors']
+        }),
+        deleteMajor: builder.mutation<{ id: number }, number>({
+            query: (id) => ({
+                url: `/major/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['Majors']
         }),
     })
-
-    //     addProduct: builder.mutation({
-    //         query: (product: IMajors) => ({
-    //             url: '/products',
-    //             method: "POST",
-    //             body: product
-    //         }),
-    //         invalidatesTags: ['Product']
-    //     }),
-    //     updateProduct: builder.mutation<IProducts, IProducts>({
-    //         query: (product) => ({
-    //             url: `/products/${product.id}`,
-    //             method: "PUT",
-    //             body: product
-    //         }),
-    //         invalidatesTags: ['Product']
-    //     }),
-    //     deleteProduct: builder.mutation<{ id: number }, number>({
-    //         query: (id) => ({
-    //             url: `/products/` + id,
-    //             method: "DELETE"
-    //         }),
-    //         invalidatesTags: ['Product']
-    //     })
-    // })
 })
 export const {
     useGetMajorQuery,
-    useGetByIdQuery,
+    useGetMajorByIdQuery,
+    useAddMajorMutation,
+    useDeleteMajorMutation,
+    useUpdateMajorMutation
 
-} = majorApi;
+} = MajorApi;
 
-export const majorReducer = majorApi.reducer;
-export default majorApi;
+export const MajorReducer = MajorApi.reducer;
+
+export default MajorApi;
