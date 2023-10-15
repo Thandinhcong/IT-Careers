@@ -16,6 +16,7 @@ import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
 import jobpositionApi, { JoppositionFormReducer } from '../api/jobpositionApi';
 import skillApi, { skillReducer } from '../api/skill';
 import JobPostApi, { jobPostReducer } from '../api/jobPost';
+import authApi, { authsReducer } from '../api/auths';
 
 const persistConfig = {
     key: 'root',
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     [workingFormApi.reducerPath]: workingFormReducer,
     [jobpositionApi.reducerPath]: JoppositionFormReducer,
     [skillApi.reducerPath]: skillReducer,
-    [JobPostApi.reducerPath]: jobPostReducer
+    [JobPostApi.reducerPath]: jobPostReducer,
+    [authApi.reducerPath]: authsReducer,
 })
 const middleware = [
     majorApi.middleware,
@@ -35,6 +37,7 @@ const middleware = [
     jobpositionApi.middleware,
     skillApi.middleware,
     JobPostApi.middleware,
+    authApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

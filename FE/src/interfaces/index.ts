@@ -51,3 +51,9 @@ export interface IJobPost {
     end_date?: Date,
     status?: number,
 }
+
+export interface ILogin {
+    id?: number | string,
+    email: string,
+    password: string,
+}
