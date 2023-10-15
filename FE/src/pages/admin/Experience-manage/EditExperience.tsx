@@ -59,7 +59,7 @@ const EditExperience = () => {
                     label="Tên kinh nghiệm"
                     name="experience"
                     rules={[
-                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { required: true, message: 'Trường này không được bỏ trống!' },
                         { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                     ]}
                 >
