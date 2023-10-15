@@ -82,16 +82,6 @@ const AddPackage = () => {
                 </Form.Item>
 
                 <Form.Item
-                    name="status"
-                    label="Trạng thái gói nạp"
-                >
-                    <Select>
-                        <Option value="0">Chưa kích hoạt</Option>
-                    </Select>
-                </Form.Item>
-
-
-                <Form.Item
                     name="type_account"
                     label="Gói nạp dành cho"
                     rules={[

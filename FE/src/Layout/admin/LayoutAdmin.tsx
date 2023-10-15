@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
     MenuFoldOutlined, MenuUnfoldOutlined, ControlOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
     LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined, GiftOutlined, UploadOutlined, ApartmentOutlined, FileProtectOutlined,
-    HddOutlined,
+    HddOutlined, MoneyCollectOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
@@ -27,6 +27,7 @@ const LayoutAdmin = () => {
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
         { key: '9', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
         { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
+        { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
     ];
 
     const items: MenuProps['items'] = [

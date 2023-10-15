@@ -80,6 +80,9 @@ import EditPackage from "./pages/admin/package-manage/EditPackage"
 import LevelManage from "./pages/admin/Level-manage"
 import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
 import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
+import SalaryTypeManage from "./pages/admin/salaryType-manage"
+import AddSalary from "./pages/admin/salaryType-manage/AddSalary"
+import EditSalary from "./pages/admin/salaryType-manage/EditSalary"
 
 
 function App() {
@@ -187,6 +190,9 @@ function App() {
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
           <Route path="skill-manage/edit/:id" element={<EditSkill />} />
+          <Route path="salary-type-manage" element={<SalaryTypeManage />} />
+          <Route path="salary-type-manage/add" element={<AddSalary />} />
+          <Route path="salary-type-manage/edit/:id" element={<EditSalary />} />
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
           <Route path="package-manage/edit/:id" element={<EditPackage />} />

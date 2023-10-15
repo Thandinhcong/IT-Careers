@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select, message } from 'antd';
+import { Button, Form, Input, Select, Skeleton, message } from 'antd';
 import { Option } from "antd/es/mentions";
 import { useEditPackageMutation, useGetPackageByIdQuery } from "../../../api/package";
 import { IPackages } from "../../../interfaces";
@@ -14,7 +14,6 @@ const EditPackage = () => {
     const [editPackage, { isLoading }] = useEditPackageMutation();
     const { data: packageData } = useGetPackageByIdQuery(id || "");
     const [form] = Form.useForm();
-
     useEffect(() => {
         form.setFieldsValue({
             title: packageData?.package?.title,
@@ -25,7 +24,7 @@ const EditPackage = () => {
             type_account: packageData?.package?.type_account,
         });
     }, [packageData]);
-
+    if (isLoading) return <Skeleton />
     const onFinish = (values: IPackages) => {
         editPackage({ ...values, id: Number(id) })
             .unwrap()
@@ -98,16 +97,6 @@ const EditPackage = () => {
                 >
                     <Input />
                 </Form.Item>
-
-                <Form.Item
-                    name="status"
-                    label="Trạng thái gói nạp"
-                >
-                    <Select defaultValue={"0"} disabled>
-                        <Option value="0">Chưa kích hoạt</Option>
-                    </Select>
-                </Form.Item>
-
 
                 <Form.Item
                     name="type_account"

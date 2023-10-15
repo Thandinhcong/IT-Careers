@@ -33,6 +33,7 @@ const UpdateWorkingForm = () => {
             })
             .catch((error) => console.log(error))
     }
+
     if (isLoading) return <Skeleton />
     type FieldType = {
         working_form?: string;

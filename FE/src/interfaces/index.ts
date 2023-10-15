@@ -25,6 +25,10 @@ export interface ISkill {
     skill?: string,
     description?: string,
 }
+export interface ISalaryType {
+    id?: number,
+    salary_type?: string | number,
+}
 export interface IJobposition {
     id?: number,
     job_position: string,
