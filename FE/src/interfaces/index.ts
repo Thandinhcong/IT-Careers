@@ -13,13 +13,11 @@ export interface IMajors {
     major: string,
     description: string,
 }
-
 export interface IWorkingForm {
     id?: number,
     working_form: string,
     description: string,
 }
-
 export interface ISkill {
     id?: number,
     skill?: string,
@@ -54,4 +52,14 @@ export interface IJobPost {
     start_date?: Date,
     end_date?: Date,
     status?: number,
+}
+export interface ILevel {
+    id?: number,
+    level?: string,
+    description?: string,
+}
+export interface IExperience {
+    id?: number,
+    experience?: string,
+    description?: string,
 }

@@ -2,15 +2,15 @@ import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, message, Skeleton, Result } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
-import { ILevel } from "../../../interfaces";
-import { useDeleteLevelMutation, useGetLevelQuery } from "../../../api/levelApi";
+import { IExperience } from "../../../interfaces";
+import { useDeleteExperienceMutation, useGetExperienceQuery } from "../../../api/experienceApi";
 
 const cancel = () => {
     message.info('Huỷ xoá');
 };
-const LevelManage = () => {
-    const { data, isLoading, error } = useGetLevelQuery();
-    const [removeLevel, { isLoading: isRemoveLoading }] = useDeleteLevelMutation();
+const ExperienceManage = () => {
+    const { data, isLoading, error } = useGetExperienceQuery();
+    const [removeExperience, { isLoading: isRemoveLoading }] = useDeleteExperienceMutation();
     if (isLoading) return <Skeleton loading />;
     if (error) {
         if ('status' in error) {
@@ -36,20 +36,20 @@ const LevelManage = () => {
         }
     }
 
-    const levelData = data?.data?.map(({ id, level, description }: ILevel) => {
+    const experienceData = data?.data?.map(({ id, experience, description }: IExperience) => {
         return {
             key: id,
-            level,
+            experience,
             description,
         }
     })
     const confirm = (id: number | string) => {
-        removeLevel(id);
+        removeExperience(id);
         setTimeout(() => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<ILevel> = [
+    const columns: ColumnsType<IExperience> = [
         {
             title: 'STT',
             key: 'index',
@@ -57,13 +57,13 @@ const LevelManage = () => {
             render: (_text, _record, index) => index + 1,
         },
         {
-            title: 'Tên trình độ',
-            dataIndex: 'level',
-            key: 'level',
+            title: 'Tên kinh nghiệm',
+            dataIndex: 'experience',
+            key: 'experience',
             width: 50,
         },
         {
-            title: 'Mô tả trình độ',
+            title: 'Mô tả kinh nghiệm',
             dataIndex: 'description',
             key: 'description',
             width: 50,
@@ -92,7 +92,7 @@ const LevelManage = () => {
                             )}
                         </Button >
                     </Popconfirm>
-                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
+                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`experience-manage/edit/${id}`}>
                         <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
                     </Button>
                 </div>
@@ -109,10 +109,10 @@ const LevelManage = () => {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={levelData} />
+            <Table columns={columns} dataSource={experienceData} />
 
         </div>
     )
 }
 
-export default LevelManage
+export default ExperienceManage

@@ -1,79 +1,101 @@
-import React from 'react'
+import { Link } from "react-router-dom"
+import { EnterOutlined } from "@ant-design/icons"
+import { Button, Form, Input, Select } from 'antd';
+import { Option } from "antd/es/mentions";
 
+const onFinish = (values: any) => {
+    console.log('Success:', values);
+};
+
+const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+};
+
+type FieldType = {
+    name?: string;
+    pass?: string;
+    email?: string;
+    phone_number?: string;
+    avatar?: string;
+};
 const CreateAccount = () => {
     return (
-        < section className="bg-gray-100" >
-            <div className="mx-auto  px-4 py-16 sm:px-6 lg:px-8 ">
-                <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-2">
-                    <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-                        <h3 className='text-center text-2xl mb-10 text-red-400'>Form Thêm Tài Khoản</h3>
-                        <form action="" className="space-y-8">
-                            <div>
-                                <p className=" mb-2 font-medium text-gray-900 ">Username</p>
-                                <label className="sr-only" htmlFor="Username">Username</label>
-                                <input
-                                    className="w-full rounded-lg border border-gray-500 p-3 text-sm"
-                                    placeholder="Username"
-                                    type="text"
-                                    id="username"
-                                />
-                            </div>
-                            <div>
-                                <p className="mb-2 font-medium text-gray-900">Email</p>
-                                <label className="sr-only" htmlFor="email">Email</label>
-                                <input
-                                    className="w-full rounded-lg border border-gray-500 p-3 text-sm"
-                                    placeholder="Email address"
-                                    type="email"
-                                    id="email"
-                                />
-                            </div>
-                            <div className="flex justify-between gap-4 text-center">
-                                <div>
-                                    <p className="mr-[400px] mb-2 font-medium text-gray-900">Password</p>
-                                    <label className="sr-only" htmlFor="password">Password</label>
-                                    <input
-                                        className="w-full rounded-lg border border-gray-500 p-3 text-sm"
-                                        placeholder="Password"
-                                        type="text"
-                                        id="name"
-                                    />
-                                </div>
+        <div>
+            <Link to="/admin/level-manage">Quay lại <EnterOutlined /></Link>
+            <h2 className="my-6 mx-28 text-2xl font-semibold">Tạo tài khoản</h2>
+            <Form className="mx-60"
+                name="basic"
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}
+                style={{ maxWidth: 400 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                labelWrap={true}
+                autoComplete="off"
+            >
+                <Form.Item<FieldType>
+                    label="Username"
+                    name="name"
+                    rules={[
+                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
 
-                                <div>
-                                    <p className="mr-[400px] mb-2 font-medium text-gray-900">Phone</p>
-                                    <label className="sr-only" htmlFor="phone">Phone </label>
-                                    <input
-                                        className="w-full rounded-lg border border-gray-500 p-3 text-sm"
-                                        placeholder="Phone Number"
-                                        type="tel"
-                                        id="phone"
-                                    />
-                                </div>
+                <Form.Item<FieldType>
+                    label="Mật khẩu"
+                    name="pass"
+                    rules={[
+                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { min: 6, message: "Mật khẩu phải trên 6 kí tự" }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
 
-                            </div>
-                            <div>
-                                <p className="mb-2 font-medium text-gray-900">Ảnh đại diện</p>
-                                <label className="sr-only" htmlFor="avatar">Avatar</label>
-                                <input
-                                    className="w-full rounded-lg border border-gray-500 p-3 text-sm"
-                                    type="file"
-                                    id="email"
-                                />
-                            </div>
-                            <div className="mt-4">
-                                <button
-                                    type="submit"
-                                    className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-                                >
-                                    Send Enquiry
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </ section>
+                <Form.Item<FieldType>
+                    label="Email"
+                    name="email"
+                    rules={[
+                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { min: 6, message: "Email phải trên 6 kí tự" }
+                    ]}
+                >
+                    <Input type="email" />
+                </Form.Item>
+
+                <Form.Item<FieldType>
+                    label="Số điện thoại"
+                    name="phone_number"
+                    rules={[
+                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                    ]}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item<FieldType>
+                    label="Ảnh đại diện"
+                    name="avatar"
+                    rules={[
+                        { required: true, message: 'Trường này không được bỏ trống !' },
+                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                    ]}
+                >
+                    <Input type="file" />
+                </Form.Item>
+
+                <Form.Item labelAlign="left">
+                    <Button type="primary" htmlType="submit" className="bg-blue-500">
+                        Thêm
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     )
 }
 

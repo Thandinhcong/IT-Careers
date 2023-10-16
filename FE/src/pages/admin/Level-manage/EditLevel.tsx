@@ -1,37 +1,50 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { countdown } from "../../../utils/coutdown";
-import { useAddLevelMutation } from "../../../api/levelApi";
+import { useEffect } from "react";
+import { useEditLevelMutation, useGetLevelByIdQuery } from "../../../api/levelApi";
 
-const AddLevel = () => {
-    const [addLevel, { isLoading }] = useAddLevelMutation();
+const EditLevel = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [editLevel, { isLoading: isUpdateLoading }] = useEditLevelMutation();
+    const { data: levelData } = useGetLevelByIdQuery(id || "");
+    const [form] = Form.useForm();
+    console.log(levelData);
+
+    useEffect(() => {
+        form.setFieldsValue({
+            level: levelData?.level?.level,
+            description: levelData?.level?.description
+        });
+    }, [levelData]);
 
     const onFinish = (values: ILevel) => {
-        addLevel(values)
+        editLevel({ ...values, id: Number(id) })
             .unwrap()
             .then(async () => {
                 countdown(3, (seconds) => {
-                    message.success(`Thêm thành công sẽ chuyển trang sau ${seconds}s`);
+                    message.success(`Sửa thành công sẽ chuyển trang sau ${seconds}s`);
                 })
                 await pause(3000);
                 navigate("/admin/level-manage");
             });
     };
 
-    const onFinishFailed = (errorInfo: unknown) => {
+    const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
     };
 
     return (
         <div>
             <Link to="/admin/level-manage">Quay lại <EnterOutlined /></Link>
-            <h2 className="m-6 text-2xl font-semibold">Tạo kinh nghiệm</h2>
+            <h2 className="m-6 text-2xl font-semibold">Sửa trình độ</h2>
             <Form className="mx-40"
+                form={form}
                 name="basic"
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
@@ -43,22 +56,22 @@ const AddLevel = () => {
                 autoComplete="off"
             >
                 <Form.Item<ILevel>
-                    label="Tên kinh nghiệm"
+                    label="Tên trình độ"
                     name="level"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kinh nghiệm phải trên 6 kí tự" }
+                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item<ILevel>
-                    label="Mô tả kinh nghiệm"
+                    label="Mô tả"
                     name="description"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kinh nghiệm phải trên 6 kí tự" }
+                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                     ]}
                 >
                     <Input />
@@ -66,10 +79,10 @@ const AddLevel = () => {
 
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
-                        {isLoading ? (
+                        {isUpdateLoading ? (
                             <AiOutlineLoading3Quarters className="animate-spin" />
                         ) : (
-                            "Thêm kinh nghiệm"
+                            "Sửa trình độ"
                         )}
                     </Button>
                 </Form.Item>
@@ -78,4 +91,4 @@ const AddLevel = () => {
     )
 }
 
-export default AddLevel
+export default EditLevel
