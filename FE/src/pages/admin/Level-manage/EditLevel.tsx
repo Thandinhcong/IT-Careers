@@ -1,10 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { countdown } from "../../../utils/coutdown";
 import { useEffect } from "react";
 import { useEditLevelMutation, useGetLevelByIdQuery } from "../../../api/levelApi";
 
@@ -27,9 +26,6 @@ const EditLevel = () => {
         editLevel({ ...values, id: Number(id) })
             .unwrap()
             .then(async () => {
-                countdown(3, (seconds) => {
-                    message.success(`Sửa thành công sẽ chuyển trang sau ${seconds}s`);
-                })
                 await pause(3000);
                 navigate("/admin/level-manage");
             });

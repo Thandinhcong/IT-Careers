@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, Skeleton } from 'antd';
-import { useDeletejobpositionMutation } from "../../../api/jobpositionApi";
-
 import { ColumnsType } from "antd/es/table";
-import { useGetMajorQuery } from "../../../api/majorApi";
+import { useDeleteMajorMutation, useGetMajorQuery } from "../../../api/majorApi";
 import { IMajors } from "../../../interfaces";
 
 const MajorManage = () => {
     const { data, isLoading, error } = useGetMajorQuery();
-    const [deleteMajor, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
+    const [deleteMajor, { isLoading: isRemoveLoading }] = useDeleteMajorMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;

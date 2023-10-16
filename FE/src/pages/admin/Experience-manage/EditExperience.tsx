@@ -4,7 +4,6 @@ import { Button, Form, Input, message } from 'antd';
 import { IExperience } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { countdown } from "../../../utils/coutdown";
 import { useEffect } from "react";
 import { useEditExperienceMutation, useGetExperienceByIdQuery } from "../../../api/experienceApi";
 
@@ -14,7 +13,6 @@ const EditExperience = () => {
     const [editExperience, { isLoading: isUpdateLoading }] = useEditExperienceMutation();
     const { data: experienceData } = useGetExperienceByIdQuery(id || "");
     const [form] = Form.useForm();
-    console.log(experienceData);
 
     useEffect(() => {
         form.setFieldsValue({
@@ -27,9 +25,6 @@ const EditExperience = () => {
         editExperience({ ...values, id: Number(id) })
             .unwrap()
             .then(async () => {
-                countdown(3, (seconds) => {
-                    message.success(`Sửa thành công sẽ chuyển trang sau ${seconds}s`);
-                })
                 await pause(3000);
                 navigate("/admin/experience-manage");
             });

@@ -4,7 +4,6 @@ import { Button, Form, Input, message } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { countdown } from "../../../utils/coutdown";
 import { useAddLevelMutation } from "../../../api/levelApi";
 
 const AddLevel = () => {
@@ -15,9 +14,6 @@ const AddLevel = () => {
         addLevel(values)
             .unwrap()
             .then(async () => {
-                countdown(3, (seconds) => {
-                    message.success(`Thêm thành công sẽ chuyển trang sau ${seconds}s`);
-                })
                 await pause(3000);
                 navigate("/admin/level-manage");
             });
