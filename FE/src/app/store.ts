@@ -11,7 +11,6 @@ import {
 } from 'redux-persist';
 
 import storage from 'redux-persist/lib/storage';
-import majorApi, { majorReducer } from '../api/majorApi';
 import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
 import jobpositionApi, { JoppositionFormReducer } from '../api/jobpositionApi';
 import skillApi, { skillReducer } from '../api/skill';
@@ -20,6 +19,7 @@ import packageApi, { packageReducer } from '../api/package';
 import SalaryTypeApi, { SalaryTypeReducer } from '../api/salaryType';
 import experienceApi, { experienceReducer } from '../api/experienceApi';
 import LevelApi, { LevelReducer } from '../api/levelApi';
+import MajorApi, { MajorReducer } from '../api/majorApi';
 
 const persistConfig = {
     key: 'root',
@@ -27,7 +27,7 @@ const persistConfig = {
     whitelist: ['cart', "auth"]
 }
 const rootReducer = combineReducers({
-    [majorApi.reducerPath]: majorReducer,
+    [MajorApi.reducerPath]: MajorReducer,
     [workingFormApi.reducerPath]: workingFormReducer,
     [jobpositionApi.reducerPath]: JoppositionFormReducer,
     [skillApi.reducerPath]: skillReducer,
@@ -38,7 +38,7 @@ const rootReducer = combineReducers({
     [LevelApi.reducerPath]: LevelReducer,
 })
 const middleware = [
-    majorApi.middleware,
+    MajorApi.middleware,
     workingFormApi.middleware,
     jobpositionApi.middleware,
     skillApi.middleware,

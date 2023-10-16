@@ -11,7 +11,7 @@ export interface IPackages {
 export interface IMajors {
     id?: number,
     major: string,
-    description: string,
+    description?: string,
 }
 export interface IWorkingForm {
     id?: number,

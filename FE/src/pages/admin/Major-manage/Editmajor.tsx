@@ -1,28 +1,28 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, Skeleton, message } from 'antd';
-import { useGetjobpositionByIdQuery, useUpdatejobpositionMutation } from "../../../api/jobpositionApi";
 import { useEffect } from "react";
-import { IJobposition } from "../../../interfaces";
+import { IMajors } from "../../../interfaces";
+import { useGetMajorByIdQuery, useUpdateMajorMutation } from "../../../api/majorApi";
 
-const EditJobposition = () => {
+const EditMajors = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
-    const [UpdateJobposition, { isLoading: isUpdateLoading }] = useUpdatejobpositionMutation();
-    const { data, isLoading } = useGetjobpositionByIdQuery(id || '');
+    const [UpdateMajor, { isLoading: isUpdateLoading }] = useUpdateMajorMutation();
+    const { data, isLoading } = useGetMajorByIdQuery(id || '');
     const [form] = Form.useForm();
 
 
     useEffect(() => {
         form.setFieldsValue({
-            job_position: data?.Job_position?.job_position,
-            description: data?.Job_position?.description
+            major: data?.major?.major,
+            // description: data?.major?.description
         })
     }, [data])
     if (isUpdateLoading) return <Skeleton loading />
-    const onFinish = (values: IJobposition) => {
-        UpdateJobposition({
+    const onFinish = (values: IMajors) => {
+        UpdateMajor({
             ...values,
             id: Number(id)
         })
@@ -32,20 +32,21 @@ const EditJobposition = () => {
                     type: "success",
                     content: "Cập nhật thành công!",
                 });
-                return navigate("/admin/jobposition-manage")
+                return navigate("/admin/major-manage")
             })
             .catch((error) => console.log(error))
     }
     if (isLoading) return <Skeleton />
     type FieldType = {
-        job_position?: string;
+        major?: string;
         description?: string;
     };
 
     return (
         <div>
             <Link to="/admin/jobposition-manage">Quay lại <EnterOutlined /></Link>
-            <h2 className="m-6 text-2xl font-semibold">Cập Nhật  Chức Vụ  </h2>
+            <h2 className="m-6 text-2xl font-semibold">Cập Nhật Chuyên ngành </h2>
+            {contextHolder}
             <Form className="mx-40"
                 form={form}
                 name="basic"
@@ -58,21 +59,21 @@ const EditJobposition = () => {
                 autoComplete="off"
             >
                 <Form.Item<FieldType>
-                    label="Chức Vụ "
-                    name="job_position"
+                    label="Chuyên Ngành "
+                    name="major"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^(?=\S)(\S\s?){3,}$/u, message: "Tên chức vụ phải trên 3 kí tự" }
+                        { pattern: /^\S{3,}$/, message: "Tên chức vụ phải trên 3 kí tự" }
                     ]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<FieldType>
+                {/* <Form.Item<FieldType>
                     label="Description "
                     name="description"
                 >
                     <Input />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
@@ -84,4 +85,4 @@ const EditJobposition = () => {
     )
 }
 
-export default EditJobposition  
+export default EditMajors  

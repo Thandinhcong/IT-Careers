@@ -88,6 +88,9 @@ import EditExperience from "./pages/admin/Experience-manage/EditExperience"
 import LevelManage from "./pages/admin/Level-manage"
 import AddLevel from "./pages/admin/Level-manage/CreateLevel"
 import EditLevel from "./pages/admin/Level-manage/EditLevel"
+import MajorManage from "./pages/admin/Major-manage"
+import AddMajors from "./pages/admin/Major-manage/Addmajor"
+import EditMajors from "./pages/admin/Major-manage/Editmajor"
 
 
 function App() {
@@ -206,6 +209,9 @@ function App() {
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
           <Route path="package-manage/edit/:id" element={<EditPackage />} />
+          <Route path="major-manage" element={<MajorManage />} />
+          <Route path="major-manage/create-major" element={<AddMajors />} />
+          <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
       </Routes>
     </BrowserRouter >

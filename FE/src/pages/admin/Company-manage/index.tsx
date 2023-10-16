@@ -3,7 +3,7 @@ import { Button, Space, Table, Tag, Dropdown } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { AiOutlineEdit, AiOutlineMore } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineLoading3Quarters, AiOutlineMore } from "react-icons/ai";
 interface DataType {
     key: string;
     name: string;
@@ -11,18 +11,9 @@ interface DataType {
     phone: number;
     address: string;
     email: string;
-    tags: string[];
+    status: number;
 }
 
-const items: MenuProps['items'] = [
-    { label: <a href="#">Xem chi tiết </a>, key: '0', icon: <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} /> },
-    {
-        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href="company-manage/edit-company">
-            <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-        </Button>,
-        key: '0'
-    },
-];
 const PostManage = () => {
     const columns: ColumnsType<DataType> = [
         {
@@ -53,38 +44,51 @@ const PostManage = () => {
         },
         {
             title: 'Status',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 9 ? 'geekblue' : 'green';
-                        if (tag === 'Chặn') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            key: 'status',
+            dataIndex: 'status',
+            render: (status: number | undefined) => {
+                let color;
+                let text;
+
+                if (status === 1) {
+                    color = 'green';
+                    text = 'Kích Hoạt';
+
+                } else if (status === 0) {
+                    color = 'volcano';
+                    text = 'Chặn';
+                } else {
+                    color = 'geekblue';
+                    text = 'Chưa Kích Hoạt';
+                }
+
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                );
+            },
         },
         {
             title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: () => (
-                <Dropdown menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()} className="text-center" >
-                        <Space>
-                            <AiOutlineMore />
-                        </Space>
-                    </a>
-                </Dropdown>
-
+            render: ({ key: id, status }: { key: string | number, status: number }) => (
+                <div className="flex -mx-7">
+                    {/* <Button type="link" onClick={() => handleUpdateStatus(id, status)}>
+                        <CheckOutlined style={{ fontSize: '18px', color: '#4eff3a' }} />
+                        {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+                        ) : (
+                            <span className='text-[#49eb47]'>Đổi trạng thái</span>
+                        )}
+                    </Button > */}
+                    <Button type='link' className="text-[#3eb7ee] px-0">
+                        <FolderViewOutlined style={{ fontSize: '15px', color: '#3eb7ee' }} />
+                        Xem Thêm
+                    </Button>
+                </div>
             ),
         },
     ];
@@ -96,7 +100,8 @@ const PostManage = () => {
             phone: 1233445446567,
             address: 'New York No. 1 Lake Park',
             email: 'NewYork@gmail.com',
-            tags: ['Chưa Kích Hoạt'],
+            status: 1,
+
         },
         {
             key: '2',
@@ -105,7 +110,8 @@ const PostManage = () => {
             phone: 12334354556477,
             address: 'London No. 1 Lake Park',
             email: 'London@gmail.com',
-            tags: ['Kích Hoạt'],
+            status: 2,
+
         },
         {
             key: '3',
@@ -114,7 +120,7 @@ const PostManage = () => {
             phone: 123132435454,
             address: 'Sydney No. 1 Lake Park',
             email: 'Sydney@gmail.com',
-            tags: ['Chặn'],
+            status: 0,
         },
     ];
     return (
@@ -133,3 +139,7 @@ const PostManage = () => {
 }
 
 export default PostManage
+
+function handleUpdateStatus(id: string | number, status: number): void {
+    throw new Error("Function not implemented.");
+}
