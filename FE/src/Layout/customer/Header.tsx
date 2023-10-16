@@ -15,7 +15,7 @@ const profile = [
   { name: 'Việc làm đã ứng tuyển', href: '/user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
   { name: 'Việc làm đã lưu', href: '/user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
   { name: 'Đổi mật khẩu', href: '/change', icon: <AiOutlineKey className="text-xl" /> },
-  { name: 'Thiết lập tài khoản', href: '/user/jobfavor', icon: <AiOutlineSetting className="text-xl" /> },
+  { name: 'Thiết lập tài khoản', href: '/account', icon: <AiOutlineSetting className="text-xl" /> },
   { name: 'Đăng xuất', href: '/user/jobfavor', icon: <AiOutlineLogout className="text-xl" /> },
 ]
 

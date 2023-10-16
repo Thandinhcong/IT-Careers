@@ -83,6 +83,7 @@ import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
 import MajorManage from "./pages/admin/Major-manage"
 import AddMajors from "./pages/admin/Major-manage/Addmajor"
 import EditMajors from "./pages/admin/Major-manage/Editmajor"
+import Account from "./pages/Site/User/Account"
 
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
+          <Route path='account' element={< Account />} />
 
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
@@ -109,13 +111,14 @@ function App() {
             <Route path='faq' element={< FAQ />} />
             <Route path='dispute-resolution' element={< DisputeResolution />} />
           </Route>
-          <Route path='user' element={<LayoutUser />}>
+          <Route path='user/' element={<LayoutUser />}>
             <Route path='listcv' element={< ListCV />} />
             <Route path='jobapply' element={< JobApply />} />
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
-          </Route>
 
+
+          </Route>
         </Route>
 
         {/* Account */}
@@ -124,6 +127,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
+
         </Route>
 
         {/* Buisness */}
