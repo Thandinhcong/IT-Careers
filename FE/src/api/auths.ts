@@ -15,7 +15,7 @@ const authApi = createApi({
                 body: credentials
             })
         }),
-        signup: builder.mutation<{ accessToken: string, users: {} }, { name: string, email: string, password: string, confilmPassword: string }>({
+        signup: builder.mutation<{ accessToken: string, users: {} }, { name: string, email: string, password: string, phoneNumber: string }>({
             query: (credentials) => ({
                 url: "/signup",
                 method: "POST",

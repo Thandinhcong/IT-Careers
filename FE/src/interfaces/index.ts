@@ -57,3 +57,10 @@ export interface ILogin {
     email: string,
     password: string,
 }
+export interface ISignup {
+    id: number | string,
+    name: string,
+    email: string,
+    password: string,
+    numberPhone: string
+}

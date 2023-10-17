@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
-import { Skeleton, message } from "antd";
+import { message } from "antd";
 import { ILogin } from "../../interfaces";
 
 
@@ -56,7 +56,6 @@ const Login = () => {
                     <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
                         Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng tại IT Careers nhé !!!
                     </p>
-
 
                     <div>
                         <div className="relative">
