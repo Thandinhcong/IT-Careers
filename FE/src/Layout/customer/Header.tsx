@@ -152,6 +152,9 @@ const Header = () => {
           <a href="/signup" className="text-sm font-semibold leading-6 text-gray-900">
             Đăng Ký <span aria-hidden="true"></span>
           </a>
+          <a href="/companies/signin" className="text-sm font-semibold leading-6 text-gray-900 ml-4">
+            Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
+          </a>
         </div>
       </nav>
 
