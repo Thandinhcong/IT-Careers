@@ -92,6 +92,8 @@ import MajorManage from "./pages/admin/Major-manage"
 import AddMajors from "./pages/admin/Major-manage/Addmajor"
 import EditMajors from "./pages/admin/Major-manage/Editmajor"
 import Account from "./pages/Site/User/Account"
+import SignInCompanies from "./pages/Account/Companies/SignIn"
+import SignupCompanies from "./pages/Account/Companies/Signup"
 
 
 function App() {
@@ -136,6 +138,8 @@ function App() {
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
+          <Route path='/companies/signin' element={< SignInCompanies />} />
+          <Route path='/companies/signup' element={<SignupCompanies />} />
         </Route>
 
         {/* Buisness */}
