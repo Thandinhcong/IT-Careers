@@ -20,6 +20,7 @@ import SalaryTypeApi, { SalaryTypeReducer } from '../api/salaryType';
 import experienceApi, { experienceReducer } from '../api/experienceApi';
 import LevelApi, { LevelReducer } from '../api/levelApi';
 import MajorApi, { MajorReducer } from '../api/majorApi';
+import authApi, { authsReducer } from '../api/auths';
 
 const persistConfig = {
     key: 'root',
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
     [SalaryTypeApi.reducerPath]: SalaryTypeReducer,
     [experienceApi.reducerPath]: experienceReducer,
     [LevelApi.reducerPath]: LevelReducer,
+    [authApi.reducerPath]: authsReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -47,6 +49,7 @@ const middleware = [
     SalaryTypeApi.middleware,
     experienceApi.middleware,
     LevelApi.middleware,
+    authApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

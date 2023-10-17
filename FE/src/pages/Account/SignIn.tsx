@@ -1,14 +1,44 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
 import { SlSocialFacebook } from 'react-icons/sl';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaLogin } from "../../schemas";
+import { useLoginMutation } from "../../api/auths";
+import { message } from "antd";
+import { ILogin } from "../../interfaces";
+
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm<ILogin>({
+        resolver: yupResolver(schemaLogin)
+    });
+    const [login] = useLoginMutation();
+    const onHandleSubmit = (user: ILogin) => {
+        try {
+            login(user)
+                .unwrap()
+                .then(() => {
+                    message.success("Đăng nhập thành công")
+                    navigate('/')
+                })
+                .catch(() => {
+                    message.error("Thông tin tài khoản hoặc mật khẩu không chính xác!")
+                })
+        } catch (error) {
+            message.error('Có lỗi xảy ra vui lòng thử lại!');
+        }
+    }
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
 
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -16,7 +46,7 @@ const Login = () => {
 
 
                 <form
-                    action=""
+                    onSubmit={handleSubmit(onHandleSubmit)}
                     className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
                 >
                     <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
@@ -27,15 +57,17 @@ const Login = () => {
                         Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng tại IT Careers nhé !!!
                     </p>
 
-
                     <div>
                         <div className="relative">
                             <input
+                                {...register("email")}
                                 type="email"
-                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                className="w-full rounded-lg border outline-none border-solid border-blue-500 p-4 pe-12 text-sm shadow-sm"
                                 placeholder="Email"
                             />
-
+                            <div className="text-red-500 my-2">
+                                {errors.email && errors.email.message}
+                            </div>
                             <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -45,9 +77,9 @@ const Login = () => {
                                     stroke="currentColor"
                                 >
                                     <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
                                         d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
                                     />
                                 </svg>
@@ -57,11 +89,14 @@ const Login = () => {
                     <div>
                         <div className="relative">
                             <input
+                                {...register('password')}
                                 type={showPassword ? 'text' : 'password'}
-                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
                                 placeholder="Mật Khẩu"
                             />
-
+                            <div className="text-red-500 my-2">
+                                {errors.password && errors.password.message}
+                            </div>
                             <span className="absolute inset-y-0 end-0 grid place-content-center px-4" onClick={togglePasswordVisibility}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -71,15 +106,15 @@ const Login = () => {
                                     stroke="currentColor"
                                 >
                                     <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                     />
                                     <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                     />
                                 </svg>
@@ -87,7 +122,7 @@ const Login = () => {
                         </div>
                     </div>
                     <p className="text-right text-sm text-gray-600">
-                        <a className="underline text-indigo-600" href="/forgot"> Quên Mật Khẩu</a>
+                        <Link className="underline text-indigo-600" to="/forgot"> Quên Mật Khẩu</Link>
                     </p>
                     <button
                         type="submit"
