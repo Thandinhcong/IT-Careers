@@ -63,3 +63,15 @@ export interface IExperience {
     experience?: string,
     description?: string,
 }
+export interface ILogin {
+    id?: number | string,
+    email: string,
+    password: string,
+}
+export interface ISignup {
+    id: number | string,
+    name: string,
+    email: string,
+    password: string,
+    numberPhone: string
+}
