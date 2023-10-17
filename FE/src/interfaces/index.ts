@@ -75,3 +75,13 @@ export interface ISignup {
     password: string,
     numberPhone: string
 }
+export interface IAccount {
+    id?: number,
+    name?: string,
+    email?: string,
+    password?: string,
+    phone?: string,
+    avatar?: string,
+    status?: number,
+    remember_token?: string,
+}

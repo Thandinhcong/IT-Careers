@@ -22,6 +22,7 @@ import LevelApi, { LevelReducer } from '../api/levelApi';
 import MajorApi, { MajorReducer } from '../api/majorApi';
 import authApi, { authsReducer } from '../api/auths';
 import authCompaniesApi from '../api/auth/SigninCompanies';
+import AccountApi, { AccountReducer } from '../api/accountApi';
 
 const persistConfig = {
     key: 'root',
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
     [LevelApi.reducerPath]: LevelReducer,
     [authApi.reducerPath]: authsReducer,
     [authCompaniesApi.reducerPath]: authCompaniesApi.reducer,
+    [AccountApi.reducerPath]: AccountReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -52,7 +54,8 @@ const middleware = [
     experienceApi.middleware,
     LevelApi.middleware,
     authApi.middleware,
-    authCompaniesApi.middleware
+    authCompaniesApi.middleware,
+    AccountApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
