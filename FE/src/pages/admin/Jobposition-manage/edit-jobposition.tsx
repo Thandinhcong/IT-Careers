@@ -8,7 +8,7 @@ import { IJobposition } from "../../../interfaces";
 const EditJobposition = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi] = message.useMessage();
     const [UpdateJobposition, { isLoading: isUpdateLoading }] = useUpdatejobpositionMutation();
     const { data, isLoading } = useGetjobpositionByIdQuery(id || '');
     const [form] = Form.useForm();
