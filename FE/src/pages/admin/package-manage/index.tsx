@@ -1,62 +1,42 @@
 import { Link } from "react-router-dom"
-import { Button, Space, Table, Dropdown, Popconfirm, message, Tag } from 'antd';
+import { Button, Table, Popconfirm, message, Tag, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { MenuProps } from 'antd';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineMore, AiOutlineCheck } from "react-icons/ai";
-
-interface DataType {
-    key: string;
-    title: string;
-    coin: number;
-    price: number;
-    reduced_price: number;
-    status: string[];
-    type_account: string;
-}
-const confirm = () => {
-
-    message.success('Click on Yes');
-};
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useDeletePackageMutation, useGetPackageQuery } from "../../../api/package";
+import { IPackages } from "../../../interfaces";
 
 const cancel = () => {
-
-    message.error('Click on No');
+    message.info('Huỷ xoá');
 };
-const items: MenuProps['items'] = [
-    {
-        label: <Button className="bg-yellow-400 border-none hover:bg-yellow-300 w-full" href="#">
-            <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-        </Button>,
-        key: '0'
-    },
-    {
-        label: <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            okType="default"
-            cancelText="No"
-        >
-            <Button type="primary" className="w-full" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />Xoá</Button >
-        </Popconfirm>, key: '1'
-    },
-    {
-        label: <Button className="bg-green-400 border-none hover:bg-green-300">
-            <p className="text-white"><AiOutlineCheck className="inline-block mr-2 text-xl " />Duyệt</p>
-        </Button>,
-        key: '3'
-    },
 
-];
 const PackageManage = () => {
-    const columns: ColumnsType<DataType> = [
+    const { data, isLoading } = useGetPackageQuery();
+    const [removePackage, { isLoading: isRemoveLoading }] = useDeletePackageMutation();
+    if (isLoading) return <Skeleton loading />;
+    const packageData = data?.data?.map(({ id, title, coin, price, reduced_price, status, type_account }: IPackages) => {
+        console.log(data);
+        return {
+            key: id,
+            title,
+            coin,
+            price,
+            reduced_price,
+            status,
+            type_account
+        }
+    })
+    const confirm = (id: number | string) => {
+        removePackage(id);
+        setTimeout(() => {
+            message.success('Xoá thành công');
+        }, 1000);
+    };
+    const columns: ColumnsType<IPackages> = [
         {
             title: 'STT',
-            dataIndex: 'title',
-            key: 'title',
-
+            key: 'index',
+            width: 10,
+            render: (_text, _record, index) => index + 1,
         },
         {
             title: 'Tiêu đề',
@@ -86,69 +66,76 @@ const PackageManage = () => {
             title: 'Loại tài khoản',
             dataIndex: 'type_account',
             key: 'type_account',
+            render: (type_account: number | undefined | string) => {
+                let text;
+
+                if (type_account === 1 || type_account === "1") {
+                    text = 'Ứng viên';
+
+                } else if (type_account === 0 || type_account === "0") {
+                    text = 'Nhà tuyển dụng';
+                }
+                return (
+                    <p>
+                        {text}
+                    </p>
+                );
+            },
 
         },
         {
-            title: 'Trạng thái',
+            title: 'Status',
             key: 'status',
             dataIndex: 'status',
-            render: (_, { status }) => (
-                <>
-                    {status.map((status) => {
-                        let color = status.length > 10 ? 'geekblue' : 'green';
-                        if (status === 'Chưa duyệt') {
-                            color = 'geekblue';
-                        }
-                        if (status === 'Đã duyệt') {
-                            color = 'green';
-                        }
-                        return (
-                            <Tag color={color} key={status}>
-                                {status.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            render: (status: number | undefined | string) => {
+                let color;
+                let text;
+
+                if (status === 1 || status === "1") {
+                    color = 'green';
+                    text = 'Kích hoạt';
+
+                } else if (status === 0 || status === "0") {
+                    color = 'volcano';
+                    text = 'Chưa kích hoạt';
+                }
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                );
+            },
         },
         {
             title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: () => (
-                <Dropdown menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()} className="text-center" >
-                        <Space>
-                            <AiOutlineMore />
-                        </Space>
-                    </a>
-                </Dropdown>
+            render: ({ key: id }: { key: string | number }) => (
+                <div className="flex gap-2">
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => confirm(id)}
+                        onCancel={cancel}
+                        okText="Yes"
+                        okType="default"
+                        cancelText="No"
+                    >
+                        <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />
+                            {isRemoveLoading ? (
+                                <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+                            ) : (
+                                "Xóa"
+                            )}
+                        </Button >
+                    </Popconfirm>
+                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`package-manage/edit/${id}`}>
+                        <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
+                    </Button>
+                </div>
             ),
         },
-    ];
-    const data: DataType[] = [
-        {
-            key: '1',
-            title: 'John Brown',
-            coin: 12345,
-            price: 23456,
-            reduced_price: 1234,
-            status: ["Chưa duyệt"],
-            type_account: "Ahihi",
-
-        },
-        {
-            key: '2',
-            title: 'John Brown',
-            coin: 12345,
-            price: 23456,
-            reduced_price: 1234,
-            status: ["Đã duyệt"],
-            type_account: "Ahihi",
-
-        },
-
     ];
     return (
         <div>
@@ -158,7 +145,7 @@ const PackageManage = () => {
                     <Link to="add">Tạo gói nạp</Link>
                 </Button>
             </div>
-            <Table columns={columns} dataSource={data} />; {/* Chỉnh độ rộng của bảng  scroll={{ x: 1300 }}*/}
+            <Table columns={columns} dataSource={packageData} />; {/* Chỉnh độ rộng của bảng  scroll={{ x: 1300 }}*/}
         </div>
     )
 }

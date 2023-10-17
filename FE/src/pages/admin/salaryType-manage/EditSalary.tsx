@@ -1,37 +1,35 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
-import { useEditSkillMutation, useGetSkillByIdQuery } from "../../../api/skill";
-import { ISkill } from "../../../interfaces";
+import { ISalaryType } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect } from "react";
+import { useEditSalaryTypeMutation, useGetSalaryTypeByIdQuery } from "../../../api/salaryType";
 
-const AddSkill = () => {
+const EditSalary = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [editSkill, { isLoading: isUpdateLoading }] = useEditSkillMutation();
-    const { data: skillData } = useGetSkillByIdQuery(id || "");
+    const [EditSalaryType, { isLoading: isUpdateLoading }] = useEditSalaryTypeMutation();
+    const { data: salaryTypeData } = useGetSalaryTypeByIdQuery(id || "");
     const [form] = Form.useForm();
-
 
     useEffect(() => {
         form.setFieldsValue({
-            skill: skillData?.skill?.skill,
-            description: skillData?.skill?.description,
+            salary_type: salaryTypeData?.salaryType?.salary_type,
         });
-    }, [skillData]);
-    const onFinish = (values: ISkill) => {
-        editSkill({ ...values, id: Number(id) })
+    }, [salaryTypeData]);
+    const onFinish = (values: ISalaryType) => {
+        EditSalaryType({ ...values, id: Number(id) })
             .unwrap()
             .then(() => {
                 message.success(`Cập nhật thành công`);
-                navigate("/admin/skill-manage");
+                navigate("/admin/salary-type-manage");
             });
     };
     return (
         <div>
-            <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
-            <h2 className="m-6 text-2xl font-semibold">Sửa kĩ năng</h2>
+            <Link to="/admin/salary-type-manage">Quay lại <EnterOutlined /></Link>
+            <h2 className="m-6 text-2xl font-semibold">Cập nhật loại lương</h2>
             <Form className="mx-40"
                 form={form}
                 name="basic"
@@ -43,12 +41,12 @@ const AddSkill = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<ISkill>
-                    label="Tên kĩ năng"
-                    name="skill"
+                <Form.Item<ISalaryType>
+                    label="Mức lương"
+                    name="salary_type"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                        { pattern: /^[1-9]\d*$/, message: 'Lương phải là số và không âm !' },
                     ]}
                 >
                     <Input />
@@ -59,7 +57,7 @@ const AddSkill = () => {
                         {isUpdateLoading ? (
                             <AiOutlineLoading3Quarters className="animate-spin" />
                         ) : (
-                            "Sửa kỹ năng"
+                            "Cập nhật loại lương"
                         )}
                     </Button>
                 </Form.Item>
@@ -68,4 +66,4 @@ const AddSkill = () => {
     )
 }
 
-export default AddSkill
+export default EditSalary

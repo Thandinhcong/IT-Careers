@@ -1,30 +1,48 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Form, Input, Select, Skeleton, message } from 'antd';
 import { Option } from "antd/es/mentions";
+import { useEditPackageMutation, useGetPackageByIdQuery } from "../../../api/package";
+import { IPackages } from "../../../interfaces";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useEffect } from "react";
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-};
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
-
-type FieldType = {
-    title?: string;
-    coin?: number;
-    price?: number;
-    reduced_price?: number;
-    status?: string[];
-    type_account?: string;
-};
 const EditPackage = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [editPackage, { isLoading }] = useEditPackageMutation();
+    const { data: packageData } = useGetPackageByIdQuery(id || "");
+    const [form] = Form.useForm();
+    useEffect(() => {
+        form.setFieldsValue({
+            title: packageData?.package?.title,
+            coin: packageData?.package?.coin,
+            price: packageData?.package?.price,
+            reduced_price: packageData?.package?.reduced_price,
+            status: packageData?.package?.status,
+            type_account: packageData?.package?.type_account,
+        });
+    }, [packageData]);
+    if (isLoading) return <Skeleton />
+    const onFinish = (values: IPackages) => {
+        editPackage({ ...values, id: Number(id) })
+            .unwrap()
+            .then(() => {
+                message.success(`Thêm thành công`);
+                navigate("/admin/package-manage");
+            });
+    };
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo);
+    };
     return (
         <div>
-            <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
-            <h2 className="my-6 mx-28 text-2xl font-semibold">Sửa gói nạp</h2>
+            <Link to="/admin/package-manage">Quay lại <EnterOutlined /></Link>
+            <h2 className="my-6 mx-28 text-2xl font-semibold">Cập nhật Gói nạp</h2>
             <Form className="mx-60"
+                form={form}
                 name="basic"
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
@@ -35,65 +53,70 @@ const EditPackage = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Tên gói nạp"
                     name="title"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
+
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Xu gói nạp"
                     name="coin"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
+                        { pattern: /^[1-9]\d*$/, message: 'Xu phải là số và không âm !' },
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Giá gói nạp"
                     name="price"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
+                        { pattern: /^[1-9]\d*$/, message: 'Giá phải là số và không âm !' },
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<IPackages>
                     label="Giá giảm gói nạp"
-                    name="type_account"
+                    name="reduced_price"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { type: "number", message: "Giá phải là 1 số" }
+                        { pattern: /^[1-9]\d*$/, message: 'Giảm giá phải là số và không âm !' },
                     ]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    name="gender"
-                    label="Gender"
-                    rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+                    name="type_account"
+                    label="Gói nạp dành cho"
+                    rules={[
+                        { required: true, message: 'Vui lòng chọn gói nạp !' },]}
                 >
-                    <Select placeholder="Chọn trạng thái gói nạp">
-                        <Option value="a">A</Option>
-                        <Option value="b">B</Option>
-                        <Option value="c">C</Option>
+                    <Select placeholder="Vui lòng chọn gói nạp">
+                        <Option value="0">Nhà tuyển dụng</Option>
+                        <Option value="1">Ứng viên</Option>
                     </Select>
                 </Form.Item>
 
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
-                        Sửa
+                        {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                        ) : (
+                            "Cập nhật"
+                        )}
                     </Button>
                 </Form.Item>
             </Form>

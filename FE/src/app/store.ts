@@ -15,6 +15,10 @@ import workingFormApi, { workingFormReducer } from '../api/workingFormApi';
 import jobpositionApi, { JoppositionFormReducer } from '../api/jobpositionApi';
 import skillApi, { skillReducer } from '../api/skill';
 import JobPostApi, { jobPostReducer } from '../api/jobPost';
+import packageApi, { packageReducer } from '../api/package';
+import SalaryTypeApi, { SalaryTypeReducer } from '../api/salaryType';
+import experienceApi, { experienceReducer } from '../api/experienceApi';
+import LevelApi, { LevelReducer } from '../api/levelApi';
 import MajorApi, { MajorReducer } from '../api/majorApi';
 
 const persistConfig = {
@@ -27,7 +31,11 @@ const rootReducer = combineReducers({
     [workingFormApi.reducerPath]: workingFormReducer,
     [jobpositionApi.reducerPath]: JoppositionFormReducer,
     [skillApi.reducerPath]: skillReducer,
-    [JobPostApi.reducerPath]: jobPostReducer
+    [JobPostApi.reducerPath]: jobPostReducer,
+    [packageApi.reducerPath]: packageReducer,
+    [SalaryTypeApi.reducerPath]: SalaryTypeReducer,
+    [experienceApi.reducerPath]: experienceReducer,
+    [LevelApi.reducerPath]: LevelReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -35,6 +43,10 @@ const middleware = [
     jobpositionApi.middleware,
     skillApi.middleware,
     JobPostApi.middleware,
+    packageApi.middleware,
+    SalaryTypeApi.middleware,
+    experienceApi.middleware,
+    LevelApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

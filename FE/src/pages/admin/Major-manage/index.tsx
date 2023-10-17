@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, Skeleton } from 'antd';
-import { useDeletejobpositionMutation } from "../../../api/jobpositionApi";
-
 import { ColumnsType } from "antd/es/table";
 import { useDeleteMajorMutation, useGetMajorQuery } from "../../../api/majorApi";
 import { IMajors } from "../../../interfaces";

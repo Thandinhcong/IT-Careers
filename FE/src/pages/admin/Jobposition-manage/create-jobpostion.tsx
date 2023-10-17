@@ -41,7 +41,7 @@ const AddJobposition = () => {
                     name="job_position"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^\S{3,}$/, message: "Tên chức vụ phải trên 3 kí tự" }
+                        { pattern: /^(?=\S)(\S\s?){3,}$/u, message: "Tên chức vụ phải trên 3 kí tự" }
                     ]}
                 >
                     <Input />

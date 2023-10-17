@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
     MenuFoldOutlined, MenuUnfoldOutlined, ControlOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
     LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined, GiftOutlined, UploadOutlined, ApartmentOutlined, FileProtectOutlined,
-    HddOutlined,
+    HddOutlined, MoneyCollectOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
@@ -19,7 +19,7 @@ const LayoutAdmin = () => {
     const menuItems = [
         { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
-        { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'exp-manage' },
+        { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'experience-manage' },
         { key: '4', icon: <AiOutlineCalendar />, label: 'Quản lý hình thức', path: 'working-form' },
         { key: '5', icon: <UserOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
         { key: '6', icon: <HddOutlined />, label: 'Quản lý Công Ty', path: 'company-manage' },
@@ -27,7 +27,9 @@ const LayoutAdmin = () => {
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
         { key: '9', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
         { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
-        { key: '11', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
+        { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
+        { key: '12', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
+
     ];
 
     const items: MenuProps['items'] = [

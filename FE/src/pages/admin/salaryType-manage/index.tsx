@@ -1,55 +1,33 @@
 import { Link } from "react-router-dom"
-import { Button, Table, Popconfirm, message, Skeleton, Result } from 'antd';
+import { Button, Table, Popconfirm, message, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
-import { ILevel } from "../../../interfaces";
-import { useDeleteLevelMutation, useGetLevelQuery } from "../../../api/levelApi";
+import { ISalaryType } from "../../../interfaces";
+import { useDeleteSalaryTypeMutation, useGetSalaryTypeQuery } from "../../../api/salaryType";
 
 const cancel = () => {
     message.info('Huỷ xoá');
 };
-const LevelManage = () => {
-    const { data, isLoading, error } = useGetLevelQuery();
-    const [removeLevel, { isLoading: isRemoveLoading }] = useDeleteLevelMutation();
-    if (isLoading) return <Skeleton loading />;
-    if (error) {
-        if ('status' in error) {
-            if (error.status === 404) {
-                return (
-                    <Result
-                        status="404"
-                        title="404"
-                        subTitle="Forbidden: You do not have permission to access this resource."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            } else {
-                return (
-                    <Result
-                        status="403"
-                        title="403"
-                        subTitle="Sorry, something went wrong."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            }
-        }
-    }
+const SalaryTypeManage = () => {
+    const { data, isLoading } = useGetSalaryTypeQuery();
+    const [removeSalaryType, { isLoading: isRemoveLoading }] = useDeleteSalaryTypeMutation();
+    console.log(data);
 
-    const levelData = data?.data?.map(({ id, level, description }: ILevel) => {
+    if (isLoading) return <Skeleton loading />;
+    const salaryTypeData = data?.salaryType?.map(({ id, salary_type }: ISalaryType) => {
+        console.log(data);
         return {
             key: id,
-            level,
-            description,
+            salary_type: new Intl.NumberFormat('en-US').format(salary_type)
         }
     })
     const confirm = (id: number | string) => {
-        removeLevel(id);
+        removeSalaryType(id);
         setTimeout(() => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<ILevel> = [
+    const columns: ColumnsType<ISalaryType> = [
         {
             title: 'STT',
             key: 'index',
@@ -57,16 +35,11 @@ const LevelManage = () => {
             render: (_text, _record, index) => index + 1,
         },
         {
-            title: 'Tên trình độ',
-            dataIndex: 'level',
-            key: 'level',
+            title: 'Loại mức lương',
+            dataIndex: 'salary_type',
+            key: 'salary_type',
             width: 50,
-        },
-        {
-            title: 'Mô tả trình độ',
-            dataIndex: 'description',
-            key: 'description',
-            width: 50,
+            render: (text: string | number) => { return <p>{text} VND</p>; }
         },
         {
             title: 'Action',
@@ -92,7 +65,7 @@ const LevelManage = () => {
                             )}
                         </Button >
                     </Popconfirm>
-                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
+                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`salary-type-manage/edit/${id}`}>
                         <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
                     </Button>
                 </div>
@@ -103,16 +76,16 @@ const LevelManage = () => {
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý kinh nghiệm</h2>
+                <h2 className="text-2xl font-semibold">Quản lý loại mức lương</h2>
                 <Button type="primary" className="bg-blue-500">
-                    <Link to="add">Thêm kinh nghiệm</Link>
+                    <Link to="add">Tạo Loại mức lương</Link>
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={levelData} />
+            <Table columns={columns} dataSource={salaryTypeData} />
 
         </div>
     )
 }
 
-export default LevelManage
+export default SalaryTypeManage

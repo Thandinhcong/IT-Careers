@@ -1,27 +1,27 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
 import { Button, Form, Input, message } from 'antd';
-import { useAddSkillMutation } from "../../../api/skill";
-import { ISkill } from "../../../interfaces";
+import { ISalaryType } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useAddSalaryTypeMutation } from "../../../api/salaryType";
 
-const AddSkill = () => {
-    const [addSkill, { isLoading }] = useAddSkillMutation();
+const AddSalary = () => {
+    const [addSalary, { isLoading }] = useAddSalaryTypeMutation();
     const navigate = useNavigate();
 
-    const onFinish = (values: ISkill) => {
-        addSkill(values)
+    const onFinish = (values: ISalaryType) => {
+        addSalary(values)
             .unwrap()
             .then(() => {
                 message.success(`Thêm thành công`);
-                navigate("/admin/skill-manage");
+                navigate("/admin/salary-type-manage");
             });
     };
 
     return (
         <div>
-            <Link to="/admin/skill-manage">Quay lại <EnterOutlined /></Link>
-            <h2 className="m-6 text-2xl font-semibold">Tạo kĩ năng</h2>
+            <Link to="/admin/salary-type-manage">Quay lại <EnterOutlined /></Link>
+            <h2 className="m-6 text-2xl font-semibold">Thêm mức lương</h2>
             <Form className="mx-40"
                 name="basic"
                 labelCol={{ span: 24 }}
@@ -32,13 +32,14 @@ const AddSkill = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<ISkill>
-                    label="Tên kĩ năng"
-                    name="skill"
+                <Form.Item<ISalaryType>
+
+                    label="Mức lương"
+                    name="salary_type"
+
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
-
+                        { pattern: /^[1-9]\d*$/, message: 'Lương phải là số và không âm !' },
                     ]}
                 >
                     <Input />
@@ -58,4 +59,4 @@ const AddSkill = () => {
     )
 }
 
-export default AddSkill
+export default AddSalary

@@ -77,9 +77,17 @@ import EditSkill from "./pages/admin/skill-manage/EditSkill"
 import PackageManage from "./pages/admin/package-manage"
 import AddPackage from "./pages/admin/package-manage/AddPackage"
 import EditPackage from "./pages/admin/package-manage/EditPackage"
+// import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
+// import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
+import SalaryTypeManage from "./pages/admin/salaryType-manage"
+import AddSalary from "./pages/admin/salaryType-manage/AddSalary"
+import EditSalary from "./pages/admin/salaryType-manage/EditSalary"
+import ExperienceManage from "./pages/admin/Experience-manage"
+import AddExperience from "./pages/admin/Experience-manage/AddExperience"
+import EditExperience from "./pages/admin/Experience-manage/EditExperience"
 import LevelManage from "./pages/admin/Level-manage"
-import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
-import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
+import AddLevel from "./pages/admin/Level-manage/AddLevel"
+import EditLevel from "./pages/admin/Level-manage/EditLevel"
 import MajorManage from "./pages/admin/Major-manage"
 import AddMajors from "./pages/admin/Major-manage/Addmajor"
 import EditMajors from "./pages/admin/Major-manage/Editmajor"
@@ -175,13 +183,12 @@ function App() {
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
           <Route path="level-manage" element={<LevelManage />} />
-          <Route path="level-manage/create-level" element={<CreateLevel />} />
-          <Route path="level-manage/update-level" element={<UpdateLevel />} />
+          {/* <Route path="level-manage/create-level" element={<CreateLevel />} /> */}
+          {/* <Route path="level-manage/update-level" element={<UpdateLevel />} /> */}
           <Route path="account-manage" element={<AccountManage />} />
           <Route path="account-manage/create-account" element={<CreateAccount />} />
           <Route path="account-manage/update-account" element={<UpdateAccount />} />
           <Route path="post-manage" element={<PostManage />} />
-          {/* <Route path="post-manage/create-post" element={<CreatePost />} /> */}
           <Route path="working-form" element={<ListWorkingForm />} />
           <Route path="add/working-form" element={<AddWorkingForm />} />
           <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
@@ -191,12 +198,21 @@ function App() {
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
           <Route path="jobposition-manage/edit-jobposition/:id" element={<EditJobposition />} />
+          <Route path="experience-manage" element={<ExperienceManage />} />
+          <Route path="experience-manage/add" element={<AddExperience />} />
+          <Route path="experience-manage/edit/:id" element={<EditExperience />} />
+          <Route path="level-manage" element={<LevelManage />} />
+          <Route path="level-manage/add" element={<AddLevel />} />
+          <Route path="level-manage/edit/:id" element={<EditLevel />} />
           <Route path="skill-manage" element={<SkillManage />} />
           <Route path="skill-manage/add" element={<AddSkill />} />
           <Route path="skill-manage/edit/:id" element={<EditSkill />} />
+          <Route path="salary-type-manage" element={<SalaryTypeManage />} />
+          <Route path="salary-type-manage/add" element={<AddSalary />} />
+          <Route path="salary-type-manage/edit/:id" element={<EditSalary />} />
           <Route path="package-manage" element={<PackageManage />} />
           <Route path="package-manage/add" element={<AddPackage />} />
-          <Route path="package-manage/:id/edit" element={<EditPackage />} />
+          <Route path="package-manage/edit/:id" element={<EditPackage />} />
           <Route path="major-manage" element={<MajorManage />} />
           <Route path="major-manage/create-major" element={<AddMajors />} />
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
