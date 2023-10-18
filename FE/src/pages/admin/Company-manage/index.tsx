@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom"
-import { Button, Space, Table, Tag, Dropdown } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { AiOutlineEdit, AiOutlineLoading3Quarters, AiOutlineMore } from "react-icons/ai";
+
 interface DataType {
     key: string;
     name: string;
@@ -140,6 +139,3 @@ const PostManage = () => {
 
 export default PostManage
 
-function handleUpdateStatus(id: string | number, status: number): void {
-    throw new Error("Function not implemented.");
-}

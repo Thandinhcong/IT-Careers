@@ -53,6 +53,25 @@ export interface IJobPost {
     end_date?: Date,
     status?: number,
 }
+export interface ICompanyInfor {
+    id: number,
+    company_name?: string
+    tax_code?: number
+    address?: string,
+    founded_in?: Date,
+    name?: string,
+    office?: string,
+    email?: string
+    phone_number?: number,
+    password: string,
+    map?: string
+    logo?: string
+    link_web: string
+    image_paper: string
+    desc?: string
+    status: number
+
+}
 export interface ILevel {
     id?: number,
     level?: string,
