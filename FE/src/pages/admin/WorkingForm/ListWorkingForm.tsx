@@ -21,7 +21,6 @@ const ListWorkingForm = () => {
             description,
         }
     })
-    console.log(dataSource);
 
     const columns: ColumnsType<IWorkingForm> = [
         {

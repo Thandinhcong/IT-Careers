@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './style.css'
@@ -20,8 +20,6 @@ const TabsOverview = ({ onTabChange }: any) => {
         setShowMore(!showMore);
     };
     const handleTabChange = () => {
-        // Khi bạn bấm vào nút "Xem chi tiết" ở tab1, thông báo cho parent component (MainCompanyDetail)
-        // để chuyển tab sang tab2 (TabAffair)
         onTabChange("tab2");
     };
     const post = [

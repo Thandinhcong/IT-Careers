@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { ISignup } from "../../interfaces";
 import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaSignup } from "../../schemas";
+import { FormSignup, schemaSignup } from "../../schemas";
 import { message } from "antd";
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<ISignup>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })
     const [signup] = useSignupMutation();
-    const onHandleSubmit = (user: ISignup) => {
+    const onHandleSubmit = (user: FormSignup) => {
         try {
-            signup(user)
+            signup(user as any)
                 .unwrap()
                 .then(() => {
                     message.success("Đăng ký thành công!")

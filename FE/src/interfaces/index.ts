@@ -75,3 +75,24 @@ export interface ISignup {
     password: string,
     numberPhone: string
 }
+
+
+export interface ICompanys {
+    id?: string | number,
+    company_name: string,
+    tax_code: string,
+    address: string,
+    founded_in: Date,
+    name: string,
+    office: string,
+    email: string,
+    phone: string,
+    map: string,
+    logo: string,
+    link_web: string,
+    image_paper: string,
+    desc: string,
+    coin: number,
+    status: Selection,
+
+}

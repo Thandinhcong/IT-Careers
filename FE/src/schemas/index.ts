@@ -5,6 +5,7 @@ export const schemaLogin = yup.object({
     email: yup.string().email("Email không đúng ký tự").required("Trường dữ liệu bắt buộc!"),
     password: yup.string().min(6, "Tối thiểu 6 ký tự!").required("Trường dữ liệu bắt buộc!"),
 })
+export type FormLogin = yup.InferType<typeof schemaLogin>
 export const schemaSignup = yup.object({
     name: yup.string().min(3, "Tối thiểu 3 ký tự!").required("Trường dữ liệu bắt buộc!"),
     email: yup.string().email("Email không đúng địng dạng"),
@@ -18,7 +19,7 @@ export const schemaSignup = yup.object({
     }).required("Trường dữ liệu bắt buộc"),
 });
 
-
+export type FormSignup = yup.InferType<typeof schemaSignup>
 
 
 
