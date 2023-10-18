@@ -10,11 +10,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { ICompanys } from '../../../interfaces';
 
 const TabsOverview = ({ onTabChange }: any) => {
     const { id } = useParams();
     const { data } = useGetOneCompanysQuery(id || '');
-    const listCompanyDetail = data?.company;
+    const listCompanyDetail: ICompanys | undefined = data && data.company && data.company[0];
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
         setShowMore(!showMore);
@@ -60,7 +61,7 @@ const TabsOverview = ({ onTabChange }: any) => {
                         <p>Nhà sáng lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.founded_in}</p>
+                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.founded_in.toLocaleString()}</p>
                         <p>Năm thành lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
@@ -93,8 +94,8 @@ const TabsOverview = ({ onTabChange }: any) => {
                     onSlideChange={() => console.log('slide change')}
                     className="my-swiper"
                 >
-                    {post.map((item) => (
-                        <SwiperSlide >
+                    {post.map((item, index) => (
+                        <SwiperSlide key={index} >
                             <div className='border border-gray-400 rounded-lg shadow-lg p-5 text-left text-gray-700 leading-10 text-base'>
                                 <div className='h-56'>
                                     <p>{item.jobType}</p>

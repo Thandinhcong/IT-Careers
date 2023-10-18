@@ -75,7 +75,10 @@ export interface ISignup {
     password: string,
     numberPhone: string
 }
-
+export interface IListData {
+    status: string
+    list_company: ICompanys[],
+}
 
 export interface ICompanys {
     id?: string | number,
@@ -95,4 +98,9 @@ export interface ICompanys {
     coin: number,
     status: Selection,
 
+}
+
+export interface IListOneCompany {
+    status: string
+    company: ICompanys[],
 }

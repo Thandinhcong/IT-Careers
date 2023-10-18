@@ -1,11 +1,13 @@
 import { AiFillStar, AiOutlineCreditCard, AiOutlineShareAlt } from "react-icons/ai"
 import { Link, useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
+import { ICompanys } from "../../../interfaces";
 
 const HeaderCompanyDetail = () => {
     const { id } = useParams();
     const { data } = useGetOneCompanysQuery(id || '');
-    const listCompanyDetail = data?.company;
+
+    const listCompanyDetail: ICompanys | undefined = data && data.company && data.company[0];
 
     return (
         <div className="">
