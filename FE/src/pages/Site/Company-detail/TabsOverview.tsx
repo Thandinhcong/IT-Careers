@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
+import { Link, useParams } from "react-router-dom"
+import { useGetOneCompanysQuery } from "../../../api/companyApi"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './style.css'
 
@@ -9,9 +10,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-// import { button } from 'react-router-dom';
 
-const TabsOverview = ({ onTabChange }) => {
+const TabsOverview = ({ onTabChange }: any) => {
+    const { id } = useParams();
+    const { data } = useGetOneCompanysQuery(id || '');
+    const listCompanyDetail = data?.company;
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
         setShowMore(!showMore);
@@ -41,21 +44,7 @@ const TabsOverview = ({ onTabChange }) => {
                             } transition-max-h duration-500 ease-in-out`}
                     >
                         <p>
-                            Chính thức thành lập từ năm 2011, sau gần 1 thập kỷ đi vào hoạt động,
-                            Bệnh viện Đa khoa Quốc tế Thu Cúc hiện đang là địa chỉ được đông
-                            đảo khách hàng tin chọn. Bệnh viện được đánh giá cao về cả chất
-                            lượng khám chữa bệnh và dịch vụ khách hàng với cơ sở vật chất hiện
-                            đại vượt trội, hệ thống trang thiết bị y tế tiên tiến, và đội ngũ
-                            bác sĩ giỏi chuyên môn, giàu y đức. Chất lượng khám chữa bệnh là
-                            tiêu chí luôn được khẳng định tại Bệnh viện Thu Cúc với sự đánh giá
-                            cao từ Sở Y Tế và từ khách hàng. Không chỉ luôn nằm trong “Top đầu”
-                            các bệnh viện có điểm chất lượng cao nhất với 83 tiêu chí khắt khe
-                            của Sở Y tế, Bệnh viện Thu Cúc còn được tin chọn là “cánh tay nối
-                            dài” của các bệnh viện trung ương với sứ mệnh mang đến dịch vụ y
-                            tế tin cậy cho người dân, góp phần giảm tải y tế công. Khách hàng
-                            lựa chọn khám chữa bệnh tại đây không chỉ vì tin tưởng mà còn vì yêu
-                            thích phong cách phục vụ tận tình, chu đáo. Tỷ lệ hài lòng khi khách
-                            hàng khám chữa bệnh lên tới 99.9%
+                            {listCompanyDetail?.desc}
                         </p>
                     </div>
                     <button
@@ -73,7 +62,7 @@ const TabsOverview = ({ onTabChange }) => {
                         <p>Nhà sáng lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>Đang cập nhật</p>
+                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.founded_in}</p>
                         <p>Năm thành lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
@@ -84,12 +73,12 @@ const TabsOverview = ({ onTabChange }) => {
                         <p className='font-semibold h-[63px]'>Đang cập nhật</p>
                         <p>Lĩnh vực</p>
                     </div>
-                    <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>278 Thụy Khuê, Tây Hồ, Ha Noi</p>
+                    <div className='border border-gray-300 rounded-lg p-3 text-center '>
+                        <p className='text-title  font-semibold h-[63px]'>{listCompanyDetail?.office}</p>
                         <p>Trụ sở chính</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>Đang cập nhật</p>
+                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.link_web}</p>
                         <p>Website</p>
                     </div>
                 </div>
