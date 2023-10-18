@@ -1,9 +1,10 @@
 import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
-import React from 'react';
+
 
 const Company = () => {
+
     const textList = [
         "Review có tâm,chính xác nhất",
         "Tìm nơi làm việc tuyệt vời",
@@ -25,10 +26,12 @@ const Company = () => {
                 </div>
                 <form className='grid grid-cols-3'>
                     <div className='col-span-2 border rounded-xl bg-white justify-between px-2 my-7 flex items-center py-3'>
-                        <input type="text" className='outline-none ml-3  lg:w-[350px]' placeholder='Chức danh, từ khóa hoặc công ty' />
+                        <input type="text"
+                            className='outline-none ml-3  lg:w-[350px]'
+                            placeholder='Tìm kiếm theo tên công ty' />
                         <span className='pr-5'><BsSearch /></span>
                     </div>
-                    <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm việc</button>
+                    <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm công ty</button>
                 </form>
             </div>
             <ContentCompany />

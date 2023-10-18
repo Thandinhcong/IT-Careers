@@ -1,7 +1,7 @@
-import React from "react"
 import { AiFillStar } from "react-icons/ai"
-
 const Aside = () => {
+
+
     return (
         <div className="bg-white  h-[1050px]">
             <h2 className="font-semibold text-lg pt-6 pl-6">Đánh giá gần đây</h2>
