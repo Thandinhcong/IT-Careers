@@ -18,7 +18,7 @@ const ContentCompany = () => {
                                     <div className='w-1/6'>
                                         <img className='w-full border border-gray-300' src={item.logo} alt="Logo công ty" />
                                     </div>
-                                    <div className='w-1/2'><p className='font-semibold text-lg'>{item.name}</p></div>
+                                    <div className='w-1/2'><p className='font-semibold text-lg'>{item.company_name}</p></div>
                                 </div>
                                 <div className='grid grid-cols-2 gap-6 mx-4'>
                                     <div className='flex-col text-center'>

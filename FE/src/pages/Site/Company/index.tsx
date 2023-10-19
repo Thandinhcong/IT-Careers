@@ -57,7 +57,7 @@ const Company = () => {
                     </div>
                     <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm công ty</button>
                 </form>
-                <div className='bg-white shadow border'>
+                <div className='bg-white shadow border px-2 py-2'>
                     {searchKeyword && (
                         <div className=''>
                             {searchResults.map((item: ICompanys) => (
@@ -69,7 +69,7 @@ const Company = () => {
                                         to={`/company/detail/${item?.id}`}
                                         className='text-decoration-none'
                                     >
-                                        <p>{item?.name}</p>
+                                        <p>{item?.company_name}</p>
                                     </Link>
                                 </div>
                             ))}

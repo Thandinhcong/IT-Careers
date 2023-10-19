@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './style.css'
@@ -15,7 +15,8 @@ import { ICompanys } from '../../../interfaces';
 const TabsOverview = ({ onTabChange }: any) => {
     const { id } = useParams();
     const { data } = useGetOneCompanysQuery(id || '');
-    const listCompanyDetail: ICompanys | undefined = data && data.company && data.company[0];
+    const listCompanyDetail: ICompanys | undefined = data && data?.company;
+
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
         setShowMore(!showMore);
@@ -57,7 +58,7 @@ const TabsOverview = ({ onTabChange }: any) => {
                 </div>
                 <div className='grid grid-cols-3 gap-6 h-60'>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>Đang cập nhật</p>
+                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.name}</p>
                         <p>Nhà sáng lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>

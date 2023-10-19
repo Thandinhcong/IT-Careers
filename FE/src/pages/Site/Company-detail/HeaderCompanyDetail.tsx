@@ -7,12 +7,12 @@ const HeaderCompanyDetail = () => {
     const { id } = useParams();
     const { data } = useGetOneCompanysQuery(id || '');
 
-    const listCompanyDetail: ICompanys | undefined = data && data.company && data.company[0];
+    const listCompanyDetail: ICompanys | undefined = data && data.company;
 
     return (
         <div className="">
             <div className="relative">
-                <img className="w-full h-56 object-cover rounded-md" src="https://cdn.123job.vn/123job/uploads/2019/09/18/2019_09_18______1fb35e2d67d725dbc249d3cfef3b7fa9.jpg" alt="" />
+                <img className="w-full h-56 object-cover rounded-md" src="https://cdn.123job.vn/123job/uploads/2019/09/18/2019_09_18______1fb35e2d67d725dbc249d3cfef3b7fa9.jpg" alt="ảnh banner" />
             </div>
             <div className="flex justify-between items-center px-8">
 
@@ -23,7 +23,7 @@ const HeaderCompanyDetail = () => {
                     </div>
                     <div className="col-span-7">
                         <div className="text-xl font-semibold">
-                            <p>{listCompanyDetail?.name}</p>
+                            <p>{listCompanyDetail?.company_name}</p>
                         </div>
                         <div className="flex items-center mt-3 text-gray-700">
                             <p className="font-semibold">2.5 <AiFillStar className="text-xl inline-block base-line text-[#9d2b6b]" /></p>
