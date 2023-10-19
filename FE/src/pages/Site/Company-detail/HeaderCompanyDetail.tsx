@@ -12,7 +12,7 @@ const HeaderCompanyDetail = () => {
     return (
         <div className="">
             <div className="relative">
-                <img className="w-full h-56 object-cover rounded-md" src="https://cdn.123job.vn/123job/uploads/2019/09/18/2019_09_18______1fb35e2d67d725dbc249d3cfef3b7fa9.jpg" alt="ảnh banner" />
+                <img className="w-full h-56 object-cover rounded-md" src={listCompanyDetail?.image_paper} alt="ảnh banner" />
             </div>
             <div className="flex justify-between items-center px-8">
 
