@@ -1,16 +1,18 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
 import { AuthSignin, useSigninCompaniesMutation } from '../../../api/auth/SigninCompanies';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const SignInCompanies = () => {
     const [signin] = useSigninCompaniesMutation();
+    const navigate = useNavigate();
     const onFinish = async (values: AuthSignin) => {
         signin(values)
             .unwrap()
             .then(() => {
-                message.success("Đăng nhập thành công")
+                message.success("Đăng nhập thành công"),
+                    navigate('/companys')
 
             })
             .catch((error) => {

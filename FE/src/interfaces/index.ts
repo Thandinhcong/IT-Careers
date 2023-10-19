@@ -62,7 +62,7 @@ export interface ICompanyInfor {
     name?: string,
     office?: string,
     email?: string
-    phone_number?: number,
+    phone?: number,
     password: string,
     map?: string
     logo?: string

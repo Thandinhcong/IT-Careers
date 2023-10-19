@@ -35,7 +35,7 @@ function getItem(
 
 const items: MenuItem[] = [
     getItem('Đổi mật khẩu', 'business_setting/changepass', <AiOutlineLock />),
-    getItem('Thông tin liên hệ', 'business_setting', <AiOutlineUser />),
+    getItem('Thông tin liên hệ', 'business_setting/contact', <AiOutlineUser />),
     getItem('Thiết lập công ty', 'business_setting/company', <LuActivitySquare />),
     getItem('Giấy phép kinh doanh', 'business_setting/business', <AiOutlineFile />),
 ];

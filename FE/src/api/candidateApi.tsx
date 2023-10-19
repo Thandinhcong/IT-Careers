@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICompanyInfor } from "../interfaces";
 
-const companySettingAPi = createApi({
-    reducerPath: "CompanySetting",
-    tagTypes: ['companySetting'],
+const candidateApi = createApi({
+    reducerPath: "Candidate",
+    tagTypes: ['candidate'],
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
         fetchFn: async (...arg) => {
@@ -12,21 +12,21 @@ const companySettingAPi = createApi({
     }),
     endpoints: (builder) => ({
         getCompanySetting: builder.query<ICompanyInfor[], void>({
-            query: () => "/company_information",
-            providesTags: ['companySetting']
+            query: () => "/list_company",
+            providesTags: ['candidate']
         }),
         getCompanySettingById: builder.query<ICompanyInfor, number | string>({
-            query: (id) => "/company_information/" + id,
-            providesTags: ['companySetting']
+            query: (id) => "/list_company/" + id,
+            providesTags: ['candidate']
         }),
 
         editCompanySetting: builder.mutation<ICompanyInfor, ICompanyInfor>({
             query: (company: ICompanyInfor) => ({
-                url: `/company_information/${company.id}`,
+                url: `/list_company/${company.id}`,
                 method: "PUT",
                 body: company
             }),
-            invalidatesTags: ['companySetting']
+            invalidatesTags: ['candidate']
         }),
 
     })
@@ -35,8 +35,8 @@ export const {
     useGetCompanySettingQuery,
     useGetCompanySettingByIdQuery,
     useEditCompanySettingMutation,
-} = companySettingAPi;
+} = candidateApi;
 
-export const CompanySettingReducer = companySettingAPi.reducer;
+export const candidateReducer = candidateApi.reducer;
 
-export default companySettingAPi;
+export default candidateApi;

@@ -1,40 +1,28 @@
 import { Button, theme } from 'antd'
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AiFillEdit, AiOutlineUpload } from 'react-icons/ai';
-import { useGetCompanySettingQuery } from '../../../api/companySettingApi';
+import { useEditCompanySettingMutation, useGetCompanySettingQuery } from '../../../api/companySettingApi';
+import { ICompanyInfor } from '../../../interfaces';
+import { useParams } from 'react-router-dom';
+import { useGetAllCompanysQuery } from '../../../api/companyApi';
 
-type Props = {}
-// const { Header, Content, Footer } = Layout;
-
-
-const CompanySetting = (props: Props) => {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
-
-    const { data: companys, isLoading, isError } = useGetCompanySettingQuery();
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-    if (isError) {
-        return <div>Error occurred while fetching company information.</div>;
-    }
-    // Kiểm tra và xử lý dữ liệu trước khi sử dụng map
-    const companyArray = Array.isArray(companys) ? companys : [];
-    console.log(companys);
+const CompanySetting = () => {
+    const { id } = useParams();
+    const { data } = useGetAllCompanysQuery();
+    const companyList = data?.list_company as ICompanyInfor[];
     return (
         <div>
             <h1 className='text-2xl'>Thông tin công ty</h1>
             <p className='w-4/5 text-sm text-gray-600 my-3'>
                 Mô tả chi tiết thông tin về công ty của bạn đang làm việc giúp ứng viên nắm được về công ty
             </p>
-            {companyArray.map(company => (
+            {companyList?.map((company) => (
                 <div>
                     <span className='text-gray-500 text-lg'>Ảnh đại diện</span>
                     <div className='flex justify-between items-center border-b pb-3'>
                         <div className='w-20'>
-                            <img src={company.logo} />
+                            <img src={company?.logo} />
                         </div>
                         <Button className='flex items-center'>
                             <AiOutlineUpload /> Thay đổi ảnh
@@ -50,6 +38,19 @@ const CompanySetting = (props: Props) => {
                         <div className='flex justify-between items-center border-b pb-3'>
                             <div className='w-32'>
                                 <p>{company.company_name}</p>
+                            </div>
+                        </div>
+                        <div className='my-2'>
+                            <div className='flex justify-between items-center'>
+                                <span className='text-gray-500 text-lg'>Mã Số Thuế</span>
+                                <Button className='flex items-center border-none'>
+                                    <AiFillEdit /> Chỉnh sửa
+                                </Button>
+                            </div>
+                            <div className='flex justify-between items-center border-b pb-3'>
+                                <div className='w-32'>
+                                    <p>{company.tax_code}</p>
+                                </div>
                             </div>
                         </div>
                         <div className='my-2'>
@@ -80,6 +81,19 @@ const CompanySetting = (props: Props) => {
                         </div>
                         <div className='my-2'>
                             <div className='flex justify-between items-center'>
+                                <span className='text-gray-500 text-lg'>Năm Thành Lập</span>
+                                <Button className='flex items-center border-none'>
+                                    <AiFillEdit /> Chỉnh sửa
+                                </Button>
+                            </div>
+                            <div className='flex justify-between items-center border-b pb-3'>
+                                <div className='w-32'>
+                                    <p>{company.founded_in}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='my-2'>
+                            <div className='flex justify-between items-center'>
                                 <span className='text-gray-500 text-lg'>Số Điện Thoại</span>
                                 <Button className='flex items-center border-none'>
                                     <AiFillEdit /> Chỉnh sửa
@@ -87,7 +101,7 @@ const CompanySetting = (props: Props) => {
                             </div>
                             <div className='flex justify-between items-center border-b pb-3'>
                                 <div className='w-32'>
-                                    <p>{company.phone_number}</p>
+                                    <p>{company.phone}</p>
                                 </div>
                             </div>
                         </div>
