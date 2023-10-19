@@ -94,6 +94,7 @@ import EditMajors from "./pages/admin/Major-manage/Editmajor"
 import Account from "./pages/Site/User/Account"
 import SignInCompanies from "./pages/Account/Companies/SignIn"
 import SignupCompanies from "./pages/Account/Companies/Signup"
+import CreateCv from "./pages/Site/CreateCv/CreateCv"
 
 
 function App() {
@@ -114,6 +115,7 @@ function App() {
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path='account' element={< Account />} />
+          <Route path='tao-cv' element={< CreateCv />} />
 
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
