@@ -1,8 +1,8 @@
-import React from 'react'
 import { AiFillStar } from 'react-icons/ai'
 import Aside from './Aside'
 import { Link } from 'react-router-dom'
 import { useGetAllCompanysQuery } from '../../../api/companyApi';
+import { ICompanys } from '../../../interfaces';
 const ContentCompany = () => {
     const { data } = useGetAllCompanysQuery();
     const listCompanys = data?.list_company;
@@ -11,14 +11,14 @@ const ContentCompany = () => {
         <div className='bg-gray-100'>
             <div className='max-w-screen-xl mx-auto px-8 grid grid-cols-3 gap-8 py-6'>
                 <div className='grid grid-cols-1 gap-7 col-span-2'>
-                    {listCompanys?.map((item: any) => {
+                    {listCompanys?.map((item: ICompanys) => {
                         return <Link to={`/company/detail/${item.id}`} key={item.id} className='bg-white p-6 shadow-md hover:shadow-xl h-[320px]'>
                             <div className='flex justify-between gap-8'>
                                 <div className='flex justify-normal gap-4'>
                                     <div className='w-1/6'>
                                         <img className='w-full border border-gray-300' src={item.logo} alt="Logo công ty" />
                                     </div>
-                                    <div className='w-1/2'><p className='font-semibold text-lg'>{item.name}</p></div>
+                                    <div className='w-1/2'><p className='font-semibold text-lg'>{item.company_name}</p></div>
                                 </div>
                                 <div className='grid grid-cols-2 gap-6 mx-4'>
                                     <div className='flex-col text-center'>

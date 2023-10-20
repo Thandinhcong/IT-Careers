@@ -4,19 +4,19 @@ import { FcGoogle } from 'react-icons/fc';
 import { SlSocialFacebook } from 'react-icons/sl';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaLogin } from "../../schemas";
+import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { message } from "antd";
-import { ILogin } from "../../interfaces";
+
 
 
 const Login = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<ILogin>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin)
     });
     const [login] = useLoginMutation();
-    const onHandleSubmit = (user: ILogin) => {
+    const onHandleSubmit = (user: FormLogin) => {
         try {
             login(user)
                 .unwrap()

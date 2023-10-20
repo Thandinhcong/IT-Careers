@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IListData, IListOneCompany } from "../interfaces";
 
 const companyApi = createApi({
     reducerPath: "companys",
@@ -10,11 +11,11 @@ const companyApi = createApi({
         }
     }),
     endpoints: (buidler) => ({
-        getAllCompanys: buidler.query<any, void>({
+        getAllCompanys: buidler.query<IListData, void>({
             query: () => "/list_company",
             providesTags: ['Companys']
         }),
-        getOneCompanys: buidler.query<any, number | string>({
+        getOneCompanys: buidler.query<IListOneCompany, number | string>({
             query: (id) => "/list_company/" + id,
             providesTags: ['Companys']
         }),
