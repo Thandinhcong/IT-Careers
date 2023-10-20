@@ -54,7 +54,7 @@ export interface IJobPost {
     status?: number,
 }
 export interface ICompanyInfor {
-    id: number,
+    id?: number,
     company_name?: string
     tax_code?: number
     address?: string,
@@ -63,14 +63,13 @@ export interface ICompanyInfor {
     office?: string,
     email?: string
     phone?: number,
-    password: string,
+    password?: string,
     map?: string
     logo?: string
-    link_web: string
-    image_paper: string
+    link_web?: string
+    image_paper?: string
     desc?: string
-    status: number
-
+    status?: number
 }
 export interface ILevel {
     id?: number,

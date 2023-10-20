@@ -112,7 +112,7 @@ const JobDetail = () => {
                                     <textarea
                                         className="w-full rounded-lg border-gray-200 p-3 text-sm"
                                         placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
-                                        rows="4"
+                                        rows={4}
                                         id="message"
                                     ></textarea>
                                 </div>
