@@ -1,0 +1,13 @@
+.custom-border {
+    border: 1px solid transparent;
+    /* Để đảm bảo cùng kích thước với border ban đầu */
+    transition: border 0.3s ease-in-out;
+    /* Tạo hiệu ứng hover mượt mà */
+}
+
+.custom-border:hover {
+    border-style: dotted;
+    /* Border vạch đứt khi hover */
+    border-color: blue;
+    /* Màu của border vạch đứt (có thể thay đổi) */
+}
