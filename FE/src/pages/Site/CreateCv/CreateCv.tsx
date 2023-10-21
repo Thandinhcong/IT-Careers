@@ -1,9 +1,9 @@
-
+import { useEffect, useRef } from 'react';
 import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai'
 import { BsCalendar2Date, BsInfoCircle } from 'react-icons/bs'
 import { IoLocationOutline } from 'react-icons/io5'
 import "./index.css";
-import { useRef } from 'react';
+
 const CreateCv = () => {
     const editableRef = useRef<HTMLDivElement | null>(null);
 
@@ -14,10 +14,12 @@ const CreateCv = () => {
             editableRef.current.textContent = sanitizedContent;
         }
     };
+
+
     return (
-        <div className='grid grid-cols-[65%,30%] gap-6 w-full  overflow-x-hidden mx-2 '>
+        <div className='grid grid-cols-[65%,30%] gap-6 w-full   mx-5 max-w-7xl overflow-x-hidden  ' >
             <div>
-                <h3 className='text-center text-2xl border px-2 py-2 outline-none my-2 custom-border w-full' contentEditable="true">Untitled CV</h3>
+                <div className='text-center text-2xl border px-2 py-2 outline-none my-2 custom-border w-full' contentEditable="true">Untitled CV</div>
                 <div className='bg-green-200 py-10 px-2'>
                     <h1
                         className='text-4xl outline-none custom-border w-full'
@@ -104,7 +106,6 @@ const CreateCv = () => {
                                     </div>
                                     <p className='my-2 custom-border w-full outline-none' contentEditable="true">Project Manager</p>
                                     <p className='outline-none text-sm custom-border w-full' contentEditable="true">Là một người điềm tĩnh, thích ứng nhanh với môi trường mới, không ngại khó khăn, hứng thú trong việc tìm ra hướng giải quyết cho vấn đề.</p>
-
                                     <div className='flex justify-between items-center my-2'>
                                         <p className='outline-none font-semibold custom-border w-full' contentEditable="true">Công ty FPT Software</p>
                                         <div className='flex gap-2 text-xs mr-2  '>

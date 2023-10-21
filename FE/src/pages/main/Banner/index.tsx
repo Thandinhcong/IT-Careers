@@ -2,7 +2,7 @@ import { AiOutlineArrowRight } from "react-icons/ai"
 import SearchJobs from '../../Site/Recruit/SearchJobs';
 const Banner = () => {
     return (
-        <div className='bg-blue-100/50'>
+        <div className='bg-blue-100/50 px-5'>
             <section className=' max-w-screen-xl mx-auto  pb-10 lg:pb-36 pt-10' >
                 <h2 className='text-2xl mb-2'>Khám phá cơ hội nghề nghiệp</h2>
                 <p>Dễ dàng tìm một công việc mơ ước tại công ty hàng đầu Việt Nam</p>
