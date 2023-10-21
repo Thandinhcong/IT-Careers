@@ -103,7 +103,7 @@ const LevelManage = () => {
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý kinh nghiệm</h2>
+                <h2 className="text-2xl font-semibold">Quản lý trình độ</h2>
                 <Button type="primary" className="bg-blue-500">
                     <Link to="add">Thêm kinh nghiệm</Link>
                 </Button>

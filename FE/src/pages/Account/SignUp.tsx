@@ -28,10 +28,6 @@ const SignUp = () => {
             message.error("Có lỗi xảy ra vui lòng thử lại sau")
         }
     }
-
-
-
-
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

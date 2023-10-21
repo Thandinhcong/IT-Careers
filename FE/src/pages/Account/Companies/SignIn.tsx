@@ -9,15 +9,24 @@ const SignInCompanies = () => {
     const onFinish = async (values: AuthSignin) => {
         signin(values)
             .unwrap()
-            .then(() => {
-                message.success("Đăng nhập thành công")
+            .then((response) => {
+                // Lấy token từ kết quả trả về
+                const accessToken = response.access_token;
 
+                // Lưu token vào localStorage
+                localStorage.setItem('accessToken', accessToken);
+                // Kiểm tra xem token đã được lưu trong localStorage hay chưa
+                const isTokenStored = localStorage.getItem('accessToken') !== null;
+                if (isTokenStored) {
+                    message.success("Đăng nhập thành công");
+                    window.location.href = '/companys';
+                }
             })
             .catch((error) => {
                 if (error.status === 401) {
-                    message.error("Sai tài khoản hoặc mật khẩu")
+                    message.error("Sai tài khoản hoặc mật khẩu");
                 }
-            })
+            });
     };
     return (
         <section className="bg-white">
