@@ -71,6 +71,14 @@ export interface ICompanyInfor {
     desc?: string
     status?: number
 }
+export interface IListInfo {
+    status: string
+    company_info: ICompanyInfor[],
+}
+export interface IListOneInfo {
+    status: string
+    company_info: ICompanyInfor[],
+}
 export interface ILevel {
     id?: number,
     level?: string,
