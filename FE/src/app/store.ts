@@ -25,6 +25,7 @@ import authCompaniesApi from '../api/auth/SigninCompanies';
 
 import companyApi, { companyReducer } from '../api/companyApi';
 import companysApi, { companysReducer } from '../api/CompanymanagerAPI';
+import jobsApi, { JobsReducer } from '../api/jobApi';
 
 
 const persistConfig = {
@@ -45,7 +46,8 @@ const rootReducer = combineReducers({
     [authApi.reducerPath]: authsReducer,
     [authCompaniesApi.reducerPath]: authCompaniesApi.reducer,
     [companyApi.reducerPath]: companyReducer,
-    [companysApi.reducerPath]: companysReducer
+    [companysApi.reducerPath]: companysReducer,
+    [jobsApi.reducerPath]: JobsReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -60,7 +62,8 @@ const middleware = [
     authApi.middleware,
     authCompaniesApi.middleware,
     companyApi.middleware,
-    companysApi.middleware
+    companysApi.middleware,
+    jobsApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

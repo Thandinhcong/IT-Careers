@@ -125,8 +125,44 @@ export interface ICompanys {
     status: Selection,
 
 }
-
 export interface IListOneCompany {
     status: string
     company: ICompanys[],
+}
+export interface IListJobs {
+    id?: string | number,
+    title: string,
+    min_salary: number,
+    max_salary: number,
+    company_name: string,
+    logo: string
+    status: string
+}
+export interface IListDataJobs {
+    status: string,
+    job_list: IListJobs[],
+}
+export interface IListOneJobs {
+    status: string,
+    job_detail: IListJobsDetail[],
+}
+export interface IListJobsDetail {
+    id: string | number,
+    title: string,
+    min_salary: number,
+    max_salary: number,
+    company_name: string,
+    level: string,
+    job_position: string,
+    experience: string,
+    desc: string,
+    address: string,
+    working_form: string,
+    academic_level: string,
+    major: string,
+    start_date: Date,
+    end_date: Date,
+    quantity: number,
+    require: string,
+    interest: string
 }

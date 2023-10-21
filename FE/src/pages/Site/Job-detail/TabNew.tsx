@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineQuestionCircle, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
 import { CiMedal } from "react-icons/ci";
+import { useParams } from "react-router-dom";
 import {
     TERipple,
     TEModal,
@@ -9,6 +10,8 @@ import {
     TEModalHeader,
     TEModalBody,
 } from "tw-elements-react";
+import { useGetOneJobsQuery } from "../../../api/jobApi";
+import { IListJobsDetail } from "../../../interfaces";
 
 
 const TabNew = () => {
@@ -26,6 +29,9 @@ const TabNew = () => {
             );
         }
     };
+    const { id } = useParams();
+    const { data } = useGetOneJobsQuery(id || "");
+    const listOne: IListJobsDetail | undefined = data && data.job_detail;
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
@@ -129,44 +135,44 @@ const TabNew = () => {
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineEnvironment className="col-span-1" />
                                     <p className="col-span-4">Địa điểm:</p>
-                                    <p className="col-span-7">Sơn Động, Bắc Giang</p>
+                                    <p className="col-span-7">{listOne?.address}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineClockCircle className="col-span-1" />
                                     <p className="col-span-4">Hạn nộp hồ sơ:</p>
-                                    <p className="col-span-7">11-10-2023</p>
+                                    <p className="col-span-7">{listOne?.end_date}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineCalendar className="col-span-1" />
                                     <p className="col-span-4">Hình thức:</p>
-                                    <p className="col-span-7">Toàn thời gian cố định</p>
+                                    <p className="col-span-7">{listOne?.working_form}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2">
                                     <AiOutlineUsergroupAdd className="col-span-1" />
                                     <p className="col-span-4">Số lượng:</p>
-                                    <p className="col-span-7">6</p>
+                                    <p className="col-span-7">{listOne?.quantity}</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 gap-2 py-2">
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineMoneyCollect className="col-span-1" />
                                     <p className="col-span-4">Mức lương:</p>
-                                    <p className="col-span-7 text-red-500 font-medium">15 triệu/tháng</p>
+                                    <p className="col-span-7 text-red-500 font-medium">{listOne?.min_salary}-{listOne?.max_salary}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineUser className="col-span-1" />
                                     <p className="col-span-4">Chức vụ:</p>
-                                    <p className="col-span-7">Nhân viên</p>
+                                    <p className="col-span-7">{listOne?.job_position}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineFileDone className="col-span-1" />
                                     <p className="col-span-4">Kinh nghiệm</p>
-                                    <p className="col-span-7">Đang cập nhật</p>
+                                    <p className="col-span-7">{listOne?.experience}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2">
                                     <AiOutlineStar className="col-span-1" />
                                     <p className="col-span-4">Trình độ:</p>
-                                    <p className="col-span-7">Đang cập nhật</p>
+                                    <p className="col-span-7">{listOne?.academic_level}</p>
                                 </div>
                             </div>
                         </div>
@@ -174,25 +180,12 @@ const TabNew = () => {
 
                     <div>
                         <h2 className="font-semibold text-lg my-4">Mô tả công việc</h2>
-                        <p>Cty thương mại vân tải xin thông báo tuyển gấp nhân viên lái xe và nhân viên phụ xe theo xe giao hàng.(đi làm ngay) làm việc tại tỉnh TP BẮC GIANG
-                            THÔNG TIN LIÊN HỆ :CHỊ YẾN 0969👉560👉832 (CÓ THỂ LIÊN HỆ ZALO )
-                            1.Đối với lái xe -Lái các dòng xe tải từ 5 tạ,1,25T....3T...5T......12T thùng Huyndai - Ki A -Chuyên chở hàng Bia Hà Nội, nước giải khát pepsi,cocacola .phân phối giao đại lý cấp 1,2 các tỉnh.
-                            - Công việc cụ thể sẽ được trao đổi khi phỏng vấn
-                            2. Đối Với Nhân Viên Phụ Xe Giao Hàng
-                            - Điều chuyển hàng hóa giữa các kho xe của công ty tới các siêu thị ,đại lý cửa hàng tạp hóa trong khu vực phụ trách
-                            - Vận chuyển hàng lên xe và xuống xe. sắp xếp hàng hóa đúng quy định và đi theo xe bốc hàng hóa xuống bàn giao cho khách hàng.
-                            - Bảo quản hàng hóa không bị hỏng hóc, quản lý hóa đơn và thu tiền hàng khi công ty yêu cầu</p>
+                        <p>{listOne?.desc}</p>
                     </div>
 
                     <div>
                         <h2 className="font-semibold text-lg my-4">Quyền lợi</h2>
-                        <p>- Làm việc trong môi trường năng động
-                            - Ký hợp đồng chính thức sẽ có thu nhập ổn định từ 7,5 triệu đến 9 triệu/tháng
-                            - Nhân viên được hưởng các chế độ BHXH – BHYT
-                            -Được hưởng chế độ du lịch hàng năm
-                            - Có cơ hội thăng tiến cao
-                            - Thưởng các ngày lễ lớn: Tết Nguyên Đán, Tết Dương lịch, Ngày 30.4 & Quốc tế Lao Động, Ngày Quốc khánh
-                            Cập nhật gần đây lúc:	  2023-10-01 15:10:02
+                        <p>{listOne?.interest}
                         </p>
                     </div>
 
