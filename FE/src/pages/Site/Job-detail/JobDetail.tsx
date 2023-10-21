@@ -18,6 +18,9 @@ import {
 } from "tw-elements-react";
 import TabNew from "./TabNew";
 import TabInfor from "./TabInfor";
+import { useParams } from "react-router-dom";
+import { useGetOneJobsQuery } from "../../../api/jobApi";
+import { IListJobsDetail } from "../../../interfaces";
 
 const JobDetail = () => {
     const [basicActive, setBasicActive] = useState("tab1");
@@ -28,16 +31,19 @@ const JobDetail = () => {
         }
         setBasicActive(value);
     };
+    const { id } = useParams();
+    const { data } = useGetOneJobsQuery(id || "");
+    const listOne: IListJobsDetail | undefined = data && data.job_detail;
+
     return (
         <div>
             <div className="max-w-screen-xl mx-auto"><SearchJobs /></div>
-
             <div className="bg-gray-50 py-6">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
                     <div className="grid grid-cols-4 my-2 gap-10">
                         <div className="col-span-3">
-                            <p className="font-bold text-2xl">Tuyển Lái Xe Tải(nhận bổ túc) Và Phụ Xe Giao Bánh Kẹo tại BẮC GIANG</p>
-                            <p className="uppercase my-3">Công ty tnhh vận tải miền bắc</p>
+                            <p className="font-bold text-2xl">{listOne?.title}</p>
+                            <p className="uppercase my-3">{listOne?.company_name}</p>
                         </div>
                         <div className="flex flex-col gap-2">
                             <TERipple rippleColor="white" className="">
@@ -112,7 +118,7 @@ const JobDetail = () => {
                                     <textarea
                                         className="w-full rounded-lg border-gray-200 p-3 text-sm"
                                         placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
-                                        rows="4"
+                                        rows={4}
                                         id="message"
                                     ></textarea>
                                 </div>
