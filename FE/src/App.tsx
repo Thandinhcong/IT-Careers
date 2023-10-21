@@ -143,7 +143,7 @@ function App() {
         </Route>
 
         {/* Buisness */}
-        <Route path="/companys" element={<LayoutCompany />} >
+        <Route path="/business" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
