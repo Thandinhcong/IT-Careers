@@ -17,9 +17,9 @@ const JobPostApi = createApi({
         //         console.log(headers.get('Authorization'));
         //     }
         // },
-        // fetchFn: (...arg) => {
-        //     return fetch(...arg)
-        // }
+        fetchFn: (...arg) => {
+            return fetch(...arg)
+        }
     }),
     endpoints: (builder) => ({
         getJobPost: builder.query<IJobPost[], void>({

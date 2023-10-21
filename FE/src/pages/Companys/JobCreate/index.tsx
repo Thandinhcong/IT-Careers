@@ -8,8 +8,6 @@ import moment, { Moment } from 'moment';
 
 const JobCreate = () => {
     const { data } = useGetJobPostSelectByIdQuery();
-    // const { data: InforCompany } = useGetInforQuery();
-    // console.log(InforCompany?.company);
     console.log(data?.data?.major_id);
     const [jobPost] = useAddJobPostMutation();
 
@@ -25,6 +23,7 @@ const JobCreate = () => {
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
         jobPost(values)
+
             .unwrap()
             .then(() => {
                 message.success(`Đăng bài thành công`);
