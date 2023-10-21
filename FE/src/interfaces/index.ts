@@ -40,8 +40,9 @@ export interface IJobPost {
     skill_id?: number,
     quantity?: number,
     gender?: number,
-    require?: string,
-    interest?: string,
+    require?: string, //yêu cầu
+    min_salary?: number,
+    max_salary?: number,
     level_id?: number,
     company_id?: number,
     area_id?: number,
@@ -49,8 +50,9 @@ export interface IJobPost {
     academic_level_id?: number,
     ranks_id?: number,
     major_id?: number,
-    start_date?: Date,
-    end_date?: Date,
+    interest?: string, //quyền lợi
+    start_date?: string,
+    end_date?: string,
     status?: number,
 }
 export interface ILevel {
