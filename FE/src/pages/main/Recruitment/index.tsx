@@ -7,7 +7,7 @@ import { IJobPost, IListJobs } from '../../../interfaces'
 
 const Recruitment = () => {
     const { data } = useGetAllJobsQuery();
-    const listJobs = data?.major;
+    const listJobs = data?.job_list;
     console.log(listJobs);
 
     return (
@@ -21,7 +21,7 @@ const Recruitment = () => {
                     <Link to="" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
-                    {listJobs?.map((item: IJobPost) => {
+                    {listJobs?.map((item: IListJobs) => {
                         if (item.status === 0 || item.status === 2) {
                             return null;
                         } else {
@@ -33,10 +33,10 @@ const Recruitment = () => {
                                             <Link to="/">
                                                 <p className='text-slate-500 font-semibold text-base'>{item?.title}</p>
                                             </Link>
-                                            <p>{item?.company_id}</p>
+                                            <p>{item?.company_name}</p>
                                         </div>
                                     </div>
-                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span></span> </p>
+                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.area}</span> </p>
                                     <div className='flex justify-between items-center mb-2'>
                                         <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{item.min_salary} - {item.max_salary}</span></p>
                                         <i className='border p-1'><MdFavoriteBorder /></i>

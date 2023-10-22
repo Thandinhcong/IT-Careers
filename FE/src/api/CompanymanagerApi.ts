@@ -14,11 +14,11 @@ const companysApi = createApi({
     }),
     endpoints: (builder) => ({
         getcompanys: builder.query<ICompanys[], void>({
-            query: () => "/list_company",
+            query: () => "/company-management",
             providesTags: ['company']
         }),
         getcompanysById: builder.query<ICompanys, number | string>({
-            query: (id) => "/list_company/" + id,
+            query: (id) => "/company-management/" + id,
             providesTags: ['company']
         }),
         // addcompanys: builder.mutation({
@@ -29,29 +29,29 @@ const companysApi = createApi({
         //     }),
         //     invalidatesTags: ['company']
         // }),
-        updatecompanys: builder.mutation<ICompanys, ICompanys>({
+        updateStatuscompanys: builder.mutation<ICompanys, ICompanys>({
             query: (companys: ICompanys) => ({
-                url: `/list_company/${companys.id}`,
+                url: `/company-management/${companys.id}`,
                 method: "PUT",
                 body: companys
             }),
             invalidatesTags: ['company']
         }),
-        // deletecompanys: builder.mutation<{ id: number }, number>({
-        //     query: (id) => ({
-        //         url: `/company/${id}`,
-        //         method: "DELETE",
-        //     }),
-        //     invalidatesTags: ['company']
-        // }),
+        deletecompanys: builder.mutation<{ id: number }, number>({
+            query: (id) => ({
+                url: `/company-management/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['company']
+        }),
     })
 })
 export const {
     useGetcompanysQuery,
     useGetcompanysByIdQuery,
     // useAddcompanysMutation,
-    // useDeletecompanysMutation,
-    useUpdatecompanysMutation,
+    useDeletecompanysMutation,
+    useUpdateStatuscompanysMutation,
 
 } = companysApi;
 

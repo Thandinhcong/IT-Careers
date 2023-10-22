@@ -33,6 +33,7 @@ export interface IJobposition {
     description: string,
 }
 export interface IJobPost {
+    // list_post: IJobPost[],
     id?: number,
     title?: string,
     job_position_id?: number,
@@ -56,7 +57,7 @@ export interface IJobPost {
     status?: number,
 }
 export interface ICompanyInfor {
-    id?: number,
+    id?: string | number,
     company_name?: string
     tax_code?: number
     address?: string,
@@ -151,10 +152,11 @@ export interface IListJobs {
     max_salary: number,
     company_name: string,
     logo: string
-    status: string
+    area: string
+    status: number
 }
 export interface IListDataJobs {
-    status: string,
+    status: IJobPost,
     job_list: IListJobs[],
 }
 export interface IListOneJobs {

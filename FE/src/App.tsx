@@ -66,11 +66,10 @@ import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
 import AccountPro from "./pages/Companys/Account_pro"
 import AccRank from "./pages/Companys/Account_Rank"
 import Companymanage from "./pages/admin/Company-manage"
-import Createcompany from "./pages/admin/Company-manage/Create-company"
 import JobpositionManage from "./pages/admin/Jobposition-manage"
 import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
 import EditJobposition from "./pages/admin/Jobposition-manage/edit-jobposition"
-import Editcompany from "./pages/admin/Company-manage/Edit-company"
+
 import SkillManage from "./pages/admin/skill-manage"
 import AddSkill from "./pages/admin/skill-manage/AddSkill"
 import EditSkill from "./pages/admin/skill-manage/EditSkill"
@@ -197,8 +196,6 @@ function App() {
           <Route path="add/working-form" element={<AddWorkingForm />} />
           <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
           <Route path="company-manage" element={<Companymanage />} />
-          <Route path="company-manage/create-company" element={<Createcompany />} />
-          <Route path="company-manage/edit-company" element={<Editcompany />} />
           <Route path="jobposition-manage" element={<JobpositionManage />} />
           <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
           <Route path="jobposition-manage/edit-jobposition/:id" element={<EditJobposition />} />

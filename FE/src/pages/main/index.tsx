@@ -12,9 +12,7 @@ import { useGetMajorQuery } from '../../api/majorApi'
 
 
 const Main = () => {
-    const { data, isLoading, error } = useGetMajorQuery();
-    console.log(data);
-
+    // const { data, isLoading, error } = useGetMajorQuery();
     return (
 
         <div className=''>

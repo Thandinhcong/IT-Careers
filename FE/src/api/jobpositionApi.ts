@@ -7,10 +7,6 @@ const jobpositionApi = createApi({
     tagTypes: ['Jobposition'],
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
-        fetchFn: async (...arg) => {
-            await pause(1000);
-            return fetch(...arg)
-        }
     }),
     endpoints: (builder) => ({
         getjobposition: builder.query<IJobposition[], void>({

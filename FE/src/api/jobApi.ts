@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IListDataJobs, IListJobs, IListOneJobs } from "../interfaces";
+import { IJobPost, IListDataJobs, IListJobs, IListOneJobs } from "../interfaces";
 
 const jobsApi = createApi({
     reducerPath: "jobs",
@@ -11,7 +11,7 @@ const jobsApi = createApi({
         }
     }),
     endpoints: (buidler) => ({
-        getAllJobs: buidler.query<IListDataJobs, void>({
+        getAllJobs: buidler.query<IJobPost, void>({
             query: () => "/job_list",
             providesTags: ['Jobs']
         }),
@@ -24,7 +24,6 @@ const jobsApi = createApi({
 export const {
     useGetAllJobsQuery,
     useGetOneJobsQuery
-
 } = jobsApi;
 export const JobsReducer = jobsApi.reducer;
 export default jobsApi;

@@ -1,42 +1,45 @@
 import { Link } from "react-router-dom"
-import { Button, Result, Skeleton, Table, Tag } from 'antd';
+import { Button, Modal, Popconfirm, Result, Skeleton, Table, Tag, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-import { useGetcompanysQuery } from "../../../api/CompanymanagerAPI";
-import { ICompanys } from "../../../interfaces";
+
+import { ICompanyInfor, ICompanys } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useDeletecompanysMutation, useGetcompanysQuery, useUpdateStatuscompanysMutation } from "../../../api/CompanymanagerApi";
+import React from "react";
 
 const CompanyManage = () => {
     const { data, isLoading, error } = useGetcompanysQuery();
-    // const [updateStatus] = useEditJobPostStatusMutation();
-    // const [modalVisible, setModalVisible] = React.useState(false);
-    // const [selectedJobPost, setSelectedJobPost] = React.useState<IJobPost | null>(null);
+    const [updateStatus] = useUpdateStatuscompanysMutation();
+    const [deleteCompany] = useDeletecompanysMutation()
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [selectedCompany, setSelectedCompany] = React.useState<ICompanyInfor | null>(null);
 
 
-    // const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
-    //     // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-    //     const newStatus = currentStatus === 1 ? 0 : 1;
+    const handleUpdateStatus = (companyId: number | string, currentStatus: number) => {
+        // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
+        const newStatus = currentStatus === 1 ? 0 : 1;
 
-    //     if (currentStatus === 2) {
-    //         // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
-    //         setModalVisible(true);
-    //         setSelectedJobPost({ id: jobPostId, status: newStatus });
-    //     } else {
-    //         // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
-    //         updateStatus({ id: jobPostId, status: newStatus });
-    //         message.success("Cập nhật trạng thái thành công");
-    //     }
-    // };
+        if (currentStatus === 2) {
+            // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
+            setModalVisible(true);
+            setSelectedCompany({ id: companyId, status: newStatus });
+        } else {
+            // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
+            updateStatus({ id: companyId, status: newStatus });
+            message.success("Cập nhật trạng thái thành công");
+        }
+    };
 
-    // const handleModalConfirm = (newStatus: number) => {
-    //     if (selectedJobPost) {
-    //         const updatedJobPost = { ...selectedJobPost, status: newStatus };
-    //         updateStatus(updatedJobPost);
-    //         message.success("Cập nhật trạng thái thành công");
-    //     }
+    const handleModalConfirm = (newStatus: number) => {
+        if (selectedCompany) {
+            const updatedJobPost = { ...selectedCompany, status: newStatus };
+            updateStatus(updatedJobPost);
+            message.success("Cập nhật trạng thái thành công");
+        }
 
-    //     setModalVisible(false);
-    // };
+        setModalVisible(false);
+    };
 
 
 
@@ -64,7 +67,7 @@ const CompanyManage = () => {
             }
         }
     }
-    const dataCompany = data?.list_company?.map(({ id, status, company_name,
+    const dataCompany = data?.data?.map(({ id, status, company_name,
         tax_code,
         address,
         name,
@@ -132,7 +135,7 @@ const CompanyManage = () => {
 
                 } else if (status === 0) {
                     color = 'volcano';
-                    text = 'Chặn';
+                    text = 'Khóa';
                 } else {
                     color = 'geekblue';
                     text = 'Chưa Kích Hoạt';
@@ -149,21 +152,33 @@ const CompanyManage = () => {
             title: 'Action',
             key: 'action',
             fixed: 'right',
-            width: 250,
-            render: ({/*{ key: id, status }*/ }: { key: string | number, status: number }) => (
+            width: 200,
+            render: ({ key: id, status }: { key: string | number, status: number }) => (
                 <div className="flex -mx-6">
-                    <Button type="link" >
+                    <Button type="link" onClick={() => handleUpdateStatus(id, status)}>
                         <CheckOutlined style={{ fontSize: '18px', color: '#4eff3a' }} />
                         {isLoading ? (
                             <AiOutlineLoading3Quarters className="animate-spin inline-block" />
                         ) : (
-                            <span className='text-[#49eb47]'>Đổi trạng thái</span>
+                            <span className='text-[#49eb47]'>Trạng Thái</span>
                         )}
                     </Button >
-                    <Button type='link' className="text-[#3eb7ee] px-0">
+                    {/* <Button type='link' className="text-[#3eb7ee] px-0">
                         <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết
-                    </Button>
+                    </Button> */}
+                    <Popconfirm
+                        placement='topLeft'
+                        title={"Bạn Chắc Chắn Xóa k?"}
+                        onConfirm={() => deleteCompany(id as number)}
+                        okText="yes"
+                        okType="default"
+                        cancelText="no"
+                    >
+                        <Button danger type='primary' className='flex - mx-7'>
+                            Xoá
+                        </Button>
+                    </Popconfirm >
                 </div>
             ),
         },
@@ -177,7 +192,7 @@ const CompanyManage = () => {
             </div>
 
             <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />; {/* Chỉnh độ rộng của bảng */}
-            {/* <Modal
+            <Modal
                 title="Xác nhận duyệt bài đăng"
                 visible={modalVisible}
                 okText="Có"
@@ -186,8 +201,7 @@ const CompanyManage = () => {
                 onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
                 onCancel={() => handleModalConfirm(0)} // Không duyệt (Trạng thái 0)
             >
-                Bạn có muốn cho phép bài đăng này được được đăng tuyển không?
-            </Modal> */}
+            </Modal>
 
         </div>
     )

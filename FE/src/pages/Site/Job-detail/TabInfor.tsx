@@ -17,7 +17,7 @@ const TabInfor = () => {
                     src="https://cdn1.123job.vn/123job/uploads/2023/10/01/2023_10_01______1843bd84f5554feda615d01cd2126ba0.jpg" alt="" />
                 <div className="leading-8">
                     <p className="font-semibold">{listOne?.company_name}</p>
-                    <p><AiOutlineUser className="inline-block" /> Quy mô: 500-1000 nhân sự</p>
+                    {/* <p><AiOutlineUser className="inline-block" /> Quy mô: 500-1000 nhân sự</p> */}
                     <p><AiOutlineInsertRowRight className="inline-block" /> Trụ sở: <span className="uppercase">{listOne?.address}</span></p>
                 </div>
             </div>
