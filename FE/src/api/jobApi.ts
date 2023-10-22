@@ -11,8 +11,8 @@ const jobsApi = createApi({
         }
     }),
     endpoints: (buidler) => ({
-        getAllJobs: buidler.query<IJobPost, void>({
-            query: () => "/job-post",
+        getAllJobs: buidler.query<IListDataJobs, void>({
+            query: () => "/job_list",
             providesTags: ['Jobs']
         }),
         getOneJobs: buidler.query<IListOneJobs, number | string>({
@@ -24,7 +24,6 @@ const jobsApi = createApi({
 export const {
     useGetAllJobsQuery,
     useGetOneJobsQuery
-
 } = jobsApi;
 export const JobsReducer = jobsApi.reducer;
 export default jobsApi;

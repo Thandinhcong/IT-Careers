@@ -33,7 +33,7 @@ export interface IJobposition {
     description: string,
 }
 export interface IJobPost {
-    list_post: IJobPost[],
+    // list_post: IJobPost[],
     id?: number,
     title?: string,
     job_position_id?: number,

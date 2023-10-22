@@ -7,7 +7,7 @@ import { IJobPost, IListJobs } from '../../../interfaces'
 
 const Recruitment = () => {
     const { data } = useGetAllJobsQuery();
-    const listJobs = data?.list_post;
+    const listJobs = data?.job_list;
     console.log(listJobs);
     return (
         <div>
@@ -32,7 +32,7 @@ const Recruitment = () => {
                                             <Link to="/">
                                                 <p className='text-slate-500 font-semibold text-base'>{item?.title}</p>
                                             </Link>
-                                            <p>{item?.company_id}</p>
+                                            <p>{item?.company_name}</p>
                                         </div>
                                     </div>
                                     <p className='flex items-center gap-1 my-2'> <MdRoom /> <span></span> </p>
