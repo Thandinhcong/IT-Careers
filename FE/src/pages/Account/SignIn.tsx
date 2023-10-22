@@ -4,33 +4,55 @@ import { FcGoogle } from 'react-icons/fc';
 import { SlSocialFacebook } from 'react-icons/sl';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaLogin } from "../../schemas";
+import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
-import { message } from "antd";
-import { ILogin } from "../../interfaces";
+import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
+import Swal from 'sweetalert2';
 
 
 const Login = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<ILogin>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin)
     });
+    const [user, setUser] = useLocalStorage("user", null)
     const [login] = useLoginMutation();
-    const onHandleSubmit = (user: ILogin) => {
+    const onHandleSubmit = async (data: FormLogin) => {
         try {
-            login(user)
-                .unwrap()
-                .then(() => {
-                    message.success("Đăng nhập thành công")
-                    navigate('/')
+            const results = await login(data).unwrap();
+            setUser({
+                accessToken: results.access_token,
+                users: results.user,
+            });
+            if (results && results.status === "fails") {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Opps',
+                    text: "Thông tin tài khoản hoặc mật khẩu không chính xác",
+                    confirmButtonText: 'Quay lại',
+                    timer: 1500
                 })
-                .catch(() => {
-                    message.error("Thông tin tài khoản hoặc mật khẩu không chính xác!")
-                })
+                return;
+            }
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: 'Đăng nhập thành công',
+                timer: 1500
+            })
+            navigate("/");
         } catch (error) {
-            message.error('Có lỗi xảy ra vui lòng thử lại!');
+            Swal.fire({
+                position: 'top',
+                icon: 'error',
+                title: 'Opps',
+                text: "Có lỗi xảy ra vui lòng thử lại!",
+                confirmButtonText: 'Quay lại',
+                timer: 1500
+            })
         }
-    }
+    };
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {

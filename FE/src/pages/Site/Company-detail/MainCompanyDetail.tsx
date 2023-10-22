@@ -8,7 +8,7 @@ import {
 import TabsOverview from "./TabsOverview";
 import TabAffair from "./TabAffair";
 import TabsFeedback from "./TabsFeedback";
-import React from "react";
+
 
 const MainCompanyDetail = () => {
     const [basicActive, setBasicActive] = useState("tab1");
@@ -21,8 +21,6 @@ const MainCompanyDetail = () => {
     };
 
     const handleTabChange = (value: string) => {
-        // Hàm này sẽ được gọi khi bạn bấm vào nút "Xem chi tiết" ở TabsOverview
-        // để chuyển tab sang tab2 (TabAffair)
         setBasicActive(value);
     };
 

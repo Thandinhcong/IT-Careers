@@ -16,9 +16,9 @@ const PostManage = () => {
 
     const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-        const newStatus = currentStatus === 1 ? 0 : 1;
+        const newStatus = currentStatus === 1 ? 2 : 1;
 
-        if (currentStatus === 2) {
+        if (currentStatus === 0) {
             // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
             setSelectedJobPost({ id: jobPostId, status: newStatus });
@@ -106,9 +106,27 @@ const PostManage = () => {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
+            render: (gender: number | undefined) => {
+                let text;
+
+                if (gender === 0) {
+                    text = 'Nam';
+
+                } else if (gender === 1) {
+                    text = 'Nữ';
+                } else {
+                    text = 'Không yêu cầu';
+                }
+
+                return (
+                    <p >
+                        {text}
+                    </p>
+                );
+            }
         },
         {
-            title: 'Thời gian kết thúc',
+            title: 'Yêu cầu',
             dataIndex: 'interest',
             key: 'interest',
         },
@@ -125,11 +143,11 @@ const PostManage = () => {
                     text = 'Duyệt';
 
                 } else if (status === 0) {
-                    color = 'volcano';
-                    text = 'Không duyệt';
-                } else {
                     color = 'geekblue';
                     text = 'Chưa duyệt';
+                } else {
+                    color = 'volcano';
+                    text = 'Không duyệt';
                 }
 
                 return (
@@ -176,7 +194,7 @@ const PostManage = () => {
                 cancelText="Không"
                 okType="default"
                 onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
-                onCancel={() => handleModalConfirm(0)} // Không duyệt (Trạng thái 0)
+                onCancel={() => handleModalConfirm(2)} // Không duyệt (Trạng thái 0)
             >
                 Bạn có muốn cho phép bài đăng này được được đăng tuyển không?
             </Modal>

@@ -40,8 +40,9 @@ export interface IJobPost {
     skill_id?: number,
     quantity?: number,
     gender?: number,
-    require?: string,
-    interest?: string,
+    require?: string, //yêu cầu
+    min_salary?: number,
+    max_salary?: number,
     level_id?: number,
     company_id?: number,
     area_id?: number,
@@ -49,9 +50,36 @@ export interface IJobPost {
     academic_level_id?: number,
     ranks_id?: number,
     major_id?: number,
-    start_date?: Date,
-    end_date?: Date,
+    interest?: string, //quyền lợi
+    start_date?: string,
+    end_date?: string,
     status?: number,
+}
+export interface ICompanyInfor {
+    id?: number,
+    company_name?: string
+    tax_code?: number
+    address?: string,
+    founded_in?: Date,
+    name?: string,
+    office?: string,
+    email?: string
+    phone?: number,
+    password?: string,
+    map?: string
+    logo?: string
+    link_web?: string
+    image_paper?: string
+    desc?: string
+    status?: number
+}
+export interface IListInfo {
+    status: string
+    company_info: ICompanyInfor[],
+}
+export interface IListOneInfo {
+    status: string
+    company_info: ICompanyInfor[],
 }
 export interface ILevel {
     id?: number,
@@ -85,4 +113,71 @@ export interface IAccount {
     avatar?: string,
     status?: number,
     coin?: string,
+    // phone: string,
+    password_confirmation: string
+}
+export interface IListData {
+    status: string
+    list_company: ICompanys[],
+}
+
+export interface ICompanys {
+    id?: string | number,
+    company_name: string,
+    tax_code: string,
+    address: string,
+    founded_in: Date,
+    name: string,
+    office: string,
+    email: string,
+    phone: string,
+    map: string,
+    logo: string,
+    link_web: string,
+    image_paper: string,
+    desc: string,
+    coin: number,
+    status: Selection,
+
+}
+export interface IListOneCompany {
+    status: string
+    company: ICompanys[],
+}
+export interface IListJobs {
+    id?: string | number,
+    title: string,
+    min_salary: number,
+    max_salary: number,
+    company_name: string,
+    logo: string
+    status: string
+}
+export interface IListDataJobs {
+    status: string,
+    job_list: IListJobs[],
+}
+export interface IListOneJobs {
+    status: string,
+    job_detail: IListJobsDetail[],
+}
+export interface IListJobsDetail {
+    id: string | number,
+    title: string,
+    min_salary: number,
+    max_salary: number,
+    company_name: string,
+    level: string,
+    job_position: string,
+    experience: string,
+    desc: string,
+    address: string,
+    working_form: string,
+    academic_level: string,
+    major: string,
+    start_date: Date,
+    end_date: Date,
+    quantity: number,
+    require: string,
+    interest: string
 }

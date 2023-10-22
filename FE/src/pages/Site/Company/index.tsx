@@ -1,14 +1,36 @@
 import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
-import React from 'react';
+import { ChangeEvent, useState } from 'react';
+import { useGetAllCompanysQuery } from '../../../api/companyApi';
+import { Link } from 'react-router-dom';
+import { ICompanys } from '../../../interfaces';
+
 
 const Company = () => {
+
     const textList = [
         "Review có tâm,chính xác nhất",
         "Tìm nơi làm việc tuyệt vời",
         "Review lương bổng, HR,sếp và công việc"
     ];
+    const { data } = useGetAllCompanysQuery();
+
+    const listCompanys: ICompanys[] | undefined = data?.list_company;
+    const [searchKeyword, setSearchKeyword] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<ICompanys[]>([]);
+    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchKeyword(e.target.value)
+        searchProducts(e.target.value)
+    }
+
+    const searchProducts = (keyword: string) => {
+        const results = listCompanys?.filter((company: ICompanys | undefined) =>
+            company && company.name.toLowerCase().includes(keyword.toLowerCase())
+        ) || [];
+        setSearchResults(results);
+    }
+
     return (
         <div>
             <div className='max-w-screen-xl mx-auto px-8 '>
@@ -25,11 +47,35 @@ const Company = () => {
                 </div>
                 <form className='grid grid-cols-3'>
                     <div className='col-span-2 border rounded-xl bg-white justify-between px-2 my-7 flex items-center py-3'>
-                        <input type="text" className='outline-none ml-3  lg:w-[350px]' placeholder='Chức danh, từ khóa hoặc công ty' />
+                        <input
+                            value={searchKeyword}
+                            onChange={handleSearchInputChange}
+                            type="text"
+                            className='outline-none ml-3  lg:w-[350px]'
+                            placeholder='Tìm kiếm theo tên công ty' />
                         <span className='pr-5'><BsSearch /></span>
                     </div>
-                    <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm việc</button>
+                    <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm công ty</button>
                 </form>
+                <div className='bg-white shadow border px-2 py-2'>
+                    {searchKeyword && (
+                        <div className=''>
+                            {searchResults.map((item: ICompanys) => (
+                                <div
+                                    key={item?.id}
+                                    className='search-result-item'
+                                >
+                                    <Link
+                                        to={`/company/detail/${item?.id}`}
+                                        className='text-decoration-none'
+                                    >
+                                        <p>{item?.company_name}</p>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
             <ContentCompany />
             <div className='bg-gray-100'>

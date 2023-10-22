@@ -16,10 +16,6 @@ interface MenuItem {
     label: React.ReactNode;
 }
 
-interface MenuProps {
-    items: MenuItem[];
-}
-
 function getItem(
     label: React.ReactNode,
     key: React.Key,
@@ -48,10 +44,10 @@ const Account = (props: Props) => {
     const [formData, setFormData] = useState(() => {
         const savedUserInfo = localStorage.getItem('userInfo');
         return savedUserInfo ? JSON.parse(savedUserInfo) : {
-            fullName: 'Lê Quốc Đạt',
-            email: 'lequocdat2312@gmail.com',
-            phoneNumber: '0398681298',
-            password: '*********',
+            fullName: '',
+            email: '',
+            phoneNumber: '',
+            password: ''
         };
     });
     const handleChangeInfo = (key: string, value: string) => {

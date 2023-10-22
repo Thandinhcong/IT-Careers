@@ -1,7 +1,7 @@
-import React from "react"
 import { AiFillStar } from "react-icons/ai"
-
 const Aside = () => {
+
+
     return (
         <div className="bg-white  h-[1050px]">
             <h2 className="font-semibold text-lg pt-6 pl-6">Đánh giá gần đây</h2>
@@ -71,7 +71,10 @@ const Aside = () => {
                                 <span className="text-gray-600">Đã review: </span>
                                 Công ty cổ phần thương mại và điện tử
                             </p>
-                            <p className="font-bold">5 <AiFillStar className="inline-block base-line text-[#9d2b6b]" /> <span className="text-gray-600 font-normal">1 tuần trước</span></p>
+                            <p className="font-bold">5
+                                <AiFillStar className="inline-block base-line text-[#9d2b6b]" />
+                                <span className="text-gray-600 font-normal">1 tuần trước</span>
+                            </p>
                         </div>
                     </div>
                     {/* mô tả ngắn */}
@@ -97,7 +100,10 @@ const Aside = () => {
                                 <span className="text-gray-600">Đã review: </span>
                                 Công ty cổ phần thương mại và điện tử
                             </p>
-                            <p className="font-bold">5 <AiFillStar className="inline-block base-line text-[#9d2b6b]" /> <span className="text-gray-600 font-normal">1 tuần trước</span></p>
+                            <p className="font-bold">5
+                                <AiFillStar className="inline-block base-line text-[#9d2b6b]" />
+                                <span className="text-gray-600 font-normal">1 tuần trước</span>
+                            </p>
                         </div>
                     </div>
                     {/* mô tả ngắn */}

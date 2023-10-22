@@ -24,10 +24,15 @@ import authApi, { authsReducer } from '../api/auths';
 import authCompaniesApi from '../api/auth/SigninCompanies';
 import AccountApi, { AccountReducer } from '../api/accountApi';
 
+import companyApi, { companyReducer } from '../api/companyApi';
+import companysApi, { companysReducer } from '../api/CompanymanagerAPI';
+import jobsApi, { JobsReducer } from '../api/jobApi';
+
+
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', "auth"]
+    whitelist: ['cart', ""]
 }
 const rootReducer = combineReducers({
     [MajorApi.reducerPath]: MajorReducer,
@@ -42,6 +47,9 @@ const rootReducer = combineReducers({
     [authApi.reducerPath]: authsReducer,
     [authCompaniesApi.reducerPath]: authCompaniesApi.reducer,
     [AccountApi.reducerPath]: AccountReducer,
+    [companyApi.reducerPath]: companyReducer,
+    [companysApi.reducerPath]: companysReducer,
+    [jobsApi.reducerPath]: JobsReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -56,6 +64,9 @@ const middleware = [
     authApi.middleware,
     authCompaniesApi.middleware,
     AccountApi.middleware,
+    companyApi.middleware,
+    companysApi.middleware,
+    jobsApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

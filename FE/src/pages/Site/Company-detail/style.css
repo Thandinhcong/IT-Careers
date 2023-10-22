@@ -6,8 +6,10 @@
 .my-swiper .swiper-button-prev,
 .my-swiper .swiper-button-next {
     position: absolute;
-    bottom: 10px; /* Điều chỉnh vị trí theo y */
-    left: 1%; /* Điều chỉnh vị trí theo x */
+    bottom: 10px;
+    /* Điều chỉnh vị trí theo y */
+    left: 1%;
+    /* Điều chỉnh vị trí theo x */
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
@@ -17,11 +19,22 @@
 
 /* Đặt vị trí của nút chuyển slide trên slider */
 .my-swiper .swiper-button-prev {
-    top: 50%; /* Điều chỉnh vị trí theo y */
+    top: 50%;
+    /* Điều chỉnh vị trí theo y */
 }
 
 .my-swiper .swiper-button-next {
-    top: 50%; /* Điều chỉnh vị trí theo y */
-    left: 99%; /* Đặt lại left nếu bạn muốn nút next ở bên phải */
-    right: 1px; /* Điều chỉnh vị trí theo x */
+    top: 50%;
+    /* Điều chỉnh vị trí theo y */
+    left: 99%;
+    /* Đặt lại left nếu bạn muốn nút next ở bên phải */
+    right: 1px;
+    /* Điều chỉnh vị trí theo x */
+}
+
+.text-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

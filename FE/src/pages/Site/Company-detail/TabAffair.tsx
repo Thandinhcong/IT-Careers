@@ -53,7 +53,7 @@ const TabAffair = () => {
         },
 
     ];
-    const [isFollowing, setIsFollowing] = useState({});
+    const [isFollowing, setIsFollowing] = useState<Record<string, boolean>>({});
 
     const toggleFollow = (postId: string) => {
         setIsFollowing((prevState) => ({
@@ -129,7 +129,7 @@ const TabAffair = () => {
 
                 <TETabsContent className="w-full border-2 border-gray-300 rounded-lg p-4 text-gray-800">
                     {posts.map((post) => (
-                        <TETabsPane show={verticalActive === post.id}>
+                        <TETabsPane key={post.id} show={verticalActive === post.id}>
                             <div>
                                 <div>
                                     <div className="flex items-center gap-4">

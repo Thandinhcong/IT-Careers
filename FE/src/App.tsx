@@ -106,10 +106,10 @@ function App() {
         {/* site */}
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
-          <Route path="job-detail" element={<JobDetail />} />
+          <Route path="job-detail/:id" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
-          <Route path="company/detail" element={<CompanyDetail />} />
+          <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
@@ -143,7 +143,7 @@ function App() {
         </Route>
 
         {/* Buisness */}
-        <Route path="/companys" element={<LayoutCompany />} >
+        <Route path="/business" element={<LayoutCompany />} >
           <Route index element={<Companys />} />
           <Route path="create_campaign" element={<CreateCampaign />} />
           <Route path="reports" element={<CompanyReports />} />
