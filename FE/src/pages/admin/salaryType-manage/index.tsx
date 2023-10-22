@@ -11,7 +11,7 @@ const cancel = () => {
 const SalaryTypeManage = () => {
     const { data, isLoading } = useGetSalaryTypeQuery();
     const [removeSalaryType, { isLoading: isRemoveLoading }] = useDeleteSalaryTypeMutation();
-    console.log(data);
+
 
     if (isLoading) return <Skeleton loading />;
     const salaryTypeData = data?.salaryType?.map(({ id, salary_type }: ISalaryType) => {

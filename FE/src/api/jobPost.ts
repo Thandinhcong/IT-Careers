@@ -23,7 +23,7 @@ const JobPostApi = createApi({
     }),
     endpoints: (builder) => ({
         getJobPost: builder.query<IJobPost[], void>({
-            query: () => "/job-post",
+            query: () => "/job_post",
             providesTags: ['job-post']
         }),
         getInfor: builder.query<[], void>({
@@ -31,7 +31,7 @@ const JobPostApi = createApi({
             providesTags: ['job-post']
         }),
         getJobPostById: builder.query<IJobPost, number | string>({
-            query: (id) => "/job-post/" + id,
+            query: (id) => "/job_post/" + id,
             providesTags: ['job-post']
         }),
         getJobPostSelectById: builder.query<[], void>({

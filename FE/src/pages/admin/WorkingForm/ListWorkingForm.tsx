@@ -11,7 +11,7 @@ const ListWorkingForm = () => {
     const [removeWorking, { isLoading: isRemoveLoading }] = useDeleteWorkingFormMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
-    console.log(data);
+
 
     const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
         console.log(data);
