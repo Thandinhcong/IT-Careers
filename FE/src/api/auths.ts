@@ -8,14 +8,14 @@ const authApi = createApi({
 
     }),
     endpoints: (builder) => ({
-        login: builder.mutation<{ accessToken: string, users: {} }, { email: string, password: string }>({
+        login: builder.mutation<{ access_token: string, user: {}, status: string }, { email: string, password: string }>({
             query: (credentials) => ({
-                url: "/signin",
+                url: "/login",
                 method: "POST",
                 body: credentials
             })
         }),
-        signup: builder.mutation<{ accessToken: string, users: {}, errors: string }, { name: string, email: string, password: string, phone: string, password_confirmation: string }>({
+        signup: builder.mutation<{ access_token: string, users: {}, errors: string }, { name: string, email: string, password: string, phone: string, password_confirmation: string }>({
             query: (credentials) => ({
                 url: "/register",
                 method: "POST",

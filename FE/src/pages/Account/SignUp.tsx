@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
-import { message } from "antd";
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -17,17 +17,42 @@ const SignUp = () => {
             const result = await signup(user as any).unwrap();
 
             if (result.errors && result.errors.email) {
-                message.error("Email đã tồn tại");
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Opps',
+                    text: "Email đã tồn tại",
+                    confirmButtonText: 'Quay lại',
+                    timer: 1500
+                })
                 return;
             } else if (result.errors && result.errors.phone) {
-                message.error("Số điện thoại đã tồn tại");
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Opps',
+                    text: "Số điện thoại đã tồn tại",
+                    confirmButtonText: 'Quay lại',
+                    timer: 1500
+                })
                 return;
             } else {
-                message.success("Đăng ký thành công!");
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    title: 'Đăng ký thành công',
+                    timer: 1500
+                })
                 navigate("/signin");
             }
         } catch (error: any) {
-            message.error("Đã xảy ra lỗi: " + error.message);
+            Swal.fire({
+                position: 'top',
+                icon: 'error',
+                title: 'Opps',
+                text: "Có lỗi xảy ra vui lòng thử lại",
+                timer: 1500
+            })
         }
     };
 

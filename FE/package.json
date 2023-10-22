@@ -36,6 +36,7 @@
     "react-typist": "^2.0.5",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.7.32",
     "swiper": "^10.3.1",
     "tw-elements-react": "^1.0.0-alpha1",
     "yup": "^1.2.0"
