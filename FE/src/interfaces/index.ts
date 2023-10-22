@@ -136,10 +136,11 @@ export interface IListJobs {
     max_salary: number,
     company_name: string,
     logo: string
-    status: string
+    address: string
+    status: number
 }
 export interface IListDataJobs {
-    status: string,
+    status: IJobPost,
     job_list: IListJobs[],
 }
 export interface IListOneJobs {
