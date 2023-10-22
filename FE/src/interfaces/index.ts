@@ -57,7 +57,7 @@ export interface IJobPost {
     status?: number,
 }
 export interface ICompanyInfor {
-    id?: number,
+    id?: string | number,
     company_name?: string
     tax_code?: number
     address?: string,
