@@ -37,7 +37,7 @@ const TabNew = () => {
             <div className='col-span-2'>
                 <div className='bg-gray-100 text-green-600 p-4'>
                     <p className='font-semibold text-lg flex items-center gap-2'>
-                        <AiOutlineCheckCircle classname="text-3xl" />123job Trust verified <AiOutlineQuestionCircle />
+                        <AiOutlineCheckCircle className="text-3xl" />123job Trust verified <AiOutlineQuestionCircle />
                     </p>
                     <div className='grid grid-cols-2 gap-4 text-sm my-4'>
                         <p className='flex items-center gap-3'><AiOutlineCheckCircle />
@@ -91,31 +91,31 @@ const TabNew = () => {
                                         <p>Dữ liệu chúng tôi cung cấp giúp bạn an toàn hơn trong quá trình tìm hiểu để ứng tuyển vào công việc hiện tại. Tránh những tin tuyển dụng giả mạo, lừa đảo.</p>
                                         <div className="flex items-start gap-4">
                                             <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500 " />
-                                            <p>
+                                            <div>
                                                 <p className="font-semibold">Chưa có giấy phép kinh doanh</p>
                                                 <p>Nhà tuyển dụng chưa cung cấp giấy phép kinh doanh để xác thực tài khoản</p>
-                                            </p>
+                                            </div>
                                         </div>
                                         <div className="flex items-start gap-4">
                                             <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500" />
-                                            <p>
+                                            <div>
                                                 <p className="font-semibold">Nhà tuyển dụng tạo tài khoản dưới 1 tháng</p>
                                                 <p>Thời gian tạo tài khoản đăng tin tuyển dụng càng lâu. Mức độ uy tín càng nhiều.</p>
-                                            </p>
+                                            </div>
                                         </div>
                                         <div className="flex items-start gap-4">
                                             <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <p>
+                                            <div>
                                                 <p className="font-semibold">Tin đăng chưa có video hoặc hình ảnh</p>
                                                 <p>Hình ảnh và video làm việc khi được tải lên cùng tin tuyển dụng. Sẽ giúp ứng viên tìm hiểu rõ hơn về công việc mình đang quan tâm</p>
-                                            </p>
+                                            </div>
                                         </div>
                                         <div className="flex items-start gap-4">
                                             <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <p>
+                                            <div>
                                                 <p className="font-semibold">Chưa có lịch sử báo xấu tin đăng</p>
                                                 <p>Tin tuyển dụng có số lần báo cáo nhiều 1 lần. Bạn cần lưu ý các tin này. Bạn sẽ an toàn hơn đối với các tin chưa có lịch sử báo xấu trước đó.</p>
-                                            </p>
+                                            </div>
                                         </div>
                                         <p className="text-xs my-3">
                                             Mọi thông tin liên quan tới tin tuyển dụng này là do người đăng tin đăng tải và chịu trách nhiệm. Chúng tôi luôn cố gắng để có chất lượng thông tin tốt nhất, nhưng chúng tôi không đảm bảo và không chịu trách nhiệm về bất kỳ nội dung nào liên quan tới tin việc làm này. Nếu người tìm việc phát hiện có sai sót hay vấn đề gì xin hãy

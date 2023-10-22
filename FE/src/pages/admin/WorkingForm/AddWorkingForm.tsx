@@ -1,4 +1,4 @@
-import { Button, Form, Input, Skeleton } from 'antd';
+import { Button, Form, Input, Skeleton, message } from 'antd';
 import { useAddWorkingFormMutation } from '../../../api/workingFormApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { IWorkingForm } from '../../../interfaces';
@@ -13,6 +13,7 @@ const AddWorkingForm = () => {
         addWorkForm(values)
             .unwrap()
             .then(() => {
+                message.success("Thêm thành công");
                 return navigate({
                     pathname: "/admin/working-form"
                 })

@@ -16,7 +16,7 @@ const HeaderCompany = () => {
 
     return (
         <div className='border flex fixed top-0 w-[82%] z-50 right-0 max-w-screen-2xl items-center gap-2 p-2 font-medium justify-end bg-white shadow'>
-            <Link to="/companys/create_campaign" className='flex items-center gap-2 px-5 py-2 relative rounded text-white bg-blue-500 group'>
+            <Link to="/companys/jobs/create" className='flex items-center gap-2 px-5 py-2 relative rounded text-white bg-blue-500 group'>
                 <BiEdit />
                 <p className='text-sm'>Đăng tin mới</p>
                 <div className='absolute left-0 right-0 mx-auto -bottom-9 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-xs px-3 rounded'>
