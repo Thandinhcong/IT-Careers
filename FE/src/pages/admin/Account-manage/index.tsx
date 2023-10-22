@@ -3,15 +3,17 @@ import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd'
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IAccount } from "../../../interfaces";
-import { useDeleteAccountMutation, useGetAccountQuery } from "../../../api/accountApi";
+import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
 
 const cancel = () => {
     message.info('Huỷ xoá');
 };
 const AccountManage = () => {
-    const { data, isLoading, error } = useGetAccountQuery();
-    const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteAccountMutation();
+    const { data, isLoading, error } = useGetCandidatesQuery();
+    const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
     if (isLoading) return <Skeleton loading />;
+    console.log(data);
+
     if (error) {
         if ('status' in error) {
             if (error.status === 404) {
@@ -36,16 +38,17 @@ const AccountManage = () => {
         }
     }
 
-    const accountData = data?.data?.map(({ id, name, email, password, phone, avatar, status, remember_token }: IAccount) => {
+    const accountData = data?.data?.map(({ id, name, email, password, phone, address, avatar, status, coin }: IAccount) => {
         return {
             key: id,
             name,
             email,
             password,
+            address,
             phone,
             avatar,
             status,
-            remember_token,
+            coin,
         }
     })
     const confirm = (id: number | string) => {
@@ -153,9 +156,9 @@ const AccountManage = () => {
                             )}
                         </Button >
                     </Popconfirm>
-                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
+                    {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
                         <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-                    </Button>
+                    </Button> */}
                 </div>
             ),
         },

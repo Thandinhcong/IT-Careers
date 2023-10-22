@@ -81,7 +81,8 @@ export interface IAccount {
     email?: string,
     password?: string,
     phone?: string,
+    address?: string,
     avatar?: string,
     status?: number,
-    remember_token?: string,
+    coin?: string,
 }

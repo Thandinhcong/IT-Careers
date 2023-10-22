@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IAccount } from "../interfaces";
 
 const AccountApi = createApi({
-    reducerPath: "account",
-    tagTypes: ['user'],
+    reducerPath: "candidates",
+    tagTypes: ['candidates'],
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
         fetchFn: async (...arg) => {
@@ -11,27 +11,27 @@ const AccountApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getAccount: builder.query<IAccount[], void>({
-            query: () => "/user",
-            providesTags: ['user']
+        getCandidates: builder.query<IAccount[], void>({
+            query: () => "/candidates",
+            providesTags: ['candidates']
         }),
-        getAccountById: builder.query<IAccount, number | string>({
-            query: (id) => `/user/${id}`,
-            providesTags: ['user']
-        }),
-        deleteAccount: builder.mutation<void, number | string>({
+        // getAccountById: builder.query<IAccount, number | string>({
+        //     query: (id) => `/candidates/${id}`,
+        //     providesTags: ['candidates']
+        // }),
+        deleteCandidate: builder.mutation<void, number | string>({
             query: (id) => ({
-                url: `/user/${id}`,
+                url: `/candidates/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ['user']
+            invalidatesTags: ['candidates']
         }),
     })
 })
 export const {
-    useGetAccountQuery,
-    useGetAccountByIdQuery,
-    useDeleteAccountMutation
+    useGetCandidatesQuery,
+    // useGetAccountByIdQuery,
+    useDeleteCandidateMutation
 } = AccountApi;
 
 export const AccountReducer = AccountApi.reducer;
