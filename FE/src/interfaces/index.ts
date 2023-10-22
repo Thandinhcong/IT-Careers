@@ -140,7 +140,7 @@ export interface IListJobs {
     max_salary: number,
     company_name: string,
     logo: string
-    address: string
+    area: string
     status: number
 }
 export interface IListDataJobs {
