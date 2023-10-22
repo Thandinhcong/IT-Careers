@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
-import { message } from "antd";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import Swal from 'sweetalert2';
 
