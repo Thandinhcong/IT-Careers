@@ -102,7 +102,8 @@ export interface ISignup {
     name: string,
     email: string,
     password: string,
-    numberPhone: string
+    phone: string,
+    password_confirmation: string
 }
 export interface IListData {
     status: string

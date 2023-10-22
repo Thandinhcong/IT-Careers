@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
-import { message } from "antd";
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -12,22 +12,51 @@ const SignUp = () => {
         resolver: yupResolver(schemaSignup)
     })
     const [signup] = useSignupMutation();
-    const onHandleSubmit = (user: FormSignup) => {
+    const onHandleSubmit = async (user: FormSignup) => {
         try {
-            signup(user as any)
-                .unwrap()
-                .then(() => {
-                    message.success("Đăng ký thành công!")
-                    navigate("/login")
-                })
-                .catch(() => {
-                    return message.error("Email đã tồn tại")
-                })
+            const result = await signup(user as any).unwrap();
 
-        } catch (error) {
-            message.error("Có lỗi xảy ra vui lòng thử lại sau")
+            if (result.errors && result.errors.email) {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Opps',
+                    text: "Email đã tồn tại",
+                    confirmButtonText: 'Quay lại',
+                    timer: 1500
+                })
+                return;
+            } else if (result.errors && result.errors.phone) {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Opps',
+                    text: "Số điện thoại đã tồn tại",
+                    confirmButtonText: 'Quay lại',
+                    timer: 1500
+                })
+                return;
+            } else {
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    title: 'Đăng ký thành công',
+                    timer: 1500
+                })
+                navigate("/signin");
+            }
+        } catch (error: any) {
+            Swal.fire({
+                position: 'top',
+                icon: 'error',
+                title: 'Opps',
+                text: "Có lỗi xảy ra vui lòng thử lại",
+                timer: 1500
+            })
         }
-    }
+    };
+
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -65,13 +94,13 @@ const SignUp = () => {
                     <div>
                         <div className="relative">
                             <input
-                                type="number"
+                                type="text"
                                 className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
                                 placeholder="Số Điện Thoại"
-                                {...register("numberPhone")}
+                                {...register("phone")}
                             />
                             <div className="text-red-500 my-2">
-                                {errors.numberPhone && errors.numberPhone.message}
+                                {errors.phone && errors.phone.message}
                             </div>
                         </div>
                     </div>
@@ -141,7 +170,41 @@ const SignUp = () => {
                             </span>
                         </div>
                     </div>
-
+                    <div>
+                        <div className="relative">
+                            <input
+                                {...register('password_confirmation')}
+                                type={showPassword ? 'text' : 'password'}
+                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
+                                placeholder="Mật Khẩu"
+                            />
+                            <div className="text-red-500 my-2">
+                                {errors.password_confirmation && errors.password_confirmation.message}
+                            </div>
+                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4 " onClick={togglePasswordVisibility}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 text-gray-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
                     <div className="col-span-6">
                         <label htmlFor="MarketingAccept" className="flex gap-4">
                             <input

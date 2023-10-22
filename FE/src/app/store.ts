@@ -31,7 +31,7 @@ import jobsApi, { JobsReducer } from '../api/jobApi';
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['cart', "auth"]
+    whitelist: ['cart', ""]
 }
 const rootReducer = combineReducers({
     [MajorApi.reducerPath]: MajorReducer,
