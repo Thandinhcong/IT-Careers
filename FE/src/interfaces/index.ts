@@ -102,7 +102,19 @@ export interface ISignup {
     name: string,
     email: string,
     password: string,
-    phone: string,
+    numberPhone: string
+}
+export interface IAccount {
+    id?: number,
+    name?: string,
+    email?: string,
+    password?: string,
+    phone?: string,
+    address?: string,
+    avatar?: string,
+    status?: number,
+    coin?: string,
+    // phone: string,
     password_confirmation: string
 }
 export interface IListData {

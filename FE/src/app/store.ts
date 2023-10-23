@@ -22,6 +22,7 @@ import LevelApi, { LevelReducer } from '../api/levelApi';
 import MajorApi, { MajorReducer } from '../api/majorApi';
 import authApi, { authsReducer } from '../api/auths';
 import authCompaniesApi from '../api/auth/SigninCompanies';
+import AccountApi, { AccountReducer } from '../api/accountApi';
 
 import companyApi, { companyReducer } from '../api/companyApi';
 import companysApi, { companysReducer } from '../api/CompanymanagerAPI';
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
     [LevelApi.reducerPath]: LevelReducer,
     [authApi.reducerPath]: authsReducer,
     [authCompaniesApi.reducerPath]: authCompaniesApi.reducer,
+    [AccountApi.reducerPath]: AccountReducer,
     [companyApi.reducerPath]: companyReducer,
     [companysApi.reducerPath]: companysReducer,
     [jobsApi.reducerPath]: JobsReducer,
@@ -61,6 +63,7 @@ const middleware = [
     LevelApi.middleware,
     authApi.middleware,
     authCompaniesApi.middleware,
+    AccountApi.middleware,
     companyApi.middleware,
     companysApi.middleware,
     jobsApi.middleware,

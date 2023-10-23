@@ -1,132 +1,179 @@
 import { Link } from "react-router-dom"
-import { Button, Space, Table, Tag, Dropdown, message, Popconfirm } from 'antd';
+import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineMore } from "react-icons/ai";
-interface DataType {
-    key: string;
-    name: string;
-    email: string;
-    phone_number: string;
-    password: string;
-    avatar: string;
-    // status: number;
-    // remember_token: boolean;
-}
-
-const confirm = () => {
-
-    message.success('Click on Yes');
-};
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IAccount } from "../../../interfaces";
+import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
 
 const cancel = () => {
-
-    message.error('Click on No');
+    message.info('Huỷ xoá');
 };
-
-const items: MenuProps['items'] = [
-    {
-        label: <Button className="bg-blue-400 border-none hover:bg-blue-300" href="account-manage/update-account">
-            <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-        </Button>,
-        key: '0'
-    },
-    {
-        label: <Popconfirm
-            title="Delete the task"
-            description="Are you sure to delete this task?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            okType="default"
-            cancelText="No"
-        >
-            <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />Xoá</Button >
-        </Popconfirm>, key: '1'
-    },
-];
 const AccountManage = () => {
-    const columns: ColumnsType<DataType> = [
+    const { data, isLoading, error } = useGetCandidatesQuery();
+    const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
+    if (isLoading) return <Skeleton loading />;
+    console.log(data);
+
+    if (error) {
+        if ('status' in error) {
+            if (error.status === 404) {
+                return (
+                    <Result
+                        status="404"
+                        title="404"
+                        subTitle="Forbidden: You do not have permission to access this resource."
+                        extra={<Button type="primary">Back Home</Button>}
+                    />
+                );
+            } else {
+                return (
+                    <Result
+                        status="403"
+                        title="403"
+                        subTitle="Sorry, something went wrong."
+                        extra={<Button type="primary">Back Home</Button>}
+                    />
+                );
+            }
+        }
+    }
+
+    const accountData = data?.data?.map(({ id, name, email, password, phone, address, avatar, status, coin }: IAccount) => {
+        return {
+            key: id,
+            name,
+            email,
+            password,
+            address,
+            phone,
+            avatar,
+            status,
+            coin,
+        }
+    })
+    const confirm = (id: number | string) => {
+        removeAccount(id);
+        setTimeout(() => {
+            message.success('Xoá thành công');
+        }, 1000);
+    };
+
+
+
+    const columns: ColumnsType<IAccount> = [
         {
-            title: 'Username',
+            title: 'STT',
+            key: 'index',
+            width: 10,
+            render: (_text, _record, index) => index + 1,
+        },
+        {
+            title: 'Tên người dùng',
             dataIndex: 'name',
             key: 'name',
-
+            width: 50,
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-        },
-        {
-            title: 'Số điện thoại',
-            dataIndex: 'phone_number',
-            key: 'phone_number',
+            width: 50,
         },
         {
             title: 'Mật khẩu',
             dataIndex: 'password',
             key: 'password',
+            width: 50,
+        },
+        {
+            title: 'Số điện thoại',
+            dataIndex: 'phone',
+            key: 'phone',
+            width: 50,
         },
         {
             title: 'Ảnh đại diện',
             dataIndex: 'avatar',
             key: 'avatar',
+            width: 50,
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: 50,
+        },
+        {
+            title: 'Remember_token',
+            dataIndex: 'remember_token',
+            key: 'remember_token',
+            width: 50,
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            dataIndex: 'status',
+            render: (status: number | undefined | string) => {
+                let color;
+                let text;
+
+                if (status === 1 || status === "1") {
+                    color = 'green';
+                    text = 'Active';
+
+                } else if (status === 0 || status === "0") {
+                    color = 'volcano';
+                    text = 'Inactive';
+                }
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                );
+            },
         },
         {
             title: 'Action',
             key: 'action',
             fixed: 'right',
             width: 100,
-            render: () => (
-                <Dropdown menu={{ items }} trigger={['click']}>
-                    <a onClick={(e) => e.preventDefault()} className="text-center" >
-                        <Space>
-                            <AiOutlineMore />
-                        </Space>
-                    </a>
-                </Dropdown>
-
+            render: ({ key: id }: { key: string | number }) => (
+                <div className="flex gap-2">
+                    <Popconfirm
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={() => confirm(id)}
+                        onCancel={cancel}
+                        okText="Yes"
+                        okType="default"
+                        cancelText="No"
+                    >
+                        <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />
+                            {isRemoveLoading ? (
+                                <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+                            ) : (
+                                "Xóa"
+                            )}
+                        </Button >
+                    </Popconfirm>
+                    {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
+                        <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
+                    </Button> */}
+                </div>
             ),
         },
-    ];
-    const data: DataType[] = [
-        {
-            key: '1',
-            name: 'Le Quoc Dat',
-            email: 'dat123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '1.jpg',
-        },
-        {
-            key: '2',
-            name: 'Nguyen Duy Trung',
-            email: 'trung123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '2.jpg',
-        },
-        {
-            key: '3',
-            name: 'Nguyen Duy Tu',
-            email: 'tu123@gmail.com',
-            phone_number: '012345678',
-            password: 'password',
-            avatar: '3.jpg',
-        },
+
     ];
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý tài khoản</h2>
-                <Button type="primary" className="bg-blue-500">
-                    <Link to={"create-account"}>Thêm tài khoản</Link>
-                </Button>
+                <h2 className="text-2xl font-semibold">Quản lý tài khoản </h2>
+                {/* <Button type="primary" className="bg-blue-500">
+                    <Link to="add">Thêm tài khoản</Link>
+                </Button> */}
             </div>
 
-            <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} /> {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={accountData} />
 
         </div>
     )
