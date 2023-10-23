@@ -26,8 +26,10 @@ function classNames(...classes: string[]) {
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user") as string);
+
   return (
-    <header className="bg-white">
+    <header className="bg-white w-100%">
       <nav className="mx-auto flex items-center justify-between p-6" aria-label="Global">
         <div className="flex lg:flex-none mr-10">
           <Link to="/" className="-m-1.5 p-1.5">
@@ -144,14 +146,18 @@ const Header = () => {
               </Transition>
             </Popover>
           </Popover.Group>
+          {user ? "" : (
+            <div>
 
-          <Link to="/signin" className="text-sm font-semibold leading-6 text-gray-900">
-            Đăng nhập <span aria-hidden="true"></span>
-          </Link>
-          <p className='border-r-2 mx-4 border-gray-400 '></p>
-          <a href="/signup" className="text-sm font-semibold leading-6 text-gray-900">
-            Đăng Ký <span aria-hidden="true"></span>
-          </a>
+              <Link to="/signin" className="text-sm font-semibold leading-6 text-gray-900">
+                Đăng nhập <span aria-hidden="true"></span>
+              </Link>
+              <p className='border-r-2 mx-4 border-gray-400 '></p>
+              <a href="/signup" className="text-sm font-semibold leading-6 text-gray-900">
+                Đăng Ký <span aria-hidden="true"></span>
+              </a>
+            </div>
+          )}
           <a href="/companies/signin" className="text-sm font-semibold leading-6 text-gray-900 ml-4">
             Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
           </a>

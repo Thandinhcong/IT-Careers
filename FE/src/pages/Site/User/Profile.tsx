@@ -3,6 +3,7 @@ import type { MenuProps } from 'antd';
 import { Link } from 'react-router-dom'
 import { Dropdown, Space } from 'antd';
 import { AiOutlineDown, AiOutlinePlus } from 'react-icons/ai';
+import { useGetInfoUserQuery } from '../../../api/auths';
 
 
 const items: MenuProps['items'] = [
@@ -46,15 +47,15 @@ const items: MenuProps['items'] = [
             </a>
         ),
     },
-    // {
-    //     key: '3',
-    //     danger: true,
-    //     label: 'a danger item',
-    // },
+
 ];
 
 
 const Profile = () => {
+
+    const { data } = useGetInfoUserQuery();
+    console.log(data);
+
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>

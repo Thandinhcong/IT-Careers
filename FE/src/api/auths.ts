@@ -1,10 +1,30 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 
+// const user = JSON.parse(localStorage.getItem("user") as string);
+// const token = user?.accessToken;
+// const headers = {
+//     Authorization: `Bearer ${token}`,
+// }
+
 const authApi = createApi({
     reducerPath: "auth",
+    tagTypes: ['Auths'],
+
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8000/api/candidate"
+        baseUrl: "http://localhost:8000/api/candidate",
+
+        fetchFn: (...arg) => {
+            return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("user") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        }
 
     }),
     endpoints: (builder) => ({
@@ -22,10 +42,15 @@ const authApi = createApi({
                 body: credentials
             })
 
+        }),
+        getInfoUser: builder.query<any, void>({
+            query: () => "/candidate_information",
+            providesTags: ['Auths']
         })
     })
 })
 export const {
+    useGetInfoUserQuery,
     useLoginMutation,
     useSignupMutation
 } = authApi;
