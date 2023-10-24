@@ -93,6 +93,7 @@ import EditMajors from "./pages/admin/Major-manage/Editmajor"
 import Account from "./pages/Site/User/Account"
 import SignInCompanies from "./pages/Account/Companies/SignIn"
 import SignupCompanies from "./pages/Account/Companies/Signup"
+import LoginAdmin from "./pages/admin/login/Login"
 
 
 function App() {
@@ -183,6 +184,7 @@ function App() {
         </Route>
 
         {/* admin */}
+        <Route path="/admin/login" element={<LoginAdmin />} />
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index path="dashboard" element={<DashBoard />} />
           <Route path="level-manage" element={<LevelManage />} />
