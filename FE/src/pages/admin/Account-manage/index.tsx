@@ -1,18 +1,44 @@
-import { Link } from "react-router-dom"
-import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
-import { IAccount } from "../../../interfaces";
-import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
 
-const cancel = () => {
-    message.info('Huỷ xoá');
-};
+import { Button, Table, message, Skeleton, Result, Tag, Modal, Popconfirm } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import { AiOutlineCheck, AiOutlineFolderView, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IAccount } from "../../../interfaces";
+import { useEditCandidateStatusMutation, useGetCandidatesQuery } from "../../../api/accountApi";
+import React from "react";
+
+// const cancel = () => {
+//     message.info('Huỷ xoá');
+// };
 const AccountManage = () => {
     const { data, isLoading, error } = useGetCandidatesQuery();
-    const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
+    const [updateStatus] = useEditCandidateStatusMutation();
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [selectedCandidate, setSelectedCandidate] = React.useState<IAccount | null>(null);
+    const handleUpdateStatus = (candidateId: number | string, currentStatus: number) => {
+        // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
+        const newStatus = currentStatus === 1 ? 2 : 1;
+
+        if (currentStatus === 0) {
+            // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
+            setModalVisible(true);
+            setSelectedCandidate({ id: candidateId, status: newStatus });
+        } else {
+            // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
+            updateStatus({ id: candidateId, status: newStatus });
+            message.success("Cập nhật trạng thái thành công");
+        }
+    };
+    const handleModalConfirm = (newStatus: number) => {
+        if (selectedCandidate) {
+            const updatedCandidate = { ...selectedCandidate, status: newStatus };
+            updateStatus(updatedCandidate);
+            message.success("Cập nhật trạng thái thành công");
+        }
+
+        setModalVisible(false);
+    };
     if (isLoading) return <Skeleton loading />;
-    console.log(data);
+    // console.log(data);
 
     if (error) {
         if ('status' in error) {
@@ -51,13 +77,6 @@ const AccountManage = () => {
             coin,
         }
     })
-    const confirm = (id: number | string) => {
-        removeAccount(id);
-        setTimeout(() => {
-            message.success('Xoá thành công');
-        }, 1000);
-    };
-
 
 
     const columns: ColumnsType<IAccount> = [
@@ -104,27 +123,21 @@ const AccountManage = () => {
             width: 50,
         },
         {
-            title: 'Remember_token',
-            dataIndex: 'remember_token',
-            key: 'remember_token',
-            width: 50,
-        },
-        {
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
-            render: (status: number | undefined | string) => {
+            render: (status: number | undefined) => {
                 let color;
                 let text;
 
-                if (status === 1 || status === "1") {
+                if (status === 1) {
                     color = 'green';
-                    text = 'Active';
-
-                } else if (status === 0 || status === "0") {
+                    text = 'Duyệt';
+                } else {
                     color = 'volcano';
-                    text = 'Inactive';
+                    text = 'Không duyệt';
                 }
+
                 return (
                     <Tag color={color}>
                         {text}
@@ -136,29 +149,17 @@ const AccountManage = () => {
             title: 'Action',
             key: 'action',
             fixed: 'right',
-            width: 100,
-            render: ({ key: id }: { key: string | number }) => (
-                <div className="flex gap-2">
-                    <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        onConfirm={() => confirm(id)}
-                        onCancel={cancel}
-                        okText="Yes"
-                        okType="default"
-                        cancelText="No"
-                    >
-                        <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />
-                            {isRemoveLoading ? (
-                                <AiOutlineLoading3Quarters className="animate-spin inline-block" />
-                            ) : (
-                                "Xóa"
-                            )}
-                        </Button >
-                    </Popconfirm>
-                    {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
-                        <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-                    </Button> */}
+            width: 250,
+            render: ({ key: id, status }: { key: string | number, status: number }) => (
+                <div className="flex -mx-6">
+                    <Button type="link" onClick={() => handleUpdateStatus(id, status)}>
+                        <AiOutlineCheck style={{ fontSize: '18px', color: '#4eff3a' }} />
+                        {isLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+                        ) : (
+                            <span className='text-[#49eb47]'>Đổi trạng thái</span>
+                        )}
+                    </Button >
                 </div>
             ),
         },
@@ -168,13 +169,20 @@ const AccountManage = () => {
         <div>
             <div className="flex justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Quản lý tài khoản </h2>
-                {/* <Button type="primary" className="bg-blue-500">
-                    <Link to="add">Thêm tài khoản</Link>
-                </Button> */}
             </div>
 
             <Table columns={columns} dataSource={accountData} />
-
+            <Modal
+                title="Xác nhận cho vào danh sách đen"
+                visible={modalVisible}
+                okText="Có"
+                cancelText="Không"
+                okType="default"
+                onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
+                onCancel={() => handleModalConfirm(2)} // Không duyệt (Trạng thái 0)
+            >
+                Bạn có muốn cho tài khoản này vào danh sách đen không?
+            </Modal>
         </div>
     )
 }

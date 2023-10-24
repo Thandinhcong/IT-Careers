@@ -15,10 +15,18 @@ const AccountApi = createApi({
             query: () => "/candidates",
             providesTags: ['candidates']
         }),
-        // getAccountById: builder.query<IAccount, number | string>({
-        //     query: (id) => `/candidates/${id}`,
-        //     providesTags: ['candidates']
-        // }),
+        getCandidateById: builder.query<IAccount, number | string>({
+            query: (id) => `/candidates/${id}`,
+            providesTags: ['candidates']
+        }),
+        editCandidate: builder.mutation<IAccount, IAccount>({
+            query: (candidate: IAccount) => ({
+                url: `/candidates/${candidate.id}`,
+                method: "PUT",
+                body: candidate
+            }),
+            invalidatesTags: ['candidates']
+        }),
         deleteCandidate: builder.mutation<void, number | string>({
             query: (id) => ({
                 url: `/candidates/${id}`,
@@ -26,12 +34,22 @@ const AccountApi = createApi({
             }),
             invalidatesTags: ['candidates']
         }),
+        editCandidateStatus: builder.mutation<IAccount, { id: number, status: number }>({
+            query: ({ id, status }) => ({
+                url: `/candidates/${id}`,
+                method: "PUT",
+                body: { status },
+            }),
+            invalidatesTags: ['candidates']
+        }),
     })
 })
 export const {
     useGetCandidatesQuery,
-    // useGetAccountByIdQuery,
-    useDeleteCandidateMutation
+    useGetCandidateByIdQuery,
+    useDeleteCandidateMutation,
+    useEditCandidateMutation,
+    useEditCandidateStatusMutation
 } = AccountApi;
 
 export const AccountReducer = AccountApi.reducer;

@@ -2,11 +2,12 @@
 import { Breadcrumb, Button, Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { BsPencil } from 'react-icons/bs'
 import { LuActivitySquare } from 'react-icons/lu'
 import { Link, Outlet } from 'react-router-dom'
+import { IAccount } from '../../../interfaces'
 
 type Props = {}
 interface MenuItem {
@@ -47,15 +48,43 @@ const Account = (props: Props) => {
             fullName: '',
             email: '',
             phoneNumber: '',
-            password: ''
+            password: '',
+            address: ''
         };
     });
     const handleChangeInfo = (key: string, value: string) => {
-        setFormData((prevState: any) => ({
+        setFormData((prevState: IAccount) => ({
             ...prevState,
             [key]: value,
         }));
     };
+    useEffect(() => {
+        // Lấy dữ liệu từ token và cập nhật vào state formData
+        const savedUserInfo = localStorage.getItem('userInfo');
+        const tokenData = localStorage.getItem('tokenData');
+
+        if (savedUserInfo && tokenData) {
+            const userInfo = JSON.parse(savedUserInfo);
+            const tokenInfo = JSON.parse(tokenData);
+
+            // Kiểm tra xem token có chứa thông tin cần thiết hay không
+            if (tokenInfo && tokenInfo.userId) {
+                // Kiểm tra xem userId trong token có khớp với userId trong userInfo hay không
+                if (tokenInfo.userId === userInfo.userId) {
+                    setFormData(userInfo);
+                } else {
+                    // Xử lý trường hợp token không khớp với userId
+                    // Ví dụ: Đưa người dùng về trang đăng nhập
+                    // ...
+                }
+            } else {
+                // Xử lý trường hợp token không chứa thông tin cần thiết
+                // Ví dụ: Đưa người dùng về trang đăng nhập
+                // ...
+            }
+        }
+    }, []);
+
     const hidePassword = (password: string | any[]) => {
         return '*'.repeat(password.length);
     };
@@ -217,6 +246,44 @@ const Account = (props: Props) => {
                         ) : (
                             <div className='flex justify-between items-center'>
                                 <p>{hidePassword(formData.password)}</p>
+                                <Button
+                                    type='text'
+                                    className='bg-gray-50 flex items-center'
+                                    onClick={() => {
+                                        // Hiển thị form khi người dùng ấn nút "Thay đổi"
+                                        setFormVisible(true);
+                                    }}
+                                >
+                                    <BsPencil />
+                                    Thay đổi
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                    <div className='my-10'>
+                        <h2 className='font-bold'>Địa chỉ</h2>
+                        {formVisible ? (
+                            <div className='flex justify-between items-center'>
+                                <input
+                                    type='text'
+                                    value={formData.address}
+                                    onChange={e => handleChangeInfo('address', e.target.value)}
+                                />
+                                <Button
+                                    type='text'
+                                    className='bg-gray-50 flex items-center'
+                                    onClick={() => {
+                                        // Lưu thông tin đã thay đổi và ẩn form
+                                        localStorage.setItem('userInfo', JSON.stringify(formData));
+                                        setFormVisible(false);
+                                    }}
+                                >
+                                    Lưu
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className='flex justify-between items-center'>
+                                <p>{(formData.address)}</p>
                                 <Button
                                     type='text'
                                     className='bg-gray-50 flex items-center'
