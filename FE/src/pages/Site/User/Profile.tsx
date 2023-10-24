@@ -54,8 +54,7 @@ const items: MenuProps['items'] = [
 const Profile = () => {
 
     const { data } = useGetInfoUserQuery();
-    console.log(data);
-
+    const listInfo = data?.candidate;
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -72,7 +71,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className='absolute translate-x-[15%] translate-y-[80%]'>
-                    <p className='text-2xl'>Lê Quốc Đạt</p>
+                    <p className='text-2xl'>{listInfo?.name}</p>
                     <div className='my-1'>
                         <Link to='/contact' className='text-blue-500 text-lg'>Liên hệ</Link>
                     </div>

@@ -18,7 +18,10 @@ const TabInfor = () => {
                 <div className="leading-8">
                     <p className="font-semibold">{listOne?.company_name}</p>
                     {/* <p><AiOutlineUser className="inline-block" /> Quy mô: 500-1000 nhân sự</p> */}
-                    <p><AiOutlineInsertRowRight className="inline-block" /> Trụ sở: <span className="uppercase">{listOne?.address}</span></p>
+                    <p>
+                        <AiOutlineInsertRowRight className="inline-block" />
+                        Trụ sở: <span className="uppercase">{listOne?.address}</span>
+                    </p>
                 </div>
             </div>
             <h3 className="font-semibold my-2">Giới thiệu</h3>

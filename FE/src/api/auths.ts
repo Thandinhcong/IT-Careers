@@ -1,12 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 
-// const user = JSON.parse(localStorage.getItem("user") as string);
-// const token = user?.accessToken;
-// const headers = {
-//     Authorization: `Bearer ${token}`,
-// }
-
 const authApi = createApi({
     reducerPath: "auth",
     tagTypes: ['Auths'],

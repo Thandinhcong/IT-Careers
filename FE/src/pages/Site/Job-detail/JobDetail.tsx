@@ -21,6 +21,10 @@ import TabInfor from "./TabInfor";
 import { useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";
+import { useGetInfoUserQuery } from "../../../api/auths";
+import { useForm } from "react-hook-form";
+import { IJobPostApply, useApplyJobMutation } from "../../../api/jobPostApply";
+
 
 const JobDetail = () => {
     const [basicActive, setBasicActive] = useState("tab1");
@@ -34,6 +38,28 @@ const JobDetail = () => {
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: IListJobsDetail | undefined = data && data.job_detail;
+    // const { data: infoUser } = useGetInfoUserQuery();
+    // const user = infoUser?.candidate;
+
+    const userToken = JSON.parse(localStorage.getItem("user") as string);
+    const token = userToken?.accessToken;
+
+
+    const [applyJob] = useApplyJobMutation();
+    const { register, handleSubmit } = useForm();
+    const onHandleSubmit = async (job: IJobPostApply) => {
+        try {
+            const result = await applyJob({
+                ...job
+            }).unwrap();
+            console.log(result);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
 
     return (
         <div>
@@ -105,18 +131,23 @@ const JobDetail = () => {
                                 <AiOutlineClose className="w-5 h-5" />
                             </button>
                         </TEModalHeader>
-                        {/* <!--Modal body--> */}
-                        <form action="">
+                        {/* <!--Modal b ody--> */}
+                        <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">Tải lên CV từ máy tính</p>
                                 <p className="text-sm  text-gray-700">File doc, docx, pdf. Tối đa 5MB.</p>
                                 <div className="my-2">
-                                    <input type="file" />
+                                    <input
+                                        className="border py-1 "
+                                        type="file"
+                                        {...register("image")}
+                                    />
                                 </div>
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">Thư mô tả</label>
                                     <textarea
-                                        className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                                        {...register("desc")}
+                                        className="w-full rounded-lg border-gray-200 p-3 text-sm outline-none border border-solid "
                                         placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
                                         rows={4}
                                         id="message"
@@ -135,7 +166,7 @@ const JobDetail = () => {
                                 </TERipple>
                                 <TERipple rippleColor="light">
                                     <button
-                                        type="button"
+                                        type="submit"
                                         className="ml-1 inline-block rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                     >
                                         Ứng tuyển

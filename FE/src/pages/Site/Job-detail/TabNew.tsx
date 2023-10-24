@@ -202,7 +202,7 @@ const TabNew = () => {
             <div className="">
                 <div className="border border-gray-100 p-3">
                     <h2 className="font-semibold text-lg">Chia sẻ tin tuyển dụng</h2>
-                    <p className="my-3">
+                    <div className="my-3">
                         <p>sao chép đường dẫn</p>
                         <span>
                             <input
@@ -211,7 +211,7 @@ const TabNew = () => {
                                 type="text" disabled className="p-2 w-4/5 rounded" />
                             <button onClick={copyToClipboard} className="bg-[#4688ff26] text-blue-500 text-xl p-3 rounded ml-2"><AiOutlineCopy /></button>
                         </span>
-                    </p>
+                    </div>
                     <p>Chia sẻ qua mạng xã hội</p>
                     <span className="text-5xl flex gap-2 pt-2">
                         <a href=""><AiFillFacebook className="text-blue-500" /></a>
