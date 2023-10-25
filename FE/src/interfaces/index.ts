@@ -71,7 +71,7 @@ export interface ICompanyInfor {
     logo?: string
     link_web?: string
     image_paper?: string
-    desc?: string
+    description?: string
     status?: number
 }
 export interface IListInfo {
@@ -136,7 +136,7 @@ export interface ICompanys {
     logo: string,
     link_web: string,
     image_paper: string,
-    desc: string,
+    description: string,
     coin: number,
     status: Selection,
 
@@ -172,7 +172,7 @@ export interface IListJobsDetail {
     level: string,
     job_position: string,
     experience: string,
-    desc: string,
+    description: string,
     address: string,
     working_form: string,
     academic_level: string,
