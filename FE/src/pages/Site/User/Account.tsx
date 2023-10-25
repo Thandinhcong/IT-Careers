@@ -42,12 +42,6 @@ const Account = (props: Props) => {
     const { data: candidateData } = useGetCandidatesQuery();
     const [form] = Form.useForm();
 
-    const genderValues = {
-        0: 'Không xác định',
-        1: 'Nam',
-        2: 'Nữ',
-    };
-
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -57,7 +51,7 @@ const Account = (props: Props) => {
             email: candidateData?.candidate?.email,
             phone: candidateData?.candidate?.phone,
             address: candidateData?.candidate?.address,
-            gender: genderValues[candidateData?.candidate?.gender],
+            gender: candidateData?.candidate?.gender,
             type: candidateData?.candidate?.type,
             coin: candidateData?.candidate?.coin,
         });
@@ -110,7 +104,7 @@ const Account = (props: Props) => {
                         labelWrap={true}
                         autoComplete="off">
                         <div>
-                            <h2 className='font-bold flex items-center'>Họ và tên <AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Họ và tên</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="name"
@@ -121,7 +115,7 @@ const Account = (props: Props) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Email<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Email</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="email"
@@ -132,7 +126,7 @@ const Account = (props: Props) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Số điện thoại<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Số điện thoại</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="phone"
@@ -143,7 +137,7 @@ const Account = (props: Props) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Địa chỉ<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Địa chỉ</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="address"
@@ -154,7 +148,7 @@ const Account = (props: Props) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Giới tính<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Giới tính</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="gender"
@@ -169,7 +163,7 @@ const Account = (props: Props) => {
                                     <Select.Option value={2}>Nữ</Select.Option>
                                 </Select>
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Loại<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Loại</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="type"
@@ -178,9 +172,9 @@ const Account = (props: Props) => {
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Input disabled />
                             </Form.Item>
-                            <h2 className='font-bold flex items-center'>Xu<AiOutlineQuestionCircle /></h2>
+                            <h2 className='font-bold flex items-center'>Xu</h2>
                             <Form.Item<IAccount>
                                 // label=""
                                 name="coin"
@@ -189,7 +183,7 @@ const Account = (props: Props) => {
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Input disabled />
                             </Form.Item>
                             <Form.Item labelAlign="left">
                                 <Button type="primary" htmlType="submit" className="bg-blue-500">
