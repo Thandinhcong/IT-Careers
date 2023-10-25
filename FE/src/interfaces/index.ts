@@ -111,10 +111,10 @@ export interface IAccount {
     password?: string,
     phone?: string,
     address?: string,
-    avatar?: string,
+    gender?: number,
+    type?: number,
     status?: number,
     coin?: string,
-    // phone: string,
     password_confirmation: string
 }
 export interface IListData {
