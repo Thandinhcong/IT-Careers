@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
 import { IAccount } from '../../../interfaces'
 import { pause } from '../../../utils/pause'
+import { message } from 'antd'
 
 type Props = {}
 interface MenuItem {
@@ -61,9 +62,8 @@ const Account = (props: Props) => {
         editCandidate({ ...values })
             .unwrap()
             .then(async () => {
-                console.log(values);
-                await pause(3000);
                 navigate("/account");
+                message.success('Cập nhật thành công')
             });
     };
     console.log(candidateData);
