@@ -21,6 +21,7 @@
     "axios": "^1.5.0",
     "chart.js": "^4.4.0",
     "env": "^0.0.2",
+    "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "postcss-cli": "^10.1.0",
     "react": "^18.2.0",
@@ -36,12 +37,13 @@
     "react-typist": "^2.0.5",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
-    "sweetalert2": "^11.7.32",
+    "sweetalert2": "^11.6.13",
     "swiper": "^10.3.1",
     "tw-elements-react": "^1.0.0-alpha1",
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-slick": "^0.23.10",
