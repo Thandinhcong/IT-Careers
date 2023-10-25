@@ -1,327 +1,259 @@
-import { Button } from 'antd'
-import { useEffect, useState } from 'react';
-import { AiFillEdit, AiOutlineUpload } from 'react-icons/ai';
-import { BsPencil } from 'react-icons/bs';
-
+import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
+import Sider from 'antd/es/layout/Sider'
+import { Content } from 'antd/es/layout/layout'
+import React, { useEffect } from 'react'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { Link, useNavigate } from 'react-router-dom';
+import { ICompanyInfor } from '../../../interfaces'
+import { message } from 'antd'
+import { useEditCompanyInfoMutation, useGetInforQuery } from '../../../api/CompanyInfoApi'
 
 const CompanySetting = () => {
+    const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
+    const navigate = useNavigate();
+    const { data: companyData } = useGetInforQuery();
+    const [form] = Form.useForm();
 
-    const [formVisible, setFormVisible] = useState(false);
-    const [formValues, setFormValues] = useState({
-        company_name: 'Tập Đoàn FPT',
-        tax_code: '10310231321',
-        address: '42750 Kiera Rest Apt. 986\nPort Rosalynborough, WA 26766',
-        founded_in: '2016-05-05',
-        name: 'Đinh Hữu Thế',
-        office: 'Trịnh Văn Bô',
-        email: 'thedh@gmail',
-        phone: '0886479387',
-        map: '2000 Kovacek Ford\nBruenmouth, RI 38700-9853',
-        logo: 'C:\\Users\\admin\\AppData\\Local\\Temp\\da5fd6cae85d6b60d3cf511401d1a950.png',
-        link_web: 'link_web',
-        image_paper: 'C:\\Users\\admin\\AppData\\Local\\Temp\\a6df36ebeb44f1fcace5a15fc53dc90d.png',
-        desc: 'aaaaaaaaaaaaaaaaaaaaaa',
-    });
-
-
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
     useEffect(() => {
-        const savedCompanyInfo = localStorage.getItem('userCompanyInfo');
-        if (savedCompanyInfo) {
-            setFormValues(JSON.parse(savedCompanyInfo));
-        }
-    }, []);
-    const handleChangeCompanyInfo = (key: string, value: string) => {
-        setFormValues((prevState: any) => ({
-            ...prevState,
-            [key]: value,
-        }));
+        form.setFieldsValue({
+            company_name: companyData?.company?.company_name,
+            tax_code: companyData?.company?.tax_code,
+            address: companyData?.company?.address,
+            founded_in: companyData?.company?.founded_in,
+            name: companyData?.company?.name,
+            office: companyData?.company?.office,
+            email: companyData?.company?.email,
+            phone: companyData?.company?.phone,
+            password: companyData?.company?.password,
+            map: companyData?.company?.map,
+            logo: companyData?.company?.logo,
+            link_web: companyData?.company?.link_web,
+            image_paper: companyData?.company?.image_paper,
+            description: companyData?.company?.description,
+            company_size_max: companyData?.company?.company_size_max,
+            company_size_min: companyData?.company?.company_size_min,
+
+        });
+    }, [companyData]);
+    console.log(companyData);
+
+
+
+    const onFinish = (values: ICompanyInfor) => {
+        editcompany({ ...values })
+            .unwrap()
+            .then(async () => {
+                navigate("");
+                message.success('Cập nhật thành công')
+            });
+    };
+
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo);
     };
     return (
-        <div>
-            <h1 className='text-2xl'>Thông tin công ty</h1>
-            <p className='w-4/5 text-sm text-gray-600 my-3'>
-                Mô tả chi tiết thông tin về công ty của bạn đang làm việc giúp ứng viên nắm được về công ty
-            </p>
-            <div>
-                <span className='text-gray-500 text-lg'>Ảnh đại diện</span>
-                <div className='flex justify-between items-center border-b pb-3'>
-                    <div className='w-20'>
-                        <img src="" />
-                    </div>
-                    <Button className='flex items-center'>
-                        <AiOutlineUpload /> Thay đổi ảnh
-                    </Button>
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Tên Công Ty</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.company_name}
-                                onChange={e => handleChangeCompanyInfo('company_name', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+        <Content style={{ padding: '0 20px' }} className='max-w-screen-xl'>
+            <Layout style={{ background: colorBgContainer }}>
+                <Content style={{ padding: '0 24px 100px 200px', minHeight: 580, }} className='leading-8 '>
+                    <h1 className='font-bold text-base mb-8'>Thông tin Công Ty </h1>
+                    <Form
+                        // className="mx-40"
+                        form={form}
+                        name="basic"
+                        labelCol={{ span: 24 }}
+                        wrapperCol={{ span: 24 }}
+                        style={{ maxWidth: 400 }}
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        labelWrap={true}
+                        autoComplete="off">
+                        <div>
+                            <h2 className='font-bold flex items-center'>Logo</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="logo"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.company_name}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Tên Công Ty</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="company_name"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Mã Số Thuế</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.tax_code}
-                                onChange={e => handleChangeCompanyInfo('tax_code', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Mã Số Thuế</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="tax_code"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.tax_code}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Địa Chỉ</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="address"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Địa Chỉ</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.address}
-                                onChange={e => handleChangeCompanyInfo('address', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Ngày Thành Lập</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="founded_in"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.address}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Văn Phòng</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="office"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Website</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.link_web}
-                                onChange={e => handleChangeCompanyInfo('link_web', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Map</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="map"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.link_web}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Link Website</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="link_web"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Ngày Thành Lập</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.founded_in}
-                                onChange={e => handleChangeCompanyInfo('founded_in', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Tên</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="name"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.founded_in}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Số Điện Thoại</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="phone"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Số Điện Thoại</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.phone}
-                                onChange={e => handleChangeCompanyInfo('phone', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Email</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="email"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.phone}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Giấy Phép</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="image_paper"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-                <div className='my-2'>
-                    <span className='text-gray-500 text-lg'>Mô tả</span>
-                    {formVisible ? (
-                        <div className='flex justify-between items-center'>
-                            <input
-                                type='text'
-                                value={formValues.desc}
-                                onChange={e => handleChangeCompanyInfo('desc', e.target.value)}
-                            />
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Lưu thông tin đã thay đổi và ẩn form
-                                    localStorage.setItem('userCompanyInfo', JSON.stringify(formValues));
-                                    setFormVisible(false);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            {/* <h2 className='font-bold flex items-center'>Quy Mô Nhỏ Từ</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="company_size_min"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                Lưu
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className='flex justify-between items-center'>
-                            <p>{formValues.desc}</p>
-                            <Button
-                                type='text'
-                                className='bg-gray-50 flex items-center'
-                                onClick={() => {
-                                    // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                    setFormVisible(true);
-                                }}
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Quy Mô Lớn Từ</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="company_size_max"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
                             >
-                                <BsPencil />
-                                Thay đổi
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
+                                <Input />
+                            </Form.Item> */}
+                            {/* <h2 className='font-bold flex items-center'>Mô tả</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
+                                name="description"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item> */}
 
-    );
+                            <Form.Item labelAlign="left">
+                                <Button type="primary" htmlType="submit" className="bg-blue-500">
+                                    {isUpdateLoading ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        "Cập nhật thông tin"
+                                    )}
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    </Form>
+                </Content>
+            </Layout>
+        </Content>
+    )
 };
 
 

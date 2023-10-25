@@ -72,6 +72,8 @@ export interface ICompanyInfor {
     link_web?: string
     image_paper?: string
     description?: string
+    company_size_max?: number,
+    company_size_min?: number,
     status?: number
 }
 export interface IListInfo {

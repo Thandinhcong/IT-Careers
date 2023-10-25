@@ -23,7 +23,7 @@ const SignInCompanies = () => {
                 const isTokenStored = localStorage.getItem('accessToken') !== null;
                 if (isTokenStored) {
                     message.success("Đăng nhập thành công");
-                    window.location.href = '/companys';
+                    window.location.href = '/business';
                 }
             })
             .catch((error) => {
