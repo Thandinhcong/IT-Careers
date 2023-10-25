@@ -9,8 +9,8 @@ import { PiSignOutLight } from 'react-icons/pi';
 
 const HeaderCompany = () => {
     const CV = [
-        { name: 'Thông tin liên hệ', href: '/companys/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
-        { name: 'Thiết lập công ty', href: '/companys/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
+        { name: 'Thông tin liên hệ', href: '/business/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
+        { name: 'Thiết lập công ty', href: '/business/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
         { name: 'Đăng xuất', href: '#', icon: <PiSignOutLight className="text-blue-500 text-xl" /> },
     ]
 

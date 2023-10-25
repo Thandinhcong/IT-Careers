@@ -28,7 +28,6 @@ const CompanySetting = () => {
         const savedCompanyInfo = localStorage.getItem('userCompanyInfo');
         if (savedCompanyInfo) {
             setFormValues(JSON.parse(savedCompanyInfo));
-
         }
     }, []);
     const handleChangeCompanyInfo = (key: string, value: string) => {
