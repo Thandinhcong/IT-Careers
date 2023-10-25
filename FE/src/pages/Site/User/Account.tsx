@@ -1,12 +1,13 @@
-// import { MenuProps } from '@headlessui/react'
-import { Breadcrumb, Button, Layout, Menu, theme } from 'antd'
+import { Button, Form, Input, Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
-import React, { useState } from 'react'
-import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineQuestionCircle } from 'react-icons/ai'
-import { BsPencil } from 'react-icons/bs'
+import React, { useEffect } from 'react'
+import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineQuestionCircle, AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
+import { IAccount } from '../../../interfaces'
+import { pause } from '../../../utils/pause'
 
 type Props = {}
 interface MenuItem {
@@ -36,28 +37,41 @@ const items: MenuItem[] = [
     getItem('Giấy phép kinh doanh', '', <AiOutlineFile />),
 ];
 const Account = (props: Props) => {
+    const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
+    const navigate = useNavigate();
+    const { data: candidateData } = useGetCandidatesQuery();
+    const [form] = Form.useForm();
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    useEffect(() => {
+        form.setFieldsValue({
+            name: candidateData?.candidate?.name,
+            email: candidateData?.candidate?.email,
+            phone: candidateData?.candidate?.phone,
+            address: candidateData?.candidate?.address,
+            gender: candidateData?.candidate?.gender,
+            type: candidateData?.candidate?.type,
+            coin: candidateData?.candidate?.coin,
+        });
+    }, [candidateData]);
 
-    const [formVisible, setFormVisible] = useState(false);
-    const [formData, setFormData] = useState(() => {
-        const savedUserInfo = localStorage.getItem('userInfo');
-        return savedUserInfo ? JSON.parse(savedUserInfo) : {
-            fullName: '',
-            email: '',
-            phoneNumber: '',
-            password: ''
-        };
-    });
-    const handleChangeInfo = (key: string, value: string) => {
-        setFormData((prevState: any) => ({
-            ...prevState,
-            [key]: value,
-        }));
+    const onFinish = (values: IAccount) => {
+        editCandidate({ ...values })
+            .unwrap()
+            .then(async () => {
+                console.log(values);
+                await pause(3000);
+                navigate("/");
+            });
     };
-    const hidePassword = (password: string | any[]) => {
-        return '*'.repeat(password.length);
+    console.log(candidateData);
+
+
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo);
     };
     return (
         <Content style={{ padding: '0 20px' }} className='max-w-screen-xl'>
@@ -77,160 +91,107 @@ const Account = (props: Props) => {
                         <h2 className='font-bold'>ID tài khoản</h2>
                         <p>1231390</p>
                     </div>
-                    <div>
-                        <h2 className='font-bold flex items-center'>Họ và tên <AiOutlineQuestionCircle /></h2>
-                        {formVisible ? (
-                            <div className='flex justify-between items-center'>
-                                <input
-                                    type='text'
-                                    value={formData.fullName}
-                                    onChange={e => handleChangeInfo('fullName', e.target.value)}
-                                />
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Lưu thông tin đã thay đổi và ẩn form
-                                        localStorage.setItem('userInfo', JSON.stringify(formData));
-                                        setFormVisible(false);
-                                    }}
-                                >
-                                    Lưu
+                    <Form
+                        // className="mx-40"
+                        form={form}
+                        name="basic"
+                        labelCol={{ span: 24 }}
+                        wrapperCol={{ span: 24 }}
+                        style={{ maxWidth: 400 }}
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                        labelWrap={true}
+                        autoComplete="off">
+                        <div>
+                            <h2 className='font-bold flex items-center'>Họ và tên <AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="name"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Email<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="email"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Số điện thoại<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="phone"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Địa chỉ<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="address"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Giới tính<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="gender"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Loại<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="type"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <h2 className='font-bold flex items-center'>Xu<AiOutlineQuestionCircle /></h2>
+                            <Form.Item<IAccount>
+                                // label=""
+                                name="coin"
+                                rules={[
+                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                ]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Form.Item labelAlign="left">
+                                <Button type="primary" htmlType="submit" className="bg-blue-500">
+                                    {isUpdateLoading ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        "Cập nhật thông tin"
+                                    )}
                                 </Button>
-                            </div>
-                        ) : (
-                            <div className='flex justify-between items-center'>
-                                <p>{formData.fullName}</p>
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                        setFormVisible(true);
-                                    }}
-                                >
-                                    <BsPencil />
-                                    Thay đổi
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className='my-10'>
-                        <h2 className='font-bold flex items-center'>Địa chỉ email <AiOutlineQuestionCircle /></h2>
-                        {formVisible ? (
-                            <div className='flex justify-between items-center'>
-                                <input
-                                    type='text'
-                                    value={formData.email}
-                                    onChange={e => handleChangeInfo('email', e.target.value)}
-                                />
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Lưu thông tin đã thay đổi và ẩn form
-                                        localStorage.setItem('userInfo', JSON.stringify(formData));
-                                        setFormVisible(false);
-                                    }}
-                                >
-                                    Lưu
-                                </Button>
-                            </div>
-                        ) : (
-
-                            <div className='flex justify-between items-center'>
-                                <p>{formData.email}</p>
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                        setFormVisible(true);
-                                    }}
-                                >
-                                    <BsPencil />
-                                    Thay đổi
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                    <div>
-                        <h2 className='font-bold flex items-center'>Số điện thoại<AiOutlineQuestionCircle /></h2>
-                        {formVisible ? (
-                            <div className='flex justify-between items-center'>
-                                <input
-                                    type='text'
-                                    value={formData.phoneNumber}
-                                    onChange={e => handleChangeInfo('phoneNumber', e.target.value)}
-                                />
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Lưu thông tin đã thay đổi và ẩn form
-                                        localStorage.setItem('userInfo', JSON.stringify(formData));
-                                        setFormVisible(false);
-                                    }}
-                                >
-                                    Lưu
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className='flex justify-between items-center'>
-                                <p>{formData.phoneNumber}</p>
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                        setFormVisible(true);
-                                    }}
-                                >
-                                    <BsPencil />
-                                    Thay đổi
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                    <div className='my-10'>
-                        <h2 className='font-bold'>Mật khẩu</h2>
-                        {formVisible ? (
-                            <div className='flex justify-between items-center'>
-                                <input
-                                    type='text'
-                                    value={formData.password}
-                                    onChange={e => handleChangeInfo('password', e.target.value)}
-                                />
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Lưu thông tin đã thay đổi và ẩn form
-                                        localStorage.setItem('userInfo', JSON.stringify(formData));
-                                        setFormVisible(false);
-                                    }}
-                                >
-                                    Lưu
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className='flex justify-between items-center'>
-                                <p>{hidePassword(formData.password)}</p>
-                                <Button
-                                    type='text'
-                                    className='bg-gray-50 flex items-center'
-                                    onClick={() => {
-                                        // Hiển thị form khi người dùng ấn nút "Thay đổi"
-                                        setFormVisible(true);
-                                    }}
-                                >
-                                    <BsPencil />
-                                    Thay đổi
-                                </Button>
-                            </div>
-                        )}
-                    </div>
+                            </Form.Item>
+                        </div>
+                    </Form>
                 </Content>
             </Layout>
         </Content>
