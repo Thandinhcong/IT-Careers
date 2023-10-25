@@ -1,4 +1,4 @@
-import { Button, Form, Input, Layout, Menu, theme } from 'antd'
+import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React, { useEffect } from 'react'
@@ -42,6 +42,12 @@ const Account = (props: Props) => {
     const { data: candidateData } = useGetCandidatesQuery();
     const [form] = Form.useForm();
 
+    const genderValues = {
+        0: 'Không xác định',
+        1: 'Nam',
+        2: 'Nữ',
+    };
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -51,7 +57,7 @@ const Account = (props: Props) => {
             email: candidateData?.candidate?.email,
             phone: candidateData?.candidate?.phone,
             address: candidateData?.candidate?.address,
-            gender: candidateData?.candidate?.gender,
+            gender: genderValues[candidateData?.candidate?.gender],
             type: candidateData?.candidate?.type,
             coin: candidateData?.candidate?.coin,
         });
@@ -63,7 +69,7 @@ const Account = (props: Props) => {
             .then(async () => {
                 console.log(values);
                 await pause(3000);
-                navigate("/");
+                navigate("/account");
             });
     };
     console.log(candidateData);
@@ -157,7 +163,11 @@ const Account = (props: Props) => {
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Select>
+                                    <Select.Option value={0}>Không xác định</Select.Option>
+                                    <Select.Option value={1}>Nam</Select.Option>
+                                    <Select.Option value={2}>Nữ</Select.Option>
+                                </Select>
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Loại<AiOutlineQuestionCircle /></h2>
                             <Form.Item<IAccount>
