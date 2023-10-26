@@ -2,8 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface IJobPostApply {
     id?: number,
-    image: string,
-    desc: string,
+    profile_id: string,
+    email: string,
+    phone:string,
+    name:string,
 }
 const jobPostApply = createApi({
     reducerPath: "jobPostApply",
@@ -25,7 +27,7 @@ const jobPostApply = createApi({
     endpoints: (builder) => ({
         applyJob: builder.mutation({
             query: (data: IJobPostApply) => ({
-                url: "/candidate_apply",
+                url: `/candidate_apply/${data?.id}`,
                 method: "POST",
                 body: data
             }),

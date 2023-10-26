@@ -11,9 +11,7 @@ export const schemaSignup = yup.object({
     email: yup.string().email("Email không đúng địng dạng").required("Trường dữ liệu bắt buộc"),
     password: yup.string().min(6, "Tối thiểu 6 ký tự!"),
     phone: yup.string().test('is-phone-number', 'Số điện thoại không hợp lệ', function (value) {
-        if (!value) return true; // Bỏ qua nếu giá trị không được cung cấp
-        // Thay đổi đoạn mã sau để kiểm tra số điện thoại theo quy tắc cụ thể
-        // Ví dụ: kiểm tra xem số điện thoại bắt đầu bằng "0" và sau đó là 9 chữ số
+        if (!value) return true; 
         const isValidPhoneNumber = /^0[0-9]{9}$/.test(value);
         return isValidPhoneNumber;
     }).required("Trường dữ liệu bắt buộc"),
