@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface IJobPostApply {
     id?: number,
-    profile_id: string,
+    profile_id: number,
     email: string,
     phone:string,
     name:string,

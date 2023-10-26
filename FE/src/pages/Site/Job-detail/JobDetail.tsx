@@ -42,23 +42,23 @@ const JobDetail = () => {
     const listOne: IListJobsDetail | undefined = data && data.job_detail;
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
-    const idUser=user?.id
-    
+    const idUser = user?.id
+
     const userToken = JSON.parse(localStorage.getItem("user") as string);
     const token = userToken?.accessToken;
 
 
     const [applyJob] = useApplyJobMutation();
-    const { register, handleSubmit ,formState:{errors}} = useForm<FromApply>({
-        resolver:yupResolver(schemaJobApply)
+    const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
+        resolver: yupResolver(schemaJobApply)
     });
     const onHandleSubmit = async (job: FromApply) => {
         try {
             const result = await applyJob({
-             ...job,
-                userId:idUser,
-                
-                
+                id:id,
+                candidate_id: idUser,
+                ...job
+
             }).unwrap();
             console.log(result);
 
@@ -151,33 +151,33 @@ const JobDetail = () => {
                                         <label htmlFor="">Họ Tên <span className="text-red-500">*</span></label>
                                         <input type="text" placeholder="Nhập tên của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("name")} />
                                         <div className="text-sm text-red-500">
-                                        {errors.name && errors.name.message}
+                                            {errors.name && errors.name.message}
                                         </div>
                                     </div>
                                     <div className="">
                                         <label htmlFor="">Email<span className="text-red-500">*</span></label>
-                                        <input type="text" placeholder="Nhập tên email của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("email")}/>
+                                        <input type="text" placeholder="Nhập tên email của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("email")} />
                                         <div className="text-sm text-red-500">
-                                        {errors.email && errors.email.message}
+                                            {errors.email && errors.email.message}
                                         </div>
                                     </div>
                                     <div className="">
                                         <label htmlFor="">Số điện thoại <span className="text-red-500">*</span></label>
                                         <input type="text" placeholder="Nhập số điện thoại của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("phone")} />
                                         <div className="text-sm text-red-500">
-                                        {errors.phone && errors.phone.message}
+                                            {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
                                 </div>
                                 <div className="my-2">
                                     <input
                                         className="border py-1 w-full "
-                                        type="file"
+                                        type="text"
                                         {...register("profile_id")}
                                     />
                                     <div className="text-sm text-red-500">
                                         {errors.profile_id && errors.profile_id.message}
-                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">Thư mô tả</label>
