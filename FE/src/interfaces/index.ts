@@ -71,7 +71,9 @@ export interface ICompanyInfor {
     logo?: string
     link_web?: string
     image_paper?: string
-    desc?: string
+    description?: string
+    company_size_max?: number,
+    company_size_min?: number,
     status?: number
 }
 export interface IListInfo {
@@ -111,10 +113,10 @@ export interface IAccount {
     password?: string,
     phone?: string,
     address?: string,
-    avatar?: string,
+    gender?: number,
+    type?: number,
     status?: number,
     coin?: string,
-    // phone: string,
     password_confirmation: string
 }
 export interface IListData {
@@ -136,7 +138,7 @@ export interface ICompanys {
     logo: string,
     link_web: string,
     image_paper: string,
-    desc: string,
+    description: string,
     coin: number,
     status: Selection,
 
@@ -172,7 +174,7 @@ export interface IListJobsDetail {
     level: string,
     job_position: string,
     experience: string,
-    desc: string,
+    description: string,
     address: string,
     working_form: string,
     academic_level: string,

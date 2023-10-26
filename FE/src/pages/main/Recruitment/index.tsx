@@ -8,7 +8,6 @@ import { IJobPost, IListJobs } from '../../../interfaces'
 const Recruitment = () => {
     const { data } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
-    console.log(listJobs);
 
     return (
         <div>

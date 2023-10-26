@@ -24,6 +24,13 @@ export const schemaSignup = yup.object({
 export type FormSignup = yup.InferType<typeof schemaSignup>
 
 
+export const schemaLoginAdmin = yup.object({
+    email: yup.string().email("Email không đúng ký tự").required("Trường dữ liệu bắt buộc!"),
+    password: yup.string().min(6, "Tối thiểu 6 ký tự!").required("Trường dữ liệu bắt buộc!"),
+})
+export type FormLoginAdmin = yup.InferType<typeof schemaLoginAdmin>
+
+
 
 
 

@@ -13,7 +13,7 @@ const EditLevel = () => {
     const [editLevel, { isLoading: isUpdateLoading }] = useEditLevelMutation();
     const { data: levelData } = useGetLevelByIdQuery(id || "");
     const [form] = Form.useForm();
-    console.log(levelData);
+    // console.log(levelData);
 
     useEffect(() => {
         form.setFieldsValue({

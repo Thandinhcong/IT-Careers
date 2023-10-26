@@ -25,9 +25,12 @@ import authCompaniesApi from '../api/auth/SigninCompanies';
 import AccountApi, { AccountReducer } from '../api/accountApi';
 
 import companyApi, { companyReducer } from '../api/companyApi';
-import companysApi, { companysReducer } from '../api/CompanymanagerAPI';
+import companysApi, { companysReducer } from '../api/CompanymanagerApi';
 import jobsApi, { JobsReducer } from '../api/jobApi';
 import jobPostApply, { JobPostApplyReducer } from '../api/jobPostApply';
+import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
+import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
+
 
 const persistConfig = {
     key: 'root',
@@ -50,7 +53,9 @@ const rootReducer = combineReducers({
     [companyApi.reducerPath]: companyReducer,
     [companysApi.reducerPath]: companysReducer,
     [jobsApi.reducerPath]: JobsReducer,
-    [jobPostApply.reducerPath]: JobPostApplyReducer
+    [jobPostApply.reducerPath]: JobPostApplyReducer,
+    [AdminLogin.reducerPath]: adminLoginReducer,
+    [CompnayInfoApi.reducerPath]: CompanyInfoReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -68,7 +73,9 @@ const middleware = [
     companyApi.middleware,
     companysApi.middleware,
     jobsApi.middleware,
-    jobPostApply.middleware
+    jobPostApply.middleware,
+    AdminLogin.middleware,
+    CompnayInfoApi.middleware
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
