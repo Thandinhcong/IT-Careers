@@ -3,6 +3,7 @@ import type { MenuProps } from 'antd';
 import { Link } from 'react-router-dom'
 import { Dropdown, Space } from 'antd';
 import { AiOutlineDown, AiOutlinePlus } from 'react-icons/ai';
+import { useGetInfoUserQuery } from '../../../api/auths';
 
 
 const items: MenuProps['items'] = [
@@ -46,15 +47,14 @@ const items: MenuProps['items'] = [
             </a>
         ),
     },
-    // {
-    //     key: '3',
-    //     danger: true,
-    //     label: 'a danger item',
-    // },
+
 ];
 
 
 const Profile = () => {
+
+    const { data } = useGetInfoUserQuery();
+    const listInfo = data?.candidate;
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -71,7 +71,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className='absolute translate-x-[15%] translate-y-[80%]'>
-                    <p className='text-2xl'>Lê Quốc Đạt</p>
+                    <p className='text-2xl'>{listInfo?.name}</p>
                     <div className='my-1'>
                         <Link to='/contact' className='text-blue-500 text-lg'>Liên hệ</Link>
                     </div>

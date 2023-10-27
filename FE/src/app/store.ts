@@ -25,10 +25,11 @@ import authCompaniesApi from '../api/auth/Companies';
 import AccountApi, { AccountReducer } from '../api/accountApi';
 
 import companyApi, { companyReducer } from '../api/companyApi';
-import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
-import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
 import jobsApi, { JobsReducer } from '../api/jobApi';
 import companysApi, { companysReducer } from '../api/CompanymanagerApi';
+import jobPostApply, { JobPostApplyReducer } from '../api/jobPostApply';
+import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
+import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
 import JobPostCompanyApi, { jobPostCompanyReducer } from '../api/companies/jobPostCompany';
 
 
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
     [companyApi.reducerPath]: companyReducer,
     [companysApi.reducerPath]: companysReducer,
     [jobsApi.reducerPath]: JobsReducer,
+    [jobPostApply.reducerPath]: JobPostApplyReducer,
     [AdminLogin.reducerPath]: adminLoginReducer,
     [CompnayInfoApi.reducerPath]: CompanyInfoReducer,
     [JobPostCompanyApi.reducerPath]: jobPostCompanyReducer,
@@ -73,6 +75,7 @@ const middleware = [
     companyApi.middleware,
     companysApi.middleware,
     jobsApi.middleware,
+    jobPostApply.middleware,
     AdminLogin.middleware,
     CompnayInfoApi.middleware,
     JobPostCompanyApi.middleware,
