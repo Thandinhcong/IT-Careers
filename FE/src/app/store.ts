@@ -74,7 +74,7 @@ const middleware = [
     companysApi.middleware,
     jobsApi.middleware,
     AdminLogin.middleware,
-    CompnayInfoApi.middleware
+    CompnayInfoApi.middleware,
     JobPostCompanyApi.middleware,
 ]
 
