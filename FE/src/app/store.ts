@@ -21,7 +21,7 @@ import experienceApi, { experienceReducer } from '../api/experienceApi';
 import LevelApi, { LevelReducer } from '../api/levelApi';
 import MajorApi, { MajorReducer } from '../api/majorApi';
 import authApi, { authsReducer } from '../api/auths';
-import authCompaniesApi from '../api/auth/SigninCompanies';
+import authCompaniesApi from '../api/auth/Companies';
 import AccountApi, { AccountReducer } from '../api/accountApi';
 
 import companyApi, { companyReducer } from '../api/companyApi';
@@ -29,6 +29,9 @@ import companysApi, { companysReducer } from '../api/CompanymanagerApi';
 import jobsApi, { JobsReducer } from '../api/jobApi';
 import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
 import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
+import jobsApi, { JobsReducer } from '../api/jobApi';
+import companysApi, { companysReducer } from '../api/CompanymanagerApi';
+import JobPostCompanyApi, { jobPostCompanyReducer } from '../api/companies/jobPostCompany';
 
 
 const persistConfig = {
@@ -54,6 +57,7 @@ const rootReducer = combineReducers({
     [jobsApi.reducerPath]: JobsReducer,
     [AdminLogin.reducerPath]: adminLoginReducer,
     [CompnayInfoApi.reducerPath]: CompanyInfoReducer,
+    [JobPostCompanyApi.reducerPath]: jobPostCompanyReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -72,7 +76,8 @@ const middleware = [
     companysApi.middleware,
     jobsApi.middleware,
     AdminLogin.middleware,
-    CompnayInfoApi.middleware
+    CompnayInfoApi.middleware,
+    JobPostCompanyApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

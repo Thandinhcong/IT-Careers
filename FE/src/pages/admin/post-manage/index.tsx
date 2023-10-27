@@ -9,6 +9,7 @@ import React from 'react';
 
 const PostManage = () => {
     const { data, isLoading, error } = useGetJobPostQuery();
+    console.log(data);
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<IJobPost | null>(null);
@@ -62,7 +63,7 @@ const PostManage = () => {
             }
         }
     }
-    const dataJobPost = data?.major?.map(({ id, title, job_position_id, start_date, end_date, require, gender, interest, status }: IJobPost) => {
+    const dataJobPost = data?.jobPost?.map(({ id, title, job_position_id, start_date, end_date, require, gender, interest, status }: IJobPost) => {
         return {
             key: id,
             title,

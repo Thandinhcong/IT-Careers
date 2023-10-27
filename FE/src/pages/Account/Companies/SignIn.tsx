@@ -1,6 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
-import { AuthSignin, useSigninCompaniesMutation } from '../../../api/auth/SigninCompanies';
+import { AuthSignin, useSigninCompaniesMutation } from '../../../api/auth/Companies';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -16,8 +16,6 @@ const SignInCompanies = () => {
                 localStorage.setItem('accessToken', accessToken);
             })
             .then(() => {
-                message.success("Đăng nhập thành công"),
-                    navigate('/companys')
                 // Lưu token vào localStorage
                 // Kiểm tra xem token đã được lưu trong localStorage hay chưa
                 const isTokenStored = localStorage.getItem('accessToken') !== null;

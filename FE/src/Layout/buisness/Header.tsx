@@ -2,18 +2,37 @@ import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react';
 import { BiEdit, BiHomeAlt2, BiMessageRounded, BiSearch } from "react-icons/bi"
 import { IoCartOutline, IoSettingsOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { CiUser } from 'react-icons/ci';
 import { PiSignOutLight } from 'react-icons/pi';
+import { useGetInforQuery } from '../../api/companies/jobPostCompany';
+import { useLogOutCompaniesMutation } from '../../api/auth/Companies';
+import { message } from 'antd';
 
 const HeaderCompany = () => {
+
+    const { data: Infor } = useGetInforQuery();
+    const navigate = useNavigate();
+    const [logout] = useLogOutCompaniesMutation()
+    const handleLogout = async () => {
+        try {
+            await logout();
+            localStorage.removeItem('accessToken');
+            message.success("đăng xuất");
+            navigate("/companies/signin");
+        } catch (error) {
+            console.error('Đăng xuất không thành công: ', error);
+        }
+    };
     const CV = [
         { name: 'Thông tin liên hệ', href: '/business/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
         { name: 'Thiết lập công ty', href: '/business/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
         { name: 'Đăng xuất', href: '#', icon: <PiSignOutLight className="text-blue-500 text-xl" /> },
+        { name: 'Thông tin liên hệ', href: '/companys/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
+        { name: 'Thiết lập công ty', href: '/companys/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
+        { name: 'Đăng xuất', href: '#', onclick: handleLogout, icon: <PiSignOutLight className="text-blue-500 text-xl" /> }
     ]
-
     return (
         <div className='border flex fixed top-0 w-[82%] z-50 right-0 max-w-screen-2xl items-center gap-2 p-2 font-medium justify-end bg-white shadow'>
             <Link to="/business/jobs/create" className='flex items-center gap-2 px-5 py-2 relative rounded text-white bg-blue-500 group'>
@@ -23,6 +42,7 @@ const HeaderCompany = () => {
                     Đăng mới một tin tuyển dụng
                 </div>
             </Link>
+
             <Link to="deposit" className='flex items-center relative group  gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <IoCartOutline />
                 <p className='text-sm'>Mua xu</p>
@@ -43,9 +63,7 @@ const HeaderCompany = () => {
             </Link>
             <Link to="" className='text-2xl  mr-5'>
                 <IoMdNotificationsOutline /> </Link>
-            <Link to="" className='text-2xl mr-5 '> <BiHomeAlt2 />
-
-            </Link>
+            <Link to="" className='text-2xl mr-5 '> <BiHomeAlt2 /></Link>
 
 
             <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5">
@@ -53,7 +71,7 @@ const HeaderCompany = () => {
                     <Popover.Button
                         className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                     >
-                        <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" className='rounded-full border p-1' alt="logo công ty" width={40} />
+                        <img src={Infor?.company?.logo} className='rounded-full border p-1' alt="logo công ty" width={50} height={50} />
                     </Popover.Button>
 
                     <Transition
@@ -70,6 +88,7 @@ const HeaderCompany = () => {
                                 {CV.map((item) => (
                                     <div
                                         key={item.name}
+                                        onClick={item.onclick}
                                         className="group relative flex items-center gap-2 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                                     >
                                         <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">

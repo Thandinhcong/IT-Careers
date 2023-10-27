@@ -5,7 +5,7 @@ const experienceApi = createApi({
     reducerPath: "experience",
     tagTypes: ['experience'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: "http://127.0.0.1:8000/api/admin",
         fetchFn: async (...arg) => {
             return fetch(...arg)
         }
