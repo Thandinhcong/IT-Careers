@@ -3,24 +3,51 @@ import { IJobPost } from '../../../interfaces';
 import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
-import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
+import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const JobCreate = () => {
+const PostEdit = () => {
+    const { id } = useParams();
     const { data } = useGetJobPostSelectByIdQuery();
-    const { data: Infor } = useGetInforQuery();
-    console.log(Infor?.company);
+    const navigate = useNavigate();
     const [form] = Form.useForm();
-    const [jobPost] = useAddJobPostMutation();
+    const { data: Infor } = useGetInforQuery();
+    const { data: PostData } = useGetJobPostByIdCompanyIdQuery(id || "");
+
+    const [jobPost] = useEditJobPostMutation();
+
     useEffect(() => {
         form.setFieldsValue({
+            // Account
             name: Infor?.company?.name,
             phone: Infor?.company?.phone,
             address: Infor?.company?.address,
             email: Infor?.company?.email,
-            id: Infor?.company?.id,
+            id_company: Infor?.company?.id,
+            // Post
+            // id_company: PostData?.level[0]?.id_company,
+            title: PostData?.level[0]?.title,
+            working_form_id: PostData?.level[0]?.working_form,
+            area_id: PostData?.level[0]?.area_id,
+            job_position_id: PostData?.level[0]?.job_position,
+            academic_level_id: PostData?.level[0]?.academic_level,
+            exp_id: PostData?.level[0]?.experience,
+            gender: PostData?.level[0]?.gender,
+            major_id: PostData?.level[0]?.major,
+            quantity: PostData?.level[0]?.quantity,
+            min_salary: PostData?.level[0]?.min_salary,
+            max_salary: PostData?.level[0]?.max_salary,
+            interest: PostData?.level[0]?.interest,
+            require: PostData?.level[0]?.require,
+            start_date: PostData?.level[0]?.start_date
+                ? moment(PostData?.level[0]?.start_date)
+                : null,
+            end_date: PostData?.level[0]?.end_date
+                ? moment(PostData?.level[0]?.end_date)
+                : null,
         });
-    }, [Infor]);
+    }, [Infor, PostData]);
 
     const onFinish = (values: IJobPost) => {
         if (values.start_date !== undefined && values.end_date !== undefined) {
@@ -31,15 +58,17 @@ const JobCreate = () => {
             values.start_date = moment(startDate).format('YYYY-MM-DD');
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
-        jobPost(values)
-            .unwrap()
-            .then(() => {
-                message.success('Đăng bài thành công');
-                window.location.href = '/business/jobs-manage';
-            })
-            .catch((error) => {
-                message.error("Đăng bài thất bại" + error.message);
-            });
+        console.log(values);
+
+        // jobPost({ ...values, id: Number(id) })
+        //     .unwrap()
+        //     .then(() => {
+        //         message.success(`Cập nhật thành bài đăng thành công`);
+        //         navigate("/business/job-manage");
+        //     })
+        //     .catch((error) => {
+        //         message.error("Đăng bài thất bại" + error.message);
+        //     });
     };
 
     const handleChange = (value: string) => {
@@ -55,7 +84,6 @@ const JobCreate = () => {
             }
         }
     };
-
     // Hàm kiểm tra ngày kết thúc
     const validateEndDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
         if (value) {
@@ -68,10 +96,11 @@ const JobCreate = () => {
             }
         }
     };
+
     return (
         <div className='bg-gray-100 py-8 px-4'>
             <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
-                <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Đăng bài tuyển dụng</h2>
+                <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Cập nhật bài đăng tuyển dụng</h2>
 
                 <Form
                     form={form}
@@ -90,7 +119,6 @@ const JobCreate = () => {
                     <Form.Item<IJobPost>
                         label="Tiêu đề tuyển dụng"
                         name="title"
-
                         rules={[
                             { required: true, message: 'Trường này không được bỏ trống !' },
                             { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Tiêu đề phải trên 5 kí tự !" }
@@ -143,9 +171,9 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.job_position.map((options: any) => (
+                                    {data?.data?.level.map((options: any) => (
                                         <Select.Option key={options.id} value={options.id}>
-                                            {options.job_position}
+                                            {options.level}
                                         </Select.Option>
                                     ))}
                                 </Select>
@@ -354,17 +382,17 @@ const JobCreate = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Form.Item<IJobPost>
+                    {/* <Form.Item<IJobPost>
                         label="company_id"
                         name="company_id"
                         initialValue={Infor?.company?.id}
                         rules={[
                             { required: true, message: 'Trường này không được bỏ trống !' },
                         ]}
-                        hidden
+
                     >
                         <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item>
+                    </Form.Item> */}
                     <div className='flex justify-between mt-4'>
                         <Button className='bg-gray-100 h-10 flex items-center gap-1'>
                             <AiOutlineEye /> <span>Xem trước bài đăng</span>
@@ -384,4 +412,4 @@ const JobCreate = () => {
 }
 
 
-export default JobCreate
+export default PostEdit

@@ -6,7 +6,13 @@ const MajorApi = createApi({
     reducerPath: "Major",
     tagTypes: ['Majors'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: "http://127.0.0.1:8000/api/admin",
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+        },
         fetchFn: async (...arg) => {
             await pause(1000);
             return fetch(...arg)

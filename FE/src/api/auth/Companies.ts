@@ -1,0 +1,65 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+
+export interface AuthSignup {
+    email?: string
+    password?: string
+    name?: string
+    password_confirmation?: string
+    link_web?: string
+    company_name?: string
+    phone?: string
+    address?: string
+}
+export interface AuthSignin {
+    email: string;
+    password: string;
+}
+
+const authCompaniesApi = createApi({
+    reducerPath: 'company',
+    baseQuery: fetchBaseQuery({
+        baseUrl: "http://127.0.0.1:8000/api",
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+        },
+    }),
+    endpoints: (builder) => ({
+        signupCompanies: builder.mutation<{ message: string, status: string, errors: string }, AuthSignup>({
+            query: (account) => ({
+                url: '/company/register',
+                method: 'POST',
+                body: account,
+            }),
+        }),
+        signinCompanies: builder.mutation<{ message: string, access_token: string }, AuthSignin>({
+            query: (account) => ({
+                url: '/company/login',
+                method: 'POST',
+                body: account,
+            }),
+        }),
+        logOutCompanies: builder.mutation<void, void>({
+            query: (account) => ({
+                url: '/company/logout',
+                method: 'DELETE',
+                body: account,
+            }),
+        }),
+        getInfor: builder.query<[], void>({
+            query: () => "/company/company_information",
+        }),
+    }),
+});
+
+export const {
+    useSignupCompaniesMutation,
+    useSigninCompaniesMutation,
+    useGetInforQuery,
+    useLogOutCompaniesMutation
+} = authCompaniesApi;
+
+export default authCompaniesApi;

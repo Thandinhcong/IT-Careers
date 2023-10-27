@@ -1,17 +1,27 @@
 import { AiOutlineAreaChart, AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlineNodeIndex, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
-import React from 'react';
-import { Button, Divider, Dropdown, Space, Table, Tag } from 'antd';
+import React, { useState } from 'react';
+import { Button, Divider, Drawer, Dropdown, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { MenuProps } from 'antd';
 import { useGetJobPostByIdCompanyQuery } from '../../../api/companies/jobPostCompany';
+import FormEdit from "./PostEdit";
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
-const TabMain = () => {
+const TabPostPass = () => {
     const { data } = useGetJobPostByIdCompanyQuery();
-    // console.log(data?.Job_position[0].id);
 
+
+
+    const [open, setOpen] = useState(false);
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
 
     const items: MenuProps['items'] = [
         {
@@ -69,7 +79,8 @@ const TabMain = () => {
             ),
             dataIndex: 'title',
             render: (title: string, record: IJobPost) => {
-                const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date());
+                const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date()); // Chuyển record.start_date thành đối tượng ngày
+                const currentDate = new Date();
                 const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
                 return (
                     <div className="text-gray-600 w-auto">
@@ -152,7 +163,7 @@ const TabMain = () => {
                     <span>Thao tác</span>
                 </div>
             ),
-            render: ({ key: id }: { key: string | number }) => (
+            render: () => (
                 <div className="flex items-center gap-2">
                     <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded ">
                         <AiOutlineNodeIndex className="text-xl text-[#526484] hover:text-white" />
@@ -161,10 +172,13 @@ const TabMain = () => {
                         <AiOutlineAreaChart className="text-xl text-[#526484] hover:text-white" />
                     </Button>
                     <Space>
-                        <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded " href={`job_post/update/${id}`}>
+                        <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded " onClick={showDrawer}>
                             <AiOutlineEdit className="text-xl text-[#526484] hover:text-white" />
                         </Button>
                     </Space>
+                    <Drawer title="Sửa bài đăng" placement="right" onClose={onClose} open={open} width={500}>
+                        <FormEdit />
+                    </Drawer>
                     <Space direction="vertical">
                         <Dropdown menu={{ items }} placement="bottomRight">
                             <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded">
@@ -192,17 +206,17 @@ const TabMain = () => {
             job_position_id: item.job_position_id,
             area_id: item.area_id,
             academic_level_id: item.academic_level_id,
-            major_id: item.major,
+            major_id: item.major_id,
             interest: item.interest,
         }
     })
-
+    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 1);
     // rowSelection object indicates the need for row selection
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
-        getCheckboxProps: (record: IJobPost) => ({
+        getCheckboxProps: (record: DataType) => ({
             name: record.title,
         }),
     };
@@ -221,11 +235,11 @@ const TabMain = () => {
                         ...rowSelection,
                     }}
                     columns={columns}
-                    dataSource={jobPostData}
+                    dataSource={passJobPostData}
                 />
             </div>
         </div>
     )
 }
 
-export default TabMain
+export default TabPostPass
