@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
     AiOutlineCheck,
     AiOutlineClose,
@@ -29,7 +29,7 @@ import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";
 import { useGetInfoUserQuery } from "../../../api/auths";
 import { useForm } from "react-hook-form";
-import { IJobPostApply, useApplyJobMutation } from "../../../api/jobPostApply";
+import {  useApplyJobMutation } from "../../../api/jobPostApply";
 import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";

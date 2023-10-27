@@ -2,15 +2,13 @@ import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React, { useEffect } from 'react'
-import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineQuestionCircle, AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
 import { Link, useNavigate } from 'react-router-dom';
 import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
 import { IAccount } from '../../../interfaces'
-import { pause } from '../../../utils/pause'
 import { message } from 'antd'
 
-type Props = {}
 interface MenuItem {
     key: React.Key;
     icon?: React.ReactNode;
@@ -37,7 +35,7 @@ const items: MenuItem[] = [
     getItem('Thiết lập công ty', '', <LuActivitySquare />),
     getItem('Giấy phép kinh doanh', '', <AiOutlineFile />),
 ];
-const Account = (props: Props) => {
+const Account = () => {
     const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
     const navigate = useNavigate();
     const { data: candidateData } = useGetCandidatesQuery();
