@@ -25,8 +25,6 @@ import authCompaniesApi from '../api/auth/Companies';
 import AccountApi, { AccountReducer } from '../api/accountApi';
 
 import companyApi, { companyReducer } from '../api/companyApi';
-import companysApi, { companysReducer } from '../api/CompanymanagerApi';
-import jobsApi, { JobsReducer } from '../api/jobApi';
 import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
 import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
 import jobsApi, { JobsReducer } from '../api/jobApi';
@@ -76,7 +74,7 @@ const middleware = [
     companysApi.middleware,
     jobsApi.middleware,
     AdminLogin.middleware,
-    CompnayInfoApi.middleware,
+    CompnayInfoApi.middleware
     JobPostCompanyApi.middleware,
 ]
 
