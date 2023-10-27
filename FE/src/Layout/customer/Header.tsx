@@ -1,32 +1,55 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { AiOutlineBars, AiFillCaretDown, AiOutlineClose, AiOutlineHeart, AiOutlineProfile, AiOutlineUser, AiOutlineCalendar, AiOutlineLogout, AiOutlineKey, AiOutlineSetting } from 'react-icons/ai'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLogOutMutation } from '../../api/auths';
+import Swal from 'sweetalert2';
 
 
-
-const CV = [
-  { name: 'Hồ sơ của tôi  ', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
-  { name: 'Mẫu CV', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
-]
-const profile = [
-  { name: 'Profile cá nhân', href: '/user/profile', icon: <AiOutlineUser className="text-xl" /> },
-  { name: 'Quản lý CV', href: '/user/listcv', icon: <AiOutlineProfile className="text-xl" /> },
-  { name: 'Việc làm đã ứng tuyển', href: '/user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
-  { name: 'Việc làm đã lưu', href: '/user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
-  { name: 'Đổi mật khẩu', href: '/change', icon: <AiOutlineKey className="text-xl" /> },
-  { name: 'Thiết lập tài khoản', href: '/account', icon: <AiOutlineSetting className="text-xl" /> },
-  { name: 'Đăng xuất', href: '/user/jobfavor', icon: <AiOutlineLogout className="text-xl" /> },
-]
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();  // const user = JSON.parse(localStorage.getItem("user") as string);
+  const [useLogout]=useLogOutMutation();
+  const [isLogin, setIsLogin] = useState(() => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null
+
+  });
+  const handleLogout = async() => {
+    const confilm = window.confirm("Bạn có muốn đăng xuất không?");
+    if (confilm) {
+      await useLogout();
+      localStorage.removeItem('user');
+      localStorage.removeItem("accessToken");
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Đăng xuất thành công!',
+        timer: 1500,
+      });
+      navigate('/');
+
+    }
+  };
+  const CV = [
+    { name: 'Hồ sơ của tôi  ', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
+    { name: 'Mẫu CV', href: '#', icon: <AiOutlineProfile className="text-blue-500 text-3xl" /> },
+  ]
+  const profile = [
+    { name: 'Profile cá nhân', href: '/user/profile', icon: <AiOutlineUser className="text-xl" /> },
+    { name: 'Quản lý CV', href: '/user/listcv', icon: <AiOutlineProfile className="text-xl" /> },
+    { name: 'Việc làm đã ứng tuyển', href: '/user/jobapply', icon: <AiOutlineCalendar className="text-xl" /> },
+    { name: 'Việc làm đã lưu', href: '/user/jobfavor', icon: <AiOutlineHeart className="text-xl" /> },
+    { name: 'Đổi mật khẩu', href: '/change', icon: <AiOutlineKey className="text-xl" /> },
+    { name: 'Thiết lập tài khoản', href: '/account', icon: <AiOutlineSetting className="text-xl" /> },
+    { name: 'Đăng xuất', onclick: handleLogout, icon: <AiOutlineLogout className="text-xl" /> },
+  ]
+
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+  }
 
   return (
     <header className="bg-white w-100%">
@@ -127,6 +150,7 @@ const Header = () => {
                   <div className="p-2">
                     {profile.map((item) => (
                       <div
+                      onClick={item.onclick}
                         key={item.name}
                         className="group relative flex items-center gap-2 rounded-lg p-2 text-sm leading-6 hover:bg-blue-100"
                       >
@@ -146,7 +170,7 @@ const Header = () => {
               </Transition>
             </Popover>
           </Popover.Group>
-          {user ? "" : (
+          {isLogin ? "" : (
             <div>
 
               <Link to="/signin" className="text-sm font-semibold leading-6 text-gray-900">

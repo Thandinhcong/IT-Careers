@@ -40,13 +40,21 @@ const authApi = createApi({
         getInfoUser: builder.query<any, void>({
             query: () => "/candidate_information",
             providesTags: ['Auths']
+        }),
+        logOut:builder.mutation<void,void>({
+            query:(data)=>({
+                url:"/candidate/logout",
+                method:"DELETE",
+                body:data
+            })
         })
     })
 })
 export const {
     useGetInfoUserQuery,
     useLoginMutation,
-    useSignupMutation
+    useSignupMutation,
+    useLogOutMutation
 } = authApi;
 export const authsReducer = authApi.reducer;
 export default authApi;
