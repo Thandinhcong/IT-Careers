@@ -6,7 +6,7 @@ const authApi = createApi({
     tagTypes: ['Auths'],
 
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8000/api/candidate",
+        baseUrl: import.meta.env.VITE_API_CANDIDATE,
 
         fetchFn: (...arg) => {
             return fetch(...arg)

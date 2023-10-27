@@ -95,6 +95,7 @@ import SignInCompanies from "./pages/Account/Companies/SignIn"
 import SignupCompanies from "./pages/Account/Companies/Signup"
 import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
+import IsLogin from "./pages/auths/isLogin"
 
 
 function App() {
@@ -133,7 +134,7 @@ function App() {
         </Route>
 
         {/* Account */}
-        <Route>
+        <Route element={<IsLogin/>}>
           <Route path='/signin' element={< SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart } from "react-icons/ai"
-import SearchJobs from "../Recruit/SearchJobs"
+import {
+    AiOutlineCheck,
+    AiOutlineClose,
+    AiOutlineContainer,
+    AiOutlineHdd,
+    AiOutlineHeart,
+} from "react-icons/ai";
+import SearchJobs from "../Recruit/SearchJobs";
 import {
     TETabs,
     TETabsContent,
@@ -26,7 +32,7 @@ import { useForm } from "react-hook-form";
 import { IJobPostApply, useApplyJobMutation } from "../../../api/jobPostApply";
 import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import Swal from "sweetalert2";
 
 const JobDetail = () => {
     const [basicActive, setBasicActive] = useState("tab1");
@@ -42,38 +48,50 @@ const JobDetail = () => {
     const listOne: IListJobsDetail | undefined = data && data.job_detail;
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
-    const idUser = user?.id
-
-    const userToken = JSON.parse(localStorage.getItem("user") as string);
-    const token = userToken?.accessToken;
-
+    const idUser = user?.id;
+    const [applied, setApplied] = useState(false);
 
     const [applyJob] = useApplyJobMutation();
-    const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
-        resolver: yupResolver(schemaJobApply)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FromApply>({
+        resolver: yupResolver(schemaJobApply),
     });
     const onHandleSubmit = async (job: FromApply) => {
+        // if(!data)
         try {
-            const result = await applyJob({
-                id:id,
+            await applyJob({
+                id: id,
                 candidate_id: idUser,
-                ...job
-
+                ...job,
             }).unwrap();
-            console.log(result);
-
+            setApplied(true);
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Ứng tuyển công việc thành công",
+                showConfirmButton: false,
+                timer: 1500,
+            });
         } catch (error) {
-            console.log(error);
-
+       
+            Swal.fire({
+                title: "Bạn đã ứng tuyển công việc này rồi !",
+                confirmButtonText: "Quay lại tìm việc.",
+            });
         }
-    }
+    };
 
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div>
-            <div className="max-w-screen-xl mx-auto"><SearchJobs /></div>
+            <div className="max-w-screen-xl mx-auto">
+                <SearchJobs />
+            </div>
             <div className="bg-gray-50 py-6">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
                     <div className="grid grid-cols-4 my-2 gap-10">
@@ -88,11 +106,13 @@ const JobDetail = () => {
                                     className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
                                     onClick={() => setShowModal(true)}
                                 >
-                                    <AiOutlineCheck className="inline-block text mr-2 text-xl" />Nộp hồ sơ online
+                                    <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+                                    Nộp hồ sơ online
                                 </button>
                             </TERipple>
                             <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                <AiOutlineHeart className="inline-block text mr-2 text-xl" /> Lưu tin
+                                <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
+                                Lưu tin
                             </button>
                         </div>
                     </div>
@@ -102,7 +122,8 @@ const JobDetail = () => {
                                 onClick={() => handleBasicClick("tab1")}
                                 active={basicActive === "tab1"}
                             >
-                                <AiOutlineContainer className="inline-block mr-1" /> Tin tuyển dụng
+                                <AiOutlineContainer className="inline-block mr-1" /> Tin tuyển
+                                dụng
                             </TETabsItem>
                             <TETabsItem
                                 onClick={() => handleBasicClick("tab2")}
@@ -113,108 +134,145 @@ const JobDetail = () => {
                         </TETabs>
 
                         <TETabsContent className="mt-4">
-                            <TETabsPane show={basicActive === "tab1"}><TabNew /></TETabsPane>
-                            <TETabsPane show={basicActive === "tab2"}><TabInfor /></TETabsPane>
+                            <TETabsPane show={basicActive === "tab1"}>
+                                <TabNew />
+                            </TETabsPane>
+                            <TETabsPane show={basicActive === "tab2"}>
+                                <TabInfor />
+                            </TETabsPane>
                         </TETabsContent>
                     </div>
                 </div>
             </div>
 
             {/* ModalMain */}
-            <TEModal show={showModal} setShow={setShowModal}>
-                <TEModalDialog size="lg">
-                    <TEModalContent>
-                        <TEModalHeader style={{ alignItems: "start" }}>
-                            {/* <!--Modal title--> */}
-                            <h5 className="text-xl font-semibold leading-normal text-gray-700">
-                                Ứng Tuyển
-                                <span className="ml-2 text-blue-600">Thực Tập Sinh Tiềm Năng- Chuyên Viên Tư Vấn Đầu Tư Chứng Khoán</span>
-                            </h5>
+            {applied ? (
+                <div>
+                    <p>Bạn đã ứng tuyển công việc này rồi!</p>
+                </div>
+            ) : (
+                <TEModal show={showModal} setShow={setShowModal}>
+                    <TEModalDialog size="lg">
+                        <TEModalContent>
+                            <TEModalHeader style={{ alignItems: "start" }}>
+                                {/* <!--Modal title--> */}
+                                <h5 className="text-xl font-semibold leading-normal text-gray-700">
+                                    Ứng Tuyển
+                                    <span className="ml-2 text-blue-600">{listOne?.title}</span>
+                                </h5>
 
-                            {/* <!--Close button--> */}
-                            <button
-                                type="button"
-                                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                                onClick={() => setShowModal(false)}
-                                aria-label="Close"
-                            >
-                                <AiOutlineClose className="w-5 h-5" />
-                            </button>
-                        </TEModalHeader>
-                        {/* <!--Modal b ody--> */}
-                        <form onSubmit={handleSubmit(onHandleSubmit)}>
-                            <TEModalBody className="leading-8">
-                                <p className="text-base text-gray-900 my-2">Tải lên CV từ máy tính</p>
-                                <p className="text-sm  text-gray-700">File doc, docx, pdf. Tối đa 5MB.</p>
-                                <div>
-                                    <div className="">
-                                        <label htmlFor="">Họ Tên <span className="text-red-500">*</span></label>
-                                        <input type="text" placeholder="Nhập tên của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("name")} />
-                                        <div className="text-sm text-red-500">
-                                            {errors.name && errors.name.message}
+                                {/* <!--Close button--> */}
+                                <button
+                                    type="button"
+                                    className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                                    onClick={() => setShowModal(false)}
+                                    aria-label="Close"
+                                >
+                                    <AiOutlineClose className="w-5 h-5" />
+                                </button>
+                            </TEModalHeader>
+                            {/* <!--Modal b ody--> */}
+                            <form onSubmit={handleSubmit(onHandleSubmit)}>
+                                <TEModalBody className="leading-8">
+                                    <p className="text-base text-gray-900 my-2">
+                                        Tải lên CV từ máy tính
+                                    </p>
+                                    <p className="text-sm  text-gray-700">
+                                        File doc, docx, pdf. Tối đa 5MB.
+                                    </p>
+                                    <div>
+                                        <div className="">
+                                            <label htmlFor="">
+                                                Họ Tên <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tên của bạn"
+                                                className="border py-1 px-2 outline-none rounded w-full my-2"
+                                                {...register("name")}
+                                            />
+                                            <div className="text-sm text-red-500">
+                                                {errors.name && errors.name.message}
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <label htmlFor="">
+                                                Email<span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập tên email của bạn"
+                                                className="border py-1 px-2 outline-none rounded w-full my-2"
+                                                {...register("email")}
+                                            />
+                                            <div className="text-sm text-red-500">
+                                                {errors.email && errors.email.message}
+                                            </div>
+                                        </div>
+                                        <div className="">
+                                            <label htmlFor="">
+                                                Số điện thoại <span className="text-red-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                placeholder="Nhập số điện thoại của bạn"
+                                                className="border py-1 px-2 outline-none rounded w-full my-2"
+                                                {...register("phone")}
+                                            />
+                                            <div className="text-sm text-red-500">
+                                                {errors.phone && errors.phone.message}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="">
-                                        <label htmlFor="">Email<span className="text-red-500">*</span></label>
-                                        <input type="text" placeholder="Nhập tên email của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("email")} />
+                                    <div className="my-2">
+                                        <input
+                                            className="border py-1 w-full "
+                                            type="text"
+                                            {...register("profile_id")}
+                                        />
                                         <div className="text-sm text-red-500">
-                                            {errors.email && errors.email.message}
+                                            {errors.profile_id && errors.profile_id.message}
                                         </div>
                                     </div>
-                                    <div className="">
-                                        <label htmlFor="">Số điện thoại <span className="text-red-500">*</span></label>
-                                        <input type="text" placeholder="Nhập số điện thoại của bạn" className="border py-1 px-2 outline-none rounded w-full my-2" {...register("phone")} />
-                                        <div className="text-sm text-red-500">
-                                            {errors.phone && errors.phone.message}
-                                        </div>
+                                    <div>
+                                        <label className="text-gray-700" htmlFor="message">
+                                            Thư mô tả
+                                        </label>
+                                        <textarea
+                                            {...register("desc")}
+                                            className="w-full rounded-lg border-gray-200 p-3 text-sm outline-none border border-solid "
+                                            placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
+                                            rows={4}
+                                            id="message"
+                                        ></textarea>
                                     </div>
-                                </div>
-                                <div className="my-2">
-                                    <input
-                                        className="border py-1 w-full "
-                                        type="text"
-                                        {...register("profile_id")}
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.profile_id && errors.profile_id.message}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="text-gray-700" htmlFor="message">Thư mô tả</label>
-                                    <textarea
-                                        {...register("desc")}
-                                        className="w-full rounded-lg border-gray-200 p-3 text-sm outline-none border border-solid "
-                                        placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
-                                        rows={4}
-                                        id="message"
-                                    ></textarea>
-                                </div>
-                            </TEModalBody>
-                            <TEModalFooter>
-                                <TERipple rippleColor="light">
-                                    <button
-                                        type="button"
-                                        className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                                        onClick={() => setShowModal(false)}
-                                    >
-                                        Huỷ
-                                    </button>
-                                </TERipple>
-                                <TERipple rippleColor="light">
-                                    <button
-                                        type="submit"
-                                        className="ml-1 inline-block rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                    >
-                                        Ứng tuyển
-                                    </button>
-                                </TERipple>
-                            </TEModalFooter>
-                        </form>
-                    </TEModalContent>
-                </TEModalDialog>
-            </TEModal>
+                                </TEModalBody>
+                                <TEModalFooter>
+                                    <TERipple rippleColor="light">
+                                        <button
+                                            type="button"
+                                            className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                                            Huỷ
+                                        </button>
+                                    </TERipple>
+                                    <TERipple rippleColor="light">
+                                        <button
+                                            type="submit"
+                                            className="ml-1 inline-block rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                        >
+                                            Ứng tuyển
+                                        </button>
+                                    </TERipple>
+                                </TEModalFooter>
+                            </form>
+                        </TEModalContent>
+                    </TEModalDialog>
+                </TEModal>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default JobDetail
+export default JobDetail;
