@@ -55,6 +55,7 @@ export interface IJobPost {
     start_date?: string,
     end_date?: string,
     status?: number,
+    office?: number
 }
 export interface ICompanyInfor {
     id?: string | number,

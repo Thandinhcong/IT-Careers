@@ -93,6 +93,7 @@ import EditMajors from "./pages/admin/Major-manage/Editmajor"
 import Account from "./pages/Site/User/Account"
 import SignInCompanies from "./pages/Account/Companies/SignIn"
 import SignupCompanies from "./pages/Account/Companies/Signup"
+import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 
 
 function App() {
@@ -174,6 +175,7 @@ function App() {
           <Route path="jobs-manage" element={<JobsManage />} />
           <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
+          <Route path="job_post/update/:id" element={<PostEdit />} />
         </Route>
 
         {/* Help */}

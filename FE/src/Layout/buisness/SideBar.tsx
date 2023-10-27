@@ -11,22 +11,24 @@ import { HiSquare3Stack3D } from "react-icons/hi2"
 import { TbBrandCampaignmonitor } from "react-icons/tb"
 import { IoDocumentTextOutline } from "react-icons/io5"
 import { Link } from 'react-router-dom'
+import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 
 
 const SideBarCompany = () => {
+    const { data: Infor } = useGetInforQuery();
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
     return (
         <div className='p-2 border font-medium text-[#526484] text-sm sticky top-0 h-screen overflow-y-auto'>
             <div className='flex items-center gap-2'>
-                <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" className='rounded-full border p-1' alt="logo công ty" width={50} />
-                <p>Công ty cổ phần công nghệ INTP</p>
+                <img src={Infor?.company?.logo} className='rounded-full border p-1' alt="logo công ty" width={50} height={50} />
+                <p>{Infor?.company?.company_name}</p>
             </div>
             <div className='flex items-center gap-3 mt-10 ml-4'>
                 <p>  <BsFillBuildingFill /></p>
                 <p className='mr-3'>ID tài khoản</p>
-                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>123345</p>
+                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>{Infor?.company?.id}</p>
             </div>
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <PiMoneyThin />  </p>
