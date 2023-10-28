@@ -96,6 +96,7 @@ import SignupCompanies from "./pages/Account/Companies/Signup"
 import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
+import NotFound from "./pages/notFound/NotFound"
 
 
 function App() {
@@ -223,6 +224,7 @@ function App() {
           <Route path="major-manage/create-major" element={<AddMajors />} />
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter >
 
