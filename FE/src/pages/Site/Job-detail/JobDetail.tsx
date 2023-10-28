@@ -24,7 +24,7 @@ import {
 } from "tw-elements-react";
 import TabNew from "./TabNew";
 import TabInfor from "./TabInfor";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";
 import { useGetInfoUserQuery } from "../../../api/auths";
@@ -43,6 +43,7 @@ const JobDetail = () => {
         }
         setBasicActive(value);
     };
+    const navigate=useNavigate();
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: IListJobsDetail | undefined = data && data.job_detail;
@@ -50,7 +51,7 @@ const JobDetail = () => {
     const user = infoUser?.candidate;
     const idUser = user?.id;
     const [applied, setApplied] = useState(false);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [applyJob] = useApplyJobMutation();
     const {
         register,
@@ -60,28 +61,26 @@ const JobDetail = () => {
         resolver: yupResolver(schemaJobApply),
     });
     const onHandleSubmit = async (job: FromApply) => {
-        // if(!data)
-        try {
-            await applyJob({
-                id: id,
-                candidate_id: idUser,
-                ...job,
-            }).unwrap();
-            setApplied(true);
-            Swal.fire({
-                position: "top",
-                icon: "success",
-                title: "Ứng tuyển công việc thành công",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-        } catch (error) {
-       
-            Swal.fire({
-                title: "Bạn đã ứng tuyển công việc này rồi !",
-                confirmButtonText: "Quay lại tìm việc.",
-            });
-        }
+            try {
+                await applyJob({
+                    id: id,
+                    candidate_id: idUser,
+                    ...job,
+                }).unwrap();
+              
+                Swal.fire({
+                    position: "top",
+                    icon: "success",
+                    title: "Ứng tuyển công việc thành công",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: "Bạn đã ứng tuyển công việc này rồi !",
+                    confirmButtonText: "Quay lại tìm việc.",
+                });
+            }
     };
 
     useEffect(() => {
@@ -146,11 +145,7 @@ const JobDetail = () => {
             </div>
 
             {/* ModalMain */}
-            {applied ? (
-                <div>
-                    <p>Bạn đã ứng tuyển công việc này rồi!</p>
-                </div>
-            ) : (
+          
                 <TEModal show={showModal} setShow={setShowModal}>
                     <TEModalDialog size="lg">
                         <TEModalContent>
@@ -270,7 +265,7 @@ const JobDetail = () => {
                         </TEModalContent>
                     </TEModalDialog>
                 </TEModal>
-            )}
+            
         </div>
     );
 };

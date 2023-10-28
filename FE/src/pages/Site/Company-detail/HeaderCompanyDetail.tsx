@@ -7,7 +7,7 @@ const HeaderCompanyDetail = () => {
     const { id } = useParams();
     const { data } = useGetOneCompanysQuery(id || '');
 
-    const listCompanyDetail: ICompanys | undefined = data && data.company;
+    const listCompanyDetail: ICompanys | undefined = data && data?.company;
 
     return (
         <div className="">

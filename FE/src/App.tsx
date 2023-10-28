@@ -108,7 +108,7 @@ function App() {
         {/* site */}
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
-          <Route path="job-detail/:id" element={<JobDetail />} />
+          <Route path="job-detail/:name/:id" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail/:id" element={<CompanyDetail />} />
@@ -140,9 +140,9 @@ function App() {
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
+        </Route>
           <Route path='/companies/signin' element={< SignInCompanies />} />
           <Route path='/companies/signup' element={<SignupCompanies />} />
-        </Route>
 
         {/* Buisness */}
         <Route path="/business" element={<LayoutCompany />} >

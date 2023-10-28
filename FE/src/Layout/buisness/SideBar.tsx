@@ -35,11 +35,11 @@ const SideBarCompany = () => {
                 <p className='mr-3'>Số xu</p>
                 <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
             </div>
-            <Link to="/companys" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/business" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>
                 <p className='mr-3'>Bảng tin</p>
             </Link>
-            <Link to={"jobs-manage"} className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={"/business/jobs-manage"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <IoDocumentTextOutline /> </p>
                 <p className='mr-3'>Quản lý tuyển dụng</p>
             </Link>
@@ -47,15 +47,15 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
                 <p className='mr-3'>Chiến dịch tuyển dụng</p>
             </Link>
-            <Link to={"cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={"/business/cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
             </Link>
-            <Link to="account-pro" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/business/account-pro" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <RiVipCrownLine /> </p>
                 <p className='mr-3'>Tài khoản pro</p>
             </Link>
-            <Link to="/companys/reports" className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to="/business/reports" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>
                 <p className='mr-3'>Báo cáo tổng quan</p>
             </Link>
@@ -123,7 +123,7 @@ const SideBarCompany = () => {
                 </Menu>
 
             </div>
-            <Link to={'/companys/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={'/business/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
             </Link>

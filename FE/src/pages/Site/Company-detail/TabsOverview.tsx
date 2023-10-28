@@ -62,7 +62,7 @@ const TabsOverview = ({ onTabChange }: any) => {
                         <p>Nhà sáng lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.founded_in.toLocaleString()}</p>
+                        <p className='font-semibold h-[63px]'>{listCompanyDetail?.founded_in?.toLocaleString()}</p>
                         <p>Năm thành lập</p>
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
