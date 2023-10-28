@@ -1,8 +1,9 @@
-import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
+import { Button, Form, Input, Layout, Menu, Select, Upload, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React, { useEffect } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { UploadOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { ICompanyInfor } from '../../../interfaces'
 import { message } from 'antd'
@@ -38,7 +39,6 @@ const CompanySetting = () => {
 
         });
     }, [companyData]);
-    console.log(companyData);
 
 
 
@@ -78,11 +78,13 @@ const CompanySetting = () => {
                                 // label=""
                                 name="logo"
                                 rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                    // { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Upload>
+                                    <Button icon={<UploadOutlined />}>Tải lên ảnh</Button>
+                                </Upload>
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Tên Công Ty</h2>
                             <Form.Item<ICompanyInfor>
@@ -199,11 +201,13 @@ const CompanySetting = () => {
                                 // label=""
                                 name="image_paper"
                                 rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { required: true, message: 'Trường này không được bỏ trống !' },
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Upload>
+                                    <Button icon={<UploadOutlined />}>Tải lên ảnh</Button>
+                                </Upload>
                             </Form.Item>
                             {/* <h2 className='font-bold flex items-center'>Quy Mô Nhỏ Từ</h2>
                             <Form.Item<ICompanyInfor>
