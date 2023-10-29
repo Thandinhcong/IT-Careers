@@ -5,7 +5,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useGetAllCompanysQuery } from '../../../api/companyApi';
 import { Link } from 'react-router-dom';
 import { ICompanys } from '../../../interfaces';
-import Fuse from 'fuse.js';
 
 const Company = () => {
 
@@ -22,13 +21,13 @@ const Company = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResults, setSearchResults] = useState([]);
   
-    const handleSearchInputChange = (e) => {
+    const handleSearchInputChange = (e:any) => {
       const keyword = e.target.value;
       setSearchKeyword(keyword);
       searchProducts(keyword);
     };
   
-    const searchProducts = (keyword) => {
+    const searchProducts = (keyword:any) => {
       const lowercaseKeyword = keyword.toLowerCase();
       const results = listCompanys.filter((company) => {
         const companyName = company.name.toLowerCase();

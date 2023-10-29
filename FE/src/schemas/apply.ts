@@ -9,7 +9,7 @@ export const schemaJobApply=yup.object({
         return isValidPhoneNumber;
     }).required("Trường dữ liệu bắt buộc"),
     desc:yup.string(),
-    profile_id:yup.number().required("Trường dữ liệu bắt buộc!")
+    path_cv:yup.string().required("Trường dữ liệu bắt buộc!")
     
 });
 export type FromApply = yup.InferType<typeof schemaJobApply>
