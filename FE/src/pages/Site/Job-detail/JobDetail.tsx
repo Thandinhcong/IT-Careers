@@ -75,7 +75,7 @@ const JobDetail = () => {
                 showConfirmButton: false,
                 timer: 1500,
             });
-            navigate('/job-detail/:name/:id')
+            // navigate('/job-detail/:name/:id')
         } catch (error) {
             Swal.fire({
                 title: "Bạn đã ứng tuyển công việc này rồi !",
