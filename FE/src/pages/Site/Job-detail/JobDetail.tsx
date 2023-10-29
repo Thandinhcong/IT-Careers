@@ -29,36 +29,33 @@ import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";
 import { useGetInfoUserQuery } from "../../../api/auths";
 import { useForm } from "react-hook-form";
-import { useApplyJobMutation } from "../../../api/jobPostApply";
+import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";
 import { UploadImage } from "../../../components/upload";
 
 const JobDetail = () => {
-    const [basicActive, setBasicActive] = useState("tab1");
-    const [showModal, setShowModal] = useState(false);
-    const handleBasicClick = (value: string) => {
-        if (value === basicActive) {
-            return;
-        }
-        setBasicActive(value);
-    };
     const navigate = useNavigate();
     const { id } = useParams();
+
+    //lấy thông tin xem đã ứng tuyển chưa
+    const { data: ListJobApply } = useGetJobApplyQuery();
+    const listJob = ListJobApply?.job_list;
+
+    const idJob = parseInt(id, 10);
+
+    const isAlreadyApplied = listJob?.some((appliedJob:any) => appliedJob.id === idJob);
+
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail = data?.job_detail;
+    const listOne:IListJobsDetail = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser = user?.id;
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FromApply>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
     const onHandleSubmit = async (job: FromApply) => {
@@ -78,12 +75,14 @@ const JobDetail = () => {
                 showConfirmButton: false,
                 timer: 1500,
             });
+            navigate('/job-detail/:name/:id')
         } catch (error) {
             Swal.fire({
                 title: "Bạn đã ứng tuyển công việc này rồi !",
                 confirmButtonText: "Quay lại tìm việc.",
             });
         }
+
     };
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
@@ -93,17 +92,25 @@ const JobDetail = () => {
                     file: files,
                     upload_preset: "demo-upload",
                 });
-                
+
                 if (Response) {
                     setImage(Response.data.url)
                 }
             } catch (error) {
-            
+
             }
         }
         console.log(files);
-        
+
     }
+    const [basicActive, setBasicActive] = useState("tab1");
+    const [showModal, setShowModal] = useState(false);
+    const handleBasicClick = (value: string) => {
+        if (value === basicActive) {
+            return;
+        }
+        setBasicActive(value);
+    };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -111,7 +118,7 @@ const JobDetail = () => {
         <div>
             <div className="max-w-screen-xl mx-auto">
                 <SearchJobs />
-              
+
             </div>
             <div className="bg-gray-50 py-6">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
@@ -119,19 +126,23 @@ const JobDetail = () => {
                         <div className="col-span-3">
                             <p className="font-bold text-2xl">{listOne?.title}</p>
                             <p className="uppercase my-3">{listOne?.company_name}</p>
-                           
+
                         </div>
                         <div className="flex flex-col gap-2">
-                            <TERipple rippleColor="white" className="">
-                                <button
-                                    type="button"
-                                    className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    <AiOutlineCheck className="inline-block text mr-2 text-xl" />
-                                    Nộp hồ sơ online
-                                </button>
-                            </TERipple>
+                            {isAlreadyApplied ? (
+                                <p className="px-2 text-base bg-blue-500 rounded-lg py-1 text-white">Bạn đã ứng tuyển công việc này!</p>
+                            ) : (
+                                <TERipple rippleColor="white" className="">
+                                    <button
+                                        type="button"
+                                        className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
+                                        onClick={() => setShowModal(true)}
+                                    >
+                                        <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+                                        Nộp hồ sơ online
+                                    </button>
+                                </TERipple>
+                            )}
                             <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
                                 <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
                                 Lưu tin
