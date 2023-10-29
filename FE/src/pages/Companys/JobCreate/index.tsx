@@ -4,14 +4,17 @@ import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const JobCreate = () => {
     const { data } = useGetJobPostSelectByIdQuery();
+    console.log(data);
+
     const { data: Infor } = useGetInforQuery();
-    console.log(Infor?.company);
     const [form] = Form.useForm();
     const [jobPost] = useAddJobPostMutation();
+    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
+
     useEffect(() => {
         form.setFieldsValue({
             name: Infor?.company?.name,
@@ -21,6 +24,11 @@ const JobCreate = () => {
             id: Infor?.company?.id,
         });
     }, [Infor]);
+
+    const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
+        console.log(rovinceId);
+        setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+    }
 
     const onFinish = (values: IJobPost) => {
         if (values.start_date !== undefined && values.end_date !== undefined) {
@@ -45,6 +53,8 @@ const JobCreate = () => {
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
+
+    // Hàm kiểm tra ngày bắt đầu 
     const validateStartDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
         if (value) {
             const currentDate = moment();
@@ -72,7 +82,6 @@ const JobCreate = () => {
         <div className='bg-gray-100 py-8 px-4'>
             <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Đăng bài tuyển dụng</h2>
-
                 <Form
                     form={form}
                     className='mx-auto'
@@ -116,25 +125,6 @@ const JobCreate = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        {/* Khu vực */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Khu vực"
-                                name="area_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select
-                                    placeholder="--Chọn--"
-                                    style={{ width: '100%' }}
-                                    onChange={handleChange}
-                                    options={[
-                                        { value: '0', label: 'Hà Nội' },
-                                        { value: '1', label: 'Hải Phòng' },
-                                        { value: '2', label: 'Bình Dương' },
-                                    ]}
-                                />
-                            </Form.Item>
-                        </Col>
                         {/* Cấp bậc */}
                         <Col span={12}>
                             <Form.Item<IJobPost>
@@ -148,6 +138,42 @@ const JobCreate = () => {
                                             {options.job_position}
                                         </Select.Option>
                                     ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        {/* Tỉnh/Thành phố */}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Tỉnh/Thành phố"
+                                name="area_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
+                                    {data?.data?.province_id.map((options: IJobPost) => (
+                                        <Select.Option key={options.id} rovinceId={options.id}>
+                                            {options.province}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        {/* Quận/Huyện*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Quận/Huyện"
+                                name="district_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                    {data?.data?.district_id
+                                        // .filter((options: {
+                                        //     province_id: string | number | null; id: string | number;
+                                        // }) => options.province_id === selectedProvinceId)
+                                        .map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.name}
+                                            </Select.Option>
+                                        ))}
                                 </Select>
                             </Form.Item>
                         </Col>
@@ -211,7 +237,7 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.major_id.map((options: any) => (
+                                    {data?.data?.major_id.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.major}
                                         </Select.Option>

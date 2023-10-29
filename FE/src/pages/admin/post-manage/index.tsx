@@ -1,19 +1,21 @@
 import { Button, Result, Skeleton, Table, Tag, Modal, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { IJobPost } from "../../../interfaces";
 import { useEditJobPostStatusMutation, useGetJobPostQuery } from "../../../api/jobPost";
-import React from 'react';
+import React, { useState } from 'react';
+import { log } from 'console';
 
 
 const PostManage = () => {
+    const [open, setOpen] = useState(false);
     const { data, isLoading, error } = useGetJobPostQuery();
-    console.log(data);
+    console.log(data?.jobPost);
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<IJobPost | null>(null);
-
+    const [selectedPostId, setSelectedPostId] = useState(null);//Lưu id bài đăng đã chọn
 
     const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
@@ -29,6 +31,12 @@ const PostManage = () => {
             message.success("Cập nhật trạng thái thành công");
         }
     };
+
+    const handleViewJobPost = (jobPostId: number | string) => {
+        setOpen(true);
+        setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
+    }
+
 
     const handleModalConfirm = (newStatus: number) => {
         if (selectedJobPost) {
@@ -63,11 +71,11 @@ const PostManage = () => {
             }
         }
     }
-    const dataJobPost = data?.jobPost?.map(({ id, title, job_position_id, start_date, end_date, require, gender, interest, status }: IJobPost) => {
+    const dataJobPost = data?.jobPost?.map(({ id, title, company_name, start_date, end_date, require, gender, interest, status }: IJobPost) => {
         return {
             key: id,
             title,
-            job_position_id,
+            company_name,
             start_date,
             end_date,
             require,
@@ -85,8 +93,8 @@ const PostManage = () => {
         },
         {
             title: 'Công ty đăng bài',
-            dataIndex: 'job_position_id',
-            key: 'job_position_id',
+            dataIndex: 'company_name',
+            key: 'company_name',
         },
         {
             title: 'Thời gian đăng',
@@ -173,7 +181,11 @@ const PostManage = () => {
                             <span className='text-[#49eb47]'>Đổi trạng thái</span>
                         )}
                     </Button >
-                    <Button type='link' className="text-[#3eb7ee] px-0">
+                    {/* <Button type='link' className="text-[#3eb7ee] px-0" onClick={() => setOpen(true)}>
+                        <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
+                        Xem chi tiết
+                    </Button> */}
+                    <Button type='link' className="text-[#3eb7ee] px-0" onClick={() => handleViewJobPost(id)}>
                         <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết
                     </Button>
@@ -198,6 +210,112 @@ const PostManage = () => {
                 onCancel={() => handleModalConfirm(2)} // Không duyệt (Trạng thái 0)
             >
                 Bạn có muốn cho phép bài đăng này được được đăng tuyển không?
+            </Modal>
+            {/* Xem chi tiết */}
+            <Modal
+                title="Xem chi tiết bài đăng"
+                centered
+                open={open}
+                onCancel={() => setOpen(false)}
+                onOk={() => setOpen(false)}
+                okType='text'
+                cancelText="Đóng"
+                okText={<p hidden></p>}
+                width={1000}
+            >
+                {data?.jobPost
+                    .filter((item: { id: null; }) => item.id === selectedPostId)// Lọc bài đăng với ID tương ứng
+                    .map((item: IJobPost) => {
+                        return (
+                            <div key={item.id}>
+
+                                <div className='flex justify-between items-center'>
+                                    <div>
+                                        <h2>{item.title}</h2>
+                                        <h3>{item.company_name}</h3>
+                                        <div className="flex items-center gap-2 my-5">
+                                            <button className="text-white border border-blue-600 bg-blue-600 p-3 hover:bg-blue-500 font-medium rounded-lg">
+                                                <AiOutlineCheck className="inline-block text mr-2 text-xl" />Nộp hồ sơ online
+                                            </button>
+                                            <button className="bg-white border-2 border-blue-600 text-blue-600 p-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
+                                                <AiOutlineHeart className="inline-block text mr-2 text-xl" /> Lưu tin
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className='w-28 h-28 rounded-full border border-gray-200 mb-3 mr-36 relative overflow-hidden'>
+                                        <img src="https://cdn1.123job.vn/123job/uploads/2023/10/05/2023_10_05______41fd58339555b8bd8c915ee29ea7badc.jpg" alt="" className='absolute w-full h-full rounded-full object-cover' />
+                                    </div>
+                                </div>
+                                <div className="text-gray-700">
+                                    <div >
+                                        <div className="grid grid-cols-2 border text-[15px]">
+                                            <div className="grid grid-cols-1 gap-2 border-r py-2">
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineEnvironment />
+                                                    <p className="col-span-3">Địa điểm:</p>
+                                                    <p className="col-span-8">{item.address}</p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineClockCircle className="col-span-1" />
+                                                    <p className="col-span-3">Hạn nộp hs:</p>
+                                                    <p className="col-span-7">{item.end_date}</p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineCalendar className="col-span-1" />
+                                                    <p className="col-span-3">Hình thức:</p>
+                                                    <p className="col-span-7">{item.job_position}</p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2">
+                                                    <AiOutlineUsergroupAdd className="col-span-1" />
+                                                    <p className="col-span-3">Số lượng:</p>
+                                                    <p className="col-span-7">{item.quantity}</p>
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-2 py-2">
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineMoneyCollect className="col-span-1" />
+                                                    <p className="col-span-3">Mức lương:</p>
+                                                    <p className="col-span-7 text-red-500 font-medium">
+                                                        {item.min_salary && item.max_salary &&
+                                                            `${(item.min_salary / 1000000).toLocaleString()} triệu VND - ${(item.max_salary / 1000000).toLocaleString()} triệu VND / tháng`}
+                                                    </p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineUser className="col-span-1" />
+                                                    <p className="col-span-3">Giới tính</p>
+                                                    <p className="col-span-7">
+                                                        {item.gender === 0 ? 'Nam' : item.gender === 1 ? 'Nữ' : 'Không yêu cầu'}
+                                                    </p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                    <AiOutlineFileDone className="col-span-1" />
+                                                    <p className="col-span-3">Kinh nghiệm</p>
+                                                    <p className="col-span-7">{item.experience}</p>
+                                                </div>
+                                                <div className="grid grid-cols-12 items-center gap-2">
+                                                    <AiOutlineStar className="col-span-1" />
+                                                    <p className="col-span-3">Trình độ:</p>
+                                                    <p className="col-span-7">{item.academic_level}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h2 className="font-semibold text-lg my-4">Mô tả công việc/ Yêu cầu</h2>
+                                        <p>{item.require}</p>
+                                    </div>
+
+                                    <div>
+                                        <h2 className="font-semibold text-lg my-4">Quyền lợi</h2>
+                                        <p>{item.interest}</p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        );
+                    })}
             </Modal>
         </div>
     )

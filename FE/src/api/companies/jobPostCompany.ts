@@ -20,6 +20,10 @@ const JobPostCompanyApi = createApi({
             query: () => "/company/job_post",
             providesTags: ['job_post']
         }),
+        getJobPostExpiresByIdCompany: builder.query<IJobPost, void>({
+            query: () => "/company/job_post_expires",
+            providesTags: ['job_post']
+        }),
         getJobPostByIdCompanyId: builder.query<IJobPost, number | string>({
             query: (id) => "/company/job_post/" + id,
             providesTags: ['job_post']
@@ -48,6 +52,21 @@ const JobPostCompanyApi = createApi({
             }),
             invalidatesTags: ['job_post']
         }),
+        extendJobPost: builder.mutation<IJobPost, IJobPost>({
+            query: (job_post: IJobPost) => ({
+                url: `/company/extend_job_post/${job_post.id}`,
+                method: "POST",
+                body: job_post
+            }),
+            invalidatesTags: ['job_post']
+        }),
+        stopJobPost: builder.mutation<void, number | string>({
+            query: (id) => ({
+                url: `/company/stop_job_post/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ['job_post']
+        }),
     })
 })
 export const {
@@ -57,6 +76,9 @@ export const {
     useEditJobPostMutation,
     useGetJobPostSelectByIdQuery,
     useGetInforQuery,
+    useExtendJobPostMutation,
+    useStopJobPostMutation,
+    useGetJobPostExpiresByIdCompanyQuery
 } = JobPostCompanyApi;
 
 export const jobPostCompanyReducer = JobPostCompanyApi.reducer;
