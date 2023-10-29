@@ -166,9 +166,9 @@ const JobCreate = () => {
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                     {data?.data?.district_id
-                                        // .filter((options: {
-                                        //     province_id: string | number | null; id: string | number;
-                                        // }) => options.province_id === selectedProvinceId)
+                                        .filter((options: {
+                                            province_id: string | number | null; id: string | number;
+                                        }) => options.province_id == selectedProvinceId)
                                         .map((options: IJobPost) => (
                                             <Select.Option key={options.id} value={options.id}>
                                                 {options.name}

@@ -197,7 +197,7 @@ const PostEdit = () => {
                                     {data?.data?.district_id
                                         .filter((options: {
                                             province_id: string | number | null; id: string | number;
-                                        }) => options.province_id === selectedProvinceId)
+                                        }) => options.province_id == selectedProvinceId)
                                         .map((options: IJobPost) => (
                                             <Select.Option key={options.id} value={options.id}>
                                                 {options.name}
