@@ -31,7 +31,7 @@ const TabNew = () => {
     };
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail | undefined = data && data.job_detail;
+    const listOne: IListJobsDetail | undefined = data && data?.job_detail;
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>

@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface IJobPostApply {
-    id?: number,
-    profile_id: number,
+    id?: number | undefined,
+    path_cv: string,
     email: string,
-    phone:string,
-    name:string,
+    phone: string,
+    name: string,
 }
 const jobPostApply = createApi({
     reducerPath: "jobPostApply",
     tagTypes: ['JobPostApply'],
     baseQuery: fetchBaseQuery({
-        baseUrl:import.meta.env.VITE_API_CANDIDATE,
+        baseUrl: import.meta.env.VITE_API_CANDIDATE,
         fetchFn: (...arg) => {
             return fetch(...arg)
         },
@@ -25,6 +25,10 @@ const jobPostApply = createApi({
         }
     }),
     endpoints: (builder) => ({
+        getJobApply: builder.query<void, void>({
+            query: () => '/job_apply',
+            providesTags: ['JobPostApply']
+        }),
         applyJob: builder.mutation({
             query: (data: IJobPostApply) => ({
                 url: `/candidate_apply/${data?.id}`,
@@ -36,6 +40,6 @@ const jobPostApply = createApi({
     })
 
 })
-export const { useApplyJobMutation } = jobPostApply
+export const { useApplyJobMutation,useGetJobApplyQuery } = jobPostApply;
 export default jobPostApply;
 export const JobPostApplyReducer = jobPostApply.reducer;

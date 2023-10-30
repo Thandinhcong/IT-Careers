@@ -33,7 +33,8 @@ export interface IJobposition {
     description: string,
 }
 export interface IJobPost {
-    // list_post: IJobPost[],
+    job_position?: string;
+    company_name?: string;
     id?: number,
     title?: string,
     job_position_id?: number,
@@ -46,7 +47,10 @@ export interface IJobPost {
     max_salary?: number,
     level_id?: number,
     company_id?: number,
-    area_id?: number,
+    province?: string, //TỈnh thành phố
+    district?: string, //Quận, Huyện
+    province_id?: number | string, //TỈnh thành phố
+    district_id?: number | string, //Quận, Huyện
     working_form_id?: number,
     academic_level_id?: number,
     ranks_id?: number,
@@ -55,7 +59,14 @@ export interface IJobPost {
     start_date?: string,
     end_date?: string,
     status?: number,
-    office?: number
+    office?: number,
+    address?: string,
+    experience?: string,
+    academic_level?: string,
+    major?: string,
+    area_id?: number,
+    working_form?: string,
+    name: string | number,
 }
 export interface ICompanyInfor {
     id?: string | number,

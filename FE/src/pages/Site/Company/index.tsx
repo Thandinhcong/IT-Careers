@@ -1,11 +1,10 @@
 import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useGetAllCompanysQuery } from '../../../api/companyApi';
 import { Link } from 'react-router-dom';
 import { ICompanys } from '../../../interfaces';
-
 
 const Company = () => {
 
@@ -17,32 +16,40 @@ const Company = () => {
     const { data } = useGetAllCompanysQuery();
 
     const listCompanys: ICompanys[] | undefined = data?.list_company;
-    const [searchKeyword, setSearchKeyword] = useState<string>('');
-    const [searchResults, setSearchResults] = useState<ICompanys[]>([]);
-    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchKeyword(e.target.value)
-        searchProducts(e.target.value)
-    }
+    console.log(listCompanys);
 
-    const searchProducts = (keyword: string) => {
-        const results = listCompanys?.filter((company: ICompanys | undefined) =>
-            company && company.name.toLowerCase().includes(keyword.toLowerCase())
-        ) || [];
-        setSearchResults(results);
-    }
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+  
+    const handleSearchInputChange = (e:any) => {
+      const keyword = e.target.value;
+      setSearchKeyword(keyword);
+      searchProducts(keyword);
+    };
+  
+    const searchProducts = (keyword:any) => {
+      const lowercaseKeyword = keyword.toLowerCase();
+      const results = listCompanys.filter((company) => {
+        const companyName = company.name.toLowerCase();
+        return companyName.includes(lowercaseKeyword);
+      });
+      setSearchResults(results);
+    };
+
+
 
     return (
         <div>
             <div className='max-w-screen-xl mx-auto px-8 '>
                 <div className='py-4'>
-                    <p className='text-3xl font-bold py-3'>
+                    <div className='text-3xl font-bold py-3'>
                         Review công ty-{' '}
                         <TextLoop interval={3000}>
                             {textList.map((text, index) => (
                                 <span className='text-blue-500' key={index}>{text}</span>
                             ))}
                         </TextLoop>
-                    </p>
+                    </div>
                     <p className='text-lg text-gray-500'>Đánh giá công ty và tìm kiếm nơi làm việc tốt nhất cho sự nghiệp của bạn</p>
                 </div>
                 <form className='grid grid-cols-3'>
@@ -57,25 +64,24 @@ const Company = () => {
                     </div>
                     <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm công ty</button>
                 </form>
-                <div className='bg-white shadow border px-2 py-2'>
-                    {searchKeyword && (
+                {searchResults.length > 0 && (
+                    <div className='bg-white shadow border px-2 py-2'>
                         <div className=''>
                             {searchResults.map((item: ICompanys) => (
-                                <div
-                                    key={item?.id}
-                                    className='search-result-item'
-                                >
-                                    <Link
-                                        to={`/company/detail/${item?.id}`}
-                                        className='text-decoration-none'
-                                    >
-                                        <p>{item?.company_name}</p>
+                                <div key={item?.id} className='search-result-item'>
+                                    <Link to={`/company/detail/${item?.id}`} className='text-decoration-none'>
+                                        <div className='flex gap-5 items-center'>
+                                            <img src={item?.logo} alt="Anh logo" className='rounded-full' width={50} />
+                                            <p className='text-xl font-semibold'>{item?.company_name}</p>
+                                        </div>
                                     </Link>
                                 </div>
                             ))}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+
+
             </div>
             <ContentCompany />
             <div className='bg-gray-100'>

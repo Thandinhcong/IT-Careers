@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
 import { Outlet } from 'react-router-dom';
+import { useGetInfoUserQuery } from '../../../api/auths';
 
 
 const LayoutUser = () => {
@@ -14,6 +15,9 @@ const LayoutUser = () => {
     const onChangee = (checked: boolean) => {
         // setIsSearchingJob(checked);
     };
+    const {data}=useGetInfoUserQuery();
+const listInfo=data?.candidate;
+    
     return (
         <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
             <Outlet />
@@ -26,7 +30,7 @@ const LayoutUser = () => {
                             </div>
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
-                                <p><b>Lê Quốc Đạt</b></p>
+                                <div><p className='text-lg font-semibold'>{listInfo?.name}</p></div>
                                 <p className="mb-0 ">
                                     <a href="#" className='text-blue-500'>
                                         Cập nhật hồ sơ thu hút NTD

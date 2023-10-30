@@ -25,7 +25,7 @@ const Recruitment = () => {
                             return null;
                         } else {
                             return (
-                                <Link to={`job-detail/${item?.id}`} className='shadow-lg p-2' key={item?.id}>
+                                <Link to={`/job-detail/${item?.title}/${item?.id}`} className='shadow-lg p-2' key={item?.id}>
                                     <div className='flex gap-2'>
                                         <img src={item?.logo} className='border rounded-md p-2' width={70} />
                                         <div>

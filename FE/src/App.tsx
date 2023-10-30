@@ -96,6 +96,7 @@ import SignupCompanies from "./pages/Account/Companies/Signup"
 import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
+import NotFound from "./pages/notFound/NotFound"
 
 
 function App() {
@@ -108,7 +109,7 @@ function App() {
         {/* site */}
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
-          <Route path="job-detail/:id" element={<JobDetail />} />
+          <Route path="job-detail/:name/:id" element={<JobDetail />} />
           <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail/:id" element={<CompanyDetail />} />
@@ -140,9 +141,9 @@ function App() {
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
+        </Route>
           <Route path='/companies/signin' element={< SignInCompanies />} />
           <Route path='/companies/signup' element={<SignupCompanies />} />
-        </Route>
 
         {/* Buisness */}
         <Route path="/business" element={<LayoutCompany />} >
@@ -223,6 +224,7 @@ function App() {
           <Route path="major-manage/create-major" element={<AddMajors />} />
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter >
 

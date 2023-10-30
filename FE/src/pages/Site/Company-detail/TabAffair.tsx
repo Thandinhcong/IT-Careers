@@ -84,16 +84,16 @@ const TabAffair = () => {
                     <TETabs vertical >
                         {posts.map((post) => (
                             <TETabsItem
-                                key={post.id}
-                                onClick={() => handleVerticalClick(post.id)}
-                                active={verticalActive === post.id}
+                                key={post?.id}
+                                onClick={() => handleVerticalClick(post?.id)}
+                                active={verticalActive === post?.id}
                                 style={{ paddingLeft: '0rem', paddingRight: '0rem' }}
                                 className={`border-2 border-t-2 rounded-lg py-0   ${verticalActive === post.id ? "border-blue-700" : ""
                                     }`}
                             >
                                 <div className="border border-gray-400 rounded-lg shadow-lg p-5 text-gray-700 text-base w-full">
                                     <div className="normal-case font-normal text-left leading-10">
-                                        <p className="font-semibold text-lg">{post.title}</p>
+                                        <p className="font-semibold text-lg">{post?.title}</p>
                                         <p>
                                             <AiOutlineEnvironment className="inline-block mr-1" />{" "}
                                             {post.location}

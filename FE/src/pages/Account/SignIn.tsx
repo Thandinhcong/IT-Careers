@@ -24,33 +24,23 @@ const Login = () => {
                 accessToken: results.access_token,
                 users: results.user,
             });
-            if (results && results.status === "fails") {
                 Swal.fire({
                     position: 'top',
-                    icon: 'error',
-                    title: 'Opps',
-                    text: "Thông tin tài khoản hoặc mật khẩu không chính xác",
-                    confirmButtonText: 'Quay lại',
+                    icon: 'success',
+                    title: 'Đăng nhập thành công',
                     timer: 1500
                 })
-                return;
-            }
-            Swal.fire({
-                position: 'top',
-                icon: 'success',
-                title: 'Đăng nhập thành công',
-                timer: 1500
-            })
-            navigate("/");
+                navigate("/");
+            
         } catch (error) {
             Swal.fire({
                 position: 'top',
                 icon: 'error',
                 title: 'Opps',
-                text: "Có lỗi xảy ra vui lòng thử lại!",
+                text: "Thông tin tài khoản hoặc mật khẩu không chính xác",
                 confirmButtonText: 'Quay lại',
                 timer: 1500
-            })
+            });
         }
     };
     const [showPassword, setShowPassword] = useState(false);

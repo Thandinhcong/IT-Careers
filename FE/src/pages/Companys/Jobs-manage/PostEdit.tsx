@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PostEdit = () => {
@@ -14,8 +14,10 @@ const PostEdit = () => {
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
     const { data: PostData } = useGetJobPostByIdCompanyIdQuery(id || "");
+    console.log(PostData);
 
     const [jobPost] = useEditJobPostMutation();
+    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
 
     useEffect(() => {
         form.setFieldsValue({
@@ -26,27 +28,31 @@ const PostEdit = () => {
             email: Infor?.company?.email,
             id_company: Infor?.company?.id,
             // Post
-            // id_company: PostData?.level[0]?.id_company,
-            title: PostData?.level[0]?.title,
-            working_form_id: PostData?.level[0]?.working_form,
-            area_id: PostData?.level[0]?.area_id,
-            job_position_id: PostData?.level[0]?.job_position,
-            academic_level_id: PostData?.level[0]?.academic_level,
-            exp_id: PostData?.level[0]?.experience,
-            gender: PostData?.level[0]?.gender,
-            major_id: PostData?.level[0]?.major,
-            quantity: PostData?.level[0]?.quantity,
-            min_salary: PostData?.level[0]?.min_salary,
-            max_salary: PostData?.level[0]?.max_salary,
-            interest: PostData?.level[0]?.interest,
-            require: PostData?.level[0]?.require,
-            start_date: PostData?.level[0]?.start_date
-                ? moment(PostData?.level[0]?.start_date)
+            title: PostData?.level?.title,
+            working_form_id: PostData?.level?.working_form_id,
+            job_position_id: PostData?.level?.job_position_id,
+            academic_level_id: PostData?.level?.academic_level_id,
+            exp_id: PostData?.level?.exp_id,
+            major_id: PostData?.level?.major_id,
+            min_salary: PostData?.level?.min_salary,
+            max_salary: PostData?.level?.max_salary,
+            area_id: PostData?.level?.province_id,
+            district_id: PostData?.level?.district_id,
+            gender: PostData?.level?.gender,
+            quantity: PostData?.level?.quantity,
+            interest: PostData?.level?.interest,
+            require: PostData?.level?.require,
+            start_date: PostData?.level?.start_date
+                ? moment(PostData?.level?.start_date)
                 : null,
-            end_date: PostData?.level[0]?.end_date
-                ? moment(PostData?.level[0]?.end_date)
+            end_date: PostData?.level?.end_date
+                ? moment(PostData?.level?.end_date)
                 : null,
+
         });
+        if (PostData?.level?.province_id) {
+            setSelectedProvincetId(PostData.level.province_id);
+        }
     }, [Infor, PostData]);
 
     const onFinish = (values: IJobPost) => {
@@ -60,17 +66,21 @@ const PostEdit = () => {
         }
         console.log(values);
 
-        // jobPost({ ...values, id: Number(id) })
-        //     .unwrap()
-        //     .then(() => {
-        //         message.success(`Cập nhật thành bài đăng thành công`);
-        //         navigate("/business/job-manage");
-        //     })
-        //     .catch((error) => {
-        //         message.error("Đăng bài thất bại" + error.message);
-        //     });
+        jobPost({ ...values, id: Number(id) })
+            .unwrap()
+            .then(() => {
+                message.success(`Cập nhật thành bài đăng thành công`);
+                navigate("/business/jobs-manage");
+            })
+            .catch((error) => {
+                message.error("Đăng bài thất bại" + error.message);
+            });
     };
 
+    const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
+        console.log(rovinceId);
+        setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+    }
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
@@ -90,7 +100,7 @@ const PostEdit = () => {
             const currentDate = moment();
             const minEndDate = moment(currentDate).add(5, 'days');
             if (value.isBefore(minEndDate, 'day')) {
-                callback('Ngày kết thúc phải sau ngày hiện tại ít nhất 5 ngày');
+                callback('Ngày kết thúc phải sau ngày bắt đầu ít nhất 5 ngày');
             } else {
                 callback();
             }
@@ -110,8 +120,8 @@ const PostEdit = () => {
                     wrapperCol={{ span: 24 }}
                     style={{ maxWidth: 700 }}
                     initialValues={{ remember: true }}
-                    onFinish={onFinish}
                     autoComplete="off"
+                    onFinish={onFinish}
                 >
                     <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Thông tin cơ bản</h2>
 
@@ -136,31 +146,12 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.working_form.map((options: any) => (
+                                    {data?.data?.working_form.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.working_form}
                                         </Select.Option>
                                     ))}
                                 </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Khu vực */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Khu vực"
-                                name="area_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select
-                                    placeholder="--Chọn--"
-                                    style={{ width: '100%' }}
-                                    onChange={handleChange}
-                                    options={[
-                                        { value: '0', label: 'Hà Nội' },
-                                        { value: '1', label: 'Hải Phòng' },
-                                        { value: '2', label: 'Bình Dương' },
-                                    ]}
-                                />
                             </Form.Item>
                         </Col>
                         {/* Cấp bậc */}
@@ -176,6 +167,42 @@ const PostEdit = () => {
                                             {options.level}
                                         </Select.Option>
                                     ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        {/* Tỉnh/Thành phố */}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Tỉnh/Thành phố"
+                                name="area_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
+                                    {data?.data?.province_id.map((options: IJobPost) => (
+                                        <Select.Option key={options.id} rovinceId={options.id}>
+                                            {options.province}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        {/* Quận/Huyện*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Quận/Huyện"
+                                name="district_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                    {data?.data?.district_id
+                                        .filter((options: {
+                                            province_id: string | number | null; id: string | number;
+                                        }) => options.province_id == selectedProvinceId)
+                                        .map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.name}
+                                            </Select.Option>
+                                        ))}
                                 </Select>
                             </Form.Item>
                         </Col>
@@ -215,20 +242,16 @@ const PostEdit = () => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Giới tính"
-                                name="gender"
+                                name="gender" // Sửa name thành "gender"
+                                initialValue={PostData?.level?.gender}
                                 rules={[{ required: true }]}
                             >
-                                <Select
-                                    placeholder="--Chọn--"
-                                    style={{ width: '100%' }}
-                                    onChange={handleChange}
-                                    options={[
-                                        { value: '0', label: 'Nam' },
-                                        { value: '1', label: 'Nữ' },
-                                        { value: '2', label: 'Không yêu cầu' },
-                                    ]}
-
-                                />
+                                <Select placeholder="--Chọn--"
+                                    style={{ width: '100%' }} onChange={handleChange}>
+                                    <Select.Option value={2}>Không yêu cầu</Select.Option>
+                                    <Select.Option value={0}>Nam</Select.Option>
+                                    <Select.Option value={1}>Nữ</Select.Option>
+                                </Select>
                             </Form.Item>
                         </Col>
                         {/* Chuyên ngành hẹp */}
@@ -247,6 +270,41 @@ const PostEdit = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
+                        {/* Mức lương tối thiểu*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Mức lương tối thiểu"
+                                name="min_salary"
+                                rules={[
+                                    { required: true, message: "Nhập mức lương tối thiểu!" },
+                                ]}
+                            >
+                                <Input placeholder="Mức lương tối thiểu" style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
+                        {/* Mức lương tối đa*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Mức lương tối đa"
+                                name="max_salary"
+                                rules={[
+                                    { required: true, message: "Nhập mức lương tối đa!" },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('min_salary') === undefined) {
+                                                return Promise.resolve();
+                                            }
+                                            if (parseFloat(value) > parseFloat(getFieldValue('min_salary'))) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject('Mức lương tối đa phải lớn hơn mức lương tối thiểu.');
+                                        },
+                                    }),
+                                ]}
+                            >
+                                <Input placeholder="Mức lương tối đa" style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
                         {/* Số lượng */}
                         <Col span={12}>
                             <Form.Item<IJobPost>
@@ -261,28 +319,6 @@ const PostEdit = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* Mức lương */}
-                    <Form.Item
-                        label="Mức lương"
-                        rules={[{ required: true }]}
-                        style={{ marginBottom: 0 }}
-                    >
-                        <Form.Item<IJobPost>
-                            name="min_salary"
-                            rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
-                            style={{ display: 'inline-block', width: '48.5%', marginRight: '16px' }}
-                        >
-                            <Input placeholder="Mức lương tối thiểu" />
-                        </Form.Item>
-                        <Form.Item<IJobPost>
-                            name="max_salary"
-                            rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
-                            style={{ display: 'inline-block', width: '48.5%' }}
-                        >
-                            <Input placeholder="Mức lương tối đa" />
-                        </Form.Item>
-                    </Form.Item>
-
                     {/* Mô tả công việc/Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
