@@ -1,4 +1,4 @@
-import { AiOutlineAreaChart, AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlineNodeIndex, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { AiOutlineAreaChart, AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
 import { Button, Divider, Drawer, Dropdown, Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -79,23 +79,25 @@ const TabPostPass = () => {
             ),
             dataIndex: 'title',
             render: (title: string, record: IJobPost) => {
-                const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date()); // Chuyển record.start_date thành đối tượng ngày
-                const currentDate = new Date();
-                const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
-                return (
-                    <div className="text-gray-600 w-auto">
-                        <p>Mã tin: <span className="font-medium"># {record.id}</span></p>
-                        <a className="font-bold text-[15px] text-gray-700">{title}</a>
-                        <p className="flex items-center">
-                            <p className="flex items-center gap-1"><AiOutlineClockCircle /><span>{timeDiff}</span> </p>
-                            <p className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
-                                <AiOutlineEnvironment />
-                                <span>{record.area_id}</span>
+                if (record.start_date) {
+                    const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date());
+                    const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
+                    return (
+                        <div className="text-gray-600 w-auto">
+                            <p>Mã tin: <span className="font-medium"># {record.id}</span></p>
+                            <a className="font-bold text-[15px] text-gray-700">{title}</a>
+                            <p className="flex items-center">
+                                <p className="flex items-center gap-1"><AiOutlineClockCircle /><span>{timeDiff}</span> </p>
+                                <p className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
+                                    <AiOutlineEnvironment />
+                                    <span>{record.province}</span>
+                                </p>
+                                <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{record.major_id}</span></p>
                             </p>
-                            <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{record.major_id}</span></p>
-                        </p>
-                    </div>
-                )
+                        </div>
+                    )
+                }
+
             },
         },
         {
@@ -165,9 +167,7 @@ const TabPostPass = () => {
             ),
             render: () => (
                 <div className="flex items-center gap-2">
-                    <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded ">
-                        <AiOutlineNodeIndex className="text-xl text-[#526484] hover:text-white" />
-                    </Button>
+
                     <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded ">
                         <AiOutlineAreaChart className="text-xl text-[#526484] hover:text-white" />
                     </Button>
@@ -204,19 +204,20 @@ const TabPostPass = () => {
             end_date: item.end_date,
             office: item.office,
             job_position_id: item.job_position_id,
-            area_id: item.area_id,
+            province: item.province, //Tỉnh/ Thành phố
+            district: item.district, //Quận/ Huyện
             academic_level_id: item.academic_level_id,
-            major_id: item.major_id,
+            major_id: item.major,
             interest: item.interest,
         }
     })
     const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 1);
     // rowSelection object indicates the need for row selection
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
-        getCheckboxProps: (record: DataType) => ({
+        getCheckboxProps: (record: IJobPost) => ({
             name: record.title,
         }),
     };
