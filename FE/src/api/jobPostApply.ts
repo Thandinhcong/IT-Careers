@@ -6,6 +6,7 @@ export interface IJobPostApply {
     email: string,
     phone: string,
     name: string,
+    introduce:string,
 }
 const jobPostApply = createApi({
     reducerPath: "jobPostApply",
