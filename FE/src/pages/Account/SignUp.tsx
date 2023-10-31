@@ -5,6 +5,7 @@ import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
 import Swal from 'sweetalert2';
+import { SlSocialFacebook } from "react-icons/sl";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -65,176 +66,82 @@ const SignUp = () => {
         window.scrollTo(0, 0)
     }, [])
     return (
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-lg">
-
-                <form
-                    onSubmit={handleSubmit(onHandleSubmit)}
-                    className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
-                >
-                    <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">
-                        Chào Mừng Đến Với IT Careers
-                    </h1>
-                    <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-                        Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng tại IT Careers nhé !!!
-                    </p>
-                    <div>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
-                                placeholder="Họ và Tên"
-                                {...register('name')}
-                            />
-                            <div className="text-red-500 my-2">
-                                {errors.name && errors.name.message}
+        <section className="bg-gray-50 dark:bg-gray-900">
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                    <img className="w-20 h-15 mr-2" src="https://123job.vn/images/logo_tim.png" alt="logo" />
+                </Link>
+                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                            Sign in to your account
+                        </h1>
+                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit(onHandleSubmit)}>
+                            <div>
+                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                                <input
+                                    {...register("email")}
+                                    type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+                                <div className="text-red-500 my-2">
+                                    {errors.email && errors.email.message}
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
-                                placeholder="Số Điện Thoại"
-                                {...register("phone")}
-                            />
-                            <div className="text-red-500 my-2">
-                                {errors.phone && errors.phone.message}
+                            <div>
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                <input
+                                    {...register('name')}
+                                    type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Name" />
+                                <div className="text-red-500 my-2">
+                                    {errors.name && errors.name.message}
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="relative">
-                            <input
-                                {...register('email')}
-                                type="email"
-                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
-                                placeholder="Email"
-                            />
-                            <div className="text-red-500 my-2">
-                                {errors.email && errors.email.message}
+                            <div>
+                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                                <input
+                                    {...register("phone")}
+                                    type="number" name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Phone Number" />
+                                <div className="text-red-500 my-2">
+                                    {errors.phone && errors.phone.message}
+                                </div>
                             </div>
-                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-gray-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                                    />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="relative">
-                            <input
-                                {...register('password')}
-                                type={showPassword ? 'text' : 'password'}
-                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
-                                placeholder="Mật Khẩu"
-                            />
-                            <div className="text-red-500 my-2">
-                                {errors.password && errors.password.message}
+                            <div>
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                <input
+                                    {...register('password')}
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onClick={togglePasswordVisibility} />
+                                <div className="text-red-500 my-2">
+                                    {errors.password && errors.password.message}
+                                </div>
                             </div>
-                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4 " onClick={togglePasswordVisibility}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-gray-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                    />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="relative">
-                            <input
-                                {...register('password_confirmation')}
-                                type={showPassword ? 'text' : 'password'}
-                                className="w-full rounded-lg border border-solid border-blue-500 outline-none p-4 pe-12 text-sm shadow-sm"
-                                placeholder="Mật Khẩu"
-                            />
-                            <div className="text-red-500 my-2">
-                                {errors.password_confirmation && errors.password_confirmation.message}
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-start">
+                                    <div className="flex items-center h-5">
+                                        <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
+                                    </div>
+                                    <div className="ml-3 text-sm">
+                                        <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
+                                    </div>
+                                </div>
+                                <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
+
                             </div>
-                            <span className="absolute inset-y-0 end-0 grid place-content-center px-4 " onClick={togglePasswordVisibility}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 text-gray-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                    />
-                                </svg>
-                            </span>
-                        </div>
+
+                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign Up</button>
+                            <div className="flex items-start mb-6">
+                                <div className="flex items-center h-5">
+                                    <input id="terms" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+                                </div>
+                                <label htmlFor="terms" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a className="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a></label>
+                            </div>
+                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                Don’t have an account yet? <Link to="/signin" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign In</Link>
+                            </p>
+                        </form>
                     </div>
-                    <div className="col-span-6">
-                        <label htmlFor="MarketingAccept" className="flex gap-4">
-                            <input
-
-                                type="checkbox"
-                                id="MarketingAccept"
-                                name="marketing_accept"
-                                className="h-5 w-5 rounded-md border border-solid border-blue-500 outline-none bg-white shadow-sm"
-                            />
-
-                            <span className="text-sm text-gray-700">
-                                Tôi đồng ý với quy chế hoạt động và chính sách bảo mật thông tin của IT Careesr
-                            </span>
-                        </label>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
-                    >
-                        Đăng Ký
-                    </button>
-
-                    <p className="text-center text-sm text-gray-500">
-                        Bạn đã có Tài Khoản ?
-                        <Link className="underline text-indigo-600" to="/signin"> Đăng Nhập ngay nhé !</Link>
-                    </p>
-                </form>
+                </div>
             </div>
-        </div>
+        </section>
     )
 }
 

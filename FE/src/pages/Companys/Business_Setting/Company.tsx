@@ -1,18 +1,21 @@
-import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
-import Sider from 'antd/es/layout/Sider'
+import { Button, Form, Input, Layout, Menu, Select, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import { Link, useNavigate } from 'react-router-dom';
+import { UploadOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { ICompanyInfor } from '../../../interfaces'
 import { message } from 'antd'
 import { useEditCompanyInfoMutation, useGetInforQuery } from '../../../api/CompanyInfoApi'
+import { UploadImage } from '../../../components/upload';
+
 
 const CompanySetting = () => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
     const { data: companyData } = useGetInforQuery();
     const [form] = Form.useForm();
+    const [image, setImage] = useState(null);
 
     const {
         token: { colorBgContainer },
@@ -38,9 +41,6 @@ const CompanySetting = () => {
 
         });
     }, [companyData]);
-    console.log(companyData);
-
-
 
     const onFinish = (values: ICompanyInfor) => {
         editcompany({ ...values })
@@ -51,10 +51,27 @@ const CompanySetting = () => {
             });
     };
 
-
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
     };
+    const onChangeFile = async (e: any) => {
+        const files = e.target.files[0];
+        if (files) {
+            try {
+                const Response = await UploadImage({
+                    file: files,
+                    upload_preset: "demo-upload",
+                });
+
+                if (Response) {
+                    setImage(Response.data.url)
+                }
+            } catch (error) {
+
+            }
+        }
+    }
+
     return (
         <Content style={{ padding: '0 20px' }} className='max-w-screen-xl'>
             <Layout style={{ background: colorBgContainer }}>
@@ -73,17 +90,20 @@ const CompanySetting = () => {
                         labelWrap={true}
                         autoComplete="off">
                         <div>
+
                             <h2 className='font-bold flex items-center'>Logo</h2>
                             <Form.Item<ICompanyInfor>
                                 // label=""
                                 name="logo"
                                 rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                    // { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+
+                                <button><Input type='file' onChange={(e) => onChangeFile(e)} /></button>
                             </Form.Item>
+
                             <h2 className='font-bold flex items-center'>Tên Công Ty</h2>
                             <Form.Item<ICompanyInfor>
                                 // label=""
@@ -199,11 +219,11 @@ const CompanySetting = () => {
                                 // label=""
                                 name="image_paper"
                                 rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
+                                    // { required: true, message: 'Trường này không được bỏ trống !' },
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <button><Input type='file' onChange={(e) => onChangeFile(e)} /></button>
                             </Form.Item>
                             {/* <h2 className='font-bold flex items-center'>Quy Mô Nhỏ Từ</h2>
                             <Form.Item<ICompanyInfor>
