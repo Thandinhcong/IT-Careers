@@ -36,8 +36,16 @@ import Swal from "sweetalert2";
 import { UploadImage } from "../../../components/upload";
 
 const JobDetail = () => {
+    const [basicActive, setBasicActive] = useState("tab1");
+    const [showModal, setShowModal] = useState(false);
+    const handleBasicClick = (value: string) => {
+        if (value === basicActive) {
+            return;
+        }
+        setBasicActive(value);
+    };
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { id }= useParams();
 
     //lấy thông tin xem đã ứng tuyển chưa
     const { data: ListJobApply } = useGetJobApplyQuery();
@@ -75,6 +83,7 @@ const JobDetail = () => {
                 showConfirmButton: false,
                 timer: 1500,
             });
+            setShowModal(false)
             // navigate('/job-detail/:name/:id')
         } catch (error) {
             Swal.fire({
@@ -103,14 +112,7 @@ const JobDetail = () => {
         console.log(files);
 
     }
-    const [basicActive, setBasicActive] = useState("tab1");
-    const [showModal, setShowModal] = useState(false);
-    const handleBasicClick = (value: string) => {
-        if (value === basicActive) {
-            return;
-        }
-        setBasicActive(value);
-    };
+   
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
