@@ -15,8 +15,7 @@ export const schemaSignup = yup.object({
         const isValidPhoneNumber = /^0[0-9]{9}$/.test(value);
         return isValidPhoneNumber;
     }).required("Trường dữ liệu bắt buộc"),
-    password_confirmation: yup.string()
-        .oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp')
+    password_confirmation: yup.string().oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp')
 });
 
 export type FormSignup = yup.InferType<typeof schemaSignup>

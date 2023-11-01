@@ -35,7 +35,7 @@ const Header = () => {
         title: "Đăng xuất thành công!",
         timer: 1500,
       });
-      window.location.reload("/") 
+      window.location.reload("/")
     }
   };
   const CV = [
@@ -196,7 +196,7 @@ const Header = () => {
           {!isLogin ? (
             ""
           ) : (
-            <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5 mr-3">
+            <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5 ">
               <Popover className="relative">
                 <Popover.Button className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                   <img
@@ -215,7 +215,7 @@ const Header = () => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute -left-1 top-full z-10 mt-3 w-screen max-w-[250px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                  <Popover.Panel className="absolute -right-1 top-full z-10 mt-3 w-screen max-w-[250px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5">
                     <div className="p-2">
                       {profile.map((item) => (
                         <div
@@ -244,28 +244,31 @@ const Header = () => {
           {isLogin ? (
             ""
           ) : (
-            <div>
+            <div className="flex">
+              <div className="flex">
+                <Link
+                  to="/signin"
+                  className="text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Đăng nhập <span aria-hidden="true"></span>
+                </Link>
+                <p className="border-r-2 mx-4 border-gray-400 "></p>
+                <a
+                  href="/signup"
+                  className="text-sm font-semibold leading-6 text-gray-900"
+                >
+                  Đăng Ký <span aria-hidden="true"></span>
+                </a>
+              </div>
               <Link
-                to="/signin"
-                className="text-sm font-semibold leading-6 text-gray-900"
+                to="/companies/signin"
+                className="text-sm font-semibold leading-6 text-gray-900 ml-4"
               >
-                Đăng nhập <span aria-hidden="true"></span>
+                Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
               </Link>
-              <p className="border-r-2 mx-4 border-gray-400 "></p>
-              <a
-                href="/signup"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Đăng Ký <span aria-hidden="true"></span>
-              </a>
+
             </div>
           )}
-          <a
-            href="/companies/signin"
-            className="text-sm font-semibold leading-6 text-gray-900 ml-4"
-          >
-            Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
-          </a>
         </div>
       </nav>
 
