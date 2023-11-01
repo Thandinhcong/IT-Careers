@@ -114,6 +114,16 @@ const SignUp = () => {
                                     {errors.password && errors.password.message}
                                 </div>
                             </div>
+                            <div>
+                                <label htmlFor="password_confirmation" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password Confirm</label>
+                                <input
+                                    {...register('password_confirmation')}
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password_confirmation" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onClick={togglePasswordVisibility} />
+                                <div className="text-red-500 my-2">
+                                    {errors.password_confirmation && errors.password_confirmation.message}
+                                </div>
+                            </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
                                     <div className="flex items-center h-5">
@@ -140,8 +150,8 @@ const SignUp = () => {
                         </form>
                     </div>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
     )
 }
 
