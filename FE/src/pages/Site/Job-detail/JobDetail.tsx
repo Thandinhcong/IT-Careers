@@ -24,19 +24,32 @@ import {
 } from "tw-elements-react";
 import TabNew from "./TabNew";
 import TabInfor from "./TabInfor";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";
-import { useGetInfoUserQuery } from "../../../api/auths";
+import { useGetInfoUserQuery, useLoginMutation } from "../../../api/auths";
 import { useForm } from "react-hook-form";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Swal from "sweetalert2";
 import { UploadImage } from "../../../components/upload";
+import { FcGoogle } from "react-icons/fc";
+import { SlSocialFacebook } from "react-icons/sl";
+import { FormLogin, schemaLogin } from "../../../schemas";
+import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 
 const JobDetail = () => {
-    const navigate = useNavigate();
+    const [basicActive, setBasicActive] = useState("tab1");
+    const [showModal, setShowModal] = useState(false);
+    const handleBasicClick = (value: string) => {
+        if (value === basicActive) {
+            return;
+        }
+        setBasicActive(value);
+    };
+    const [showModal2, setShowModa2l] = useState(false);
+
     const { id } = useParams();
 
     //lấy thông tin xem đã ứng tuyển chưa
@@ -45,10 +58,10 @@ const JobDetail = () => {
 
     const idJob = parseInt(id, 10);
 
-    const isAlreadyApplied = listJob?.some((appliedJob:any) => appliedJob.id === idJob);
+    const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne:IListJobsDetail = data?.job_detail;
+    const listOne: IListJobsDetail = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
@@ -58,6 +71,29 @@ const JobDetail = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
+//login
+    const [login]=useLoginMutation();
+    const { register:regiterLogin, handleSubmit:handleSubmitLogin, formState: { errors:ErrorLogin } } = useForm<FormLogin>({
+        resolver: yupResolver(schemaLogin),
+    });
+    const [userLogin, setUser] = useLocalStorage("user", null);
+   
+    const onHandleSubmitLogin = async (data: FormLogin) => {
+        try {
+         const results=   await login(data).unwrap();
+            setUser({
+                accessToken: results.access_token,
+                users: results.user,
+            });
+            setShowModa2l(false);
+            window.location.reload();
+        } catch (error) {
+            Swal.fire({
+                title: "Thông tin tài khoản hoặc mật khẩu không chính xác !",
+            });
+        }
+    };
+     //apply
     const onHandleSubmit = async (job: FromApply) => {
         if (typeof image !== "string") return;
         job.path_cv = image;
@@ -75,7 +111,7 @@ const JobDetail = () => {
                 showConfirmButton: false,
                 timer: 1500,
             });
-            // navigate('/job-detail/:name/:id')
+            setShowModal(false)
         } catch (error) {
             Swal.fire({
                 title: "Bạn đã ứng tuyển công việc này rồi !",
@@ -100,17 +136,9 @@ const JobDetail = () => {
 
             }
         }
-        console.log(files);
+    } ;
+  
 
-    }
-    const [basicActive, setBasicActive] = useState("tab1");
-    const [showModal, setShowModal] = useState(false);
-    const handleBasicClick = (value: string) => {
-        if (value === basicActive) {
-            return;
-        }
-        setBasicActive(value);
-    };
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -126,21 +154,33 @@ const JobDetail = () => {
                         <div className="col-span-3">
                             <p className="font-bold text-2xl">{listOne?.title}</p>
                             <p className="uppercase my-3">{listOne?.company_name}</p>
-
                         </div>
                         <div className="flex flex-col gap-2">
                             {isAlreadyApplied ? (
                                 <p className="px-2 text-base bg-blue-500 rounded-lg py-1 text-white">Bạn đã ứng tuyển công việc này!</p>
                             ) : (
+
                                 <TERipple rippleColor="white" className="">
-                                    <button
-                                        type="button"
-                                        className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
-                                        onClick={() => setShowModal(true)}
-                                    >
-                                        <AiOutlineCheck className="inline-block text mr-2 text-xl" />
-                                        Nộp hồ sơ online
-                                    </button>
+                                    {!infoUser ? (
+                                        <button
+                                            type="button"
+                                            className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
+                                            onClick={() => setShowModa2l(true)}
+                                        >
+                                            <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+                                            Nộp hồ sơ online
+                                        </button>
+                                    ) : (
+
+                                        <button
+                                            type="button"
+                                            className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
+                                            onClick={() => setShowModal(true)}
+                                        >
+                                            <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+                                            Nộp hồ sơ online
+                                        </button>
+                                    )}
                                 </TERipple>
                             )}
                             <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
@@ -305,7 +345,70 @@ const JobDetail = () => {
                     </TEModalContent>
                 </TEModalDialog>
             </TEModal>
+            <TEModal show={showModal2} setShow={setShowModa2l}>
+                <TEModalDialog>
+                    <TEModalContent>
+                        <TEModalHeader>
+                            Đăng nhập
+                        </TEModalHeader>
+                        <TEModalBody>
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)}>
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input
+                                        {...regiterLogin("email")}
+                                        type="text" 
+                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
+                                          placeholder="name@company.com" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.email && ErrorLogin.email.message}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                                    <input
+                                        {...regiterLogin('password')}
+                                        type="password"
+                                        name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.password && ErrorLogin.password.message}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-start">
+                                        <div className="flex items-center h-5">
+                                            <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
+                                        </div>
+                                        <div className="ml-3 text-sm">
+                                            <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
+                                        </div>
+                                    </div>
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
 
+                                </div>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+
+                                        <span> Google</span>
+                                    </button>
+                                    <button className="rounded-lg bg-blue-800 text-white flex items-center space-x-2 px-9 py-2 mt-4 ml-2">
+                                        <span className="w-10">< SlSocialFacebook /></span>
+                                        <span> Facebook</span>
+                                    </button>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Don’t have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
+                                </p>
+                            </form>
+                        </TEModalBody>
+
+                    </TEModalContent>
+                </TEModalDialog>
+            </TEModal>
         </div>
     );
 };

@@ -25,7 +25,7 @@ const jobPostApply = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getJobApply: builder.query<void, void>({
+        getJobApply: builder.query<IJobPostApply, void>({
             query: () => '/job_apply',
             providesTags: ['JobPostApply']
         }),
