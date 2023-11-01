@@ -35,7 +35,7 @@ const Header = () => {
         title: "Đăng xuất thành công!",
         timer: 1500,
       });
-      window.location.reload("/")
+      window.location.reload("/");
     }
   };
   const CV = [
@@ -187,12 +187,15 @@ const Header = () => {
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center">
-          <Link
-            to={"user/jobfavor"}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
-          </Link>
+          {isLogin ? (
+            <Link
+              to={"user/jobfavor"}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
+            </Link>
+
+          ) : ""}
           {!isLogin ? (
             ""
           ) : (
@@ -253,12 +256,12 @@ const Header = () => {
                   Đăng nhập <span aria-hidden="true"></span>
                 </Link>
                 <p className="border-r-2 mx-4 border-gray-400 "></p>
-                <a
-                  href="/signup"
+                <Link
+                  to="/signup"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Đăng Ký <span aria-hidden="true"></span>
-                </a>
+                </Link>
               </div>
               <Link
                 to="/companies/signin"
