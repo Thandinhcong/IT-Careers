@@ -86,6 +86,7 @@ const JobDetail = () => {
                 users: results.user,
             });
             setShowModa2l(false);
+            window.location.reload();
         } catch (error) {
             Swal.fire({
                 title: "Thông tin tài khoản hoặc mật khẩu không chính xác !",
