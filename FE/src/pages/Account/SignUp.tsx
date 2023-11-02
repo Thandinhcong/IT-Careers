@@ -5,9 +5,14 @@ import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
 import Swal from 'sweetalert2';
+import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const { data } = useAdminLoginMutation();
+    const loginGoogle = () => {
+        window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    }
     const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })

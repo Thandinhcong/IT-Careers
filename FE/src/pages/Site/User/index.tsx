@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
 import { Outlet } from 'react-router-dom';
@@ -27,7 +27,9 @@ const LayoutUser = () => {
             notyf.success("Tắt tìm việc thành công")
         }
     };
-
+    useEffect(() => {
+        setIsSearchingJob(isSearchingJob)
+    }, [isSearchingJob])
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;

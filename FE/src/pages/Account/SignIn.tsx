@@ -8,6 +8,7 @@ import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import Swal from 'sweetalert2';
+import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
 
 
 const Login = () => {
@@ -17,6 +18,10 @@ const Login = () => {
     });
     const [user, setUser] = useLocalStorage("user", null)
     const [login] = useLoginMutation();
+    const { data } = useAdminLoginMutation();
+    const loginGoogle = () => {
+        window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    }
     const onHandleSubmit = async (data: FormLogin) => {
         try {
             const results = await login(data).unwrap();
@@ -96,7 +101,9 @@ const Login = () => {
 
                             </div>
                             <div className="flex justify-center">
-                                <button className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                <button
+                                    onClick={loginGoogle}
+                                    className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
                                     <span className="w-10"><FcGoogle /></span>
 
                                     <span> Google</span>

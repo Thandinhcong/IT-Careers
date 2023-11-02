@@ -32,6 +32,7 @@ import AdminLogin, { adminLoginReducer } from '../api/admin/loginAdminApi';
 import CompnayInfoApi, { CompanyInfoReducer } from '../api/CompanyInfoApi';
 import JobPostCompanyApi, { jobPostCompanyReducer } from '../api/companies/jobPostCompany';
 import findJobApi, { findJobReducer } from '../api/find-Job/find_jobApi';
+import authGooleApi, { authsGooleReducer } from '../api/authGoogle/authGoogle';
 
 const persistConfig = {
     key: 'root',
@@ -58,7 +59,8 @@ const rootReducer = combineReducers({
     [AdminLogin.reducerPath]: adminLoginReducer,
     [CompnayInfoApi.reducerPath]: CompanyInfoReducer,
     [JobPostCompanyApi.reducerPath]: jobPostCompanyReducer,
-    [findJobApi.reducerPath]: findJobReducer
+    [findJobApi.reducerPath]: findJobReducer,
+    [authGooleApi.reducerPath]: authsGooleReducer
 })
 const middleware = [
     MajorApi.middleware,
@@ -80,7 +82,8 @@ const middleware = [
     AdminLogin.middleware,
     CompnayInfoApi.middleware,
     JobPostCompanyApi.middleware,
-    findJobApi.middleware
+    findJobApi.middleware,
+    authGooleApi.middleware
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
