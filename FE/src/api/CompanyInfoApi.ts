@@ -29,14 +29,7 @@ const CompnayInfoApi = createApi({
                 body: company
             }),
             invalidatesTags: ['company']
-        }),
-        // deleteCandidate: builder.mutation<void, number | string>({
-        //     query: (id) => ({
-        //         url: `/candidates/${id}`,
-        //         method: "DELETE",
-        //     }),
-        //     invalidatesTags: ['company']
-        // }),
+        })
     })
 })
 export const {
