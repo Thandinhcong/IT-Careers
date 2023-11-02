@@ -1,6 +1,6 @@
-import { Button, Form, Input, Layout, Menu, Select, Upload, theme } from 'antd'
+import { Button, Form, Input, Layout, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { UploadImage } from '../../../components/upload';
 const CompanySetting = () => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
-    const { data: companyData } = useGetInforQuery();
+    const { data: companyData }: any = useGetInforQuery();
     const [form] = Form.useForm();
     const [image, setImage] = useState(null);
 

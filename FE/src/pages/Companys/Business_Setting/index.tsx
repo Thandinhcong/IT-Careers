@@ -1,5 +1,5 @@
 // import { MenuProps } from '@headlessui/react'
-import { Breadcrumb, Layout, Menu, theme } from 'antd'
+import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React from 'react'
@@ -7,7 +7,6 @@ import { AiOutlineUser, AiOutlineLock, AiOutlineFile } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
 import { Link, Outlet } from 'react-router-dom'
 
-type Props = {}
 interface MenuItem {
     key: React.Key;
     icon?: React.ReactNode;
@@ -41,7 +40,7 @@ const items: MenuItem[] = [
 ];
 
 
-const LayoutBusinessSetting = (props: Props) => {
+const LayoutBusinessSetting = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -52,7 +51,7 @@ const LayoutBusinessSetting = (props: Props) => {
                     <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} style={{ height: '100%' }}>
                         {items.map(item => (
                             <Menu.Item key={item.key} icon={item.icon}>
-                                <Link to={`/companys/${item.key}`}>{item.label}</Link>
+                                <Link to={`/business/${item.key}`}>{item.label}</Link>
                             </Menu.Item>
                         ))}
                     </Menu>
