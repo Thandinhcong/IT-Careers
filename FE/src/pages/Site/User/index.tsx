@@ -4,9 +4,17 @@ import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
 import { Outlet } from 'react-router-dom';
 import { useGetInfoUserQuery } from '../../../api/auths';
 import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const LayoutUser = () => {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const [findJob] = useFindJobsMutation();
     const [isSearchingJob, setIsSearchingJob] = useState(false);
 
@@ -14,6 +22,9 @@ const LayoutUser = () => {
         setIsSearchingJob(checked);
         if (checked) {
             findJob();
+            notyf.success("Bật tìm việc thành công");
+        } else {
+            notyf.success("Tắt tìm việc thành công")
         }
     };
 
