@@ -1,4 +1,4 @@
-import { AiOutlineInsertRowRight, AiOutlineUser } from "react-icons/ai"
+import { AiOutlineInsertRowRight } from "react-icons/ai"
 import { useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
 import { IListJobsDetail } from "../../../interfaces";

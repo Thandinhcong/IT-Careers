@@ -64,6 +64,8 @@ const JobDetail = () => {
     const listOne: IListJobsDetail = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
+    console.log(infoUser);
+
     const user = infoUser?.candidate;
     const idUser = user?.id;
     const [applyJob] = useApplyJobMutation();
@@ -71,16 +73,16 @@ const JobDetail = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
-//login
-    const [login]=useLoginMutation();
-    const { register:regiterLogin, handleSubmit:handleSubmitLogin, formState: { errors:ErrorLogin } } = useForm<FormLogin>({
+    //login
+    const [login] = useLoginMutation();
+    const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin),
     });
     const [userLogin, setUser] = useLocalStorage("user", null);
-   
+
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {
-         const results=   await login(data).unwrap();
+            const results = await login(data).unwrap();
             setUser({
                 accessToken: results.access_token,
                 users: results.user,
@@ -93,7 +95,7 @@ const JobDetail = () => {
             });
         }
     };
-     //apply
+    //apply
     const onHandleSubmit = async (job: FromApply) => {
         if (typeof image !== "string") return;
         job.path_cv = image;
@@ -136,8 +138,8 @@ const JobDetail = () => {
 
             }
         }
-    } ;
-  
+    };
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -171,7 +173,6 @@ const JobDetail = () => {
                                             Nộp hồ sơ online
                                         </button>
                                     ) : (
-
                                         <button
                                             type="button"
                                             className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
@@ -357,9 +358,9 @@ const JobDetail = () => {
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <input
                                         {...regiterLogin("email")}
-                                        type="text" 
-                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
-                                          placeholder="name@company.com" />
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
+                                        placeholder="name@company.com" />
                                     <div className="text-red-500 my-2">
                                         {ErrorLogin.email && ErrorLogin.email.message}
                                     </div>

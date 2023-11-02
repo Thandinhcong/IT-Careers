@@ -1,42 +1,33 @@
 import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useGetAllCompanysQuery } from '../../../api/companyApi';
-import { Link } from 'react-router-dom';
+import { useSearchCompaniesQuery } from '../../../api/companyApi';
 import { ICompanys } from '../../../interfaces';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Company = () => {
-
+    const [searchResultsVisible, setSearchResultsVisible] = useState(false);
     const textList = [
         "Review có tâm,chính xác nhất",
         "Tìm nơi làm việc tuyệt vời",
         "Review lương bổng, HR,sếp và công việc"
     ];
-    const { data } = useGetAllCompanysQuery();
+    const { data } = useSearchCompaniesQuery();
+    const listCompanys = data?.list_company;
+    const [records, setRecords] = useState([])
+    const Filter = (e: any) => {
+        const keyword = e.target.value.toLowerCase();
+        const filteredRecords = listCompanys?.filter((item: any) => {
+            const companyName = item.company_name.toLowerCase();
+            return companyName.includes(keyword);
+        });
 
-    const listCompanys: ICompanys[] | undefined = data?.list_company;
-    console.log(listCompanys);
+        setRecords(filteredRecords);
 
-    const [searchKeyword, setSearchKeyword] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-  
-    const handleSearchInputChange = (e:any) => {
-      const keyword = e.target.value;
-      setSearchKeyword(keyword);
-      searchProducts(keyword);
+        // Kiểm tra xem từ khóa tìm kiếm có rỗng hay không và cập nhật trạng thái hiển thị kết quả
+        setSearchResultsVisible(keyword.trim() !== '');
     };
-  
-    const searchProducts = (keyword:any) => {
-      const lowercaseKeyword = keyword.toLowerCase();
-      const results = listCompanys.filter((company) => {
-        const companyName = company.name.toLowerCase();
-        return companyName.includes(lowercaseKeyword);
-      });
-      setSearchResults(results);
-    };
-
-
 
     return (
         <div>
@@ -52,34 +43,33 @@ const Company = () => {
                     </div>
                     <p className='text-lg text-gray-500'>Đánh giá công ty và tìm kiếm nơi làm việc tốt nhất cho sự nghiệp của bạn</p>
                 </div>
-                <form className='grid grid-cols-3'>
+                <form className='grid grid-cols-3 relative'>
                     <div className='col-span-2 border rounded-xl bg-white justify-between px-2 my-7 flex items-center py-3'>
                         <input
-                            value={searchKeyword}
-                            onChange={handleSearchInputChange}
+                            onBlur={(e) => {
+                                if (e.target.value.trim() === '') {
+                                    setSearchResultsVisible(false);
+                                }
+                            }}
+                            onChange={Filter}
                             type="text"
                             className='outline-none ml-3  lg:w-[350px]'
                             placeholder='Tìm kiếm theo tên công ty' />
                         <span className='pr-5'><BsSearch /></span>
                     </div>
                     <button className='col-span-1 bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-xl text-white font-semibold  w-full lg:w-auto'>Tìm công ty</button>
-                </form>
-                {searchResults.length > 0 && (
-                    <div className='bg-white shadow border px-2 py-2'>
-                        <div className=''>
-                            {searchResults.map((item: ICompanys) => (
-                                <div key={item?.id} className='search-result-item'>
-                                    <Link to={`/company/detail/${item?.id}`} className='text-decoration-none'>
-                                        <div className='flex gap-5 items-center'>
-                                            <img src={item?.logo} alt="Anh logo" className='rounded-full' width={50} />
-                                            <p className='text-xl font-semibold'>{item?.company_name}</p>
-                                        </div>
-                                    </Link>
+                    <div className='absolute top-20 bg-white px-5 z-50 shadow-sm w-[810px]'>
+                        {searchResultsVisible && records?.length > 0 && (
+                            records.map((item: any) => (
+                                <div key={item?.id} className='flex gap-3 items-center '>
+                                    <img src={item?.logo} alt="Anhr logo" width={50} className='rounded' />
+                                    <Link to={`/company/detail/${item?.id}`} className='text-lg w-full font-sans hover:text-blue-500'>{item?.company_name}</Link>
                                 </div>
-                            ))}
-                        </div>
+                            ))
+                        )}
                     </div>
-                )}
+
+                </form>
 
 
             </div>
