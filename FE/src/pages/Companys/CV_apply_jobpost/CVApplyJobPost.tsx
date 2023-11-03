@@ -112,7 +112,7 @@ const CVApplyJobPost = () => {
                                 <div>
                                     <img
                                         className="w-20 rounded-full border border-gray-400 p-1"
-                                        src="https://cdn1.123job.vn/123job/uploads/2023/10/06/2023_10_06______622e2e506d59c1af0f1a16739bcc252d.png" alt="" />
+                                        src={item.image} alt="" />
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 w-7/12">
                                     <p className="font-semibold text-base">{item.name}</p>
