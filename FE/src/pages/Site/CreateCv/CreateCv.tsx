@@ -4,7 +4,7 @@ const CreateCv = () => {
 
 
     return (
-        <div className="max-w-4xl mx-auto border shadow  rounded py-3 px-7">
+        <form className="max-w-4xl mx-auto border shadow  rounded py-3 px-7">
             <div>
                 <h2 className="text-2xl my-2">Tạo cv trên hệ thống, tạo cơ hội nhận được việc làm !</h2>
                 <p>Tạo CV trên hệ thống chúng tôi sẽ tăng 99% tìm được việc,</p>
@@ -59,10 +59,48 @@ const CreateCv = () => {
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <label htmlFor="" className="">Tên công ty</label> <br />
-                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Tên công ty..." />
                             </div>
                             <div>
                                 <label htmlFor="" className="">Vị trí</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Vị trí..." />
+                            </div>
+
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="">Mô tả</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+
+                            </textarea>
+                            <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                        </div>
+                    </div>
+                    {/* dự án  */}
+                    <div className="my-3 flex justify-between items-center">
+                        <h2 className="text-xl">Dự án</h2>
+                        <button className="text-xl text-blue-500">
+                            <IoAdd />
+                        </button>
+                    </div>
+                    <hr className="text-xl mb-2 border  border-blue-500" />
+                    <div className=" border  rounded border-blue-500 p-2 my-2">
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Tên dự án</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Dự án của bạn..." />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Vị trí trong dự án</label> <br />
                                 <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
                             </div>
 
@@ -80,14 +118,24 @@ const CreateCv = () => {
                         <div>
                             <label htmlFor="">Mô tả</label> <br />
                             <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+                            </textarea>
 
+                        </div>
+                        <div>
+                            <label htmlFor="">Nội dung</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
                             </textarea>
                             <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
                         </div>
                     </div>
+
                 </div>
+                {/* ky nang */}
             </div>
-        </div>
+            <div className="mx-auto flex justify-center my-2">
+                <button className=" bg-blue-500 text-white px-5 rounded  py-2">Tạo CV</button>
+            </div>
+        </form>
     )
 }
 
