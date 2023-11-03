@@ -83,7 +83,7 @@ const CompanySetting = () => {
                         name="basic"
                         labelCol={{ span: 24 }}
                         wrapperCol={{ span: 24 }}
-                        style={{ maxWidth: 400 }}
+                        style={{ maxWidth: 450 }}
                         initialValues={{ remember: true }}
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
@@ -91,7 +91,7 @@ const CompanySetting = () => {
                         autoComplete="off">
                         <div>
 
-                            <h2 className='font-bold flex items-center'>Logo</h2>
+                            <h2 className='font-bold flex items-center '>Logo</h2>
                             <Form.Item<ICompanyInfor>
                                 // label=""
                                 name="logo"
