@@ -86,6 +86,7 @@ export interface ICvApply {
     candidate_code: string
     job_post_name: string
     list_candidate_apply_job: Array
+    image: string
 }
 export interface ICompanyInfor {
     id?: string | number,
