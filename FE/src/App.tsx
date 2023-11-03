@@ -98,6 +98,8 @@ import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
 import Cv_Detail from "./pages/Site/Cv_Detail"
+import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
+import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 
 
 function App() {
@@ -174,11 +176,13 @@ function App() {
           <Route path="find-job" element={<FindJob />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
+          <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
           <Route path="jobs-manage" element={<JobsManage />} />
           <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
           <Route path="job_post/update/:id" element={<PostEdit />} />
         </Route>
+        <Route path="/business/cv-apply/candidate-detail/:id" element={<CvCandodateDetail />} />
 
         {/* Help */}
         <Route path='help-companys/' element={<Helpcompanys />}>
