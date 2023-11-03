@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { pause } from "../utils/pause";
-import { ICompanyInfor, ICompanys, } from "../interfaces";
+import { ICompanys } from "../interfaces";
 
 const companysApi = createApi({
     reducerPath: "Company",
@@ -21,14 +21,6 @@ const companysApi = createApi({
             query: (id) => "/company-management/" + id,
             providesTags: ['company']
         }),
-        // addcompanys: builder.mutation({
-        //     query: (companys: ICompanys) => ({
-        //         url: "/company",
-        //         method: "POST",
-        //         body: companys
-        //     }),
-        //     invalidatesTags: ['company']
-        // }),
         updateStatuscompanys: builder.mutation<ICompanys, ICompanys>({
             query: (companys: ICompanys) => ({
                 url: `/company-management/${companys.id}`,

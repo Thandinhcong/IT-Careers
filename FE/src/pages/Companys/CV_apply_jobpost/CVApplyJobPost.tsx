@@ -30,10 +30,6 @@ const CVApplyJobPost = () => {
         setIsModalOpen(false);
     };
 
-    const handleDropdownToggle = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
     const handleOk = () => {
         // Gọi hàm validateFields trên biểu mẫu
         form
@@ -44,6 +40,7 @@ const CVApplyJobPost = () => {
                         .unwrap()
                         .then(() => {
                             message.success(`Đánh giá thành công`);
+                            form.resetFields();
                         })
                         .catch((error) => {
                             message.error("Đánh giá thất bại" + error.message);
@@ -58,6 +55,10 @@ const CVApplyJobPost = () => {
             .catch((errorInfo) => {
                 console.log('Xác minh lỗi:', errorInfo);
             });
+    };
+
+    const handleDropdownToggle = () => {
+        setIsDropdownOpen(!isDropdownOpen);
     };
 
     const filteredCandidates =
@@ -158,7 +159,7 @@ const CVApplyJobPost = () => {
                                     </div>
                                 </div>
                                 <div className="flex gap-1 text-gray-700">
-                                    <Link to={`/business/cv-apply/candidate-detail/${item.id}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
+                                    <Link to={`/business/cv-apply/candidate-detail/${item.candidate_code}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
                                         <AiOutlineEye /><span>Chi tiết</span>
                                     </Link>
                                     <TERipple rippleColor="white">
@@ -236,18 +237,19 @@ const CVApplyJobPost = () => {
                                     <Form.Item
                                         label="Nhận xét về ứng viên"
                                         name="evaluate"
-                                    >
+                                        rules={[{ required: true, message: "Không được bỏ trống" }]} >
                                         <TextArea rows={6} />
                                     </Form.Item>
                                 </Form>
                             </div>
                         </Modal>
                     </div>
-                ))}
+                ))
+                }
 
-            </div>
+            </div >
 
-        </div>
+        </div >
     )
 }
 

@@ -18,11 +18,10 @@ const CvApplyApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        // getCvApllyJobPostId: builder.query<IJobPost, void>({
-        //     query: () => "/company/candidate_detail",
-        //     providesTags: ['CV_apply']
-        // }),
-
+        getCvApllyJobPostId: builder.query<ICvApply, void>({
+            query: () => "/company/list_candidate_applied",
+            providesTags: ['CV_apply']
+        }),
         getCvApllyByIdJobPostId: builder.query<ICvApply, number | string>({
             query: (id) => "/company/list_candidate_apply_job/" + id,
             providesTags: ['CV_apply']
@@ -45,6 +44,7 @@ export const {
     useGetCvApllyByIdJobPostIdQuery,
     useGetCandidateDetailQuery,
     useAssseCandidateMutation,
+    useGetCvApllyJobPostIdQuery
 } = CvApplyApi;
 
 export const CvApplyReducer = CvApplyApi.reducer;
