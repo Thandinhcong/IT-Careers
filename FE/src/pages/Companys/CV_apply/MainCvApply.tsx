@@ -42,24 +42,24 @@ const MainCvApply = () => {
                     <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>Tuyển thực tập sinh ReactJS</span></p>
                 </p>
                 <div className="flex justify-between items-center mb-3">
-                    <p className="grid grid-cols-1 gap-3">
+                    <div className="grid grid-cols-1 gap-3">
                         <p>Mã ứng viên</p>
                         <p>1491771</p>
-                    </p>
-                    <p className="grid grid-cols-1 gap-3">
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
                         <p>Ngày ứng tuyển</p>
                         <p>2023/10/06 11:41:08</p>
-                    </p>
-                    <p className="grid grid-cols-1 gap-3">
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
                         <p>Trạng thái</p>
                         <p onClick={handleStatusChange} className={`p-1 rounded text-xs text-center ${statusClass}`}>
                             {currentStatus ? 'đã xem' : 'chưa xem'}
                         </p>
-                    </p>
-                    <p className="grid grid-cols-1 gap-3">
+                    </div>
+                    <div className="grid grid-cols-1 gap-3">
                         <p>Vòng hồ sơ</p>
                         <p className="p-1 rounded text-xs text-center bg-[#e4f8fb] text-[#09c2de]">phỏng vấn</p>
-                    </p>
+                    </div>
                 </div>
             </div>
             <div className="flex gap-1 text-gray-700">

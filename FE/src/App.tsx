@@ -97,6 +97,7 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
+import Cv_Detail from "./pages/Site/Cv_Detail"
 
 
 function App() {
@@ -117,7 +118,7 @@ function App() {
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path='account' element={< Account />} />
-
+          <Route path='cv_detail' element={<Cv_Detail />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -129,21 +130,19 @@ function App() {
             <Route path='jobapply' element={< JobApply />} />
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
-
-
           </Route>
         </Route>
 
         {/* Account */}
-        <Route element={<IsLogin/>}>
+        <Route element={<IsLogin />}>
           <Route path='/signin' element={< SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
         </Route>
-          <Route path='/companies/signin' element={< SignInCompanies />} />
-          <Route path='/companies/signup' element={<SignupCompanies />} />
+        <Route path='/companies/signin' element={< SignInCompanies />} />
+        <Route path='/companies/signup' element={<SignupCompanies />} />
 
         {/* Buisness */}
         <Route path="/business" element={<LayoutCompany />} >
@@ -224,7 +223,7 @@ function App() {
           <Route path="major-manage/create-major" element={<AddMajors />} />
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter >
 
