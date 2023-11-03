@@ -146,7 +146,7 @@ const CompanySetting = () => {
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <Input type='date' />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>
@@ -247,7 +247,7 @@ const CompanySetting = () => {
                             >
                                 <Input />
                             </Form.Item> */}
-                            {/* <h2 className='font-bold flex items-center'>Mô tả</h2>
+                            <h2 className='font-bold flex items-center'>Mô tả</h2>
                             <Form.Item<ICompanyInfor>
                                 // label=""
                                 name="description"
@@ -257,7 +257,7 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Input />
-                            </Form.Item> */}
+                            </Form.Item>
 
                             <Form.Item labelAlign="left">
                                 <Button type="primary" htmlType="submit" className="bg-blue-500">
