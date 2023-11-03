@@ -68,6 +68,25 @@ export interface IJobPost {
     working_form?: string,
     name: string | number,
 }
+export interface ICvApply {
+    id?: number | string,
+    job_post_id?: number | string
+    curriculum_vitae_id?: number | string
+    evaluate?: string // đánh giá
+    introduce?: string // giới thiệu
+    status?: number
+    qualifying_round_id?: number // vòng hồ sơ
+    name?: string
+    phone?: string
+    email?: string
+    candidate_id?: number | string
+    data: object
+    profile: string | number
+    time_apply: string
+    candidate_code: string
+    job_post_name: string
+    list_candidate_apply_job: Array
+}
 export interface ICompanyInfor {
     id?: string | number,
     company_name?: string

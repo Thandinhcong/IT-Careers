@@ -33,7 +33,7 @@ const JobPostCompanyApi = createApi({
             providesTags: ['job_post']
         }),
         getJobPostSelectById: builder.query<[], void>({
-            query: () => "/job_post_select",
+            query: () => "/company/job_post_select",
             providesTags: ['job_post']
         }),
         addJobPost: builder.mutation({
@@ -67,6 +67,10 @@ const JobPostCompanyApi = createApi({
             }),
             invalidatesTags: ['job_post']
         }),
+        getCvApllyByIdJobPostId: builder.query<IJobPost, number | string>({
+            query: (id) => "/candidate_detail/" + id,
+            providesTags: ['job_post']
+        }),
     })
 })
 export const {
@@ -78,6 +82,7 @@ export const {
     useGetInforQuery,
     useExtendJobPostMutation,
     useStopJobPostMutation,
+    useGetCvApllyByIdJobPostIdQuery,
     useGetJobPostExpiresByIdCompanyQuery
 } = JobPostCompanyApi;
 
