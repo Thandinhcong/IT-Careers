@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const SideBarHelp = () => {
     return (
-        <div><div className="flex h-screen flex-col justify-between border-e bg-white sidebar bg-gray-200 sticky top-0 h-screen overflow-y-auto">
+        <div><div className="flex  flex-col justify-between border-e  sidebar bg-gray-200 sticky top-0 h-screen overflow-y-auto">
             <div className="px-4 py-6">
                 <Link to="/">
                     <img src='https://123job.vn/images/logo_tim.png' className="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600"

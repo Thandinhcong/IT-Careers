@@ -22,7 +22,6 @@ const CreateCv = () => {
                     <p className="my-1"><span className="font-semibold text-sm">Họ tên : </span><span className="text-sm">Đinh Văn Thản</span></p>
                     <p className="my-1"><span className="font-semibold text-sm">Email : </span> <span className="text-sm">than@gmail.com</span></p>
                     <p className="my-1"><span className="font-semibold text-sm">Số điện thoại : </span> <span className="text-sm">0523892062</span></p>
-
                 </div>
                 <div className="my-3 flex justify-between items-center">
                     <h2 className="text-xl">Học vấn</h2>
@@ -31,7 +30,62 @@ const CreateCv = () => {
                     </button>
                 </div>
                 <hr className="text-xl mb-2 border  border-blue-500" />
+                <div>
+                    <label htmlFor="" className="">Tên trường <span className="text-red-500">*</span></label> <br />
+                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Trường học của bạn..." />
+                    <label htmlFor="" className="">Chuyên ngành</label> <br />
+                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                    <div className="grid grid-cols-2 gap-3">
+                        <div>
+                            <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                            <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                        </div>
+                        <div>
+                            <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                            <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                        </div>
 
+                    </div>
+                </div>
+                <div>
+                    <div className="my-3 flex justify-between items-center">
+                        <h2 className="text-xl">Kinh nghiệm làm việc</h2>
+                        <button className="text-xl text-blue-500">
+                            <IoAdd />
+                        </button>
+                    </div>
+                    <hr className="text-xl mb-2 border  border-blue-500" />
+                    <div className=" border  rounded border-blue-500 p-2">
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Tên công ty</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Vị trí</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="">Mô tả</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+
+                            </textarea>
+                            <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

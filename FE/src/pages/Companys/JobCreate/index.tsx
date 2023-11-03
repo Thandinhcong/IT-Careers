@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 
 const JobCreate = () => {
     const { data } = useGetJobPostSelectByIdQuery();
-    console.log(data);
 
     const { data: Infor } = useGetInforQuery();
     const [form] = Form.useForm();
