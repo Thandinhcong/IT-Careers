@@ -11,11 +11,8 @@ const CVApply = () => {
                         className="appearance-none border border-gray-300 rounded px-4 py-1.5 w-1/4 focus:outline-none focus:border-blue-500 focus:shadow my-6"
                     >
                         <option value="">Trạng thái</option>
-                        <option value="JM">Tiếp nhận</option>
                         <option value="SRV">Phù hợp</option>
-                        <option value="JH">Phỏng vấn</option>
-                        <option value="BBK">Nhận việc</option>
-                        <option value="AK">Từ chối</option>
+                        <option value="AK">Không phù hợp</option>
                     </select>
                     <div className="flex items-center gap-2">
                         <button className="bg-blue-600 text-white flex items-center rounded py-1.5 px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
@@ -33,7 +30,6 @@ const CVApply = () => {
                     </div>
                 </div>
                 <div className="bg-white my-4 p-4 grid-cols-1">
-                    <MainCvApply />
                     <MainCvApply />
                 </div>
             </div>
