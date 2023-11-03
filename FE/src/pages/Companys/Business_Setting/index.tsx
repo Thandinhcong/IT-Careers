@@ -1,4 +1,3 @@
-// import { MenuProps } from '@headlessui/react'
 import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'

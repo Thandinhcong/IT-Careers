@@ -1,11 +1,8 @@
 import { Button, theme } from 'antd';
-import React from 'react'
-import { AiFillEdit, AiOutlineUpload } from 'react-icons/ai';
 import { BiSave } from 'react-icons/bi';
 
-type Props = {}
 
-const ChangePassCompany = (props: Props) => {
+const ChangePassCompany = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();

@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined, PhoneOutlined, EnvironmentOutlined, DatabaseOutlined, LinkOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Row, message } from 'antd';
 import { AuthSignup, useSignupCompaniesMutation } from '../../../api/auth/Companies';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUpCompanies = () => {
     const [signup] = useSignupCompaniesMutation();
@@ -172,7 +172,7 @@ const SignUpCompanies = () => {
                                     Đăng kí
                                 </Button>
                                 <p className='my-2'>Hoặc</p>
-                                <p>Đã có tài khoản? <a href="/companies/signin" className='text-blue-500 hover:text-blue-800 hover:underline'>Đăng nhập ngay</a></p>
+                                <p>Đã có tài khoản? <Link to="/business/signin" className='text-blue-500 hover:text-blue-800 hover:underline'>Đăng nhập ngay</Link></p>
 
                             </Form.Item>
                         </Form>

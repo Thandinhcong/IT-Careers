@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiChevronsRight } from "react-icons/fi"
 import { BsArrowRight } from 'react-icons/bs';

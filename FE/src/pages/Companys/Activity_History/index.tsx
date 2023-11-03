@@ -54,7 +54,7 @@ const Activity_History = () => {
                     <Menu mode="horizontal" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
                         {items.map(item => (
                             <Menu.Item key={item.key} icon={item.icon}>
-                                <Link to={`/companys/activity_history/${item.key}`}>{item.label}</Link>
+                                <Link to={`/business/activity_history/${item.key}`}>{item.label}</Link>
                             </Menu.Item>
                         ))}
                     </Menu>
