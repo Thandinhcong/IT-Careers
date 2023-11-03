@@ -19,7 +19,7 @@ const SignUpCompanies = () => {
                     }
                 } else {
                     message.success("Đăng kí thành công");
-                    navigate("/companies/signin")
+                    navigate("/business/signin")
                 }
             })
             .catch((error) => {

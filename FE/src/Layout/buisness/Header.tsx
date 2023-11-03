@@ -20,7 +20,7 @@ const HeaderCompany = () => {
             await logout();
             localStorage.removeItem('accessToken');
             message.success("đăng xuất");
-            navigate("/companies/signin");
+            navigate("/business/signin");
         } catch (error) {
             console.error('Đăng xuất không thành công: ', error);
         }
