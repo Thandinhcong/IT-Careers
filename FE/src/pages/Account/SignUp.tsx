@@ -4,11 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
-import Swal from 'sweetalert2';
 import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
+import { Notyf } from "notyf";
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const { data } = useAdminLoginMutation();
     const loginGoogle = () => {
         window.location.href = "http://127.0.0.1:8000/api/auth/google"
@@ -20,44 +27,18 @@ const SignUp = () => {
     const onHandleSubmit = async (user: FormSignup) => {
         try {
             const result = await signup(user as any).unwrap();
-
             if (result.errors && result.errors.email) {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Opps',
-                    text: "Email đã tồn tại",
-                    confirmButtonText: 'Quay lại',
-                    timer: 1500
-                })
+                notyf.error("Email đã tồn tại !")
                 return;
             } else if (result.errors && result.errors.phone) {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'error',
-                    title: 'Opps',
-                    text: "Số điện thoại đã tồn tại",
-                    confirmButtonText: 'Quay lại',
-                    timer: 1500
-                })
+                notyf.error("Số điện thoại đã tồn tại")
                 return;
             } else {
-                Swal.fire({
-                    position: 'top',
-                    icon: 'success',
-                    title: 'Đăng ký thành công',
-                    timer: 1500
-                })
-                navigate("/signin");
+                notyf.success("Đăng ký thành công!")
+                navigate("/dang-nhap");
             }
         } catch (error: any) {
-            Swal.fire({
-                position: 'top',
-                icon: 'error',
-                title: 'Opps',
-                text: "Có lỗi xảy ra vui lòng thử lại",
-                timer: 1500
-            })
+            notyf.error("Có lỗi xảy ra vui lòng thử lại!")
         }
     };
 
@@ -146,7 +127,7 @@ const SignUp = () => {
 
                             </div>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Bạn đã có tài khoản? <Link to="/signin" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng nhập</Link>
+                                Bạn đã có tài khoản? <Link to="/dang-nhap" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng nhập</Link>
                             </p>
                         </form>
                     </div>

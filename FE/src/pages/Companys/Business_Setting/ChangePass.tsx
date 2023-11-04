@@ -26,7 +26,7 @@ const ChangePassCompany = () => {
         }
     };
 
-    type FieldType = {;
+    type FieldType = {
         password_old?: string;
         password?: string;
         re_password?: string;

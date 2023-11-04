@@ -139,8 +139,8 @@ function App() {
 
         {/* Account */}
         <Route element={<IsLogin />}>
-          <Route path='/signin' element={< SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
+          <Route path='/dang-nhap' element={< SignIn />} />
+          <Route path='/dang-ky-tai-khoan' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 

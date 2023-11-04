@@ -7,12 +7,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
-import Swal from 'sweetalert2';
 import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
+import { Notyf } from "notyf";
 
 
 const Login = () => {
     const navigate = useNavigate();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin)
     });
@@ -29,23 +36,13 @@ const Login = () => {
                 accessToken: results.access_token,
                 users: results.user,
             });
-            Swal.fire({
-                position: 'top',
-                icon: 'success',
-                title: 'Đăng nhập thành công',
-                timer: 1500
-            })
-            navigate("/");
+            notyf.success("Đăng nhập thành công!")
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
 
-        } catch (error) {
-            Swal.fire({
-                position: 'top',
-                icon: 'error',
-                title: 'Opps',
-                text: "Thông tin tài khoản hoặc mật khẩu không chính xác",
-                confirmButtonText: 'Quay lại',
-                timer: 1500
-            });
+        } catch (error: any) {
+            notyf.error(error.data.message)
         }
     };
     const [showPassword, setShowPassword] = useState(false);
@@ -115,7 +112,7 @@ const Login = () => {
                             </div>
                             <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Chưa có tài khoản? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký</Link>
+                                Chưa có tài khoản? <Link to="/dang-ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký</Link>
                             </p>
                         </form>
                     </div>
