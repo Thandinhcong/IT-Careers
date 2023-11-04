@@ -250,14 +250,14 @@ const Header = () => {
             <div className="flex">
               <div className="flex">
                 <Link
-                  to="/signin"
+                  to="/dang-nhap"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Đăng nhập <span aria-hidden="true"></span>
                 </Link>
                 <p className="border-r-2 mx-4 border-gray-400 "></p>
                 <Link
-                  to="/signup"
+                  to="/dang-ky-tai-khoan"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Đăng Ký <span aria-hidden="true"></span>
@@ -369,13 +369,13 @@ const Header = () => {
                   <AiOutlineHeart className="inline-block base-line" />
                 </Link>
                 <a
-                  href="/signin"
+                  href="/dang-nhap"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng nhập
                 </a>
                 <a
-                  href="/signup"
+                  href="/dang-ky-tai-khoan"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng ký
