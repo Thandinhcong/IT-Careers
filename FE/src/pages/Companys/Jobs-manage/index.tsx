@@ -9,8 +9,6 @@ import TabPostExpired from './TabPostExpired';
 const JobsManage = () => {
     const { data: infor } = useGetInforQuery();
     const { data: jobPostData } = useGetJobPostByIdCompanyQuery();
-    console.log(jobPostData);
-    console.log(infor);
 
     return (
         <div className='bg-gray-100 py-8 px-5'>

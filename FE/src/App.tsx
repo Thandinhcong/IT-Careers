@@ -97,6 +97,7 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
+import CreateCv from "./pages/Site/CreateCv/CreateCv"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
 
@@ -119,7 +120,7 @@ function App() {
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path='account' element={< Account />} />
-
+          <Route path="tao-cv" element={<CreateCv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -138,14 +139,14 @@ function App() {
 
         {/* Account */}
         <Route element={<IsLogin />}>
-          <Route path='/signin' element={< SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
+          <Route path='/dang-nhap' element={< SignIn />} />
+          <Route path='/dang-ky-tai-khoan' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
         </Route>
-        <Route path='/companies/signin' element={< SignInCompanies />} />
-        <Route path='/companies/signup' element={<SignupCompanies />} />
+        <Route path='/business/signin' element={< SignInCompanies />} />
+        <Route path='/business/signup' element={<SignupCompanies />} />
 
         {/* Buisness */}
         <Route path="/business" element={<LayoutCompany />} >

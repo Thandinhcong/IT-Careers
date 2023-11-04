@@ -1,4 +1,3 @@
-import React from 'react'
 import { CgWorkAlt } from "react-icons/cg"
 import { CiLocationOn, CiMoneyBill, CiTimer } from 'react-icons/ci'
 import "slick-carousel/slick/slick.css";
@@ -23,7 +22,7 @@ const JobSeekers = () => {
         <section className='jobsee mt-5 border shadow  px-4 py-5 '>
             <div className='flex justify-between items-center  text-gray-400'>
                 <h5 className='font-semibold '>Ứng viên tìm việc</h5>
-                <Link to="/companys/find-job" className='flex items-center gap-1'>Xem thêm 1000+ ứng viên khác <span className='text-xl'><BsArrowRightShort /> </span> </Link>
+                <Link to="/business/find-job" className='flex items-center gap-1'>Xem thêm 1000+ ứng viên khác <span className='text-xl'><BsArrowRightShort /> </span> </Link>
             </div>
             <Slider {...settings} className='mt-10 p-2 overflow-x-hidden overflow-y-hidden '>
                 <div className='border p-5  bg-blue-50/50'>

@@ -20,7 +20,7 @@ const AccRank = () => {
         <div className=''>
             <div className='mt-20 ml-10 '>
                 <p className='text-sm my-5 ml-3' >
-                    <Link to="/companys">Bảng tin </Link> /
+                    <Link to="/business">Bảng tin </Link> /
                     <span className='text-gray-500'> Hạng Tài Khoản</span>
                 </p>
                 <div className="flex justify-end mt-3">

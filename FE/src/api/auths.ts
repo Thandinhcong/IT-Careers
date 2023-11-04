@@ -41,11 +41,11 @@ const authApi = createApi({
             query: () => "/candidate_information",
             providesTags: ['Auths']
         }),
-        logOut:builder.mutation<void,void>({
-            query:(data)=>({
-                url:"/candidate/logout",
-                method:"DELETE",
-                body:data
+        logOut: builder.mutation<void, void>({
+            query: (data) => ({
+                url: "/candidate/logout",
+                method: "DELETE",
+                body: data
             })
         })
     })

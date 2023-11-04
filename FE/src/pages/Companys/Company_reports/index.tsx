@@ -1,4 +1,3 @@
-import React from 'react'
 import { BsArrowUp } from 'react-icons/bs'
 import { FiAlertCircle } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -86,7 +85,7 @@ const CompanyReports = () => {
     return (
         <div className='mx-5 mt-16 py-5'>
             <p className='text-sm'>
-                <Link className='text-gray-500' to="/companys">Bảng tin /</Link>
+                <Link className='text-gray-500' to="/business">Bảng tin /</Link>
                 <span className='text-gray-200' > Báo cáo</span>
             </p>
             <div className='shadow border p-5 mt-5'>

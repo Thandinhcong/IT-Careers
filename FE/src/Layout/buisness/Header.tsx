@@ -20,12 +20,14 @@ const HeaderCompany = () => {
             await logout();
             localStorage.removeItem('accessToken');
             message.success("đăng xuất");
-            navigate("/companies/signin");
+            navigate("/business/signin");
         } catch (error) {
             console.error('Đăng xuất không thành công: ', error);
         }
     };
     const CV = [
+        { name: 'Thông tin liên hệ', href: '/business/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
+        { name: 'Thiết lập công ty', href: '/business/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
         { name: 'Thông tin liên hệ', href: '/companys/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
         { name: 'Thiết lập công ty', href: '/companys/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
         { name: 'Đăng xuất', href: '#', onclick: handleLogout, icon: <PiSignOutLight className="text-blue-500 text-xl" /> }
@@ -47,7 +49,7 @@ const HeaderCompany = () => {
                     Mua xu, nạp tiền tài khoản
                 </div>
             </Link>
-            <Link to="/companys/find-job" className='flex items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
+            <Link to="/business/find-job" className='flex items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <BiSearch />
                 <p className='text-sm'>Tìm CV</p>
             </Link>

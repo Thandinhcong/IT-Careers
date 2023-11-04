@@ -1,15 +1,12 @@
 import { Button, theme } from 'antd'
-import { Content } from 'antd/es/layout/layout';
-import React from 'react';
 import { AiOutlineUpload } from 'react-icons/ai';
 
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 
-type Props = {}
-// const { Header, Content, Footer } = Layout;
 
 
-const BusinessSetting = (props: Props) => {
+
+const BusinessSetting = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();

@@ -25,6 +25,7 @@ const authCompaniesApi = createApi({
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
             }
+            // return headers
         },
     }),
     endpoints: (builder) => ({
@@ -52,6 +53,13 @@ const authCompaniesApi = createApi({
         getInfor: builder.query<[], void>({
             query: () => "/company/company_information",
         }),
+        RefeshPassword: builder.mutation<any, any>({
+            query: (data) => ({
+                url: "/company/refreshPass",
+                method: "POST",
+                body: data
+            })
+        })
     }),
 });
 
@@ -59,7 +67,8 @@ export const {
     useSignupCompaniesMutation,
     useSigninCompaniesMutation,
     useGetInforQuery,
-    useLogOutCompaniesMutation
+    useLogOutCompaniesMutation,
+    useRefeshPasswordMutation,
 } = authCompaniesApi;
 
 export default authCompaniesApi;
