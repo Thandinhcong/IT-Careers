@@ -16,15 +16,14 @@ const ChangePassCompany = () => {
     } = theme.useToken();
     const [refeshPassword] = useRefeshPasswordMutation();
 
-    const onFinish = (values: any) => {
-        refeshPassword(values).unwrap()
-            .then(() => {
-                return notyf.success("Đổi mật khẩu thành công!")
-            })
-            .catch(() => {
-                return notyf.error("Có lỗi xảy ra vui lòng thử lại")
-            })
+    const onFinish = async (values: any) => {
+        try {
+            await refeshPassword(values).unwrap();
+            return notyf.success("Đổi mật khẩu thành công!")
 
+        } catch (error: any) {
+            return notyf.error(error.data.message)
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -54,31 +53,41 @@ const ChangePassCompany = () => {
             <Form.Item<FieldType>
                 label="Mật khẩu cũ"
                 name="password_old"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[
+                    { required: true, message: 'Vui lòng nhập lại mật khẩu!' },
+                ]}
                 labelCol={{ span: 24 }}
             >
-                <Input />
+                <Input.Password />
             </Form.Item>
 
             <Form.Item<FieldType>
                 labelCol={{ span: 24 }}
                 label="Mật khẩu mới"
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[
+                    { required: true, message: 'Vui lòng nhập lại mật khẩu mới!' },
+                    { min: 8, message: "Tối thiểu 8 ký tự" }
+                ]}
             >
 
                 <Input.Password />
             </Form.Item>
-            <Form.Item<FieldType>
+            <Form.Item
                 labelCol={{ span: 24 }}
-                label=" Nhập lại mật khẩu mới"
+                label="Nhập lại mật khẩu mới"
                 name="re_password"
                 rules={[
-                    { required: true, message: 'Please input your password!' },
-                    { min: 6, message: "Tối thiểu 6 ký tự" }
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('Mật khẩu không khớp!'));
+                        },
+                    }),
                 ]}
             >
-
                 <Input.Password />
             </Form.Item>
 
