@@ -26,10 +26,6 @@ const ChangePassCompany = () => {
         }
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
     type FieldType = {
         password_old?: string;
         password?: string;
@@ -45,7 +41,6 @@ const ChangePassCompany = () => {
             style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
             <h1 className='text-2xl'>Thay đổi mật khẩu</h1>
