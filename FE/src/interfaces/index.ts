@@ -124,12 +124,21 @@ export interface IAccount {
     email?: string,
     password?: string,
     phone?: string,
+    avatar?: string,
     address?: string,
     gender?: number,
     type?: number,
     status?: number,
     coin?: string,
-    password_confirmation: string
+    password_confirmation?: string,
+    re_password?: string,
+    password_old?: string,
+}
+
+export interface IChangePass {
+    password?: string,
+    password_old?: string,
+    re_password?: string,
 }
 export interface IListData {
     status: string

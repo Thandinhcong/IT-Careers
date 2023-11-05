@@ -29,6 +29,14 @@ const AccountApi = createApi({
             }),
             invalidatesTags: ['candidates']
         }),
+        changePassCandidate: builder.mutation({
+            query: (candidate: IAccount) => ({
+                url: `/refreshPass`,
+                method: "POST",
+                body: candidate
+            }),
+            invalidatesTags: ['candidates']
+        }),
         deleteCandidate: builder.mutation<void, number | string>({
             query: (id) => ({
                 url: `/candidates/${id}`,
@@ -41,7 +49,8 @@ const AccountApi = createApi({
 export const {
     useGetCandidatesQuery,
     useEditCandidateMutation,
-    useDeleteCandidateMutation
+    useDeleteCandidateMutation,
+    useChangePassCandidateMutation
 } = AccountApi;
 
 export const AccountReducer = AccountApi.reducer;

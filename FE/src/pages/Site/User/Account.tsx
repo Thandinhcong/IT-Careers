@@ -1,13 +1,10 @@
-import { Button, Form, Input, Layout, Menu, Select, theme } from 'antd'
+import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
-import React, { useEffect } from 'react'
-import { AiOutlineUser, AiOutlineLock, AiOutlineFile, AiOutlineLoading3Quarters } from 'react-icons/ai'
+import React from 'react'
+import { AiOutlineUser, AiOutlineLock, AiOutlineFile } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
-import { Link, useNavigate } from 'react-router-dom';
-import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
-import { IAccount } from '../../../interfaces'
-import { message } from 'antd'
+import { Link, Outlet } from 'react-router-dom';
 
 interface MenuItem {
     key: React.Key;
@@ -31,46 +28,14 @@ function getItem(
 }
 const items: MenuItem[] = [
     getItem('Thông tin liên hệ', '/account', <AiOutlineUser />),
-    getItem('Đổi mật khẩu', '', <AiOutlineLock />),
+    getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />),
     getItem('Thiết lập công ty', '', <LuActivitySquare />),
     getItem('Giấy phép kinh doanh', '', <AiOutlineFile />),
 ];
 const Account = () => {
-    const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
-    const navigate = useNavigate();
-    const { data: candidateData } = useGetCandidatesQuery();
-    const [form] = Form.useForm();
-
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    useEffect(() => {
-        form.setFieldsValue({
-            name: candidateData?.candidate?.name,
-            email: candidateData?.candidate?.email,
-            phone: candidateData?.candidate?.phone,
-            address: candidateData?.candidate?.address,
-            gender: candidateData?.candidate?.gender,
-            type: candidateData?.candidate?.type,
-            coin: candidateData?.candidate?.coin,
-        });
-    }, [candidateData]);
-
-    const onFinish = (values: IAccount) => {
-        editCandidate({ ...values })
-            .unwrap()
-            .then(async () => {
-                navigate("/account");
-                message.success('Cập nhật thành công')
-            });
-    };
-    console.log(candidateData);
-
-
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
     return (
         <Content style={{ padding: '0 20px' }} className='max-w-screen-xl'>
             <Layout style={{ background: colorBgContainer }}>
@@ -84,116 +49,7 @@ const Account = () => {
                     </Menu>
                 </Sider>
                 <Content style={{ padding: '0 24px', minHeight: 280 }} className='leading-8'>
-                    <h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
-                    <div>
-                        <h2 className='font-bold'>ID tài khoản</h2>
-                        <p>1231390</p>
-                    </div>
-                    <Form
-                        // className="mx-40"
-                        form={form}
-                        name="basic"
-                        labelCol={{ span: 24 }}
-                        wrapperCol={{ span: 24 }}
-                        style={{ maxWidth: 400 }}
-                        initialValues={{ remember: true }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        labelWrap={true}
-                        autoComplete="off">
-                        <div>
-                            <h2 className='font-bold flex items-center'>Họ và tên</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="name"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Email</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="email"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Số điện thoại</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="phone"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Địa chỉ</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="address"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Giới tính</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="gender"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Select>
-                                    <Select.Option value={0}>Không xác định</Select.Option>
-                                    <Select.Option value={1}>Nam</Select.Option>
-                                    <Select.Option value={2}>Nữ</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Loại</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="type"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input disabled />
-                            </Form.Item>
-                            <h2 className='font-bold flex items-center'>Xu</h2>
-                            <Form.Item<IAccount>
-                                // label=""
-                                name="coin"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                                ]}
-                            >
-                                <Input disabled />
-                            </Form.Item>
-                            <Form.Item labelAlign="left">
-                                <Button type="primary" htmlType="submit" className="bg-blue-500">
-                                    {isUpdateLoading ? (
-                                        <AiOutlineLoading3Quarters className="animate-spin" />
-                                    ) : (
-                                        "Cập nhật thông tin"
-                                    )}
-                                </Button>
-                            </Form.Item>
-                        </div>
-                    </Form>
+                    <Outlet />
                 </Content>
             </Layout>
         </Content>
