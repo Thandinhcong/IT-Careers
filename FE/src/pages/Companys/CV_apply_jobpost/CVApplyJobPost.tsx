@@ -3,16 +3,17 @@ import { AiOutlineFilter, AiOutlineReload } from "react-icons/ai"
 import { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
-import { useAssseCandidateMutation, useGetCvApllyJobPostIdQuery } from "../../../api/companies/cvApply";
-import { Link } from "react-router-dom";
+import { useAssseCandidateMutation, useGetCvApllyByIdJobPostIdQuery } from "../../../api/companies/cvApply";
+import { Link, useParams } from "react-router-dom";
 import { ICvApply } from "../../../interfaces";
 import TextArea from "antd/es/input/TextArea";
 
-const CVApply = () => {
-
-    const { data } = useGetCvApllyJobPostIdQuery();
+const CVApplyJobPost = () => {
+    const { id } = useParams();
+    const { data } = useGetCvApllyByIdJobPostIdQuery(id || "");
     const [form] = Form.useForm();
     const [assse] = useAssseCandidateMutation();
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,6 +85,7 @@ const CVApply = () => {
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
+                    {/* <p>Tìm thấy <span className="font-semibold">{data?.list_candidate_apply_job?.length || 0}</span> ứng viên</p> */}
                     <p>
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"
@@ -251,4 +253,4 @@ const CVApply = () => {
     )
 }
 
-export default CVApply
+export default CVApplyJobPost

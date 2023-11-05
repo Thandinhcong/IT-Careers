@@ -1,4 +1,3 @@
-import React from 'react'
 import { GoArrowRight, GoFileDiff, GoQuote } from "react-icons/go"
 
 import { Link } from 'react-router-dom'
@@ -9,7 +8,7 @@ const CreateCampaign = () => {
 
         <div className='mt-16   '>
             <p className='text-sm my-5 ml-3' >
-                <Link to="/companys">Bảng tin </Link> /
+                <Link to="/business">Bảng tin </Link> /
                 <Link to=""> Chiến dịch tuyển dụng</Link> /
                 <span className='text-gray-500'> Đăng tin chiến dịch</span>
             </p>
@@ -23,7 +22,7 @@ const CreateCampaign = () => {
                         <span>Đăng tin với chiến dịch tuyển dụng mới</span>
                     </div>
                     <div>
-                        <Link to="/companys/recruitment-campaign/form/create" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
+                        <Link to="/business/recruitment-campaign/form/create" className='bg-blue-500 px-2 py-2 rounded text-white flex items-center gap-1' >Bắt đầu ngay <span><GoArrowRight /></span> </Link>
                     </div>
                 </div>
                 <div className='border shadow'>

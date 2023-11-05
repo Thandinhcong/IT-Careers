@@ -1,10 +1,8 @@
 import { Button, theme } from 'antd';
-import React from 'react'
-import { AiFillEdit, AiOutlineUpload } from 'react-icons/ai';
+import { AiFillEdit } from 'react-icons/ai';
 
-type Props = {}
 
-const ContactCompanySetting = (props: Props) => {
+const ContactCompanySetting = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();

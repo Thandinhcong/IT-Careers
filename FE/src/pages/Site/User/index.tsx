@@ -1,23 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
 import { Outlet } from 'react-router-dom';
 import { useGetInfoUserQuery } from '../../../api/auths';
-
+import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 const LayoutUser = () => {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
+    const [findJob] = useFindJobsMutation();
     const [isSearchingJob, setIsSearchingJob] = useState(false);
 
     const onChange = (checked: boolean) => {
         setIsSearchingJob(checked);
+        if (checked) {
+            findJob();
+            notyf.success("Bật tìm việc thành công");
+        } else {
+            notyf.success("Tắt tìm việc thành công")
+        }
     };
+    useEffect(() => {
+        setIsSearchingJob(isSearchingJob)
+    }, [isSearchingJob])
 
-    const onChangee = (checked: boolean) => {
-        // setIsSearchingJob(checked);
-    };
-    const {data}=useGetInfoUserQuery();
-const listInfo=data?.candidate;
-    
+    const { data } = useGetInfoUserQuery();
+    const listInfo = data?.candidate;
+
     return (
         <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
             <Outlet />
@@ -59,7 +75,7 @@ const listInfo=data?.candidate;
                             <div className='mb-5'>
                                 <div className="flex justify-between items-baseline">
                                     <label className="h-0 w-0">
-                                        <Switch defaultChecked onChange={onChangee} className='bg-gray-400' />
+                                        <Switch defaultChecked className='bg-gray-400' />
                                         {/* <span className="slider round"></span> */}
                                     </label>
 

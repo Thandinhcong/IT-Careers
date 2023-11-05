@@ -23,6 +23,7 @@
     "env": "^0.0.2",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
+    "notyf": "^3.10.0",
     "postcss-cli": "^10.1.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

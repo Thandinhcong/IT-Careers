@@ -99,6 +99,9 @@ import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
 import CandidateInformation from "./pages/Site/User/CandidateInformation"
 import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
+import CreateCv from "./pages/Site/CreateCv/CreateCv"
+import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
+import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
 
 
 function App() {
@@ -123,6 +126,7 @@ function App() {
             <Route path="change_pass" element={<ChangePassCandidate />} />
           </Route>
 
+          <Route path="tao-cv" element={<CreateCv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -137,18 +141,18 @@ function App() {
 
 
           </Route>
-        </Route>
+        </Route >
 
         {/* Account */}
-        <Route element={<IsLogin />}>
-          <Route path='/signin' element={< SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
+        < Route element={< IsLogin />}>
+          <Route path='/dang-nhap' element={< SignIn />} />
+          <Route path='/dang-ky-tai-khoan' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
-        </Route>
-        <Route path='/companies/signin' element={< SignInCompanies />} />
-        <Route path='/companies/signup' element={<SignupCompanies />} />
+        </Route >
+        <Route path='/business/signin' element={< SignInCompanies />} />
+        <Route path='/business/signup' element={<SignupCompanies />} />
 
         {/* Buisness */}
         <Route path="/business" element={<LayoutCompany />} >
@@ -180,11 +184,13 @@ function App() {
           <Route path="find-job" element={<FindJob />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="cv-apply" element={<CVApply />} />
+          <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
           <Route path="jobs-manage" element={<JobsManage />} />
           <Route path="account-pro" element={<AccountPro />} />
           <Route path="jobs/create" element={<JobCreate />} />
           <Route path="job_post/update/:id" element={<PostEdit />} />
         </Route>
+        <Route path="/business/cv-apply/candidate-detail/:id" element={<CvCandodateDetail />} />
 
         {/* Help */}
         <Route path='help-companys/' element={<Helpcompanys />}>
@@ -230,7 +236,7 @@ function App() {
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
         </Route>
         <Route path="*" element={<NotFound />} />
-      </Routes>
+      </Routes >
     </BrowserRouter >
 
   )

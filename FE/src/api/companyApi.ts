@@ -19,11 +19,16 @@ const companyApi = createApi({
             query: (id) => "/list_company/" + id,
             providesTags: ['Companys']
         }),
+        searchCompanies: buidler.query<IListData[], void>({
+            query: () => 'list_company',
+            providesTags: ['Companys']
+        })
     })
 })
 export const {
     useGetAllCompanysQuery,
-    useGetOneCompanysQuery
+    useGetOneCompanysQuery,
+    useSearchCompaniesQuery
 } = companyApi;
 export const companyReducer = companyApi.reducer;
 export default companyApi;

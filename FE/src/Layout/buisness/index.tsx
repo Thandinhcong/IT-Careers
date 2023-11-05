@@ -1,4 +1,3 @@
-import React from 'react'
 import SideBarCompany from './SideBar'
 import HeaderCompany from './Header'
 import { Outlet } from 'react-router-dom'

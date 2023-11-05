@@ -14,9 +14,16 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useLogOutMutation } from "../../api/auths";
-import Swal from "sweetalert2";
+import { Notyf } from "notyf";
 
 const Header = () => {
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    },
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [useLogout] = useLogOutMutation();
   const [isLogin, setIsLogin] = useState(() => {
@@ -29,13 +36,8 @@ const Header = () => {
       await useLogout();
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "Đăng xuất thành công!",
-        timer: 1500,
-      });
-      window.location.reload("/")
+      notyf.success("Đăng xuất thành công!")
+      window.location.reload("/");
     }
   };
   const CV = [
@@ -187,12 +189,15 @@ const Header = () => {
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center">
-          <Link
-            to={"user/jobfavor"}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
-          </Link>
+          {isLogin ? (
+            <Link
+              to={"user/jobfavor"}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              <AiOutlineHeart className="inline-block base-line text-2xl w-20" />
+            </Link>
+
+          ) : ""}
           {!isLogin ? (
             ""
           ) : (
@@ -247,21 +252,21 @@ const Header = () => {
             <div className="flex">
               <div className="flex">
                 <Link
-                  to="/signin"
+                  to="/dang-nhap"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Đăng nhập <span aria-hidden="true"></span>
                 </Link>
                 <p className="border-r-2 mx-4 border-gray-400 "></p>
-                <a
-                  href="/signup"
+                <Link
+                  to="/dang-ky-tai-khoan"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Đăng Ký <span aria-hidden="true"></span>
-                </a>
+                </Link>
               </div>
               <Link
-                to="/companies/signin"
+                to="/business/signin"
                 className="text-sm font-semibold leading-6 text-gray-900 ml-4"
               >
                 Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
@@ -366,13 +371,13 @@ const Header = () => {
                   <AiOutlineHeart className="inline-block base-line" />
                 </Link>
                 <a
-                  href="/signin"
+                  href="/dang-nhap"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng nhập
                 </a>
                 <a
-                  href="/signup"
+                  href="/dang-ky-tai-khoan"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng ký

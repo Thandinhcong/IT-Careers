@@ -1,4 +1,4 @@
-import { AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
 import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -27,7 +27,6 @@ const TabMain = () => {
 
     const defaultEndDate = moment().add(5, 'days'); //giá trị mặc định là sau 5 ngày hiện tại
     const defaultQuantity = 5;
-
 
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);
@@ -160,14 +159,6 @@ const TabMain = () => {
             },
         },
         {
-            title: 'Hiển thị',
-            dataIndex: 'display',
-            width: 90,
-            render: (display: string) => (
-                <p className="text-center">{display}</p>
-            )
-        },
-        {
             title: 'Lượt xem',
             dataIndex: 'views',
             width: 100,
@@ -189,7 +180,7 @@ const TabMain = () => {
                     <span>Thao tác</span>
                 </div>
             ),
-            render: ({ key: id, end_date }: { key: number, end_date: string }) => {
+            render: ({ key: id, end_date, title }: { key: number, end_date: string, title: string }) => {
                 const isExpiredValue = end_date ? isExpired(end_date) : true;
                 // Chỉ hiển thị nút đăng lại bài nếu end_date trước ngày hiện tại
                 const showExtendButton = isExpiredValue;
@@ -209,7 +200,7 @@ const TabMain = () => {
                             <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key="1">
-                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${id}`}>
+                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${title}/${id}`}>
                                             <AiOutlineTag />
                                             Xem tin đăng trên web
                                         </a>
@@ -238,9 +229,9 @@ const TabMain = () => {
 
                                     </Menu.Item>
                                     <Menu.Item key="4">
-                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.luohanacademy.com">
-                                            <AiOutlineBulb />
-                                            Dịch vụ đã áp dụng
+                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/business/cv-apply/job-post/${id}`}>
+                                            <AiOutlineProfile />
+                                            Hồ sơ đăng tuyển
                                         </a>
                                     </Menu.Item>
                                 </Menu>

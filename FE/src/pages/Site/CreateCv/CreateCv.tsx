@@ -1,159 +1,252 @@
-import React, { useEffect, useRef } from 'react';
-import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from 'react-icons/ai'
-import { BsCalendar2Date, BsInfoCircle } from 'react-icons/bs'
-import { IoLocationOutline } from 'react-icons/io5'
-import "./index.css";
+import { useState } from "react"
+import { IoAdd, IoCreateOutline } from "react-icons/io5"
 
 const CreateCv = () => {
-    const editableRef = useRef<HTMLDivElement | null>(null);
-
-    const handleInput = () => {
-        if (editableRef.current) {
-            const content = editableRef.current.textContent || '';
-            const sanitizedContent = content.replace(/\n/g, ''); // Loại bỏ xuống dòng
-            editableRef.current.textContent = sanitizedContent;
-        }
+    const [showPersonalForm, setShowPersonalForm] = useState(false);
+    const [showEducationForm, setShowEducationForm] = useState(false);
+    const [showExperienceForm, setShowExperienceForm] = useState(false);
+    const togglePersonalForm = () => {
+        setShowPersonalForm(!showPersonalForm);
     };
 
+    const toggleEducationForm = () => {
+        setShowEducationForm(!showEducationForm);
+    };
 
+    const toggleExperienceForm = () => {
+        setShowExperienceForm(!showExperienceForm);
+    };
+
+    const addEducationForm = () => {
+        setShowEducationForm(true);
+    };
+
+    const addExperienceForm = () => {
+        setShowExperienceForm(true);
+    };
     return (
-        <div className='grid grid-cols-[65%,30%] gap-6 w-full   mx-5 max-w-7xl overflow-x-hidden  ' >
+        <div className="max-w-4xl mx-auto border shadow  rounded py-3 px-7">
             <div>
-                <div className='text-center text-2xl border px-2 py-2 outline-none my-2 custom-border w-full' contentEditable="true">Untitled CV</div>
-                <div className='bg-green-200 py-10 px-2'>
-                    <h1
-                        className='text-4xl outline-none custom-border w-full'
-                        contentEditable="true"
-                        onInput={handleInput}
-                        ref={editableRef}
-                    >ĐINH VĂN THẢN</h1>
-                    <h1
-                        className='text-xl py-3 outline-none custom-border w-full'
-                        contentEditable="true"
-                        onInput={handleInput}
-                        ref={editableRef}
-                    >FRONT-END DEVELOPER</h1>
+                <h2 className="text-2xl my-2">Tạo cv trên hệ thống, tạo cơ hội nhận được việc làm !</h2>
+                <p>Tạo CV trên hệ thống chúng tôi sẽ tăng 99% tìm được việc,</p>
+                <p>hãy tạo ngay cho CV của mình nhé.</p>
+            </div>
+            {/* Thông tin cá nhân  */}
+            <div>
+                <div className="my-3 flex justify-between items-center">
+                    <h2 className="text-xl">Thông tin cá nhân</h2>
+                    <button
+                        onClick={togglePersonalForm}
+                        className="text-xl text-blue-500"
+                    >
+                        <IoCreateOutline />
+                    </button>
                 </div>
-                <div className='px-2 my-5 grid grid-cols-[40%,58%] gap-3 border py-2'>
-                    <div>
+                {showPersonalForm && (
+                    <form action="" className="border p-2">
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Họ tên</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Địa chỉ</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Số điện thoại</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Email</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                        </div>
                         <div>
-                            <div className='flex gap-2 items-center my-2 '>
-                                <BsCalendar2Date />
-                                <p contentEditable="true" className="custom-border w-full outline-none ">08/2019</p>
+                            <label htmlFor="" className="">Chuyên ngành</label> <br />
+                            <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                        </div>
+                        <div>
+                            <label htmlFor="">Giới thiệu chung</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
 
-                            </div>
-                            <div className='flex gap-2 items-center my-2'>
-                                <AiOutlineUser />
-                                <p className='text-sm outline-none custom-border w-full' contentEditable="true">Nam</p>
-                            </div>
-                            <div className='flex gap-2 items-center my-2'>
-                                <AiOutlinePhone />
-                                <p className='text-sm outline-none custom-border w-full' contentEditable="true">0523892023</p>
-                            </div>
-                            <div className='flex gap-2 items-center my-2'>
-                                <AiOutlineMail />
-                                <p className='text-sm outline-none custom-border w-full' contentEditable="true">thandv03@gmail.com</p>
-                            </div>
-                            <div className='flex gap-2 items-center my-2'>
-                                <IoLocationOutline />
-                                <p className='text-sm outline-none custom-border w-full' contentEditable="true">HA NOI-VIET NAM</p>
-                            </div>
-                            <div className='flex gap-2 items-center my-2'>
-                                <BsInfoCircle />
-                                <p className='text-sm outline-none custom-border w-full' contentEditable="true">facebook.com/join.smith</p>
-                            </div>
+                            </textarea>
+                            <i className="text-xs text-blue-500">Gợi ý: giới thiệu số năm kinh nghiệm và mục tiêu bản thân</i>
                         </div>
-                        <div>
-                            <h1 className='text-xl outline-none my-5 font-semibold border-b' >MỤC TIÊU NGHỀ NGHIỆP</h1>
-                            <p className='outline-none text-sm custom-border w-full ' contentEditable="true">Là một người điềm tĩnh, thích ứng nhanh với môi trường mới, không ngại khó khăn, hứng thú trong việc tìm ra hướng giải quyết cho vấn đề.</p>
+                        <div className="my-2">
+                            <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
+                            <button
+                                onClick={togglePersonalForm}
+                                className="text-white px-2 py-1 bg-yellow-500 rounded"
+                            >Hủy</button>
                         </div>
-                        <div>
-                            <h1 className='text-xl outline-none my-5 font-semibold  border-b' >Kỹ năng</h1>
-                            <p className='outline-none custom-border w-full' contentEditable="true">Word, excel, Javascript</p>
-                        </div>
-                        <div>
-                            <h1 className='text-xl outline-none my-5 font-semibold' >Sở thích</h1>
-                            <p className='outline-none custom-border w-full' contentEditable="true">-Đá bóng</p>
+                    </form>
 
+                )}
+                <hr className="text-xl mb-2 border-blue-500" />
+                <div>
+                    <p className="my-1"><span className="font-semibold text-sm">Họ tên : </span><span className="text-sm">Đinh Văn Thản</span></p>
+                    <p className="my-1"><span className="font-semibold text-sm">Email : </span> <span className="text-sm">than@gmail.com</span></p>
+                    <p className="my-1"><span className="font-semibold text-sm">Số điện thoại : </span> <span className="text-sm">0523892062</span></p>
+                </div>
+
+                {/* học vấn */}
+                <div className="my-3 flex justify-between items-center">
+                    <h2 className="text-xl">Học vấn</h2>
+                    <button
+                        onClick={addEducationForm}
+                        className="text-xl text-blue-500"
+                    >
+                        <IoAdd />
+                    </button>
+                </div>
+                <hr className="text-xl mb-2 border  border-blue-500" />
+                {showEducationForm && (
+                    <form className="border p-2 border-blue-500 rounded my-2">
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Tên trường</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Chuyên ngành</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Điểm trung bình</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Loại bằng</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                                <i className="text-xs text-blue-500">VD : Bằng đại học , cao đẳng</i>
+                            </div>
                         </div>
                         <div>
-                            <h1 className='text-xl outline-none my-5 font-semibold  border-b' contentEditable="false">GIẢI THƯỞNG</h1>
-                            <p className='outline-none' contentEditable="true">Nhân viên xuất sắc năm công ty </p>
+                            <label htmlFor="">Mô tả học vấn </label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+                            </textarea>
+                            <i className="text-xs text-blue-500">Gợi ý: mô tả ngành học và kiến thức</i>
                         </div>
-                        <div>
-                            <h1 className='text-xl outline-none my-5 font-semibold  border-b' contentEditable="false">CHỨNG CHỈ</h1>
-                            <p className='outline-none custom-border w-full' contentEditable="true">Vô địch cuộc thi blockchain </p>
+                        <div className="my-2">
+                            <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
+                            <button
+                                onClick={toggleEducationForm}
+                                className="text-white px-2 py-1 bg-yellow-500 rounded"
+                            >Hủy</button>
                         </div>
+                    </form>
+                )}
+                {/* Kinh nghiệm làm việc */}
+                <div>
+                    <div className="my-3 flex justify-between items-center">
+                        <h2 className="text-xl">Kinh nghiệm làm việc</h2>
+                        <button
+                            onClick={addExperienceForm}
+                            className="text-xl text-blue-500"
+                        >
+                            <IoAdd />
+                        </button>
                     </div>
-                    <div>
-                        <div>
-                            <div>
-                                <h1 className='text-xl outline-none mb-3 font-semibold  border-b' >HỌC VẤN</h1>
-                                <h1 className='text-lg outline-none font-semibold  custom-border w-full' contentEditable="true">ĐẠI HỌC RMIT</h1>
-                                <p className='outline-none my-1 custom-border w-full' contentEditable="true">Chuyên ngành: Công nghệ thông tin</p>
-                                <p className='outline-none custom-border w-full' contentEditable="true">Tốt nghiệp loại giỏi, điêm trung bình 9.5</p>
-
-                            </div>
-                            <div>
-                                <div className='my-2'>
-                                    <h1 className='text-xl outline-none my-5 font-semibold border-b' contentEditable="true">KINH NGHIỆM LÀM VIỆC</h1>
-                                    <div className='flex justify-between items-center '>
-                                        <p className='outline-none font-semibold' contentEditable="true">Công ty FPT Software</p>
-                                        <div className='flex gap-2 text-xs mr-2 '>
-                                            <p className='custom-border w-full' contentEditable="true">06/2019</p> -
-                                            <p className='custom-border w-full' contentEditable="true">08/2019</p>
-                                        </div>
-                                    </div>
-                                    <p className='my-2 custom-border w-full outline-none' contentEditable="true">Project Manager</p>
-                                    <p className='outline-none text-sm custom-border w-full' contentEditable="true">Là một người điềm tĩnh, thích ứng nhanh với môi trường mới, không ngại khó khăn, hứng thú trong việc tìm ra hướng giải quyết cho vấn đề.</p>
-                                    <div className='flex justify-between items-center my-2'>
-                                        <p className='outline-none font-semibold custom-border w-full' contentEditable="true">Công ty FPT Software</p>
-                                        <div className='flex gap-2 text-xs mr-2  '>
-                                            <p className="custom-border w-full" contentEditable="true">06/2019</p> -
-                                            <p className="custom-border w-full" contentEditable="true">08/2019</p>
-                                        </div>
-                                    </div>
-                                    <p className='my-2 custom-border w-full'>Project Manager</p>
-                                    <p className='outline-none text-sm custom-border w-full' contentEditable="true">Là một người điềm tĩnh, thích ứng nhanh với môi trường mới, không ngại khó khăn, hứng thú trong việc tìm ra hướng giải quyết cho vấn đề.</p>
-
-
+                    <hr className="text-xl mb-2 border  border-blue-500" />
+                    {showExperienceForm && (
+                        <form className=" border  rounded border-blue-500 p-2">
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label htmlFor="" className="">Tên công ty</label> <br />
+                                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Tên công ty..." />
+                                </div>
+                                <div>
+                                    <label htmlFor="" className="">Vị trí</label> <br />
+                                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Vị trí..." />
                                 </div>
 
                             </div>
-                            <div>
-                                <h1 className='text-xl outline-none my-5 font-semibold  ' contentEditable="false">HOẠT ĐỘNG</h1>
-                                <h1 className='text-lg outline-none font-semibold  ' contentEditable="true">TÌNH NGUYỆN 123</h1>
-                                <p className='outline-none custom-border w-full' contentEditable="true">-Đá bóng</p>
-                                <p className='outline-none custom-border w-full' contentEditable="true">-Đá bóng</p>
-                            </div>
-                            <div>
-                                <h1 className='text-xl outline-none my-5 font-semibold  border-b' contentEditable="false">CHỨNG CHỈ</h1>
-
-                                <div className='flex justify-between items-center my-2'>
-                                    <p className='outline-none custom-border w-full' contentEditable="true">Project Manager</p>
-                                    <div className='flex gap-2 text-xs mr-2 '>
-                                        <p className='custom-border w-full' contentEditable="true">08/2019</p>
-                                    </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                    <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                                </div>
+                                <div>
+                                    <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                    <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
                                 </div>
                             </div>
                             <div>
-                                <h1 className='text-xl outline-none my-5  border-b fon' contentEditable="false">THÔNG TIN THÊM</h1>
-                                <p className='outline-none custom-border w-full' contentEditable="true">Điền thông tin khác nếu có </p>
+                                <label htmlFor="">Mô tả</label> <br />
+                                <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+
+                                </textarea>
+                                <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                            </div>
+                            <div className="my-2">
+                                <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
+                                <button
+                                    onClick={toggleExperienceForm}
+                                    className="text-white px-2 py-1 bg-yellow-500 rounded"
+                                >Hủy</button>
+                            </div>
+                        </form>
+                    )}
+                    {/* dự án  */}
+                    <div className="my-3 flex justify-between items-center">
+                        <h2 className="text-xl">Dự án</h2>
+                        <button className="text-xl text-blue-500">
+                            <IoAdd />
+                        </button>
+                    </div>
+                    <hr className="text-xl mb-2 border  border-blue-500" />
+                    <div className=" border  rounded border-blue-500 p-2 my-2">
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Tên dự án</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Dự án của bạn..." />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Vị trí trong dự án</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Chuyên ngành của bạn..." />
                             </div>
                         </div>
+                        <div>
+                            <label htmlFor="">Mô tả</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+                            </textarea>
+
+                        </div>
+                        <div>
+                            <label htmlFor="">Nội dung</label> <br />
+                            <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+                            </textarea>
+                            <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                        </div>
                     </div>
+
                 </div>
+                {/* ky nang */}
             </div>
-            <div>
-                <h2 className='text-2xl my-5 '>Tiêu đề CV</h2>
-                <p className='my-3'>- Viết tên CV để dễ dàng quản lý các CV của bạn.</p>
-                <p className='my-3'>- Tiêu đề này không hiển thị ra khi gửi CV cho nhà tuyển dung.</p>
-                <hr className='mt-5 mb-2' />
-                <p>Nếu xảy ra lỗi. Vui lòng liên hệ: <br />
-                    Email: contact@123job.vn <br />
-                    Zalo/Phone: 0378.949.988 (Bích)</p>
+            <div className="mx-auto flex justify-center my-2">
+                <button className=" bg-blue-500 text-white px-5 rounded  py-2">Tạo CV</button>
             </div>
-        </div >
+        </div>
     )
 }
 
