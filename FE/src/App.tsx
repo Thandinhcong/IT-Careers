@@ -97,7 +97,6 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
-import CreateCv from "./pages/Site/CreateCv/CreateCv"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
 import Cv from "./pages/Site/CreateCv/CV"
@@ -121,7 +120,6 @@ function App() {
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path='account' element={< Account />} />
-          <Route path="tao-cv" element={<CreateCv />} />
           <Route path="cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />

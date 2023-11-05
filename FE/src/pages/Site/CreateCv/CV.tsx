@@ -8,10 +8,10 @@ import "./style.css"
 
 const Cv = () => {
     var [skl, setskl] = useState("");
-    const [fullName, setfullName] = useState("Full Name");
+    const [fullName, setfullName] = useState("BEWORK");
     const [mobileNo, setmobileNo] = useState("+91 9829805030");
-    const [Email, setEmail] = useState("testuser@gmail.com");
-    const [cityCountry, setcityCountry] = useState("jaipur, India");
+    const [Email, setEmail] = useState("bework@gmail.com");
+    const [cityCountry, setcityCountry] = useState("My Dinh, Ha Noi");
     const [leetcodeLink, setleetcodeLink] = useState("");
     const [githubLink, setgithubLink] = useState("");
     const [linkedLink, setlinkedLink] = useState("");
@@ -268,11 +268,11 @@ const Cv = () => {
     };
 
     return (
-        <div className="builder-container z-50 mb-10">
+        <div className="builder-container  max-w-screen-2xl">
             <div className={"new-project-mondel " + adprom}>
                 <div className="Mondel-heading">
                     {" "}
-                    <div> Enter your new Project </div>{" "}
+                    <div>Dự án </div>{" "}
                     <div
                         className="cancal-div"
                         onClick={() => {
@@ -286,7 +286,7 @@ const Cv = () => {
                 <div className="Input-container-div">
                     <TextField
                         id="outlined-basic"
-                        label="Your Project Name"
+                        label="Tên dự án"
                         value={projectName}
                         onChange={(e) => {
                             setprojectName(e.target.value);
@@ -297,7 +297,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Your Project Github Link"
+                        label="Link github"
                         value={projectGithubLink}
                         onChange={(e) => {
                             setprojectGithubLink(e.target.value);
@@ -308,7 +308,7 @@ const Cv = () => {
                     <div>
                         <TextField
                             id="outlined-basic"
-                            label="Your Project Live Link"
+                            label="Link webiste"
                             value={projectLiveLink}
                             onChange={(e) => {
                                 setprojectLiveLink(e.target.value);
@@ -320,7 +320,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Your Project Description point 1"
+                        label="Mô tả dự án của bạn"
                         value={projectBulletedPoint1}
                         onChange={(e) => {
                             setprojectBulletedPoint1(e.target.value);
@@ -330,7 +330,7 @@ const Cv = () => {
                     />
                     <TextField
                         id="outlined-basic"
-                        label="Your Project Description point 2"
+                        label="Mô tả chi tiết dự án"
                         value={projectBulletedPoint2}
                         onChange={(e) => {
                             setprojectBulletedPoint2(e.target.value);
@@ -345,14 +345,14 @@ const Cv = () => {
                         style={{ width: "50%", marginLeft: "25%", marginTop: "10px" }}
                     >
                         {" "}
-                        Add Project{" "}
+                        Thêm dự án{" "}
                     </Button>
                 </div>
             </div>
             <div className={"new-project-mondel " + adem}>
                 <div className="Mondel-heading">
                     {" "}
-                    <div> Enter your new Experience </div>{" "}
+                    <div> Thêm kinh nghiệm </div>{" "}
                     <div
                         className="cancal-div"
                         onClick={() => {
@@ -366,7 +366,7 @@ const Cv = () => {
                 <div className="Input-container-div">
                     <TextField
                         id="outlined-basic"
-                        label="Company Name"
+                        label="Công ty"
                         value={companyName}
                         onChange={(e) => {
                             setcompanyName(e.target.value);
@@ -377,7 +377,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Role"
+                        label="Chức vụ"
                         value={role}
                         onChange={(e) => {
                             setrole(e.target.value);
@@ -388,7 +388,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Enter what you did there"
+                        label="Công việc đã làm"
                         value={expBulletedPoint1}
                         onChange={(e) => {
                             setexpBulletedPoint1(e.target.value);
@@ -399,7 +399,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Enter your learnings"
+                        label="Học được những gì tron dự án đó"
                         value={expBulletedPoint2}
                         onChange={(e) => {
                             setexpBulletedPoint2(e.target.value);
@@ -414,14 +414,14 @@ const Cv = () => {
                         style={{ width: "50%", marginLeft: "25%", marginTop: "10px" }}
                     >
                         {" "}
-                        Add Experience{" "}
+                        Thêm kinh nghiệm{" "}
                     </Button>
                 </div>
             </div>
             <div className={"new-project-mondel " + adedum}>
                 <div className="Mondel-heading">
                     {" "}
-                    <div> Enter your new Education </div>{" "}
+                    <div> Thêm học vấn </div>{" "}
                     <div
                         className="cancal-div"
                         onClick={() => {
@@ -435,7 +435,7 @@ const Cv = () => {
                 <div className="Input-container-div">
                     <TextField
                         id="outlined-basic"
-                        label="School Name"
+                        label="Trường học"
                         value={schoolName}
                         onChange={(e) => {
                             setschoolName(e.target.value);
@@ -446,7 +446,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Degree"
+                        label="Cấp bậc"
                         value={degree}
                         onChange={(e) => {
                             setdegree(e.target.value);
@@ -457,7 +457,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Start Year"
+                        label="Ngày bắt đầu"
                         value={startYear}
                         onChange={(e) => {
                             setstartYear(e.target.value);
@@ -468,7 +468,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="End Year"
+                        label="Ngày kết thúc"
                         value={endYear}
                         onChange={(e) => {
                             setendYear(e.target.value);
@@ -479,7 +479,7 @@ const Cv = () => {
 
                     <TextField
                         id="outlined-basic"
-                        label="Score"
+                        label="GPA"
                         value={score}
                         onChange={(e) => {
                             setscore(e.target.value);
@@ -494,14 +494,14 @@ const Cv = () => {
                         style={{ width: "50%", marginLeft: "25%", marginTop: "10px" }}
                     >
                         {" "}
-                        Add Education{" "}
+                        Thêm học vấn{" "}
                     </Button>
                 </div>
             </div>
             <div className={"new-project-mondel " + adachm}>
                 <div className="Mondel-heading">
                     {" "}
-                    <div> Enter your new Achievement </div>{" "}
+                    <div> Thành tích </div>{" "}
                     <div
                         className="cancal-div"
                         onClick={() => {
@@ -513,7 +513,7 @@ const Cv = () => {
                 </div>{" "}
                 <TextField
                     id="outlined-basic"
-                    label="Your Achievement"
+                    label="Thành tích của bạn"
                     value={achei}
                     onChange={(e) => {
                         setachei(e.target.value);
@@ -527,11 +527,11 @@ const Cv = () => {
                     style={{ width: "50%", marginLeft: "25%", marginTop: "10px" }}
                 >
                     {" "}
-                    Add{" "}
+                    Thêm{" "}
                 </Button>
             </div>
-            <div className="builder-container-nav">
-                <div className="builder-name"> Resume Builder </div>
+            <div className="builder-container-nav overflow-y-hidden">
+                <div className="builder-name"> Tạo CV </div>
                 <div className="other-links-builder">
                     <Link
                         style={{
@@ -543,7 +543,7 @@ const Cv = () => {
                         to="/"
                     >
                         {" "}
-                        Home{" "}
+                        Trang chủ{" "}
                     </Link>
 
                     <Button onClick={handleDownload} variant="contained">
@@ -552,18 +552,15 @@ const Cv = () => {
                     </Button>
                 </div>{" "}
             </div>{" "}
-            <div className="main-container-resume bg-white z-50">
+            <div className="main-container-resume ">
                 <div className="left-forms-div">
-                    <Alert severity="error">
-                        {" "}
-                        Don 't Refersh the web Page in between !{" "}
-                    </Alert>
-                    <div> Enter your Full Name </div>{" "}
+
+                    <div> Họ tên </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <TextField
                             id="outlined-basic"
-                            label="Full Name"
+                            label="Họ tên"
                             value={fullName}
                             onChange={(e) => {
                                 setfullName(e.target.value);
@@ -572,12 +569,12 @@ const Cv = () => {
                             variant="outlined"
                         />{" "}
                     </div>
-                    <div> Contact No.with country code </div>{" "}
+                    <div> Số điện thoại </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <TextField
                             id="outlined-basic"
-                            label="Contact No."
+                            label="Số điện thoại."
                             value={mobileNo}
                             onChange={(e) => {
                                 setmobileNo(e.target.value);
@@ -586,7 +583,7 @@ const Cv = () => {
                             variant="outlined"
                         />{" "}
                     </div>
-                    <div> Email address </div>{" "}
+                    <div> Địa chỉ Email </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <TextField
@@ -600,12 +597,12 @@ const Cv = () => {
                             variant="outlined"
                         />{" "}
                     </div>
-                    <div> Enter City, Country </div>{" "}
+                    <div> Địa chỉ </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <TextField
                             id="outlined-basic"
-                            label="City, Country"
+                            label="Địa chỉ"
                             value={cityCountry}
                             onChange={(e) => {
                                 setcityCountry(e.target.value);
@@ -656,12 +653,12 @@ const Cv = () => {
                             variant="outlined"
                         />{" "}
                     </div>
-                    <div> Enter Skill and press Add </div>{" "}
+                    <div> Thêm kỹ năng </div>{" "}
                     <div className="full-name-div-skill">
                         {" "}
                         <TextField
                             id="outlined-basic"
-                            label="Skill"
+                            label="eg: project manager"
                             style={{ width: "60%" }}
                             value={skl}
                             onChange={(e) => {
@@ -675,7 +672,7 @@ const Cv = () => {
                             style={{ width: "40%" }}
                         >
                             {" "}
-                            Add{" "}
+                            Thêm{" "}
                         </Button>
                     </div>
                     <div className="skills-div-container">
@@ -699,7 +696,7 @@ const Cv = () => {
                             );
                         })}
                     </div>
-                    <div> Add New Project </div>{" "}
+                    <div> Dự án </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <Button
@@ -710,7 +707,7 @@ const Cv = () => {
                             style={{ width: "100%" }}
                         >
                             {" "}
-                            Add New Project{" "}
+                            Thêm mới dự án{" "}
                         </Button>
                     </div>
                     <div className="Project-list-left">
@@ -745,7 +742,7 @@ const Cv = () => {
                             );
                         })}
                     </div>
-                    <div> Add New Experience </div>{" "}
+                    <div> Kinh Nghiệm </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <Button
@@ -756,7 +753,7 @@ const Cv = () => {
                             style={{ width: "100%" }}
                         >
                             {" "}
-                            Add New Experience{" "}
+                            Thêm mới kinh nghiệm{" "}
                         </Button>{" "}
                     </div>
                     <div className="exp-list-left">
@@ -794,7 +791,7 @@ const Cv = () => {
                             })}
                         </div>
                     </div>
-                    <div> Add New Education </div>{" "}
+                    <div>Học vấn </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <Button
@@ -805,7 +802,7 @@ const Cv = () => {
                             style={{ width: "100%" }}
                         >
                             {" "}
-                            Add New Education{" "}
+                            Thêm học vấn{" "}
                         </Button>{" "}
                     </div>
                     <div className="edu-list-left">
@@ -842,8 +839,8 @@ const Cv = () => {
                             })}
                         </div>
                     </div>
-                    <div> Add New Acheivement </div>{" "}
-                    <div className="full-name-div">
+                    <div className="">Thành tích </div>{" "}
+                    <div className="full-name-div mb-10">
                         {" "}
                         <Button
                             variant="contained"
@@ -853,7 +850,7 @@ const Cv = () => {
                             style={{ width: "100%" }}
                         >
                             {" "}
-                            Add New Acheivement{" "}
+                            Thêm thành tích{" "}
                         </Button>{" "}
                     </div>
                     <div className="ach-list-left">
@@ -966,7 +963,7 @@ const Cv = () => {
                                 </div>
                             </div>{" "}
                             <div>
-                                <div className="skills-section-heading">Education </div>
+                                <div className="skills-section-heading">Học vấn </div>
 
                                 <div className="All-education">
                                     {edu.map((edu, index) => {
@@ -994,7 +991,7 @@ const Cv = () => {
                             </div>{" "}
                             <div>
                                 <div className="skills-section-heading">
-                                    Extra - Achievements{" "}
+                                    Thành tích{" "}
                                 </div>
 
                                 <div className="All-other-acheivements">
