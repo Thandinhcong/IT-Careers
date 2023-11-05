@@ -100,6 +100,7 @@ import NotFound from "./pages/notFound/NotFound"
 import CreateCv from "./pages/Site/CreateCv/CreateCv"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
+import Cv from "./pages/Site/CreateCv/CV"
 
 
 function App() {
@@ -121,6 +122,7 @@ function App() {
           <Route path="jobs" element={<Jobs />} />
           <Route path='account' element={< Account />} />
           <Route path="tao-cv" element={<CreateCv />} />
+          <Route path="cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -133,8 +135,7 @@ function App() {
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
 
-
-          </Route>
+          </Route >
         </Route>
 
         {/* Account */}
