@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
 import "./style.css"
 
@@ -32,8 +31,6 @@ const Cv = () => {
 
             return pre;
         });
-
-        //   console.log(skls);
     };
 
     const [allAchei, setallAchei] = useState([]);
