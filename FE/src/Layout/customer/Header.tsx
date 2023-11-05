@@ -14,9 +14,16 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useLogOutMutation } from "../../api/auths";
-import Swal from "sweetalert2";
+import { Notyf } from "notyf";
 
 const Header = () => {
+  const notyf = new Notyf({
+    duration: 2000,
+    position: {
+      x: 'right',
+      y: 'top',
+    },
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [useLogout] = useLogOutMutation();
   const [isLogin, setIsLogin] = useState(() => {
@@ -29,12 +36,7 @@ const Header = () => {
       await useLogout();
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: "Đăng xuất thành công!",
-        timer: 1500,
-      });
+      notyf.success("Đăng xuất thành công!")
       window.location.reload("/");
     }
   };

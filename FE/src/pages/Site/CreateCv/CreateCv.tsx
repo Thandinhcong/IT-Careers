@@ -4,7 +4,7 @@ import { IoAdd, IoCreateOutline } from "react-icons/io5"
 const CreateCv = () => {
     const [showPersonalForm, setShowPersonalForm] = useState(false);
     const [showEducationForm, setShowEducationForm] = useState(false);
-    const [educationForms, setEducationForms] = useState([]);
+    const [showExperienceForm, setShowExperienceForm] = useState(false);
     const togglePersonalForm = () => {
         setShowPersonalForm(!showPersonalForm);
     };
@@ -13,55 +13,16 @@ const CreateCv = () => {
         setShowEducationForm(!showEducationForm);
     };
 
-    const removeEducationForm = () => {
-        setShowEducationForm(false);
+    const toggleExperienceForm = () => {
+        setShowExperienceForm(!showExperienceForm);
     };
+
     const addEducationForm = () => {
-        const newForm = (
-            <form className="border p-2 border-blue-500 rounded my-2">
-                <div className="grid grid-cols-2 gap-3">
-                    <div>
-                        <label htmlFor="" className="">Tên trường</label> <br />
-                        <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                    </div>
-                    <div>
-                        <label htmlFor="" className="">Chuyên ngành</label> <br />
-                        <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                    </div>
-                    <div>
-                        <label htmlFor="" className="">Ngày bắt đầu</label> <br />
-                        <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                    </div>
-                    <div>
-                        <label htmlFor="" className="">Ngày kết thúc</label> <br />
-                        <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                    </div>
-                    <div>
-                        <label htmlFor="" className="">Điểm trung bình</label> <br />
-                        <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                    </div>
-                    <div>
-                        <label htmlFor="" className="">Loại bằng</label> <br />
-                        <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
-                        <i className="text-xs text-blue-500">VD : Bằng đại học , cao đẳng</i>
-                    </div>
-                </div>
-                <div>
-                    <label htmlFor="">Mô tả học vấn </label> <br />
-                    <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
-                    </textarea>
-                    <i className="text-xs text-blue-500">Gợi ý: mô tả ngành học và kiến thức</i>
-                </div>
-                <div className="my-2">
-                    <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
-                    <button
-                        onClick={toggleEducationForm}
-                        className="text-white px-2 py-1 bg-yellow-500 rounded"
-                    >Hủy</button>
-                </div>
-            </form>
-        );
-        setEducationForms([...educationForms, newForm]);
+        setShowEducationForm(true);
+    };
+
+    const addExperienceForm = () => {
+        setShowExperienceForm(true);
     };
     return (
         <div className="max-w-4xl mx-auto border shadow  rounded py-3 px-7">
@@ -140,30 +101,17 @@ const CreateCv = () => {
                     </button>
                 </div>
                 <hr className="text-xl mb-2 border  border-blue-500" />
-                {educationForms?.map((form, index) => (
-                    <div key={index}>{form}</div>
-                ))}
-                <div>
-                    <div className="my-3 flex justify-between items-center">
-                        <h2 className="text-xl">Kinh nghiệm làm việc</h2>
-                        <button className="text-xl text-blue-500">
-                            <IoAdd />
-                        </button>
-                    </div>
-                    <hr className="text-xl mb-2 border  border-blue-500" />
-                    <div className=" border  rounded border-blue-500 p-2">
+                {showEducationForm && (
+                    <form className="border p-2 border-blue-500 rounded my-2">
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label htmlFor="" className="">Tên công ty</label> <br />
-                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Tên công ty..." />
+                                <label htmlFor="" className="">Tên trường</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
                             </div>
                             <div>
-                                <label htmlFor="" className="">Vị trí</label> <br />
-                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Vị trí..." />
+                                <label htmlFor="" className="">Chuyên ngành</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
                             </div>
-
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <label htmlFor="" className="">Ngày bắt đầu</label> <br />
                                 <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
@@ -172,15 +120,82 @@ const CreateCv = () => {
                                 <label htmlFor="" className="">Ngày kết thúc</label> <br />
                                 <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
                             </div>
+                            <div>
+                                <label htmlFor="" className="">Điểm trung bình</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="" className="">Loại bằng</label> <br />
+                                <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                                <i className="text-xs text-blue-500">VD : Bằng đại học , cao đẳng</i>
+                            </div>
                         </div>
                         <div>
-                            <label htmlFor="">Mô tả</label> <br />
+                            <label htmlFor="">Mô tả học vấn </label> <br />
                             <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
-
                             </textarea>
-                            <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                            <i className="text-xs text-blue-500">Gợi ý: mô tả ngành học và kiến thức</i>
                         </div>
+                        <div className="my-2">
+                            <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
+                            <button
+                                onClick={toggleEducationForm}
+                                className="text-white px-2 py-1 bg-yellow-500 rounded"
+                            >Hủy</button>
+                        </div>
+                    </form>
+                )}
+                {/* Kinh nghiệm làm việc */}
+                <div>
+                    <div className="my-3 flex justify-between items-center">
+                        <h2 className="text-xl">Kinh nghiệm làm việc</h2>
+                        <button
+                            onClick={addExperienceForm}
+                            className="text-xl text-blue-500"
+                        >
+                            <IoAdd />
+                        </button>
                     </div>
+                    <hr className="text-xl mb-2 border  border-blue-500" />
+                    {showExperienceForm && (
+                        <form className=" border  rounded border-blue-500 p-2">
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label htmlFor="" className="">Tên công ty</label> <br />
+                                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Tên công ty..." />
+                                </div>
+                                <div>
+                                    <label htmlFor="" className="">Vị trí</label> <br />
+                                    <input type="text" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" placeholder="Vị trí..." />
+                                </div>
+
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label htmlFor="" className="">Ngày bắt đầu</label> <br />
+                                    <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                                </div>
+                                <div>
+                                    <label htmlFor="" className="">Ngày kết thúc</label> <br />
+                                    <input type="date" className="border outline-none rounded w-full px-2 py-1 text-sm my-2" />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="">Mô tả</label> <br />
+                                <textarea name="" id="" className="w-full outline-none border rounded p-2 text-sm">
+
+                                </textarea>
+                                <i className="text-xs text-blue-500">Gợi ý: mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i>
+                            </div>
+                            <div className="my-2">
+                                <button className="text-white px-2 py-1 bg-blue-500 mr-2  rounded">Lưu</button>
+                                <button
+                                    onClick={toggleExperienceForm}
+                                    className="text-white px-2 py-1 bg-yellow-500 rounded"
+                                >Hủy</button>
+                            </div>
+                        </form>
+                    )}
                     {/* dự án  */}
                     <div className="my-3 flex justify-between items-center">
                         <h2 className="text-xl">Dự án</h2>
