@@ -178,11 +178,16 @@
     width: 30%;
     height: 100%;
     overflow-y: scroll;
-    position: fixed;
+    /* position: fixed; */
+    height: 100vh;
     z-index: 999;
     padding: 20px;
     padding-bottom: 50px;
     background: #fff;
+}
+
+.left-forms-div::-webkit-scrollbar {
+    display: none;
 }
 
 .full-name-div {
@@ -193,10 +198,15 @@
 .right-resume-div {
     width: 70%;
     overflow-y: scroll;
+    height: 100vh;
     /* position: fixed; */
-    margin-left: 30%;
+    /* margin-left: 30%; */
     background: #C4C4C4;
     padding: 15px;
+}
+
+.right-resume-div::-webkit-scrollbar {
+    display: none;
 }
 
 .full-name-div-skill {

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import "./style.css"
+import { CiCircleRemove } from "react-icons/ci";
 
 const Cv = () => {
     var [skl, setskl] = useState("");
@@ -41,7 +41,7 @@ const Cv = () => {
         };
 
         if (achei !== "") {
-            setallAchei((pre) => {
+            setallAchei((pre: any) => {
                 return pre.concat(newAch);
             });
 
@@ -51,7 +51,6 @@ const Cv = () => {
             });
         }
     };
-    // education add
 
     const [edu, setedu] = useState([]);
     var [schoolName, setschoolName] = useState("");
@@ -69,7 +68,7 @@ const Cv = () => {
             score: score,
         };
 
-        setedu((pre) => {
+        setedu((pre: any) => {
             return pre.concat(newsdu);
         });
 
@@ -112,7 +111,7 @@ const Cv = () => {
             projectBulletedPoint2: projectBulletedPoint2,
         };
 
-        setproj((pre) => {
+        setproj((pre: any) => {
             return pre.concat(newpro);
         });
 
@@ -138,7 +137,7 @@ const Cv = () => {
         });
     };
     const handledeleteProject = (prj: any) => {
-        setproj((p) => p.filter((k) => k.projectName !== prj));
+        setproj((p) => p.filter((k: any) => k.projectName !== prj));
     };
 
     const [exper, setexper] = useState([]);
@@ -156,7 +155,7 @@ const Cv = () => {
             expBulletedPoint2: expBulletedPoint2,
         };
 
-        setexper((pre) => {
+        setexper((pre: any) => {
             return pre.concat(newexp);
         });
 
@@ -180,21 +179,20 @@ const Cv = () => {
     };
 
     const handledeleteExper = (ex: any) => {
-        setexper((p) => p.filter((k) => k.companyName !== ex));
+        setexper((p) => p.filter((k: any) => k.companyName !== ex));
     };
 
     const handledeleteEdu = (ed: any) => {
-        setedu((p) => p.filter((k) => k.schoolName !== ed));
+        setedu((p) => p.filter((k: any) => k.schoolName !== ed));
     };
 
-    const handleDeletes = (pp, s) => {
-        console.log(s);
+    const handleDeletes = (pp: any) => {
 
         setskills((p) => p.filter((k) => k !== pp));
     };
 
     const handledeleteAcheivement = (ah: any) => {
-        setallAchei((p) => p.filter((k) => k.acheivement !== ah));
+        setallAchei((p) => p.filter((k: any) => k.acheivement !== ah));
     };
 
     var [adprom, setadprom] = useState("invi");
@@ -276,7 +274,8 @@ const Cv = () => {
                             handleChangeVisibility();
                         }}
                     >
-                        X{" "}
+                        <div className="text-2xl text-red-500 ml-10"><CiCircleRemove /></div>{" "}
+                        {" "}
                     </div>{" "}
                 </div>
 
@@ -356,7 +355,8 @@ const Cv = () => {
                             handleChangeVisibilitye();
                         }}
                     >
-                        X{" "}
+                        <div className="text-2xl text-red-500 ml-10"><CiCircleRemove /></div>{" "}
+                        {" "}
                     </div>{" "}
                 </div>
 
@@ -425,7 +425,8 @@ const Cv = () => {
                             handleChangeVisibilityedu();
                         }}
                     >
-                        X{" "}
+                        <div className="text-2xl text-red-500 ml-10"><CiCircleRemove /></div>{" "}
+                        {" "}
                     </div>{" "}
                 </div>
 
@@ -499,13 +500,16 @@ const Cv = () => {
                 <div className="Mondel-heading">
                     {" "}
                     <div> Thành tích </div>{" "}
-                    <div
-                        className="cancal-div"
-                        onClick={() => {
-                            handleChangeVisibilityach();
-                        }}
-                    >
-                        X{" "}
+                    <div className="flex justify-between  items-center">
+                        <div
+                            className="cancal-div"
+                            onClick={() => {
+                                handleChangeVisibilityach();
+                            }}
+                        >
+                            <div className="text-2xl text-red-500 ml-10"><CiCircleRemove /></div>{" "}
+                        </div>
+
                     </div>
                 </div>{" "}
                 <TextField
@@ -837,7 +841,7 @@ const Cv = () => {
                         </div>
                     </div>
                     <div className="">Thành tích </div>{" "}
-                    <div className="full-name-div mb-10">
+                    <div className="full-name-div ">
                         {" "}
                         <Button
                             variant="contained"
@@ -850,8 +854,8 @@ const Cv = () => {
                             Thêm thành tích{" "}
                         </Button>{" "}
                     </div>
-                    <div className="ach-list-left">
-                        {allAchei.map((ac, index) => {
+                    <div className="ach-list-left mb-20">
+                        {allAchei.map((ac: any, index) => {
                             return (
                                 <div
                                     style={{
@@ -915,9 +919,9 @@ const Cv = () => {
 
                                 <div className="all-projects">
                                     {" "}
-                                    {proj.map((p, index) => {
+                                    {proj.map((p: any, index) => {
                                         return (
-                                            <div key={index}>
+                                            <div key={index} className="">
                                                 <div className="project-name-and-links">
                                                     {" "}
                                                     {p.projectName} |{" "}
@@ -926,7 +930,7 @@ const Cv = () => {
                                                 </div>
 
                                                 <div className="bulleted-points-project">
-                                                    <ul>
+                                                    <ul className="mt-5">
                                                         <li> {p.projectBulletedPoint1} </li>{" "}
                                                         <li> {p.projectBulletedPoint2} </li>
                                                     </ul>
@@ -940,7 +944,7 @@ const Cv = () => {
                                 <div className="skills-section-heading">Kinh nghiệm làm việc </div>
 
                                 <div className="all-experience">
-                                    {exper.map((e, index) => {
+                                    {exper.map((e: any, index) => {
                                         return (
                                             <div key={index}>
                                                 <div className="experience-name-heading">
@@ -949,7 +953,7 @@ const Cv = () => {
                                                 </div>
 
                                                 <div className="bulleted-points-project">
-                                                    <ul>
+                                                    <ul className="mt-5">
                                                         <li> {e.expBulletedPoint1} </li>{" "}
                                                         <li> {e.expBulletedPoint2} </li>
                                                     </ul>
@@ -963,7 +967,7 @@ const Cv = () => {
                                 <div className="skills-section-heading">Học vấn </div>
 
                                 <div className="All-education">
-                                    {edu.map((edu, index) => {
+                                    {edu.map((edu: any, index) => {
                                         return (
                                             <div className="each-school-div" key={index}>
                                                 <div className="degree-name">
@@ -992,11 +996,11 @@ const Cv = () => {
                                 </div>
 
                                 <div className="All-other-acheivements">
-                                    {allAchei.map((ache, index) => {
+                                    {allAchei.map((ache: any, index) => {
                                         return (
-                                            <div className="each-acheivement">
+                                            <div key={index} className="each-acheivement ">
                                                 <ul>
-                                                    <li> {ache.acheivement}</li>{" "}
+                                                    <li className="mt-5"> {ache.acheivement}</li>{" "}
                                                 </ul>
                                             </div>
                                         );
