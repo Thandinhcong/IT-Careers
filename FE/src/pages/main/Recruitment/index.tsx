@@ -4,6 +4,7 @@ import { MdFavoriteBorder, MdRoom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { IJobPost, IListJobs } from '../../../interfaces'
+import { VND } from '../../../components/upload'
 
 const Recruitment = () => {
     const { data } = useGetAllJobsQuery();
@@ -35,9 +36,9 @@ const Recruitment = () => {
                                             <p>{item?.company_name}</p>
                                         </div>
                                     </div>
-                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.area}</span> </p>
+                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
                                     <div className='flex justify-between items-center mb-2'>
-                                        <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{item.min_salary} - {item.max_salary}</span></p>
+                                        <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
                                         <i className='border p-1'><MdFavoriteBorder /></i>
                                     </div>
                                 </Link>

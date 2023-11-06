@@ -210,7 +210,9 @@ export interface IListJobs {
     company_name: string,
     logo: string
     area: string
-    status: number
+    status: number,
+    province: string,
+    district: string
 }
 export interface IListDataJobs {
     status: IJobPost,
@@ -238,5 +240,7 @@ export interface IListJobsDetail {
     end_date: Date,
     quantity: number,
     require: string,
-    interest: string
+    interest: string,
+    province: string,
+    district: string
 }
