@@ -44,7 +44,7 @@ const TabsOverview = ({ onTabChange }: any) => {
                             } transition-max-h duration-500 ease-in-out`}
                     >
                         <p>
-                            {listCompanyDetail?.desc}
+                            {listCompanyDetail?.description}
                         </p>
                     </div>
                     <button
@@ -67,12 +67,10 @@ const TabsOverview = ({ onTabChange }: any) => {
                     </div>
                     <div className='border border-gray-300 rounded-lg p-3 text-center'>
                         <p className='font-semibold h-[63px]'>Mô hình nhân sự</p>
-                        <p>1000</p>
+                        <p>{listCompanyDetail?.company_size_min}-{listCompanyDetail?.company_size_max}</p>
                     </div>
-                    <div className='border border-gray-300 rounded-lg p-3 text-center'>
-                        <p className='font-semibold h-[63px]'>Đang cập nhật</p>
-                        <p>Lĩnh vực</p>
-                    </div>
+
+
                     <div className='border border-gray-300 rounded-lg p-3 text-center '>
                         <p className='text-title  font-semibold h-[63px]'>{listCompanyDetail?.office}</p>
                         <p>Trụ sở chính</p>

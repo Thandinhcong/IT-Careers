@@ -119,7 +119,12 @@ function App() {
             <Route index element={<CandidateInformation />} />
             <Route path="change_pass" element={<ChangePassCandidate />} />
           </Route>
-
+          <Route path='user/' element={<LayoutUser />}>
+            <Route path='listcv' element={< ListCV />} />
+            <Route path='jobapply' element={< JobApply />} />
+            <Route path='jobfavor' element={< JobFavor />} />
+            <Route path='profile' element={< Profile />} />
+          </Route >
           <Route path='account' element={< Account />} />
           <Route path="cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
@@ -128,12 +133,7 @@ function App() {
             <Route path='faq' element={< FAQ />} />
             <Route path='dispute-resolution' element={< DisputeResolution />} />
           </Route>
-          <Route path='user/' element={<LayoutUser />}>
-            <Route path='listcv' element={< ListCV />} />
-            <Route path='jobapply' element={< JobApply />} />
-            <Route path='jobfavor' element={< JobFavor />} />
-            <Route path='profile' element={< Profile />} />
-          </Route >
+
         </Route>
 
         {/* Account */}

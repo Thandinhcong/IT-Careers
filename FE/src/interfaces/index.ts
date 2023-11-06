@@ -193,6 +193,9 @@ export interface ICompanys {
     description: string,
     coin: number,
     status: Selection,
+    company_size_min: number,
+    company_size_max: number
+
 
 }
 export interface IListOneCompany {
