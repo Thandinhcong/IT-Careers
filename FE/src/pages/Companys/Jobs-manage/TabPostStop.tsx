@@ -17,7 +17,7 @@ const isExpired = (endDate: string) => {
     const end = moment(endDate);
     return currentDate.isAfter(end);
 };
-const TabMain = () => {
+const TabPostStop = () => {
     const { data } = useGetJobPostByIdCompanyQuery();
 
     const [extendJobPost] = useExtendJobPostMutation();
@@ -163,7 +163,7 @@ const TabMain = () => {
             title: 'Lượt xem',
             dataIndex: 'views',
             width: 100,
-            render: (views: number) => (
+            render: (views: string) => (
                 <p className="text-center">{views}</p>
             )
         },
@@ -269,7 +269,15 @@ const TabMain = () => {
             views: item.view,
         }
     })
-
+    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 3);
+    const currentDate = moment(); // Lấy ngày hiện tại
+    const filteredJobPosts = passJobPostData.filter((item: IJobPost) => {
+        if (item.end_date) {
+            const endDate = moment(item.end_date);
+            return endDate.isSameOrAfter(currentDate, 'day'); // So sánh ngày kết thúc với ngày hiện tại
+        }
+        return false; // Bỏ qua các bài đăng không có 'end_date'
+    });
     // rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
@@ -294,7 +302,7 @@ const TabMain = () => {
                         ...rowSelection,
                     }}
                     columns={columns}
-                    dataSource={jobPostData}
+                    dataSource={filteredJobPosts}
                 />
             </div>
             <Modal
@@ -363,4 +371,4 @@ const TabMain = () => {
     )
 }
 
-export default TabMain
+export default TabPostStop

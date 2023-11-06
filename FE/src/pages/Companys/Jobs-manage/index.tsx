@@ -1,15 +1,12 @@
 import { Tabs } from 'antd';
 import TabMain from './TabMain';
-import { useGetInforQuery, useGetJobPostByIdCompanyQuery, } from '../../../api/companies/jobPostCompany';
 import TabPostPendding from './TabPostPendding';
 import TabPostPass from './TabPostPass';
 import TabPostFail from './TabPostFail';
 import TabPostExpired from './TabPostExpired';
+import TabPostStop from './TabPostStop';
 
 const JobsManage = () => {
-    const { data: infor } = useGetInforQuery();
-    const { data: jobPostData } = useGetJobPostByIdCompanyQuery();
-
     return (
         <div className='bg-gray-100 py-8 px-5'>
             <div className='max-w-[1100px] mx-auto bg-white p-4'>
@@ -29,6 +26,7 @@ const JobsManage = () => {
                     <Tabs.TabPane key="4"
                         tab={<p className=' text-base text-[#526484] font-medium'>
                             <span>Dừng tuyển</span></p>}>
+                        <TabPostStop />
                     </Tabs.TabPane>
                     <Tabs.TabPane key="5"
                         tab={<p className=' text-base text-[#526484] font-medium'>

@@ -207,6 +207,7 @@ const TabPostPendding = () => {
             academic_level_id: item.academic_level_id,
             major_id: item.major,
             interest: item.interest,
+            views: item.view,
         }
     })
     const penddingJobPostData = jobPostData.filter((item: IJobPost) => item.status === 0);

@@ -1,75 +1,96 @@
-import { AiOutlineAreaChart, AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
-import { Button, Divider, Drawer, Dropdown, Space, Table, Tag } from 'antd';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { MenuProps } from 'antd';
-import { useGetJobPostByIdCompanyQuery } from '../../../api/companies/jobPostCompany';
-import FormEdit from "./PostEdit";
+import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import moment from "moment";
 
+
+const cancel = () => {
+    message.info('Huỷ dừng');
+};
+const isExpired = (endDate: string) => {
+    const currentDate = moment();
+    const end = moment(endDate);
+    return currentDate.isAfter(end);
+};
 const TabPostPass = () => {
     const { data } = useGetJobPostByIdCompanyQuery();
 
+    const [extendJobPost] = useExtendJobPostMutation();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
+    const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
+    const [stopJobPost] = useStopJobPostMutation();
 
+    const defaultEndDate = moment().add(5, 'days'); //giá trị mặc định là sau 5 ngày hiện tại
+    const defaultQuantity = 5;
 
-    const [open, setOpen] = useState(false);
-    const showDrawer = () => {
-        setOpen(true);
+    const showModal = (jobId: number) => {
+        setSelectedJobId(jobId);
+        setIsModalOpen(true);
     };
 
-    const onClose = () => {
-        setOpen(false);
+    const handleQuantityChange = (value: string | number | null) => { //Tăng giảm ngày đăng lại bài
+        // Lấy ngày hiện tại
+        console.log(value);
+
+        const currentDate = moment();
+
+        // Tính toán ngày kết thúc mới bằng cách thêm số ngày gia hạn vào ngày hiện tại
+        const newEndDate = currentDate.add(value, 'days');
+
+        // Đặt giá trị mới cho trường 'end_date'
+        form.setFieldsValue({ end_date: newEndDate });
     };
 
-    const items: MenuProps['items'] = [
-        {
-            key: '1',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">
-                    <AiOutlineDelete />
-                    <p>Xóa tin</p>
-                </a>
-            ),
-        },
-        {
-            key: '2',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.aliyun.com">
-                    <AiOutlineProfile />
-                    Hồ sơ ứng tuyển
-                </a>
-            ),
-        },
-        {
-            key: '3',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.luohanacademy.com">
-                    <AiOutlineTag />
-                    Xem tin đăng trên web
-                </a>
-            ),
-        },
-        {
-            key: '4',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.luohanacademy.com">
-                    <AiOutlinePauseCircle />
-                    Dừng tuyển
-                </a>
-            ),
-        },
-        {
-            key: '5',
-            label: (
-                <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.luohanacademy.com">
-                    <AiOutlineBulb />
-                    Dịch vụ đã áp dụng
-                </a>
-            ),
-        },
-    ];
+    const handleOk = () => {
+        // Gọi hàm validateFields trên biểu mẫu
+        form
+            .validateFields()
+            .then((values) => {
+                if (values.end_date !== undefined) {
+                    const endDate = values.end_date.toDate();
+                    // Định dạng ngày thành chuỗi "YYYY-MM-DD"
+                    values.end_date = moment(endDate).format('YYYY-MM-DD');
+                }
+                if (selectedJobId !== null) {
+                    extendJobPost({ ...values, id: selectedJobId })
+                        .unwrap()
+                        .then(() => {
+                            message.success(`Gia hạn thành bài đăng thành công`);
+                        })
+                        .catch((error) => {
+                            message.error("Đăng bài thất bại" + error.message);
+                        });
+                } else {
+                    message.error("Không có ID bài đăng được chọn.");
+                }
+                console.log('Received values:', values);
+                // Đóng Modal
+                setIsModalOpen(false);
+            })
+            .catch((errorInfo) => {
+                console.log('Xác minh lỗi:', errorInfo);
+            });
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const confirm = (id: number | string) => { //dừng tuyển
+        console.log(id);
+
+        stopJobPost(id);
+        setTimeout(() => {
+            message.success('Bài đăng đã được dừng tuyển');
+        }, 1000);
+    };
+
     const columns: ColumnsType<IJobPost> = [
         {
             title: (
@@ -78,13 +99,13 @@ const TabPostPass = () => {
                 </div>
             ),
             dataIndex: 'title',
-            render: (title: string, record: IJobPost) => {
+            render: (title: string, record: IJobPost, id: number) => {
                 if (record.start_date) {
                     const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date());
                     const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
                     return (
                         <div className="text-gray-600 w-auto">
-                            <p>Mã tin: <span className="font-medium"># {record.id}</span></p>
+                            <p>Mã tin: <span className="font-medium"># {id + 1}</span></p>
                             <a className="font-bold text-[15px] text-gray-700">{title}</a>
                             <p className="flex items-center">
                                 <p className="flex items-center gap-1"><AiOutlineClockCircle /><span>{timeDiff}</span> </p>
@@ -123,6 +144,9 @@ const TabPostPass = () => {
                 } else if (status === 0) {
                     color = 'geekblue';
                     text = 'Chưa duyệt';
+                } else if (status === 3) {
+                    color = 'gold';
+                    text = 'Dừng tuyển';
                 } else {
                     color = 'volcano';
                     text = 'Không duyệt';
@@ -134,14 +158,6 @@ const TabPostPass = () => {
                     </Tag>
                 );
             },
-        },
-        {
-            title: 'Hiển thị',
-            dataIndex: 'display',
-            width: 90,
-            render: (display: string) => (
-                <p className="text-center">{display}</p>
-            )
         },
         {
             title: 'Lượt xem',
@@ -165,29 +181,70 @@ const TabPostPass = () => {
                     <span>Thao tác</span>
                 </div>
             ),
-            render: () => (
-                <div className="flex items-center gap-2">
-
-                    <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded ">
-                        <AiOutlineAreaChart className="text-xl text-[#526484] hover:text-white" />
-                    </Button>
-                    <Space>
-                        <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded " onClick={showDrawer}>
-                            <AiOutlineEdit className="text-xl text-[#526484] hover:text-white" />
-                        </Button>
-                    </Space>
-                    <Drawer title="Sửa bài đăng" placement="right" onClose={onClose} open={open} width={500}>
-                        <FormEdit />
-                    </Drawer>
-                    <Space direction="vertical">
-                        <Dropdown menu={{ items }} placement="bottomRight">
-                            <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded">
-                                <AiOutlineSetting className="text-xl text-[#526484] hover:text-white" />
+            render: ({ key: id, end_date, title }: { key: number, end_date: string, title: string }) => {
+                const isExpiredValue = end_date ? isExpired(end_date) : true;
+                // Chỉ hiển thị nút đăng lại bài nếu end_date trước ngày hiện tại
+                const showExtendButton = isExpiredValue;
+                return (
+                    <div className="flex gap-2">
+                        {showExtendButton && (
+                            <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded " onClick={() => showModal(id)}>
+                                <AiOutlineReload className="text-xl text-[#526484] hover:text-white" />
                             </Button>
-                        </Dropdown>
-                    </Space>
-                </div>
-            )
+                        )}
+                        <Space>
+                            <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded " href={`job_post/update/${id}`}>
+                                <AiOutlineEdit className="text-xl text-[#526484] hover:text-white" />
+                            </Button>
+                        </Space>
+                        <Space direction="vertical">
+                            <Dropdown overlay={
+                                <Menu>
+                                    <Menu.Item key="1">
+                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${title}/${id}`}>
+                                            <AiOutlineTag />
+                                            Xem tin đăng trên web
+                                        </a>
+                                    </Menu.Item>
+                                    <Menu.Item key="2">
+                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">
+                                            <AiOutlineDelete />
+                                            <p>Xóa tin</p>
+                                        </a>
+                                    </Menu.Item>
+                                    <Menu.Item key="3">
+                                        <Popconfirm
+                                            title="Dừng tuyển bài đăng"
+                                            description="Bạn có muốn bài đăng này dừng tuyển không?"
+                                            onConfirm={() => confirm(id)}
+                                            onCancel={cancel}
+                                            okText="Có"
+                                            okType="default"
+                                            cancelText="Không"
+                                        >
+                                            <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                                                <AiOutlinePauseCircle />
+                                                Dừng tuyển
+                                            </a>
+                                        </Popconfirm>
+
+                                    </Menu.Item>
+                                    <Menu.Item key="4">
+                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/business/cv-apply/job-post/${id}`}>
+                                            <AiOutlineProfile />
+                                            Hồ sơ đăng tuyển
+                                        </a>
+                                    </Menu.Item>
+                                </Menu>
+                            } placement="bottomRight">
+                                <Button type="primary" className="bg-[#f5f6fa] border border-[#dbdfea] py-1 px-2.5 rounded">
+                                    <AiOutlineSetting className="text-xl text-[#526484] hover:text-white" />
+                                </Button>
+                            </Dropdown>
+                        </Space>
+                    </div>
+                )
+            }
         },
     ];
 
@@ -209,9 +266,18 @@ const TabPostPass = () => {
             academic_level_id: item.academic_level_id,
             major_id: item.major,
             interest: item.interest,
+            views: item.view,
         }
     })
     const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 1);
+    const currentDate = moment(); // Lấy ngày hiện tại
+    const filteredJobPosts = passJobPostData.filter((item: IJobPost) => {
+        if (item.end_date) {
+            const endDate = moment(item.end_date);
+            return endDate.isSameOrAfter(currentDate, 'day'); // So sánh ngày kết thúc với ngày hiện tại
+        }
+        return false; // Bỏ qua các bài đăng không có 'end_date'
+    });
     // rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
@@ -236,9 +302,71 @@ const TabPostPass = () => {
                         ...rowSelection,
                     }}
                     columns={columns}
-                    dataSource={passJobPostData}
+                    dataSource={filteredJobPosts}
                 />
             </div>
+            <Modal
+                title="Đăng lại bài"
+                visible={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="Xác nhận"
+                okType="default"
+                cancelText="Huỷ"
+            >
+                <div className="text-[#526484]">
+                    <p className="my-3 pb-3">Tin tuyển dụng sẽ được đăng lại thông tin sau khi chúng tôi duyệt.</p>
+                    <Form
+                        form={form}
+                        name="repostJobForm"
+                        labelCol={{ span: 24 }}
+                        wrapperCol={{ span: 24 }}
+                        initialValues={{ remember: true }}
+                        autoComplete="off"
+                    >
+                        <Form.Item
+                            name="selectedOption"
+                            label="Chọn loại tin đăng"
+                        // rules={[{ required: true, message: 'Vui lòng chọn một tùy chọn!' }]}
+                        >
+                            <Select style={{ width: '100%' }} placeholder="--Chọn loại tin--">
+                                <Select.Option value="option1">Vip 1</Select.Option>
+                                <Select.Option value="option2">Vip 2</Select.Option>
+                                <Select.Option value="option3">Vip 3</Select.Option>
+                            </Select>
+                        </Form.Item>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Form.Item
+                                    name="quantity_date"
+                                    label="Số ngày gia hạn"
+                                    initialValue={defaultQuantity} // Đặt giá trị mặc định của trường nhập số ngày gia hạn
+                                >
+                                    <InputNumber
+                                        style={{ width: '100%' }}
+                                        min={5} // Đặt giá trị tối thiểu
+                                        step={1} // Đặt bước tăng giảm
+                                        onChange={handleQuantityChange}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    name="end_date"
+                                    label="Ngày kết thúc"
+                                    initialValue={defaultEndDate} // Đặt giá trị mặc định của DatePicker
+                                >
+                                    <DatePicker style={{ width: '100%' }} disabled />
+                                </Form.Item>
+                            </Col>
+
+                        </Row>
+
+
+
+                    </Form>
+                </div>
+            </Modal>
         </div>
     )
 }

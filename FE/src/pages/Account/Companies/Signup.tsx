@@ -1,9 +1,17 @@
 import { LockOutlined, UserOutlined, PhoneOutlined, EnvironmentOutlined, DatabaseOutlined, LinkOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, Row, message } from 'antd';
+import { Button, Col, Form, Input, Row } from 'antd';
 import { AuthSignup, useSignupCompaniesMutation } from '../../../api/auth/Companies';
 import { Link, useNavigate } from 'react-router-dom';
+import { Notyf } from 'notyf';
 
 const SignUpCompanies = () => {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const [signup] = useSignupCompaniesMutation();
     const navigate = useNavigate();
     const [form] = Form.useForm();
@@ -13,22 +21,15 @@ const SignUpCompanies = () => {
             .then((response) => {
                 if (response.status === 'fails') {
                     if (response.errors.email) {
-                        message.info("Email đã tồn tại vui lòng sử dụng email khác");
+                        notyf.error("Email đã tồn tại vui lòng sử dụng email khác");
                     } else if (response.errors.phone) {
-                        message.info("Số điện thoại đã tồn tại vui lòng sử dụng số khác");
+                        notyf.error("Số điện thoại đã tồn tại vui lòng sử dụng số khác");
                     }
                 } else {
-                    message.success("Đăng kí thành công");
+                    notyf.success("Đăng kí thành công");
                     navigate("/business/signin")
                 }
             })
-            .catch((error) => {
-                if (error.errors === "email") {
-                    message.error("Email đã tồn tại vui lòng sử dụng email khác");
-                } else if (error.error === "phone") {
-                    message.error("Số điện thoại đã tồn tại vui lòng sử dụng số khác");
-                }
-            });
     };
     return (
         <section className="bg-white">

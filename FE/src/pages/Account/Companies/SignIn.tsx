@@ -1,12 +1,19 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { AuthSignin, useSigninCompaniesMutation } from '../../../api/auth/Companies';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Notyf } from 'notyf';
 
 
 const SignInCompanies = () => {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const [signin] = useSigninCompaniesMutation();
-    const navigate = useNavigate();
     const onFinish = async (values: AuthSignin) => {
         signin(values)
             .unwrap()
@@ -20,14 +27,12 @@ const SignInCompanies = () => {
                 // Kiểm tra xem token đã được lưu trong localStorage hay chưa
                 const isTokenStored = localStorage.getItem('accessToken') !== null;
                 if (isTokenStored) {
-                    message.success("Đăng nhập thành công");
+                    notyf.success("Đăng nhập thành công");
                     window.location.href = '/business';
                 }
             })
             .catch((error) => {
-                if (error.status === 401) {
-                    message.error("Sai tài khoản hoặc mật khẩu");
-                }
+                return notyf.error(error.data.message)
             });
     };
     return (

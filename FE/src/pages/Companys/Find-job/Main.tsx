@@ -9,9 +9,13 @@ import {
     TEModalBody,
     TEModalFooter,
 } from "tw-elements-react";
+import { useGetFindCandidateQuery } from "../../../api/companies/findJob";
 
 const MainFindJob = () => {
     const [showModal, setShowModal] = useState(false);
+    const { data } = useGetFindCandidateQuery();
+    console.log(data);
+
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">

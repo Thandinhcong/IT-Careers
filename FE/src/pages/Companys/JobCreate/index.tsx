@@ -38,7 +38,14 @@ const JobCreate = () => {
             values.start_date = moment(startDate).format('YYYY-MM-DD');
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
+        if (values.min_salary !== undefined && values.max_salary !== undefined) {
+            if (values.min_salary >= values.max_salary) {
+                message.error('Mức lương tối đa phải lớn hơn mức lương tối thiểu');
+                return; // Dừng việc đăng bài nếu kiểm tra không thành công
+            }
+        }
         jobPost(values)
+
             .unwrap()
             .then(() => {
                 message.success('Đăng bài thành công');
@@ -47,6 +54,7 @@ const JobCreate = () => {
             .catch((error) => {
                 message.error("Đăng bài thất bại" + error.message);
             });
+        console.log(values);
     };
 
     const handleChange = (value: string) => {
@@ -69,9 +77,9 @@ const JobCreate = () => {
     const validateEndDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
         if (value) {
             const currentDate = moment();
-            const minEndDate = moment(currentDate).add(5, 'days');
+            const minEndDate = moment(currentDate).add(10, 'days');
             if (value.isBefore(minEndDate, 'day')) {
-                callback('Ngày kết thúc phải sau ngày hiện tại ít nhất 5 ngày');
+                callback('Ngày kết thúc phải sau ngày hiện tại ít nhất 10 ngày');
             } else {
                 callback();
             }
@@ -116,7 +124,7 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.working_form.map((options: any) => (
+                                    {data?.data?.working_form.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.working_form}
                                         </Select.Option>
@@ -132,7 +140,7 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.job_position.map((options: any) => (
+                                    {data?.data?.job_position.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.job_position}
                                         </Select.Option>
@@ -184,7 +192,7 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.academic_level.map((options: any) => (
+                                    {data?.data?.academic_level.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.academic_level}
                                         </Select.Option>
@@ -200,7 +208,7 @@ const JobCreate = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.exp.map((options: any) => (
+                                    {data?.data?.exp.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.experience}
                                         </Select.Option>
@@ -257,29 +265,29 @@ const JobCreate = () => {
                                 <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
+                        {/* Mức lương tối thiểu*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Mức lương tối thiểu"
+                                name="min_salary"
+                                rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
+                                style={{ display: 'inline-block', width: '100%', marginRight: '16px' }}
+                            >
+                                <Input placeholder="Mức lương tối thiểu" />
+                            </Form.Item>
+                        </Col>
+                        {/* Mức lương tối đa*/}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Mức lương tối đa"
+                                name="max_salary"
+                                rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
+                                style={{ display: 'inline-block', width: '100%' }}
+                            >
+                                <Input placeholder="Mức lương tối đa" />
+                            </Form.Item>
+                        </Col>
                     </Row>
-                    {/* Mức lương */}
-                    <Form.Item
-                        label="Mức lương"
-                        rules={[{ required: true }]}
-                        style={{ marginBottom: 0 }}
-                    >
-                        <Form.Item<IJobPost>
-                            name="min_salary"
-                            rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
-                            style={{ display: 'inline-block', width: '48.5%', marginRight: '16px' }}
-                        >
-                            <Input placeholder="Mức lương tối thiểu" />
-                        </Form.Item>
-                        <Form.Item<IJobPost>
-                            name="max_salary"
-                            rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
-                            style={{ display: 'inline-block', width: '48.5%' }}
-                        >
-                            <Input placeholder="Mức lương tối đa" />
-                        </Form.Item>
-                    </Form.Item>
-
                     {/* Mô tả công việc/Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
