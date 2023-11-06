@@ -96,6 +96,7 @@ import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDeta
 import Cv from "./pages/Site/CreateCv/CV"
 import CandidateInformation from "./pages/Site/User/CandidateInformation"
 import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
+import IsCheckLogin from "./pages/auths/isCheckLogin"
 
 
 function App() {
@@ -115,18 +116,20 @@ function App() {
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
-          <Route path='account/' element={< Account />} >
-            <Route index element={<CandidateInformation />} />
-            <Route path="change_pass" element={<ChangePassCandidate />} />
+          <Route element={<IsCheckLogin />} >
+            <Route path='account/' element={< Account />} >
+              <Route index element={<CandidateInformation />} />
+              <Route path="change_pass" element={<ChangePassCandidate />} />
+            </Route>
+            <Route path='user/' element={<LayoutUser />}>
+              <Route path='listcv' element={< ListCV />} />
+              <Route path='jobapply' element={< JobApply />} />
+              <Route path='jobfavor' element={< JobFavor />} />
+              <Route path='profile' element={< Profile />} />
+            </Route >
+            <Route path='account' element={< Account />} />
+            <Route path="cv" element={<Cv />} />
           </Route>
-          <Route path='user/' element={<LayoutUser />}>
-            <Route path='listcv' element={< ListCV />} />
-            <Route path='jobapply' element={< JobApply />} />
-            <Route path='jobfavor' element={< JobFavor />} />
-            <Route path='profile' element={< Profile />} />
-          </Route >
-          <Route path='account' element={< Account />} />
-          <Route path="cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />

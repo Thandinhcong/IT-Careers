@@ -32,14 +32,21 @@ import { useForm } from "react-hook-form";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Swal from "sweetalert2";
 import { UploadImage } from "../../../components/upload";
 import { FcGoogle } from "react-icons/fc";
 import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
+import { Notyf } from "notyf";
 
 const JobDetail = () => {
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const [basicActive, setBasicActive] = useState("tab1");
     const [showModal, setShowModal] = useState(false);
     const handleBasicClick = (value: string) => {
@@ -89,10 +96,8 @@ const JobDetail = () => {
             });
             setShowModa2l(false);
             window.location.reload();
-        } catch (error) {
-            Swal.fire({
-                title: "Thông tin tài khoản hoặc mật khẩu không chính xác !",
-            });
+        } catch (error: any) {
+            notyf.error(error?.message)
         }
     };
     //apply
@@ -105,20 +110,10 @@ const JobDetail = () => {
                 candidate_id: idUser,
                 ...job,
             }).unwrap();
-
-            Swal.fire({
-                position: "top",
-                icon: "success",
-                title: "Ứng tuyển công việc thành công",
-                showConfirmButton: false,
-                timer: 1500,
-            });
+            notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
         } catch (error) {
-            Swal.fire({
-                title: "Bạn đã ứng tuyển công việc này rồi !",
-                confirmButtonText: "Quay lại tìm việc.",
-            });
+            notyf.error("Có lỗi xảy ra vui lòng thử lại!")
         }
 
     };
@@ -139,7 +134,6 @@ const JobDetail = () => {
             }
         }
     };
-
 
     useEffect(() => {
         window.scrollTo(0, 0);
