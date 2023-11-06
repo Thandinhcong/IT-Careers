@@ -417,17 +417,6 @@ const PostEdit = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* <Form.Item<IJobPost>
-                        label="company_id"
-                        name="company_id"
-                        initialValue={Infor?.company?.id}
-                        rules={[
-                            { required: true, message: 'Trường này không được bỏ trống !' },
-                        ]}
-
-                    >
-                        <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item> */}
                     <div className='flex justify-between mt-4'>
                         <Button className='bg-gray-100 h-10 flex items-center gap-1'>
                             <AiOutlineEye /> <span>Xem trước bài đăng</span>

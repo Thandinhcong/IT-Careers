@@ -13,6 +13,8 @@ import { message } from 'antd';
 const HeaderCompany = () => {
 
     const { data: Infor } = useGetInforQuery();
+    console.log(Infor?.company?.logo);
+
     const navigate = useNavigate();
     const [logout] = useLogOutCompaniesMutation()
     const handleLogout = async () => {
@@ -68,7 +70,7 @@ const HeaderCompany = () => {
                     <Popover.Button
                         className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                     >
-                        <img src={Infor?.company?.logo} className='rounded-full border p-1' alt="logo công ty" width={50} height={50} />
+                        <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                     </Popover.Button>
 
                     <Transition

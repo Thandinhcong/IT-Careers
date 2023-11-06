@@ -1,6 +1,6 @@
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
-import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
@@ -26,9 +26,12 @@ const TabMain = () => {
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [stopJobPost] = useStopJobPostMutation();
 
-    const defaultEndDate = moment().add(5, 'days'); //giá trị mặc định là sau 5 ngày hiện tại
-    const defaultQuantity = 5;
+    const defaultEndDate = moment().add(10, 'days'); //giá trị mặc định là sau 10 ngày hiện tại
+    const defaultQuantity = 10;
 
+    const [searchKeyword, setSearchKeyword] = useState(""); // Trạng thái lưu từ khoá tìm kiếm
+    const [originalJobPostData, setOriginalJobPostData] = useState([]); // Trạng thái lưu mảng bài đăng ban đầu
+    console.log(originalJobPostData);
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);
         setIsModalOpen(true);
@@ -270,6 +273,9 @@ const TabMain = () => {
         }
     })
 
+    const filteredJobPostData = jobPostData?.filter((item: IJobPost) => {
+        return item.title?.toLowerCase().includes(searchKeyword.toLowerCase()); // Lọc theo từ khoá trong tiêu đề bài đăng
+    });
     // rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
@@ -282,20 +288,37 @@ const TabMain = () => {
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
-                <input type="text" placeholder="Tìm theo tiêu đề hoặc mã tin" className="border border-gray-200 py-2 px-4 rounded-md outline-blue-400 w-1/2" />
-                <button className="bg-blue-600 text-white flex items-center rounded-md px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
-                <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-5"><AiOutlineReload /><p>Xóa lọc</p></button>
+                <Input
+                    type="text"
+                    placeholder="Tìm theo tiêu đề bài đăng"
+                    className="border border-gray-200 py-2 px-4 rounded-md outline-blue-400 w-1/2"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button
+                    className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-5"
+                    onClick={() => {
+                        setSearchKeyword(""); // đặt input về chuỗi rỗng
+                        setOriginalJobPostData([]); //đặt lại mảng về ban đầu
+                    }}
+                >
+                    <AiOutlineReload />
+                    <p>Xóa lọc</p>
+                </button>
             </div>
             <div>
                 <Divider />
-
-                <Table
-                    rowSelection={{
-                        ...rowSelection,
-                    }}
-                    columns={columns}
-                    dataSource={jobPostData}
-                />
+                {filteredJobPostData && filteredJobPostData.length > 0 ? (
+                    <Table
+                        rowSelection={{
+                            ...rowSelection,
+                        }}
+                        columns={columns}
+                        dataSource={filteredJobPostData || jobPostData}
+                    />
+                ) : (
+                    <p>Không tìm thấy bài đăng</p>
+                )}
             </div>
             <Modal
                 title="Đăng lại bài"

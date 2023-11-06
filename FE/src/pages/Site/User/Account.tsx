@@ -2,8 +2,7 @@ import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React from 'react'
-import { AiOutlineUser, AiOutlineLock, AiOutlineFile } from 'react-icons/ai'
-import { LuActivitySquare } from 'react-icons/lu'
+import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai'
 import { Link, Outlet } from 'react-router-dom';
 
 interface MenuItem {
@@ -28,9 +27,7 @@ function getItem(
 }
 const items: MenuItem[] = [
     getItem('Thông tin liên hệ', '/account', <AiOutlineUser />),
-    getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />),
-    getItem('Thiết lập công ty', '', <LuActivitySquare />),
-    getItem('Giấy phép kinh doanh', '', <AiOutlineFile />),
+    getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />)
 ];
 const Account = () => {
     const {
