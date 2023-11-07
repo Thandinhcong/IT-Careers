@@ -91,13 +91,13 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
-import Cv_Detail from "./pages/Site/Cv_Detail"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
 import Cv from "./pages/Site/CreateCv/CV"
 import CandidateInformation from "./pages/Site/User/CandidateInformation"
 import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import IsCheckLogin from "./pages/auths/isCheckLogin"
+import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
 
 
 function App() {
@@ -152,42 +152,44 @@ function App() {
         <Route path='/business/signup' element={<SignupCompanies />} />
 
         {/* Buisness */}
-        <Route path="/business" element={<LayoutCompany />} >
-          <Route index element={<Companys />} />
-          <Route path="create_campaign" element={<CreateCampaign />} />
-          <Route path="reports" element={<CompanyReports />} />
-          <Route path="accrank" element={<AccRank />} />
+        <Route element={<IsCheckLoginCompany />} >
+          <Route path="/business" element={<LayoutCompany />} >
+            <Route index element={<Companys />} />
+            <Route path="create_campaign" element={<CreateCampaign />} />
+            <Route path="reports" element={<CompanyReports />} />
+            <Route path="accrank" element={<AccRank />} />
 
-          <Route path="transaction" element={<Transaction />} >
-            <Route path="add_money" element={<Add_Money />} />
-            <Route path="payment" element={<Payment />} />
+            <Route path="transaction" element={<Transaction />} >
+              <Route path="add_money" element={<Add_Money />} />
+              <Route path="payment" element={<Payment />} />
+            </Route>
+            <Route path='activity_history' element={<Activity_History />}>
+              <Route index element={< All_History />} />
+              <Route path='transaction' element={< History_Transaction />} />
+              <Route path='recruitment' element={< History_Recruitment />} />
+              <Route path='account' element={< History_Account />} />
+              <Route path='candidate' element={< History_Candidate />} />
+              <Route path='other' element={< History_Other />} />
+            </Route>
+            <Route path="business_setting" element={<LayoutBusinessSetting />} >
+              <Route index element={<ContactCompanySetting />} />
+              <Route path="company" element={<CompanySetting />} />
+              <Route path="business" element={<BusinessSetting />} />
+              <Route path="contact" element={<ContactCompanySetting />} />
+              <Route path="changepass" element={<ChangePassCompany />} />
+            </Route>
+            <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
+            <Route path="find-job" element={<FindJob />} />
+            <Route path="deposit" element={<Deposit />} />
+            <Route path="cv-apply" element={<CVApply />} />
+            <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
+            <Route path="jobs-manage" element={<JobsManage />} />
+            <Route path="account-pro" element={<AccountPro />} />
+            <Route path="jobs/create" element={<JobCreate />} />
+            <Route path="job_post/update/:id" element={<PostEdit />} />
           </Route>
-          <Route path='activity_history' element={<Activity_History />}>
-            <Route index element={< All_History />} />
-            <Route path='transaction' element={< History_Transaction />} />
-            <Route path='recruitment' element={< History_Recruitment />} />
-            <Route path='account' element={< History_Account />} />
-            <Route path='candidate' element={< History_Candidate />} />
-            <Route path='other' element={< History_Other />} />
-          </Route>
-          <Route path="business_setting" element={<LayoutBusinessSetting />} >
-            <Route index element={<ContactCompanySetting />} />
-            <Route path="company" element={<CompanySetting />} />
-            <Route path="business" element={<BusinessSetting />} />
-            <Route path="contact" element={<ContactCompanySetting />} />
-            <Route path="changepass" element={<ChangePassCompany />} />
-          </Route>
-          <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
-          <Route path="find-job" element={<FindJob />} />
-          <Route path="deposit" element={<Deposit />} />
-          <Route path="cv-apply" element={<CVApply />} />
-          <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
-          <Route path="jobs-manage" element={<JobsManage />} />
-          <Route path="account-pro" element={<AccountPro />} />
-          <Route path="jobs/create" element={<JobCreate />} />
-          <Route path="job_post/update/:id" element={<PostEdit />} />
+          <Route path="/business/cv-apply/candidate-detail/:id" element={<CvCandodateDetail />} />
         </Route>
-        <Route path="/business/cv-apply/candidate-detail/:id" element={<CvCandodateDetail />} />
 
         {/* Help */}
         <Route path='help-companys/' element={<Helpcompanys />}>

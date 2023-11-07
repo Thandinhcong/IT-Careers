@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IJobPost } from "../../interfaces";
+import { ICompanyInfor, IJobPost } from "../../interfaces";
 const JobPostCompanyApi = createApi({
     reducerPath: "job_post",
     tagTypes: ['job_post'],
@@ -28,7 +28,7 @@ const JobPostCompanyApi = createApi({
             query: (id) => "/company/job_post/" + id,
             providesTags: ['job_post']
         }),
-        getInfor: builder.query<[], void>({
+        getInfor: builder.query<ICompanyInfor, void>({
             query: () => "/company/company_information",
             providesTags: ['job_post']
         }),

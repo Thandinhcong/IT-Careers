@@ -30,7 +30,7 @@ const JobCreate = () => {
     }
 
     const onFinish = (values: IJobPost) => {
-        if (values.start_date !== undefined && values.end_date !== undefined) {
+        if (values.start_date !== undefined && values.end_date !== undefined && moment.isMoment(values.end_date) && moment.isMoment(values.start_date)) {
             const startDate = values.start_date.toDate();
             const endDate = values.end_date.toDate();
 

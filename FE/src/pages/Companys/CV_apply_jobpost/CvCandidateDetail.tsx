@@ -19,7 +19,7 @@ const CvCandodateDetail = () => {
     console.log(selectedCvApplyId);
 
 
-    const showModal = (id: any) => {
+    const showModal = (id: number) => {
         setSlectedCvApplyId(id);
         setIsModalOpen(true);
     };
@@ -104,7 +104,7 @@ const CvCandodateDetail = () => {
                                     <button
                                         type="button"
                                         className="bg-[#e4efff] text-[#0971fe] hover:text-white hover:bg-blue-500 text-center w-full py-2 rounded text-[15px]"
-                                        onClick={() => showModal(data?.data?.candidate_code)}
+                                        onClick={() => data?.data?.candidate_code && showModal(data.data.candidate_code)}
                                     >
                                         Phù Hợp
                                     </button>
@@ -113,7 +113,7 @@ const CvCandodateDetail = () => {
                                     <button
                                         type="button"
                                         className="bg-[#fceceb] text-[#e85347]  hover:text-white hover:bg-red-500 text-center w-full py-2 rounded text-[15px]"
-                                        onClick={() => showModal(data?.data?.candidate_code)}
+                                        onClick={() => data?.data?.candidate_code && showModal(data.data.candidate_code)}
                                     >
                                         Không Phù Hợp
                                     </button>

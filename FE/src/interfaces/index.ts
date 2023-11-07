@@ -67,7 +67,9 @@ export interface IJobPost {
     area_id?: number,
     working_form?: string,
     name: string | number,
-    view: number
+    view: number,
+    level: IJobPost,
+    data: IJobPost,
 }
 export interface ICvApply {
     id?: number | string,
@@ -81,13 +83,17 @@ export interface ICvApply {
     phone?: string
     email?: string
     candidate_id?: number | string
-    data: object
+    data: ICvApply
     profile: string | number
     time_apply: string
-    candidate_code: string
+    candidate_code: number
     job_post_name: string
-    list_candidate_apply_job: Array
+    list_candidate_apply_job: ICvApply
     image: string
+    length: string | number
+    filter: CallableFunction
+    path_cv: string
+    created_at: string
 }
 export interface IFindJob {
     candidate_id: number | string
@@ -118,6 +124,7 @@ export interface ICompanyInfor {
     company_size_max?: number,
     company_size_min?: number,
     status?: number
+    company: ICompanyInfor
 }
 export interface IListInfo {
     status: string

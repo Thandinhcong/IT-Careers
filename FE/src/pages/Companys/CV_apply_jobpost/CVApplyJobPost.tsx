@@ -21,7 +21,7 @@ const CVApplyJobPost = () => {
     console.log(selectedCvApplyId);
 
 
-    const showModal = (id: any) => {
+    const showModal = (id: number) => {
         setSlectedCvApplyId(id);
         setIsModalOpen(true);
     };
