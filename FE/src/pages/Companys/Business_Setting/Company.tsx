@@ -132,21 +132,16 @@ const CompanySetting = () => {
                         name="basic"
                         labelCol={{ span: 24 }}
                         wrapperCol={{ span: 24 }}
-                        style={{ maxWidth: 400 }}
+                        style={{ maxWidth: 450 }}
                         initialValues={{ remember: true }}
                         onFinish={onFinish}
                         labelWrap={true}
                         autoComplete="off">
                         <div>
-                            <div className='flex gap-10'>
-                                <h2 className='font-bold flex items-center'>Logo: </h2>
-                                {logoUrl ? (
-                                    <img src={logoUrl} alt="Uploaded Image" className='w-20 h-20 rounded-full' />
-                                ) : (
-                                    <img src={companyData?.company?.logo} alt="Initial Image" className='w-20 h-20 rounded-full' />
-                                )}
-                            </div>
-                            <Form.Item
+
+                            <h2 className='font-bold flex items-center '>Logo</h2>
+                            <Form.Item<ICompanyInfor>
+                                // label=""
                                 name="logo"
                                 rules={[
                                     { required: true, message: 'Trường này không được bỏ trống !' },
@@ -199,7 +194,7 @@ const CompanySetting = () => {
                                     { required: true, message: 'Trường này không được bỏ trống !' },
                                 ]}
                             >
-                                <Input />
+                                <Input type='date' />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>
@@ -322,7 +317,7 @@ const CompanySetting = () => {
                                     { required: true, message: 'Trường này không được bỏ trống !' },
                                 ]}
                             >
-                                <TextArea rows={6} />
+                                <Input />
                             </Form.Item>
 
                             <Form.Item labelAlign="left">

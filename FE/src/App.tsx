@@ -91,11 +91,12 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
-import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
+import Cv_Detail from "./pages/Site/Cv_Detail"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
 import Cv from "./pages/Site/CreateCv/CV"
 import CandidateInformation from "./pages/Site/User/CandidateInformation"
 import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
+import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 
 
 function App() {
@@ -122,6 +123,8 @@ function App() {
 
           <Route path='account' element={< Account />} />
           <Route path="cv" element={<Cv />} />
+          <Route path='account' element={< Account />} />
+          <Route path='cv_detail' element={<Cv_Detail />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
