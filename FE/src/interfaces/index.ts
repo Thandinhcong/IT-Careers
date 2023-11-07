@@ -193,6 +193,9 @@ export interface ICompanys {
     description: string,
     coin: number,
     status: Selection,
+    company_size_min: number,
+    company_size_max: number
+
 
 }
 export interface IListOneCompany {
@@ -205,11 +208,11 @@ export interface IListJobs {
     min_salary: number,
     max_salary: number,
     company_name: string,
-    logo: string,
-    area: string,
+    logo: string
+    area: string
     status: number,
-    start_date: Date,
-    end_date: Date,
+    province: string,
+    district: string
 }
 export interface IListDataJobs {
     status: IJobPost,
@@ -237,5 +240,7 @@ export interface IListJobsDetail {
     end_date: Date,
     quantity: number,
     require: string,
-    interest: string
+    interest: string,
+    province: string,
+    district: string
 }

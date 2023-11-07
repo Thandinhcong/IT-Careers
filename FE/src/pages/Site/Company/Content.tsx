@@ -16,7 +16,7 @@ const ContentCompany = () => {
                             <div className='flex justify-between gap-8'>
                                 <div className='flex justify-normal gap-4'>
                                     <div className='w-1/6'>
-                                        <img className='w-full border border-gray-300' src={item.logo} alt="Logo công ty" />
+                                        <img className='w-full border rounded border-gray-300' src={item.logo} alt="Logo công ty" />
                                     </div>
                                     <div className='w-1/2'><p className='font-semibold text-lg'>{item.company_name}</p></div>
                                 </div>
@@ -39,7 +39,8 @@ const ContentCompany = () => {
                                 </div>
                                 <div>
                                     <p className='font-bold'>Quy mô</p>
-                                    <p className='text-gray-500'>Trên 1000</p>
+                                    <p className='text-gray-500'>{item?.company_size_min} - {item?.company_size_max
+                                    }</p>
                                 </div>
                                 <div>
                                     <p className='font-bold'>Lĩnh vực</p>
@@ -50,14 +51,15 @@ const ContentCompany = () => {
                                 <p className="font-bold">Giới thiệu</p>
                                 <div className="line-clamp-2">
                                     <p className="text-gray-500">
-                                        {item.desc}
+                                        {item?.description
+                                        }
                                     </p>
                                 </div>
                             </div>
                         </Link>
+
                     }
                     )}
-
                 </div>
                 <Aside />
             </div>

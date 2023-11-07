@@ -1,4 +1,5 @@
-import { Button, Form, Input, Layout, Upload, theme } from 'antd'
+// import { Button, Form, Input, Layout, Upload, theme } from 'antd'
+import { Button, DatePicker, Form, Input, Layout, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -195,6 +196,7 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Input type='date' />
+                                <DatePicker />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>

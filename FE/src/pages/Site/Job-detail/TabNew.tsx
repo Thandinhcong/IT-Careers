@@ -11,7 +11,8 @@ import {
     TEModalBody,
 } from "tw-elements-react";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail } from "../../../interfaces";
+import { IListJobsDetail, IListOneJobs } from "../../../interfaces";
+import { VND } from "../../../components/upload";
 
 
 const TabNew = () => {
@@ -31,7 +32,7 @@ const TabNew = () => {
     };
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail | undefined = data && data?.job_detail;
+    const listOne = data && data?.job_detail;
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
@@ -157,7 +158,7 @@ const TabNew = () => {
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineMoneyCollect className="col-span-1" />
                                     <p className="col-span-4">Mức lương:</p>
-                                    <p className="col-span-7 text-red-500 font-medium">{listOne?.min_salary}-{listOne?.max_salary}</p>
+                                    <p className="col-span-7 text-red-500 font-medium">{VND.format(listOne?.min_salary)} - {VND.format(listOne?.max_salary)}</p>
                                 </div>
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineUser className="col-span-1" />

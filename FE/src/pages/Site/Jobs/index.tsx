@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import RecruiterEmployer from '../../main/recruiter'
-import PopularSearches from '../../main/Popularsearches'
 import Recruitment from '../../main/Recruitment'
 import DreamJob from '../../main/DreamJob'
 import Utilities from '../../main/Utilities'
@@ -21,7 +20,6 @@ const Jobs = () => {
                 <Connect />
                 <Recruitment />
                 <DreamJob />
-                <PopularSearches />
                 <Recruitment />
                 <Utilities />
                 <ToRecruitment />

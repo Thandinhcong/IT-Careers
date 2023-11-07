@@ -11,7 +11,7 @@ const jobsApi = createApi({
         }
     }),
     endpoints: (buidler) => ({
-        getAllJobs: buidler.query<IJobPost, void>({
+        getAllJobs: buidler.query<IJobPost[], void>({
             query: () => "/job_list",
             providesTags: ['Jobs']
         }),
