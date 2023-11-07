@@ -55,6 +55,7 @@ const Profile = () => {
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
+
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -64,7 +65,7 @@ const Profile = () => {
                         <div className="absolute bottom-0 left-0 translate-x-[35%] translate-y-[70%]">
                             <Avatar
                                 size={100}
-                                src="https://123job.vn/images/no_avatar.jpg"
+                                src={data?.candidate?.image}
                                 className="avatar"
                             />
                         </div>

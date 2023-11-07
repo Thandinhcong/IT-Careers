@@ -155,7 +155,7 @@ export interface IAccount {
     email?: string,
     password?: string,
     phone?: string,
-    avatar?: string,
+    image?: string,
     address?: string,
     gender?: number,
     type?: number,

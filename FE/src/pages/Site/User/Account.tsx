@@ -3,6 +3,7 @@ import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React from 'react'
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai'
+import { LuActivitySquare } from 'react-icons/lu'
 import { Link, Outlet } from 'react-router-dom';
 
 interface MenuItem {
@@ -27,7 +28,9 @@ function getItem(
 }
 const items: MenuItem[] = [
     getItem('Thông tin liên hệ', '/account', <AiOutlineUser />),
-    getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />)
+    getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />),
+    getItem('Chuyển đổi tài khoản NTD', '', <LuActivitySquare />),
+    // getItem('Đăng xuất', '/', <AiOutlineFile />),
 ];
 const Account = () => {
     const {

@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import { useLogOutMutation } from "../../api/auths";
 import { Notyf } from "notyf";
+import { useGetCandidatesQuery } from "../../api/accountApi";
 
 const Header = () => {
   const notyf = new Notyf({
@@ -25,6 +26,8 @@ const Header = () => {
     },
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: candidateData } = useGetCandidatesQuery();
+
   const [useLogout] = useLogOutMutation();
   const [isLogin, setIsLogin] = useState(() => {
     const user = localStorage.getItem("user");
@@ -205,10 +208,9 @@ const Header = () => {
               <Popover className="relative">
                 <Popover.Button className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                   <img
-                    src="https://123job.vn/images/no_user.png"
-                    className="rounded-full border"
+                    src={candidateData?.candidate?.image}
+                    className="rounded-full border w-12 h-12"
                     alt="logo công ty"
-                    width={40}
                   />
                 </Popover.Button>
                 <Transition

@@ -17,6 +17,8 @@ const LayoutUser = () => {
     });
     const [findJob] = useFindJobsMutation();
     const [isSearchingJob, setIsSearchingJob] = useState(false);
+    const { data } = useGetInfoUserQuery();
+    const listInfo = data?.candidate;
 
     const onChange = (checked: boolean) => {
         setIsSearchingJob(checked);
@@ -31,18 +33,16 @@ const LayoutUser = () => {
         setIsSearchingJob(isSearchingJob)
     }, [isSearchingJob])
 
-    const { data } = useGetInfoUserQuery();
-    const listInfo = data?.candidate;
 
     return (
         <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
             <Outlet />
             <div className='w-1/3'>
                 <div className='sticky top-0'>
-                    <div className='shadow-sm shadow-blue-300 px-4'>
+                    <div className='shadow-sm shadow-blue-300 px-6'>
                         <div className='flex justify-between'>
                             <div className='w-28'>
-                                <img src="https://123job.vn/images/no_user.png" alt="" className='rounded-full' />
+                                <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
                             </div>
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
