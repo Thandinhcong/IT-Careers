@@ -7,6 +7,7 @@ import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { UploadImage } from '../../../components/upload'
+import { Notyf } from 'notyf'
 
 
 
@@ -17,6 +18,13 @@ const CandidateInformation = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(candidateData?.candidate?.image || null);
     const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
     const navigate = useNavigate();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
 
     useEffect(() => {
         form.setFieldsValue({
@@ -47,15 +55,14 @@ const CandidateInformation = () => {
                         .unwrap()
                         .then(() => {
                             navigate("");
-                            message.success('Cập nhật thành công');
-                            console.log(values);
+                            notyf.success("Cập nhật thành công!");
                         })
-                        .catch((error) => {
-                            console.error('Lỗi khi cập nhật thông tin:', error);
+                        .catch((error: any) => {
+                            notyf.error('Lỗi khi cập nhật thông tin:', error);
                         });
                 })
-                .catch((error) => {
-                    console.error('Lỗi khi tải ảnh lên:', error);
+                .catch((error: any) => {
+                    notyf.error('Lỗi khi tải ảnh lên:', error);
                 });
         }
     };
@@ -72,11 +79,11 @@ const CandidateInformation = () => {
                 if (Response) {
                     const imageUrl = Response.data.url;
                     if (fieldName === 'image') {
-                        setImageUrl(imageUrl); // Gán đường dẫn ảnh Logo
+                        setImageUrl(imageUrl);
                     }
                 }
             } catch (error) {
-                console.error(error);
+
             }
         }
     };
@@ -86,10 +93,7 @@ const CandidateInformation = () => {
     };
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
-            {/* <div>
-                <h2 className='font-bold'>ID tài khoản</h2>
-                <p>1231390</p>
-            </div> */}
+
             <Form
                 form={form}
                 name="basic"

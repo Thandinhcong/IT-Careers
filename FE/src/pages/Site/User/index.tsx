@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useGetInfoUserQuery } from '../../../api/auths';
 import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
 import { Notyf } from 'notyf';
@@ -19,6 +19,7 @@ const LayoutUser = () => {
     const [isSearchingJob, setIsSearchingJob] = useState(false);
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
+    const listImage = data?.candidate?.image;
 
     const onChange = (checked: boolean) => {
         setIsSearchingJob(checked);
@@ -31,7 +32,7 @@ const LayoutUser = () => {
     };
     useEffect(() => {
         setIsSearchingJob(isSearchingJob)
-    }, [isSearchingJob])
+    }, [])
 
 
     return (
@@ -42,15 +43,21 @@ const LayoutUser = () => {
                     <div className='shadow-sm shadow-blue-300 px-6'>
                         <div className='flex justify-between'>
                             <div className='w-28'>
-                                <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
+                                {listImage ? (
+                                    <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
+
+                                ) : (
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" className='rounded-full' />
+                                )
+                                }
                             </div>
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
                                 <div><p className='text-lg font-semibold'>{listInfo?.name}</p></div>
                                 <p className="mb-0 ">
-                                    <a href="#" className='text-blue-500'>
+                                    <Link to="/account" className='text-blue-500'>
                                         Cập nhật hồ sơ thu hút NTD
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         </div>

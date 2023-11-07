@@ -196,7 +196,6 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Input type='date' />
-                                <DatePicker />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>

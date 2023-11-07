@@ -40,9 +40,10 @@ const Header = () => {
       localStorage.removeItem("user");
       localStorage.removeItem("accessToken");
       notyf.success("Đăng xuất thành công!")
-      window.location.reload("/");
+      window.location.reload();
     }
   };
+  const listImage = candidateData?.candidate?.image;
   const CV = [
     {
       name: "Hồ sơ của tôi  ",
@@ -78,7 +79,7 @@ const Header = () => {
     },
     {
       name: "Đổi mật khẩu",
-      href: "/change",
+      href: "/account/change_pass",
       icon: <AiOutlineKey className="text-xl" />,
     },
     {
@@ -147,17 +148,16 @@ const Header = () => {
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        {/* <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" /> */}
                         {item.icon}
                       </div>
                       <div className="flex-auto">
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className="block font-semibold text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   ))}
@@ -207,11 +207,15 @@ const Header = () => {
             <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5 ">
               <Popover className="relative">
                 <Popover.Button className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                  <img
-                    src={candidateData?.candidate?.image}
-                    className="rounded-full border w-12 h-12"
-                    alt="logo công ty"
-                  />
+                  {listImage ? (
+                    <img
+                      src={candidateData?.candidate?.image}
+                      className="rounded-full border w-12 h-12"
+                      alt="avatar"
+                    />
+                  ) : (
+                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                  )}
                 </Popover.Button>
                 <Transition
                   as={Fragment}
@@ -232,13 +236,13 @@ const Header = () => {
                         >
                           <div className=" text-gray-600">{item.icon}</div>
                           <div className="flex-auto">
-                            <a
-                              href={item.href}
+                            <Link
+                              to={item.href}
                               className="block font-medium text-gray-600"
                             >
                               {item.name}
                               <span className="absolute inset-0" />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                       ))}
@@ -289,14 +293,14 @@ const Header = () => {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <Link to="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
                 src="https://123job.vn/images/logo_tim.png"
                 alt=""
               />
-            </a>
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -339,30 +343,30 @@ const Header = () => {
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="/jobs"
+                <Link
+                  to="/jobs"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Việc làm
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Công ty
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Sự nghiệp phát triền
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Công cụ
-                </a>
+                </Link>
               </div>
               <div className="py-3">
                 <Link
@@ -372,18 +376,18 @@ const Header = () => {
                   Tin đã lưu{" "}
                   <AiOutlineHeart className="inline-block base-line" />
                 </Link>
-                <a
-                  href="/dang-nhap"
+                <Link
+                  to="/dang-nhap"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng nhập
-                </a>
-                <a
-                  href="/dang-ky-tai-khoan"
+                </Link>
+                <Link
+                  to="/dang-ky-tai-khoan"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Đăng ký
-                </a>
+                </Link>
               </div>
             </div>
           </div>
