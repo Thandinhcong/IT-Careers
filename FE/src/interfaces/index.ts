@@ -184,9 +184,11 @@ export interface IListJobs {
     min_salary: number,
     max_salary: number,
     company_name: string,
-    logo: string
-    area: string
-    status: number
+    logo: string,
+    area: string,
+    status: number,
+    start_date: Date,
+    end_date: Date,
 }
 export interface IListDataJobs {
     status: IJobPost,

@@ -23,6 +23,9 @@ const Recruitment = () => {
                     {listJobs?.map((item: IListJobs) => {
                         if (item.status === 0 || item.status === 2) {
                             return null;
+                        }
+                        else if (new Date() > new Date(item.end_date)) {
+                            return null;
                         } else {
                             return (
                                 <Link to={`/job-detail/${item?.title}/${item?.id}`} className='shadow-lg p-2' key={item?.id}>
