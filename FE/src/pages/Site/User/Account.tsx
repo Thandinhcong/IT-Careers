@@ -29,8 +29,8 @@ function getItem(
 const items: MenuItem[] = [
     getItem('Thông tin liên hệ', '/account', <AiOutlineUser />),
     getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />),
-    getItem('Thiết lập công ty', '', <LuActivitySquare />),
-    getItem('Giấy phép kinh doanh', '', <AiOutlineFile />),
+    getItem('Chuyển đổi tài khoản NTD', '', <LuActivitySquare />),
+    // getItem('Đăng xuất', '/', <AiOutlineFile />),
 ];
 const Account = () => {
     const {

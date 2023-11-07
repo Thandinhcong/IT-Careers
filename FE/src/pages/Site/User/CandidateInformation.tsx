@@ -1,11 +1,12 @@
 import { Button, Form, Input, Select, Upload } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IAccount } from '../../../interfaces'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { IoCloudUploadOutline } from 'react-icons/io5'
+import { UploadImage } from '../../../components/upload'
 
 type Props = {}
 
@@ -14,6 +15,7 @@ const CandidateInformation = (props: Props) => {
     const [form] = Form.useForm();
 
     const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
+    const [image, setImage] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,6 +40,24 @@ const CandidateInformation = (props: Props) => {
                 message.success('Cập nhật thành công')
             });
     };
+
+    const onChangeFile = async (e: any) => {
+        const files = e.target.files[0];
+        if (files) {
+            try {
+                const Response = await UploadImage({
+                    file: files,
+                    upload_preset: "demo-upload",
+                });
+
+                if (Response) {
+                    setImage(Response.data.url)
+                }
+            } catch (error) {
+
+            }
+        }
+    }
 
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
@@ -87,10 +107,10 @@ const CandidateInformation = (props: Props) => {
                     <Form.Item<IAccount>
                         // label=""
                         name="avatar"
-                        rules={[
-                            { required: true, message: 'Trường này không được bỏ trống !' },
-                            // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
-                        ]}
+                    // rules={[
+                    //     { required: true, message: 'Trường này không được bỏ trống !' },
+                    //     { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                    // ]}
                     >
                         <Upload>
                             <Button icon={<IoCloudUploadOutline />}>Click to Upload</Button>
