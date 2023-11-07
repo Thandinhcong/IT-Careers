@@ -2,4 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
+.ant-upload-list {
+    display: none;
+  }
+  
+  .ant-upload-list-text {
+    display: none;
+  }

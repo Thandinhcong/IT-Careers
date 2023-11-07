@@ -7,6 +7,7 @@ import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQue
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 const PostEdit = () => {
     const { id } = useParams();
     const { data } = useGetJobPostSelectByIdQuery();
@@ -64,8 +65,6 @@ const PostEdit = () => {
             values.start_date = moment(startDate).format('YYYY-MM-DD');
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
-        console.log(values);
-
         jobPost({ ...values, id: Number(id) })
             .unwrap()
             .then(() => {
@@ -98,9 +97,9 @@ const PostEdit = () => {
     const validateEndDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
         if (value) {
             const currentDate = moment();
-            const minEndDate = moment(currentDate).add(5, 'days');
+            const minEndDate = moment(currentDate).add(10, 'days');
             if (value.isBefore(minEndDate, 'day')) {
-                callback('Ngày kết thúc phải sau ngày bắt đầu ít nhất 5 ngày');
+                callback('Ngày kết thúc phải sau ngày bắt đầu ít nhất 10 ngày');
             } else {
                 callback();
             }
@@ -175,7 +174,7 @@ const PostEdit = () => {
                             <Form.Item<IJobPost>
                                 label="Tỉnh/Thành phố"
                                 name="area_id"
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: "Vui lòng chọn" }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
                                     {data?.data?.province_id.map((options: IJobPost) => (
@@ -418,17 +417,6 @@ const PostEdit = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* <Form.Item<IJobPost>
-                        label="company_id"
-                        name="company_id"
-                        initialValue={Infor?.company?.id}
-                        rules={[
-                            { required: true, message: 'Trường này không được bỏ trống !' },
-                        ]}
-
-                    >
-                        <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item> */}
                     <div className='flex justify-between mt-4'>
                         <Button className='bg-gray-100 h-10 flex items-center gap-1'>
                             <AiOutlineEye /> <span>Xem trước bài đăng</span>

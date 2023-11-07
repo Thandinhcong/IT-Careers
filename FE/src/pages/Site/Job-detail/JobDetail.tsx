@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-    AiOutlineCheck,
-    AiOutlineClose,
-    AiOutlineContainer,
-    AiOutlineHdd,
-    AiOutlineHeart,
-} from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
     TETabs,
@@ -135,7 +129,7 @@ const JobDetail = () => {
                     setImage(Response.data.url)
                 }
             } catch (error) {
-
+                return error
             }
         }
     };

@@ -22,7 +22,7 @@ const SideBarCompany = () => {
     return (
         <div className='p-2 border font-medium text-[#526484] text-sm sticky top-0 h-screen overflow-y-auto'>
             <div className='flex items-center gap-2'>
-                <img src={Infor?.company?.logo} className='rounded-full border p-1' alt="logo công ty" width={50} height={50} />
+                <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                 <p>{Infor?.company?.company_name}</p>
             </div>
             <div className='flex items-center gap-3 mt-10 ml-4'>

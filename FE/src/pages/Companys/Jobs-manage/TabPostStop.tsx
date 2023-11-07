@@ -17,7 +17,7 @@ const isExpired = (endDate: string) => {
     const end = moment(endDate);
     return currentDate.isAfter(end);
 };
-const TabPostPass = () => {
+const TabPostStop = () => {
     const { data } = useGetJobPostByIdCompanyQuery();
 
     const [extendJobPost] = useExtendJobPostMutation();
@@ -269,7 +269,7 @@ const TabPostPass = () => {
             views: item.view,
         }
     })
-    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 1);
+    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 3);
     const currentDate = moment(); // Lấy ngày hiện tại
     const filteredJobPosts = passJobPostData.filter((item: IJobPost) => {
         if (item.end_date) {
@@ -371,4 +371,4 @@ const TabPostPass = () => {
     )
 }
 
-export default TabPostPass
+export default TabPostStop

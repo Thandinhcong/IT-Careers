@@ -209,6 +209,7 @@ const TabPostFail = () => {
             academic_level_id: item.academic_level_id,
             major_id: item.major,
             interest: item.interest,
+            views: item.view,
         }
     })
     const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 2);

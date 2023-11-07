@@ -13,6 +13,8 @@ import { message } from 'antd';
 const HeaderCompany = () => {
 
     const { data: Infor } = useGetInforQuery();
+    console.log(Infor?.company?.logo);
+
     const navigate = useNavigate();
     const [logout] = useLogOutCompaniesMutation()
     const handleLogout = async () => {
@@ -28,8 +30,6 @@ const HeaderCompany = () => {
     const CV = [
         { name: 'Thông tin liên hệ', href: '/business/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
         { name: 'Thiết lập công ty', href: '/business/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
-        { name: 'Thông tin liên hệ', href: '/companys/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
-        { name: 'Thiết lập công ty', href: '/companys/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
         { name: 'Đăng xuất', href: '#', onclick: handleLogout, icon: <PiSignOutLight className="text-blue-500 text-xl" /> }
     ]
     return (
@@ -70,7 +70,7 @@ const HeaderCompany = () => {
                     <Popover.Button
                         className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                     >
-                        <img src={Infor?.company?.logo} className='rounded-full border p-1' alt="logo công ty" width={50} height={50} />
+                        <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                     </Popover.Button>
 
                     <Transition

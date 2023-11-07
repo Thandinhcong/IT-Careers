@@ -67,6 +67,7 @@ export interface IJobPost {
     area_id?: number,
     working_form?: string,
     name: string | number,
+    view: number
 }
 export interface ICvApply {
     id?: number | string,
@@ -87,6 +88,16 @@ export interface ICvApply {
     job_post_name: string
     list_candidate_apply_job: Array
     image: string
+}
+export interface IFindJob {
+    candidate_id: number | string
+    image: string
+    cv_id: string
+    patch_cv: string
+    name: string
+    email: string
+    phone: string
+    birth: string
 }
 export interface ICompanyInfor {
     id?: string | number,

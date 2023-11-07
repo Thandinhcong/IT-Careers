@@ -25,8 +25,6 @@ import LayoutCompany from "./Layout/buisness"
 import Companys from "./pages/Companys"
 import CreateCampaign from "./pages/Companys/Create_campaign"
 import LayoutBusinessSetting from "./pages/Companys/Business_Setting"
-// import CompanySetting from "./pages/Companys/Business_Setting/Company"
-// import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
 import Guide from "./pages/Site/Guide/Guide"
@@ -56,7 +54,6 @@ import JobCreate from "./pages/Companys/JobCreate"
 import LayoutAdmin from "./Layout/admin/LayoutAdmin"
 import DashBoard from "./pages/admin/Dashboard"
 import PostManage from "./pages/admin/post-manage"
-// import CreatePost from "./pages/admin/post-manage/CreatePost"
 import ListWorkingForm from "./pages/admin/WorkingForm/ListWorkingForm"
 import AddWorkingForm from "./pages/admin/WorkingForm/AddWorkingForm"
 import UpdateWorkingForm from "./pages/admin/WorkingForm/UpdateWorkingForm"
@@ -69,15 +66,12 @@ import Companymanage from "./pages/admin/Company-manage"
 import JobpositionManage from "./pages/admin/Jobposition-manage"
 import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
 import EditJobposition from "./pages/admin/Jobposition-manage/edit-jobposition"
-
 import SkillManage from "./pages/admin/skill-manage"
 import AddSkill from "./pages/admin/skill-manage/AddSkill"
 import EditSkill from "./pages/admin/skill-manage/EditSkill"
 import PackageManage from "./pages/admin/package-manage"
 import AddPackage from "./pages/admin/package-manage/AddPackage"
 import EditPackage from "./pages/admin/package-manage/EditPackage"
-// import CreateLevel from "./pages/admin/Level-manage/CreateLevel"
-// import UpdateLevel from "./pages/admin/Level-manage/UpdateLevel"
 import SalaryTypeManage from "./pages/admin/salaryType-manage"
 import AddSalary from "./pages/admin/salaryType-manage/AddSalary"
 import EditSalary from "./pages/admin/salaryType-manage/EditSalary"
@@ -97,11 +91,11 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
-import CandidateInformation from "./pages/Site/User/CandidateInformation"
-import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
-import CreateCv from "./pages/Site/CreateCv/CreateCv"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
+import Cv from "./pages/Site/CreateCv/CV"
+import CandidateInformation from "./pages/Site/User/CandidateInformation"
+import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
 
 
 function App() {
@@ -126,7 +120,8 @@ function App() {
             <Route path="change_pass" element={<ChangePassCandidate />} />
           </Route>
 
-          <Route path="tao-cv" element={<CreateCv />} />
+          <Route path='account' element={< Account />} />
+          <Route path="cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -138,10 +133,8 @@ function App() {
             <Route path='jobapply' element={< JobApply />} />
             <Route path='jobfavor' element={< JobFavor />} />
             <Route path='profile' element={< Profile />} />
-
-
-          </Route>
-        </Route >
+          </Route >
+        </Route>
 
         {/* Account */}
         < Route element={< IsLogin />}>

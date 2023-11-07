@@ -8,12 +8,13 @@ import { useNavigate } from 'react-router-dom'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { UploadImage } from '../../../components/upload'
 
-type Props = {}
 
-const CandidateInformation = (props: Props) => {
+
+const CandidateInformation = () => {
     const { data: candidateData } = useGetCandidatesQuery();
     const [form] = Form.useForm();
 
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(candidateData?.candidate?.avatar || null);
     const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
     const [image, setImage] = useState(null);
     const navigate = useNavigate();
@@ -33,16 +34,34 @@ const CandidateInformation = (props: Props) => {
     }, [candidateData]);
 
     const onFinish = (values: IAccount) => {
-        editCandidate({ ...values })
-            .unwrap()
-            .then(async () => {
-                navigate("/account");
-                message.success('Cập nhật thành công')
-            });
+        const avatar = values.avatar && values.avatar.fileList[0]?.originFileObj;
+        if (avatar) {
+            UploadImage({
+                file: avatar,
+                upload_preset: "demo-upload",
+            })
+                .then((response) => {
+                    // Cập nhật trường logo với URL được trả về từ Cloudinary
+                    values.avatar = response.data.url;
+                    // Gọi hàm editcompany với giá trị đã cập nhật trường logo
+                    editCandidate({ ...values })
+                        .unwrap()
+                        .then(() => {
+                            navigate("");
+                            message.success('Cập nhật thành công');
+                        })
+                        .catch((error) => {
+                            console.error('Lỗi khi cập nhật thông tin công ty:', error);
+                        });
+                })
+                .catch((error) => {
+                    console.error('Lỗi khi tải ảnh lên:', error);
+                });
+        }
     };
 
-    const onChangeFile = async (e: any) => {
-        const files = e.target.files[0];
+    const onChangeFile = async (e: any, fieldName: string) => {
+        const files = e.file.originFileObj;
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -51,13 +70,16 @@ const CandidateInformation = (props: Props) => {
                 });
 
                 if (Response) {
-                    setImage(Response.data.url)
+                    const imageUrl = Response.data.url;
+                    if (fieldName === 'avatar') {
+                        setAvatarUrl(imageUrl); // Gán đường dẫn ảnh Logo
+                    }
                 }
             } catch (error) {
-
+                console.error(error);
             }
         }
-    }
+    };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
@@ -104,6 +126,11 @@ const CandidateInformation = (props: Props) => {
                         <Input />
                     </Form.Item>
                     <h2 className='font-bold flex items-center'>Avatar</h2>
+                    {avatarUrl ? (
+                        <img src={avatarUrl} alt="Uploaded Image" className='w-20 h-20 rounded-full' />
+                    ) : (
+                        <img src={candidateData?.candidate?.logo} alt="Initial Image" className='w-20 h-20 rounded-full' />
+                    )}
                     <Form.Item<IAccount>
                         // label=""
                         name="avatar"
@@ -112,7 +139,9 @@ const CandidateInformation = (props: Props) => {
                     //     { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                     // ]}
                     >
-                        <Upload>
+                        <Upload
+                            onChange={(e) => onChangeFile(e, 'avatar')} // Truyền tên trường 'logo'
+                            fileList={avatarUrl ? [{ originFileObj: avatarUrl }] : []}>
                             <Button icon={<IoCloudUploadOutline />}>Click to Upload</Button>
                         </Upload>
                     </Form.Item>

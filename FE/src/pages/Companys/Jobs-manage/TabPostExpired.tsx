@@ -2,7 +2,7 @@ import { AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete
 import React, { useState } from 'react';
 import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useGetJobPostExpiresByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
+import { useExtendJobPostMutation, useGetJobPostExpiresByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -266,6 +266,7 @@ const TabPostExpired = () => {
             academic_level_id: item.academic_level_id,
             major_id: item.major,
             interest: item.interest,
+            views: item.view,
         }
     })
 
