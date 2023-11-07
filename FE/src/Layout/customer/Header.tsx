@@ -47,8 +47,8 @@ const Header = () => {
       icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
     },
     {
-      name: "Mẫu CV",
-      href: "#",
+      name: "Tạo CV",
+      href: "tao-cv",
       icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
     },
   ];

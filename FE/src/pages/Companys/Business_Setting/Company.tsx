@@ -1,4 +1,4 @@
-import { Button, Form, Input, Layout, theme } from 'antd'
+import { Button, DatePicker, Form, Input, Layout, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -146,7 +146,7 @@ const CompanySetting = () => {
                                     // { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                                 ]}
                             >
-                                <Input />
+                                <DatePicker />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>

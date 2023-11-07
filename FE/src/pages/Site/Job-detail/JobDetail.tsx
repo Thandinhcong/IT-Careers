@@ -178,10 +178,21 @@ const JobDetail = () => {
                                     )}
                                 </TERipple>
                             )}
-                            <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                Lưu tin
-                            </button>
+                            {!infoUser ? (
+                                <button
+                                    onClick={() => setShowModa2l(true)}
+                                    className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
+                                >
+                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
+                                    Lưu tin
+                                </button>
+
+                            ) : (
+                                <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
+                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
+                                    Lưu tin
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div className="mb-3">

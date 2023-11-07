@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const IsCheckLogin = () => {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ const IsCheckLogin = () => {
         if (!isLogin) return navigate('/')
     }, [])
     return (
-        <div>isCheckLogin</div>
+        <Outlet />
     )
 }
 
