@@ -131,11 +131,6 @@ function App() {
             <Route path='account' element={< Account />} />
             <Route path="tao-cv" element={<Cv />} />
           </Route>
-
-          <Route path='account' element={< Account />} />
-          <Route path="cv" element={<Cv />} />
-          <Route path='account' element={< Account />} />
-          <Route path='cv_detail' element={<Cv_Detail />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
