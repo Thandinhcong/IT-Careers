@@ -12,11 +12,12 @@ const CvCandodateDetail = () => {
     const { id } = useParams();
     const { data } = useGetCandidateDetailQuery(id || "");
     const [assse] = useAssseCandidateMutation();
+    const listInfoCandidateApply = data?.data;
+    const listImage = data?.data?.image;
     const [form] = Form.useForm();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-    console.log(selectedCvApplyId);
 
 
     const showModal = (id: number) => {
@@ -68,9 +69,17 @@ const CvCandodateDetail = () => {
                                 <AiOutlineArrowLeft className="inline-block" /> Về trang chính
                             </Link>
                             <div className="bg-white p-4 mb-4 mt-4 flex items-center">
-                                <img
-                                    className="w-20 rounded-full border border-gray-400 p-1"
-                                    src="https://cdn1.123job.vn/123job/uploads/2023/10/06/2023_10_06______622e2e506d59c1af0f1a16739bcc252d.png" alt="" />
+                                {listImage ? (
+                                    <img
+                                        className="w-20 rounded-full border border-gray-400 p-1"
+                                        src={listImage} alt=""
+                                    />
+                                ) : (
+                                    <img
+                                        className="w-20 rounded-full border border-gray-400 p-1"
+                                        src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt=""
+                                    />
+                                )}
                                 <div className="ml-4">
                                     <p className=" font-sans font-semibold">{data?.data?.name}</p>
                                     <div className="flex items-center mt-2">
@@ -91,7 +100,7 @@ const CvCandodateDetail = () => {
                             <div className="bg-white p-4">
                                 <p className="font-bold mb-1.5">Lời Nhắn </p>
                                 <p className="text-sm">
-                                    Em là sinh viên mới học xong đang chờ bằng, cần một nơi để thực tập, rèn luyện kĩ năng bản thân. - Điểm mạnh: khả năng tự học cao - Điếm yếu: ngoại ngữ kém cần hoàn hiện nhiều
+                                    {listInfoCandidateApply?.introduce}
                                 </p>
                             </div>
                             <hr />

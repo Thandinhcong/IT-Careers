@@ -30,7 +30,7 @@ const JobCreate = () => {
     }
 
     const onFinish = (values: IJobPost) => {
-        if (values.start_date !== undefined && values.end_date !== undefined && moment.isMoment(values.end_date) && moment.isMoment(values.start_date)) {
+        if (values.start_date !== undefined && values.end_date !== undefined) {
             const startDate = values.start_date.toDate();
             const endDate = values.end_date.toDate();
 
@@ -55,6 +55,7 @@ const JobCreate = () => {
                 message.error("Đăng bài thất bại" + error.message);
             });
         console.log(values);
+
     };
 
     const handleChange = (value: string) => {

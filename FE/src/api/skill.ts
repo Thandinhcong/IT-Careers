@@ -8,7 +8,16 @@ const skillApi = createApi({
         baseUrl: "http://127.0.0.1:8000/api",
         fetchFn: async (...arg) => {
             return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
         }
+
     }),
     endpoints: (builder) => ({
         getSkill: builder.query<ISkill[], void>({

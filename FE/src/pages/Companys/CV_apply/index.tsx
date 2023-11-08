@@ -17,7 +17,6 @@ const CVApply = () => {
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-    console.log(selectedCvApplyId);
 
 
     const showModal = (id: number) => {
@@ -66,6 +65,7 @@ const CVApply = () => {
             : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
+    console.log(filteredCandidates);
 
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
@@ -104,13 +104,22 @@ const CVApply = () => {
                     </div>
                 </div>
                 {filteredCandidates?.map((item: ICvApply) => (
-                    <div className="bg-white my-4 p-4 grid-cols-1">
+                    <div key={item?.id} className="bg-white my-4 p-4 grid-cols-1">
                         <div>
                             <div className="flex justify-between my-4 p-2 items-center border-b-2">
                                 <div>
-                                    <img
-                                        className="w-20 rounded-full border border-gray-400 p-1"
-                                        src={item.image} alt="" />
+                                    {item?.image ? (
+                                        <img
+                                            className="w-20 rounded-full border border-gray-400 p-1"
+                                            src={item.image} alt=""
+                                        />
+                                    ) : (
+                                        <img
+                                            className="w-20 rounded-full border border-gray-400 p-1"
+                                            src='https://cdn-icons-png.flaticon.com/512/1946/1946429.png' alt=""
+                                        />
+                                    )
+                                    }
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 w-7/12">
                                     <p className="font-semibold text-base">{item.name}</p>

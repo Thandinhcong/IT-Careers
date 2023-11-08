@@ -12,7 +12,7 @@ const IsCheckLoginCompany = () => {
     });
     const navigate = useNavigate();
     const [isLogin] = useState(() => {
-        const user = localStorage.getItem("accessToken");
+        const user = localStorage.getItem("authCompany");
         return user ? user : null;
     });
     useEffect(() => {

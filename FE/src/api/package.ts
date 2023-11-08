@@ -8,7 +8,8 @@ const packageApi = createApi({
         baseUrl: "http://127.0.0.1:8000/api",
         fetchFn: async (...arg) => {
             return fetch(...arg)
-        }
+        },
+
     }),
     endpoints: (builder) => ({
         getPackage: builder.query<IPackages[], void>({
