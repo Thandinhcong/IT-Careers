@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select, message } from 'antd';
-import { Option } from "antd/es/mentions";
+import { Button, Form, Input, message } from 'antd';
 import { useAddPackageMutation } from "../../../api/package";
 import { IPackages } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -41,8 +40,7 @@ const AddPackage = () => {
                     name="title"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
-
+                        { min: 3, message: "Tối thiểu 3 ký tự!" }
                     ]}
                 >
                     <Input />
@@ -68,29 +66,6 @@ const AddPackage = () => {
                     ]}
                 >
                     <Input />
-                </Form.Item>
-
-                <Form.Item<IPackages>
-                    label="Giá giảm gói nạp"
-                    name="reduced_price"
-                    rules={[
-                        { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^[1-9]\d*$/, message: 'Giảm giá phải là số và không âm !' },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-
-                <Form.Item
-                    name="type_account"
-                    label="Gói nạp dành cho"
-                    rules={[
-                        { required: true, message: 'Vui lòng chọn gói nạp !' },]}
-                >
-                    <Select placeholder="Vui lòng chọn gói nạp">
-                        <Option value="0">Nhà tuyển dụng</Option>
-                        <Option value="1">Ứng viên</Option>
-                    </Select>
                 </Form.Item>
 
                 <Form.Item labelAlign="left">

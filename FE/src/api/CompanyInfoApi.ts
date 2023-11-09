@@ -13,7 +13,6 @@ const CompnayInfoApi = createApi({
             const token = localStorage.getItem('authCompany');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
-                // console.log(token);
             }
             return headers;
         },

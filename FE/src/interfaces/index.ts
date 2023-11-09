@@ -1,11 +1,17 @@
+
+export interface IPackage {
+    data: IPackages[]
+}
+export interface IOnePackage {
+    package: IPackages,
+    status: number
+}
 export interface IPackages {
     id?: number,
     title?: string,
     coin?: number,
     price?: number,
-    reduced_price?: number,
     status?: number,
-    type_account?: number
 
 }
 export interface IMajors {

@@ -11,18 +11,16 @@ const cancel = () => {
 
 const PackageManage = () => {
     const { data, isLoading } = useGetPackageQuery();
+
     const [removePackage, { isLoading: isRemoveLoading }] = useDeletePackageMutation();
     if (isLoading) return <Skeleton loading />;
-    const packageData = data?.data?.map(({ id, title, coin, price, reduced_price, status, type_account }: IPackages) => {
-        console.log(data);
+    const packageData = data?.data?.map(({ id, title, coin, price, status }: IPackages) => {
         return {
             key: id,
             title,
             coin,
             price,
-            reduced_price,
             status,
-            type_account
         }
     })
     const confirm = (id: number | string) => {
@@ -31,7 +29,7 @@ const PackageManage = () => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<IPackages> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',
@@ -54,33 +52,6 @@ const PackageManage = () => {
             title: 'Giá',
             dataIndex: 'price',
             key: 'price',
-
-        },
-        {
-            title: 'Giảm giá',
-            dataIndex: 'reduced_price',
-            key: 'reduced_price',
-
-        },
-        {
-            title: 'Loại tài khoản',
-            dataIndex: 'type_account',
-            key: 'type_account',
-            render: (type_account: number | undefined | string) => {
-                let text;
-
-                if (type_account === 1 || type_account === "1") {
-                    text = 'Ứng viên';
-
-                } else if (type_account === 0 || type_account === "0") {
-                    text = 'Nhà tuyển dụng';
-                }
-                return (
-                    <p>
-                        {text}
-                    </p>
-                );
-            },
 
         },
         {
@@ -145,7 +116,7 @@ const PackageManage = () => {
                     <Link to="add">Tạo gói nạp</Link>
                 </Button>
             </div>
-            <Table columns={columns} dataSource={packageData} />; {/* Chỉnh độ rộng của bảng  scroll={{ x: 1300 }}*/}
+            <Table columns={columns} dataSource={packageData} />;
         </div>
     )
 }
