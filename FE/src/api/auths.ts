@@ -29,7 +29,7 @@ const authApi = createApi({
                 body: credentials
             })
         }),
-        signup: builder.mutation<{ access_token: string, users: {}, errors: string }, { name: string, email: string, password: string, phone: string, password_confirmation: string }>({
+        signup: builder.mutation<{ access_token: string, users: {}, errors: string }, { name: string, email: string | any, password: string, phone: string | any, password_confirmation: string }>({
             query: (credentials) => ({
                 url: "/register",
                 method: "POST",

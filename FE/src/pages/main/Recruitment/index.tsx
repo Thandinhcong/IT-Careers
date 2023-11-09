@@ -2,13 +2,11 @@ import { BsArrowRight, BsCurrencyDollar } from 'react-icons/bs'
 import { MdFavoriteBorder, MdRoom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
-import { IJobPost, IListJobs } from '../../../interfaces'
 import { VND } from '../../../components/upload'
 
 const Recruitment = () => {
     const { data } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
-    console.log(listJobs);
 
     return (
         <div>
@@ -21,11 +19,11 @@ const Recruitment = () => {
                     <Link to="/jobs" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
-                    {listJobs?.map((item: IListJobs) => {
+                    {listJobs?.map((item) => {
                         if (item.status === 0 || item.status === 2) {
                             return null;
                         }
-                        else if (new Date() > new Date(item.end_date)) {
+                        else if (new Date() > new Date(item?.end_date)) {
                             return null;
                         } else {
                             return (

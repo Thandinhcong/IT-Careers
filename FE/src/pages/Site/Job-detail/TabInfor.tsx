@@ -1,13 +1,14 @@
 import { AiOutlineInsertRowRight } from "react-icons/ai"
 import { useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail } from "../../../interfaces";
 
 
 const TabInfor = () => {
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail | undefined = data && data.job_detail;
+    const listOne = data && data.job_detail;
+
+
     return (
         <div className="p-3 h-[550px] overflow-y-auto">
             <h2 className="font-semibold text-lg my-4">Thông tin nhà tuyển dụng</h2>

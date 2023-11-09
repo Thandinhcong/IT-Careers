@@ -10,11 +10,12 @@ const CompnayInfoApi = createApi({
             return fetch(...arg)
         },
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authCompany');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
                 // console.log(token);
             }
+            return headers;
         },
     }),
     endpoints: (builder) => ({

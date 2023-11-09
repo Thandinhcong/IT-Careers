@@ -6,6 +6,8 @@ export interface IJobPostApply {
     email: string,
     phone: string,
     name: string,
+    job_list: Array<string>,
+    introduce: string
 }
 const jobPostApply = createApi({
     reducerPath: "jobPostApply",
@@ -40,6 +42,6 @@ const jobPostApply = createApi({
     })
 
 })
-export const { useApplyJobMutation,useGetJobApplyQuery } = jobPostApply;
+export const { useApplyJobMutation, useGetJobApplyQuery } = jobPostApply;
 export default jobPostApply;
 export const JobPostApplyReducer = jobPostApply.reducer;

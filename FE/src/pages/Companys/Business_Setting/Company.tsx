@@ -15,6 +15,7 @@ const CompanySetting = () => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
     const { data: companyData } = useGetInforQuery();
+    console.log(companyData);
 
     const [form] = Form.useForm();
     const [logoUrl, setLogoUrl] = useState<string | null>(companyData?.company?.logo || null);

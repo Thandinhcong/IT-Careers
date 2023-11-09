@@ -62,10 +62,9 @@ const JobDetail = () => {
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail = data?.job_detail;
+    const listOne: IListJobsDetail[] | undefined = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
-    console.log(infoUser);
 
     const user = infoUser?.candidate;
     const idUser = user?.id;
@@ -147,7 +146,7 @@ const JobDetail = () => {
                         </div>
                         <div className="flex flex-col gap-2">
                             {isAlreadyApplied ? (
-                                <p className="px-2 text-base bg-blue-500 rounded-lg py-1 text-white">Bạn đã ứng tuyển công việc này!</p>
+                                <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
                             ) : (
 
                                 <TERipple rippleColor="white" className="">
@@ -314,7 +313,7 @@ const JobDetail = () => {
                                         Thư mô tả
                                     </label>
                                     <textarea
-                                        {...register("desc")}
+                                        {...register("introduce")}
                                         className="w-full rounded-lg border-gray-200 p-3 text-sm outline-none border border-solid "
                                         placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
                                         rows={4}

@@ -69,7 +69,7 @@ export interface IJobPost {
     name: string | number,
     view: number,
     level: IJobPost,
-    data: IJobPost,
+    data: IJobPost[],
 }
 export interface ICvApply {
     id?: number | string,
@@ -219,7 +219,8 @@ export interface IListJobs {
     area: string
     status: number,
     province: string,
-    district: string
+    district: string,
+    end_date: string
 }
 export interface IListDataJobs {
     status: IJobPost,
@@ -228,6 +229,10 @@ export interface IListDataJobs {
 export interface IListOneJobs {
     status: string,
     job_detail: IListJobsDetail[],
+}
+export interface IListOneJob {
+    status: string,
+    job_detail: IListJobsDetail,
 }
 export interface IListJobsDetail {
     id: string | number,
@@ -249,5 +254,7 @@ export interface IListJobsDetail {
     require: string,
     interest: string,
     province: string,
-    district: string
+    district: string,
+    status: number,
+    logo: string
 }
