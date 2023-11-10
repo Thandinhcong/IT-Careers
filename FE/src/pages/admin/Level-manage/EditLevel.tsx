@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -13,7 +13,6 @@ const EditLevel = () => {
     const [editLevel, { isLoading: isUpdateLoading }] = useEditLevelMutation();
     const { data: levelData } = useGetLevelByIdQuery(id || "");
     const [form] = Form.useForm();
-    // console.log(levelData);
 
     useEffect(() => {
         form.setFieldsValue({
@@ -27,6 +26,7 @@ const EditLevel = () => {
             .unwrap()
             .then(async () => {
                 await pause(3000);
+                message.success("Cập nhật thành công")
                 navigate("/admin/level-manage");
             });
     };

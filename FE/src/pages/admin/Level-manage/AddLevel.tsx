@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -15,13 +15,11 @@ const AddLevel = () => {
             .unwrap()
             .then(async () => {
                 await pause(3000);
+                message.success("Thêm thành công")
                 navigate("/admin/level-manage");
             });
     };
 
-    const onFinishFailed = (errorInfo: unknown) => {
-        console.log("Failed:", errorInfo);
-    };
 
     return (
         <div>
@@ -34,7 +32,6 @@ const AddLevel = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off"
             >

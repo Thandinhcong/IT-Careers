@@ -17,7 +17,6 @@ const experienceApi = createApi({
         fetchFn: async (...arg) => {
             return fetch(...arg)
         },
-
         prepareHeaders: (headers) => {
             const user = JSON.parse(localStorage.getItem("admin") as string);
             const token = user?.accessToken;

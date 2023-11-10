@@ -18,7 +18,7 @@ const LevelApi = createApi({
             return fetch(...arg)
         },
         prepareHeaders: (headers) => {
-            const user = JSON.parse(localStorage.getItem("user") as string);
+            const user = JSON.parse(localStorage.getItem("admin") as string);
             const token = user?.accessToken;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)

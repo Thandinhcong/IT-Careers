@@ -40,7 +40,7 @@ const AddMajors = () => {
                     name="major"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { min: 3, message: "Tên Chuyên Ngành phải trên 3 kí tự" }
+                        { min: 3, message: "Tối thiểu 3 ký tự" }
                     ]}
                 >
                     <Input />

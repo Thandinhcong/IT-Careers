@@ -23,7 +23,7 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin)
     });
-    const [setUser] = useLocalStorage("user", null)
+    const [user, setUser] = useLocalStorage("user", null)
     const [login] = useLoginMutation();
     const loginGoogle = () => {
         window.location.href = "http://127.0.0.1:8000/api/auth/google"

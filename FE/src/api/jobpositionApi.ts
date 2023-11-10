@@ -18,7 +18,7 @@ const jobpositionApi = createApi({
             const user = JSON.parse(localStorage.getItem("admin") as string);
             const token = user?.accessToken;
             if (token) {
-                headers.set('authorization', `Bearer ${token}`)
+                headers.set('Authorization', `Bearer ${token}`)
             }
             return headers
         },

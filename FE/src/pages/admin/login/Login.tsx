@@ -19,7 +19,7 @@ const LoginAdmin = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormLoginAdmin>({
         resolver: yupResolver(schemaLoginAdmin)
     })
-    const [setAdmin] = useLocalStorage("admin", null);
+    const [admin, setAdmin] = useLocalStorage("admin", null);
     const [LoginAdmin] = useAdminLoginMutation();
     const onHandleSubmit = async (data: FormLoginAdmin) => {
         try {
@@ -33,8 +33,8 @@ const LoginAdmin = () => {
                 navigate("/admin")
             }, 1000)
 
-        } catch (error) {
-            notyf.error("Thông tin tài khoản hoặc mật khẩu không chính xác!");
+        } catch (error: any) {
+            notyf.error(error?.message);
 
         }
     }
