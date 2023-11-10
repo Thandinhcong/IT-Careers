@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IListData, IListOneCompany } from "../interfaces";
+export interface IJobPostAll {
+    status?: string,
+    list_company: IListData[]
+}
 
 const companyApi = createApi({
     reducerPath: "companys",
@@ -19,7 +23,7 @@ const companyApi = createApi({
             query: (id) => "/list_company/" + id,
             providesTags: ['Companys']
         }),
-        searchCompanies: buidler.query<IListData[], void>({
+        searchCompanies: buidler.query<IJobPostAll, void>({
             query: () => 'list_company',
             providesTags: ['Companys']
         })

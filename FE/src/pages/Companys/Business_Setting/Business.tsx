@@ -1,4 +1,4 @@
-import { Button, theme } from 'antd'
+import { Button } from 'antd'
 import { AiOutlineUpload } from 'react-icons/ai';
 
 import { AiOutlineCheckCircle } from 'react-icons/ai';
@@ -7,9 +7,7 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 
 const BusinessSetting = () => {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+
     return (
         <div className='leading-7'>
             <h1 className='text-2xl'>Giấy phép kinh doanh</h1>

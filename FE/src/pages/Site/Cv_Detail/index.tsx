@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { AiOutlinePhone, AiOutlineMail, AiOutlineClose, AiOutlineSwap } from 'react-icons/ai'
+import { useState } from 'react'
+import { AiOutlinePhone, AiOutlineMail, AiOutlineClose } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import { TEModal, TEModalBody, TEModalContent, TEModalDialog, TEModalFooter, TEModalHeader, TERipple } from 'tw-elements-react';
 

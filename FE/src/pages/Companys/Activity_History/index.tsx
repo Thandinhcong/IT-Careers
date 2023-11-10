@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { AiOutlineSetting, AiOutlineUnorderedList } from 'react-icons/ai';
 import { LiaExchangeAltSolid } from 'react-icons/lia';
 import { FiBriefcase, FiUsers } from 'react-icons/fi';
@@ -15,9 +15,7 @@ interface MenuItem {
     label: React.ReactNode;
 }
 
-interface MenuProps {
-    items: MenuItem[];
-}
+
 
 function getItem(
     label: React.ReactNode,

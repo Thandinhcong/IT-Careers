@@ -1,5 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ICompanyInfor, IJobPost } from "../../interfaces";
+
+export interface IJobPostAll {
+    status?: string,
+    data: IJobPost[]
+}
+export interface IJobPostOne {
+    status?: string,
+    data: IJobPost
+}
 const JobPostCompanyApi = createApi({
     reducerPath: "job_post",
     tagTypes: ['job_post'],
@@ -16,7 +25,7 @@ const JobPostCompanyApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getJobPostByIdCompany: builder.query<IJobPost, void>({
+        getJobPostByIdCompany: builder.query<IJobPostAll | any, void>({
             query: () => "/company/job_post",
             providesTags: ['job_post']
         }),
@@ -24,7 +33,7 @@ const JobPostCompanyApi = createApi({
             query: () => "/company/job_post_expires",
             providesTags: ['job_post']
         }),
-        getJobPostByIdCompanyId: builder.query<IJobPost, number | string>({
+        getJobPostByIdCompanyId: builder.query<IJobPostOne | any, number | string>({
             query: (id) => "/company/job_post/" + id,
             providesTags: ['job_post']
         }),
@@ -32,7 +41,7 @@ const JobPostCompanyApi = createApi({
             query: () => "/company/company_information",
             providesTags: ['job_post']
         }),
-        getJobPostSelectById: builder.query<[], void>({
+        getJobPostSelectById: builder.query<any, void>({
             query: () => "/company/job_post_select",
             providesTags: ['job_post']
         }),

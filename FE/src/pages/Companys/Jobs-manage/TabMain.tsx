@@ -75,8 +75,8 @@ const TabMain = () => {
                 // Đóng Modal
                 setIsModalOpen(false);
             })
-            .catch((errorInfo) => {
-                console.log('Xác minh lỗi:', errorInfo);
+            .catch(() => {
+
             });
     };
 
@@ -84,9 +84,7 @@ const TabMain = () => {
         setIsModalOpen(false);
     };
 
-    const confirm = (id: number | string) => { //dừng tuyển
-        console.log(id);
-
+    const confirm = (id: number | string) => {
         stopJobPost(id);
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');

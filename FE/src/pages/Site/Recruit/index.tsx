@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { AiFillCaretRight, AiOutlineCheckCircle, AiOutlineHeart, AiOutlinePlus, AiOutlineReload, AiTwotoneHeart } from 'react-icons/ai'
 import SearchJobs from './SearchJobs'
 import FilterBySalary from './FilterBySalary';
 import FilterByLocation from './FilterByLocation';
-// import ContentCompany from '../Company/Content';
 
 const Recruit = () => {
     const [isFollowing, setIsFollowing] = useState(false);

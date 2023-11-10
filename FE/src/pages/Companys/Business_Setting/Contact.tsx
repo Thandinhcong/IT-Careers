@@ -1,11 +1,8 @@
-import { Button, theme } from 'antd';
+import { Button } from 'antd';
 import { AiFillEdit } from 'react-icons/ai';
 
 
 const ContactCompanySetting = () => {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
     return (
         <div>
             <h1 className='text-2xl'>Thông tin liên hệ</h1>

@@ -2,7 +2,6 @@ import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
 import { useSearchCompaniesQuery } from '../../../api/companyApi';
-import { ICompanys } from '../../../interfaces';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +17,7 @@ const Company = () => {
     const [records, setRecords] = useState([])
     const Filter = (e: any) => {
         const keyword = e.target.value.toLowerCase();
-        const filteredRecords = listCompanys?.filter((item: any) => {
+        const filteredRecords: any = listCompanys?.filter((item: any) => {
             const companyName = item.company_name.toLowerCase();
             return companyName.includes(keyword);
         });

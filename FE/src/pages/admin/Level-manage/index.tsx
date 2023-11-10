@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Button, Table, Popconfirm, message, Skeleton, Result } from 'antd';
+import { Button, Table, Popconfirm, message, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ILevel } from "../../../interfaces";

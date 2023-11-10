@@ -54,8 +54,6 @@ const JobCreate = () => {
             .catch((error) => {
                 message.error("Đăng bài thất bại" + error.message);
             });
-        console.log(values);
-
     };
 
     const handleChange = (value: string) => {

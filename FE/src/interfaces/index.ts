@@ -62,8 +62,8 @@ export interface IJobPost {
     ranks_id?: number,
     major_id?: number,
     interest?: string, //quyền lợi
-    start_date?: string,
-    end_date?: string,
+    start_date?: string | any,
+    end_date?: string | any,
     status?: number,
     office?: number,
     address?: string,

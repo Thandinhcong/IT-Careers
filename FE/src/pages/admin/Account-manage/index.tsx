@@ -11,7 +11,6 @@ const AccountManage = () => {
     const { data, isLoading, error } = useGetCandidatesQuery();
     const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
     if (isLoading) return <Skeleton loading />;
-    console.log(data);
 
     if (error) {
         if ('status' in error) {
@@ -59,7 +58,7 @@ const AccountManage = () => {
 
 
 
-    const columns: ColumnsType<IAccount> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',

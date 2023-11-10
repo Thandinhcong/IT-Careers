@@ -1,5 +1,4 @@
-// import { Button, Form, Input, Layout, Upload, theme } from 'antd'
-import { Button, DatePicker, Form, Input, Layout, Upload, theme } from 'antd'
+import { Button, Form, Input, Layout, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -8,7 +7,6 @@ import { ICompanyInfor } from '../../../interfaces'
 import { message } from 'antd'
 import { useEditCompanyInfoMutation, useGetInforQuery } from '../../../api/CompanyInfoApi'
 import { UploadImage } from '../../../components/upload';
-import TextArea from 'antd/es/input/TextArea';
 
 
 const CompanySetting = () => {
@@ -46,7 +44,7 @@ const CompanySetting = () => {
         });
     }, [companyData]);
 
-    const onFinish = (values: ICompanyInfor) => {
+    const onFinish = (values: ICompanyInfor | any) => {
         // Truy cập vào mảng fileList trong trường logo và lấy originFileObj
         const logo = values.logo && values.logo.fileList[0]?.originFileObj;
         const imagePaper = values.image_paper && values.image_paper.fileList[0]?.originFileObj;

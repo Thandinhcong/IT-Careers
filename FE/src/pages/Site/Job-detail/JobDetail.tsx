@@ -20,7 +20,6 @@ import TabNew from "./TabNew";
 import TabInfor from "./TabInfor";
 import { Link, useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail } from "../../../interfaces";
 import { useGetInfoUserQuery, useLoginMutation } from "../../../api/auths";
 import { useForm } from "react-hook-form";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
@@ -62,7 +61,7 @@ const JobDetail = () => {
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail[] | undefined = data?.job_detail;
+    const listOne: any = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
 
@@ -78,7 +77,7 @@ const JobDetail = () => {
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin),
     });
-    const [userLogin, setUser] = useLocalStorage("user", null);
+    const [setUser] = useLocalStorage("user", null);
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {

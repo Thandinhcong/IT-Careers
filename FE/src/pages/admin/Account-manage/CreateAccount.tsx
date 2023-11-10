@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, Select } from 'antd';
-import { Option } from "antd/es/mentions";
+import { Button, Form, Input } from 'antd';
 
 const onFinish = (values: any) => {
     console.log('Success:', values);

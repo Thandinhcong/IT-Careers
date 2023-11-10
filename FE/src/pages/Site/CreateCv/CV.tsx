@@ -253,7 +253,7 @@ const Cv = () => {
 
     const handleDownload = () => {
         var content = document.getElementById("MYRESUME");
-        var pri = document.getElementById("ifmcontentstoprint").contentWindow;
+        var pri: any = document.getElementById("ifmcontentstoprint").contentWindow;
 
         pri.document.open();
         pri.document.write(content.innerHTML);

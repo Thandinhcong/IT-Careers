@@ -1,4 +1,3 @@
-import React from 'react'
 import { MdOutlineWorkOutline } from 'react-icons/md'
 
 const RecruiterEmployer = () => {

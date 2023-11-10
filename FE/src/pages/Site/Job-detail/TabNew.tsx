@@ -11,7 +11,6 @@ import {
     TEModalBody,
 } from "tw-elements-react";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail, IListOneJobs } from "../../../interfaces";
 import { VND } from "../../../components/upload";
 
 
@@ -32,7 +31,7 @@ const TabNew = () => {
     };
     const { id } = useParams();
     const { data } = useGetOneJobsQuery(id || "");
-    const listOne = data && data?.job_detail;
+    const listOne: any = data && data?.job_detail;
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>

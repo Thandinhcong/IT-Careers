@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { useChangePassCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'

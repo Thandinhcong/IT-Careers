@@ -47,7 +47,7 @@ const Guide = () => {
                     </ul>
 
                 </div>
-                <div className="w-3/4  w-full rounded-lg border border-solid border-gray-300">
+                <div className="w-3/4   rounded-lg border border-solid border-gray-300">
                     <table className="mr-10 ml-10 text-center">
                         <h2 className='text-4xl '>Viết CV ngành IT phần mềm</h2>
                         <span >Danh mục tổng hợp các bài hướng dẫn viết mẫu CV ngành IT phần mềm. Cùng 123job tham khảo nội dung CV xin việc các vị trí việc làm chi tiết của ngành IT phần mềm nhé! </span>
@@ -84,7 +84,7 @@ const Guide = () => {
                         Nút
                     </button>
                 </div>
-                <div className="w-3/4  w-full rounded-lg border border-solid border-gray-300">
+                <div className="w-3/4   rounded-lg border border-solid border-gray-300">
                     <table className="mr-10 ml-10 text-center">
                         <h2 className='text-4xl '>Viết CV ngành IT phần mềm</h2>
                         <span >Danh mục tổng hợp các bài hướng dẫn viết mẫu CV ngành IT phần mềm. Cùng 123job tham khảo nội dung CV xin việc các vị trí việc làm chi tiết của ngành IT phần mềm nhé! </span>
@@ -116,7 +116,7 @@ const Guide = () => {
             <div className=' flex justify-center max-w-screen-lg mx-auto mt-10 '>
                 <div className="w-1/4 bg-while  text-center mr-10  ">
                 </div>
-                <div className="w-3/4  w-full rounded-lg border border-solid border-gray-300">
+                <div className="w-3/4   rounded-lg border border-solid border-gray-300">
                     <table className="mr-10 ml-10 text-center">
                         <h2 className='text-4xl '>Viết CV ngành IT phần mềm</h2>
                         <span >Danh mục tổng hợp các bài hướng dẫn viết mẫu CV ngành IT phần mềm. Cùng 123job tham khảo nội dung CV xin việc các vị trí việc làm chi tiết của ngành IT phần mềm nhé! </span>
@@ -148,7 +148,7 @@ const Guide = () => {
             <div className=' flex justify-center max-w-screen-lg mx-auto mt-10 '>
                 <div className="w-1/4 bg-while  text-center mr-10  ">
                 </div>
-                <div className="w-3/4  w-full rounded-lg border border-solid border-gray-300">
+                <div className="w-3/4   rounded-lg border border-solid border-gray-300">
                     <table className="mr-10 ml-10 text-center">
                         <h2 className='text-4xl '>Viết CV ngành IT phần mềm</h2>
                         <span >Danh mục tổng hợp các bài hướng dẫn viết mẫu CV ngành IT phần mềm. Cùng 123job tham khảo nội dung CV xin việc các vị trí việc làm chi tiết của ngành IT phần mềm nhé! </span>
@@ -180,7 +180,7 @@ const Guide = () => {
             <div className=' flex justify-center max-w-screen-lg mx-auto mt-10 mb-10'>
                 <div className="w-1/4 bg-while  text-center mr-10  ">
                 </div>
-                <div className="w-3/4  w-full rounded-lg border border-solid border-gray-300">
+                <div className="w-3/4  rounded-lg border border-solid border-gray-300">
                     <table className="mr-10 ml-10 text-center">
                         <h2 className='text-4xl '>Viết CV ngành IT phần mềm</h2>
                         <span >Danh mục tổng hợp các bài hướng dẫn viết mẫu CV ngành IT phần mềm. Cùng 123job tham khảo nội dung CV xin việc các vị trí việc làm chi tiết của ngành IT phần mềm nhé! </span>

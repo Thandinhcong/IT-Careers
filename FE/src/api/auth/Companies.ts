@@ -29,7 +29,7 @@ const authCompaniesApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        signupCompanies: builder.mutation<{ message: string, status: string, errors: string }, AuthSignup>({
+        signupCompanies: builder.mutation<{ message: string, status: string, errors: any }, AuthSignup>({
             query: (account) => ({
                 url: '/company/register',
                 method: 'POST',

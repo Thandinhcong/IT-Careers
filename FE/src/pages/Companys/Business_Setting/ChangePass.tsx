@@ -1,6 +1,6 @@
 import { Notyf } from 'notyf';
 import { useRefeshPasswordMutation } from '../../../api/auth/Companies';
-import { Button, Checkbox, Form, Input, message, theme } from 'antd';
+import { Button, Form, Input } from 'antd';
 
 
 const ChangePassCompany = () => {
@@ -11,9 +11,6 @@ const ChangePassCompany = () => {
             y: 'top',
         },
     });
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
     const [refeshPassword] = useRefeshPasswordMutation();
 
     const onFinish = async (values: any) => {

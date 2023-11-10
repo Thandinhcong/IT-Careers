@@ -8,9 +8,6 @@ const Companys = () => {
             <p>Chúc bạn một ngày làm việc hiệu quả. Cám ơn bạn đã tin tưởng sử dụng IT Carees.</p>
             <Forder />
             <JobSeekers />
-
-
-
         </div>
     )
 }

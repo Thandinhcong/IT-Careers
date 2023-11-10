@@ -14,7 +14,6 @@ const cancel = () => {
 };
 const TabPostExpired = () => {
     const { data } = useGetJobPostExpiresByIdCompanyQuery();
-    console.log(data);
 
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +86,7 @@ const TabPostExpired = () => {
         }, 1000);
     };
 
-    const columns: ColumnsType<IJobPost> = [
+    const columns: ColumnsType<any> = [
         {
             title: (
                 <div className="p-0">
@@ -248,7 +247,7 @@ const TabPostExpired = () => {
         },
     ];
 
-    const jobPostData = data?.data?.map((item: IJobPost) => {
+    const jobPostData: any = data?.data?.map((item: IJobPost) => {
 
         return {
             key: item.id,
@@ -270,12 +269,11 @@ const TabPostExpired = () => {
         }
     })
 
-    // rowSelection object indicates the need for row selection
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[] | any) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
-        getCheckboxProps: (record: IJobPost) => ({
+        getCheckboxProps: (record: IJobPost | any) => ({
             name: record.title,
         }),
     };
