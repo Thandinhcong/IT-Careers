@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IExperience } from "../interfaces";
 
+export interface IExperienceAll {
+    status: string,
+    data: IExperience[]
+}
+export interface IExperienceOne {
+    status: string,
+    data: IExperience
+}
 const experienceApi = createApi({
     reducerPath: "experience",
     tagTypes: ['experience'],
@@ -20,11 +28,11 @@ const experienceApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getExperience: builder.query<IExperience[], void>({
+        getExperience: builder.query<IExperienceAll, void>({
             query: () => "/experience",
             providesTags: ['experience']
         }),
-        getExperienceById: builder.query<IExperience, number | string>({
+        getExperienceById: builder.query<any, any>({
             query: (id) => `/experience/${id}`,
             providesTags: ['experience']
         }),
@@ -36,7 +44,7 @@ const experienceApi = createApi({
             }),
             invalidatesTags: ['experience']
         }),
-        editExperience: builder.mutation<IExperience, IExperience>({
+        editExperience: builder.mutation<IExperienceOne, any>({
             query: (experience: IExperience) => ({
                 url: `/experience/${experience.id}`,
                 method: "PUT",

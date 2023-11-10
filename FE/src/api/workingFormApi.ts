@@ -2,6 +2,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { pause } from "../utils/pause";
 import { IWorkingForm } from "../interfaces";
 
+export interface IWorkingFormAll {
+    status: number,
+    workingForm: IWorkingForm[]
+}
+export interface IWorkingFormOne {
+    status: number,
+    workingForm: IWorkingForm
+}
 const workingFormApi = createApi({
     reducerPath: "workingForm",
     tagTypes: ['WorkingForm'],
@@ -23,11 +31,11 @@ const workingFormApi = createApi({
     }),
 
     endpoints: (builder) => ({
-        getWorkingForm: builder.query<IWorkingForm[], void>({
+        getWorkingForm: builder.query<IWorkingFormAll, void>({
             query: () => "/working-form",
             providesTags: ['WorkingForm']
         }),
-        getWorkingFormById: builder.query<IWorkingForm, number | string>({
+        getWorkingFormById: builder.query<IWorkingFormOne, number | string>({
             query: (id) => "/working-form/" + id,
             providesTags: ['WorkingForm']
         }),
@@ -39,7 +47,7 @@ const workingFormApi = createApi({
             }),
             invalidatesTags: ['WorkingForm']
         }),
-        updateWorkingForm: builder.mutation<IWorkingForm, IWorkingForm>({
+        updateWorkingForm: builder.mutation<IWorkingFormOne, any>({
             query: (workingForm: IWorkingForm) => ({
                 url: `/working-form/${workingForm.id}`,
                 method: "PUT",

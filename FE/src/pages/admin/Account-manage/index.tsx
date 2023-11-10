@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IAccount } from "../../../interfaces";
 import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
 

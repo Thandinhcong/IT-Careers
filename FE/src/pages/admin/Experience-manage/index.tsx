@@ -49,7 +49,7 @@ const ExperienceManage = () => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<IExperience> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',

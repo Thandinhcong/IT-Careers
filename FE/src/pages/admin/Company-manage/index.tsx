@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom"
 import { Button, Modal, Popconfirm, Result, Skeleton, Table, Tag, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
+import { CheckOutlined } from '@ant-design/icons';
 
-import { ICompanyInfor, ICompanys } from "../../../interfaces";
+import { ICompanys } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useDeletecompanysMutation, useGetcompanysQuery, useUpdateStatuscompanysMutation } from "../../../api/CompanymanagerApi";
 import React from "react";
@@ -13,7 +12,7 @@ const CompanyManage = () => {
     const [updateStatus] = useUpdateStatuscompanysMutation();
     const [deleteCompany] = useDeletecompanysMutation()
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [selectedCompany, setSelectedCompany] = React.useState<ICompanyInfor | null>(null);
+    const [selectedCompany, setSelectedCompany] = React.useState<any | null>(null);
 
 
     const handleUpdateStatus = (companyId: number | string, currentStatus: number) => {
@@ -33,7 +32,7 @@ const CompanyManage = () => {
 
     const handleModalConfirm = (newStatus: number) => {
         if (selectedCompany) {
-            const updatedJobPost = { ...selectedCompany, status: newStatus };
+            const updatedJobPost: any = { ...selectedCompany, status: newStatus };
             updateStatus(updatedJobPost);
             message.success("Cập nhật trạng thái thành công");
         }
@@ -77,7 +76,7 @@ const CompanyManage = () => {
         office,
         logo,
         link_web,
-        desc, }: ICompanys) => {
+        description, }: ICompanys) => {
         return {
             key: id,
             status,
@@ -91,10 +90,10 @@ const CompanyManage = () => {
             office,
             logo,
             link_web,
-            desc,
+            description,
         }
     })
-    const columns: ColumnsType<ICompanys> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'Tên Công Ty',
             dataIndex: 'company_name',

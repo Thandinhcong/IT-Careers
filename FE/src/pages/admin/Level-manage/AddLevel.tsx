@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { ILevel } from "../../../interfaces";
 import { pause } from "../../../utils/pause";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";

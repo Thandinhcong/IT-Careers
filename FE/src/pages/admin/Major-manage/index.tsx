@@ -12,7 +12,6 @@ const MajorManage = () => {
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
     const dataSource = data?.major?.map(({ id, major, description }: IMajors) => {
-        console.log("data", data);
 
         return {
             key: id,

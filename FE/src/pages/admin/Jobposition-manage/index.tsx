@@ -6,6 +6,7 @@ import { ColumnsType } from "antd/es/table";
 
 const JobpositionManage = () => {
     const { data, isLoading, error } = useGetjobpositionQuery();
+
     const [deleteJobposition, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
@@ -17,7 +18,7 @@ const JobpositionManage = () => {
             description,
         }
     })
-    const columns: ColumnsType<IJobposition> = [
+    const columns: ColumnsType<any> = [
         {
             key: "job_position",
             title: 'Chức Vụ',

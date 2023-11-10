@@ -1,6 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ISkill } from "../interfaces";
 
+
+export interface ISkillAll {
+    status: string,
+    data: ISkill[],
+}
+export interface ISkillOne {
+    status: string,
+    data: ISkill,
+}
 const skillApi = createApi({
     reducerPath: "skill",
     tagTypes: ['skill'],
@@ -20,11 +29,11 @@ const skillApi = createApi({
 
     }),
     endpoints: (builder) => ({
-        getSkill: builder.query<ISkill[], void>({
+        getSkill: builder.query<ISkillAll, void>({
             query: () => "/skill",
             providesTags: ['skill']
         }),
-        getSkillById: builder.query<ISkill, number | string>({
+        getSkillById: builder.query<any, any>({
             query: (id) => "/skill/" + id,
             providesTags: ['skill']
         }),
@@ -36,8 +45,8 @@ const skillApi = createApi({
             }),
             invalidatesTags: ['skill']
         }),
-        editSkill: builder.mutation<ISkill, ISkill>({
-            query: (skill: ISkill) => ({
+        editSkill: builder.mutation<any, any>({
+            query: (skill: any) => ({
                 url: `/skill/${skill.id}`,
                 method: "PUT",
                 body: skill

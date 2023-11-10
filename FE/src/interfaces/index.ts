@@ -177,6 +177,7 @@ export interface IAccount {
     password_confirmation?: string,
     re_password?: string,
     password_old?: string,
+    avatar: string
 }
 
 export interface IChangePass {
@@ -205,7 +206,7 @@ export interface ICompanys {
     image_paper: string,
     description: string,
     coin: number,
-    status: Selection,
+    status?: any,
     company_size_min: number,
     company_size_max: number
 

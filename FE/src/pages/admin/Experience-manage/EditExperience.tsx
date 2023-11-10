@@ -26,6 +26,7 @@ const EditExperience = () => {
             .unwrap()
             .then(async () => {
                 await pause(3000);
+                message.success("Cập nhật thành công");
                 navigate("/admin/experience-manage");
             });
     };

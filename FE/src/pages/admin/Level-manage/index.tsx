@@ -9,32 +9,11 @@ const cancel = () => {
     message.info('Huỷ xoá');
 };
 const LevelManage = () => {
-    const { data, isLoading, error } = useGetLevelQuery();
+    const { data, isLoading } = useGetLevelQuery();
+
     const [removeLevel, { isLoading: isRemoveLoading }] = useDeleteLevelMutation();
     if (isLoading) return <Skeleton loading />;
-    if (error) {
-        if ('status' in error) {
-            if (error.status === 404) {
-                return (
-                    <Result
-                        status="404"
-                        title="404"
-                        subTitle="Forbidden: You do not have permission to access this resource."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            } else {
-                return (
-                    <Result
-                        status="403"
-                        title="403"
-                        subTitle="Sorry, something went wrong."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            }
-        }
-    }
+
 
     const levelData = data?.data?.map(({ id, level, description }: ILevel) => {
         return {
@@ -49,7 +28,7 @@ const LevelManage = () => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<ILevel> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',

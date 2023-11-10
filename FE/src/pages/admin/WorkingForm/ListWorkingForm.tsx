@@ -8,6 +8,7 @@ import { ColumnsType } from 'antd/es/table';
 
 const ListWorkingForm = () => {
     const { data, isLoading } = useGetWorkingFormQuery();
+
     const [removeWorking, { isLoading: isRemoveLoading }] = useDeleteWorkingFormMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
@@ -21,7 +22,7 @@ const ListWorkingForm = () => {
         }
     })
 
-    const columns: ColumnsType<IWorkingForm> = [
+    const columns: ColumnsType<any> = [
         {
             key: "working_form",
             title: 'Name',

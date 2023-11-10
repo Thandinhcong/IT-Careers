@@ -2,18 +2,35 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { pause } from "../utils/pause";
 import { ICompanys } from "../interfaces";
 
+
+export interface ICompanyAll {
+    status: string,
+    data: ICompanys[]
+}
+export interface ICompanyOne {
+    status: string,
+    data: ICompanys
+}
 const companysApi = createApi({
     reducerPath: "Company",
     tagTypes: ['company'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
         fetchFn: async (...arg) => {
             await pause(1000);
             return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
         }
     }),
     endpoints: (builder) => ({
-        getcompanys: builder.query<ICompanys[], void>({
+        getcompanys: builder.query<ICompanyAll, void>({
             query: () => "/company-management",
             providesTags: ['company']
         }),
@@ -21,7 +38,7 @@ const companysApi = createApi({
             query: (id) => "/company-management/" + id,
             providesTags: ['company']
         }),
-        updateStatuscompanys: builder.mutation<ICompanys, ICompanys>({
+        updateStatuscompanys: builder.mutation<ICompanyOne, any>({
             query: (companys: ICompanys) => ({
                 url: `/company-management/${companys.id}`,
                 method: "PUT",
