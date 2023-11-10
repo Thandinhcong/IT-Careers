@@ -4,9 +4,9 @@ import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const JobCreate = () => {
+const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
 
     const { data: Infor } = useGetInforQuery();
@@ -413,7 +413,7 @@ const JobCreate = () => {
         </div >
 
     )
-}
+});
 
 
 export default JobCreate

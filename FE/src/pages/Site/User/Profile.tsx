@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Dropdown, Space } from 'antd';
 import { AiOutlineDown, AiOutlinePlus } from 'react-icons/ai';
 import { useGetInfoUserQuery } from '../../../api/auths';
+import React from 'react';
 
 
 const items: MenuProps['items'] = [
@@ -51,7 +52,7 @@ const items: MenuProps['items'] = [
 ];
 
 
-const Profile = () => {
+const Profile = React.memo(() => {
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
@@ -160,6 +161,6 @@ const Profile = () => {
             </div>
         </div>
     )
-}
+});
 
 export default Profile

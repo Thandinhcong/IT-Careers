@@ -62,7 +62,7 @@ const CompanySetting = () => {
                     editcompany({ ...values })
                         .unwrap()
                         .then(() => {
-                            navigate("");
+                            window.location.reload();
                             message.success('Cập nhật thành công');
                         })
                         .catch((error) => {

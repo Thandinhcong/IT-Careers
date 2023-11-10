@@ -3,18 +3,20 @@ import { useGetJobApplyQuery } from '../../../api/jobPostApply'
 import { CiLocationOn, CiTimer } from 'react-icons/ci';
 import { MdOutlineAttachMoney } from 'react-icons/md';
 import { VND } from '../../../components/upload';
+import React from 'react';
 
-const JobApply = () => {
+const JobApply = React.memo(() => {
     const { data } = useGetJobApplyQuery();
     const listJob = data?.job_list;
+
     return (
         <div>
             {listJob ? (
-                <div className='w-full '>
+                <div className='w-[800px] rounded'>
                     <h2 className='text-2xl font-semibold'>Việc làm đã ứng tuyển</h2>
                     {listJob?.map((item: any) => {
                         return (
-                            <div key={item?.id} className='mt-5 flex gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
+                            <div key={item?.id} className='mt-5 grid grid-cols-[30%,70%] items-center gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
                                 <img src={item?.logo} alt="Anh logo" width={100} />
                                 <div>
                                     <p className='text-xl font-semibold'>{item?.title}</p>
@@ -51,6 +53,6 @@ const JobApply = () => {
             )}
         </div>
     )
-}
+});
 
 export default JobApply

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePhone, AiOutlineMail, AiOutlineArrowLeft } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
@@ -7,7 +7,7 @@ import { Form, Radio, Modal, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 
-const CvCandodateDetail = () => {
+const CvCandodateDetail = React.memo(() => {
 
     const { id } = useParams();
     const { data } = useGetCandidateDetailQuery(id || "");
@@ -210,6 +210,6 @@ const CvCandodateDetail = () => {
         </div>
 
     )
-}
+});
 
 export default CvCandodateDetail

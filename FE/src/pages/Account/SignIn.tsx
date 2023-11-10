@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
 import { SlSocialFacebook } from 'react-icons/sl';
@@ -11,7 +11,7 @@ import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 
 
-const Login = () => {
+const Login = React.memo(() => {
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -119,6 +119,6 @@ const Login = () => {
             </div>
         </section>
     )
-}
+})
 
 export default Login

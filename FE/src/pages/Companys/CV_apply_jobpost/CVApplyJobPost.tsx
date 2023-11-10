@@ -1,6 +1,6 @@
 import { Form, Radio, Modal, message } from "antd"
 import { AiOutlineFilter, AiOutlineReload } from "react-icons/ai"
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
 import { useAssseCandidateMutation, useGetCvApllyByIdJobPostIdQuery } from "../../../api/companies/cvApply";
@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { ICvApply } from "../../../interfaces";
 import TextArea from "antd/es/input/TextArea";
 
-const CVApplyJobPost = () => {
+const CVApplyJobPost = React.memo(() => {
     const { id } = useParams();
     const { data } = useGetCvApllyByIdJobPostIdQuery(id || "");
     const [form] = Form.useForm();
@@ -251,6 +251,6 @@ const CVApplyJobPost = () => {
 
         </div >
     )
-}
+});
 
 export default CVApplyJobPost

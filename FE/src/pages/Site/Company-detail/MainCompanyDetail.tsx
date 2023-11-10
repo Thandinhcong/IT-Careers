@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     TETabs,
     TETabsContent,
@@ -29,7 +29,9 @@ const MainCompanyDetail = () => {
         { tabName: 'Việc làm', active: 'tab2', component: <TabAffair /> },
         { tabName: 'Đánh giá', active: 'tab3', component: <TabsFeedback /> },
     ];
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <div className="px-8">
             <div className="my-4">

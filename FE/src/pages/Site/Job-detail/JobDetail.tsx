@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
@@ -31,8 +31,9 @@ import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
+import { Skeleton } from "antd";
 
-const JobDetail = () => {
+const JobDetail = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -60,7 +61,7 @@ const JobDetail = () => {
 
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
-    const { data } = useGetOneJobsQuery(id || "");
+    const { data, isLoading } = useGetOneJobsQuery(id || "");
     const listOne: any = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
@@ -77,7 +78,7 @@ const JobDetail = () => {
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin),
     });
-    const [setUser] = useLocalStorage("user", null);
+    const [users, setUser] = useLocalStorage("user", null);
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {
@@ -126,10 +127,10 @@ const JobDetail = () => {
             }
         }
     };
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+    if (isLoading) return <Skeleton loading />
     return (
         <div>
             <div className="max-w-screen-xl mx-auto">
@@ -409,6 +410,6 @@ const JobDetail = () => {
             </TEModal>
         </div>
     );
-};
+});
 
 export default JobDetail;

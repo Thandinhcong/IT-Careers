@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
 import { Notyf } from "notyf";
 
-const SignUp = () => {
+const SignUp = React.memo(() => {
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -133,6 +133,6 @@ const SignUp = () => {
             </div >
         </section >
     )
-}
+})
 
 export default SignUp

@@ -2,17 +2,19 @@ import { BsSearch } from 'react-icons/bs';
 import TextLoop from 'react-text-loop';
 import ContentCompany from './Content';
 import { useSearchCompaniesQuery } from '../../../api/companyApi';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Skeleton } from 'antd';
 
-const Company = () => {
+const Company = React.memo(() => {
     const [searchResultsVisible, setSearchResultsVisible] = useState(false);
     const textList = [
         "Review có tâm,chính xác nhất",
         "Tìm nơi làm việc tuyệt vời",
         "Review lương bổng, HR,sếp và công việc"
     ];
-    const { data } = useSearchCompaniesQuery();
+    const { data, isLoading } = useSearchCompaniesQuery();
+
     const listCompanys = data?.list_company;
     const [records, setRecords] = useState([])
     const Filter = (e: any) => {
@@ -27,7 +29,10 @@ const Company = () => {
         // Kiểm tra xem từ khóa tìm kiếm có rỗng hay không và cập nhật trạng thái hiển thị kết quả
         setSearchResultsVisible(keyword.trim() !== '');
     };
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+    if (isLoading) return <Skeleton />
     return (
         <div>
             <div className='max-w-screen-xl mx-auto px-8 '>
@@ -265,6 +270,6 @@ const Company = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Company

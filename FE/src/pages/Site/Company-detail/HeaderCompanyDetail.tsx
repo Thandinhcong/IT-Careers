@@ -1,13 +1,15 @@
 import { AiFillStar, AiOutlineCreditCard, AiOutlineShareAlt } from "react-icons/ai"
 import { Link, useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
+import React from "react";
+import { Skeleton } from "antd";
 
-const HeaderCompanyDetail = () => {
+const HeaderCompanyDetail = React.memo(() => {
     const { id } = useParams();
-    const { data } = useGetOneCompanysQuery(id || '');
+    const { data, isLoading } = useGetOneCompanysQuery(id || '');
 
     const listCompanyDetail: any = data && data?.company;
-
+    if (isLoading) return <Skeleton loading />
     return (
         <div className="">
             <div className="relative">
@@ -48,6 +50,6 @@ const HeaderCompanyDetail = () => {
             </div>
         </div>
     )
-}
+});
 
 export default HeaderCompanyDetail

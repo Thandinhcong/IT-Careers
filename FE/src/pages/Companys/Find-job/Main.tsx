@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
 import {
     TERipple,
@@ -11,7 +11,7 @@ import {
 } from "tw-elements-react";
 import { useGetFindCandidateQuery } from "../../../api/companies/findJob";
 
-const MainFindJob = () => {
+const MainFindJob = React.memo(() => {
     const [showModal, setShowModal] = useState(false);
     const { data } = useGetFindCandidateQuery();
     console.log(data);
@@ -461,6 +461,6 @@ const MainFindJob = () => {
             </div>
         </div>
     )
-}
+});
 
 export default MainFindJob

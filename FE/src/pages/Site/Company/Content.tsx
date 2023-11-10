@@ -3,7 +3,8 @@ import Aside from './Aside'
 import { Link } from 'react-router-dom'
 import { useGetAllCompanysQuery } from '../../../api/companyApi';
 import { ICompanys } from '../../../interfaces';
-const ContentCompany = () => {
+import React from 'react';
+const ContentCompany = React.memo(() => {
     const { data } = useGetAllCompanysQuery();
     const listCompanys = data?.list_company;
 
@@ -65,6 +66,6 @@ const ContentCompany = () => {
             </div>
         </div>
     )
-}
+})
 
 export default ContentCompany

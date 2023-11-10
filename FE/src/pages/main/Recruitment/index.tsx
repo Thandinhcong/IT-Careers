@@ -3,11 +3,13 @@ import { MdFavoriteBorder, MdRoom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
+import { Skeleton } from 'antd'
+import React from 'react'
 
-const Recruitment = () => {
-    const { data } = useGetAllJobsQuery();
+const Recruitment = React.memo(() => {
+    const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
-
+    if (isLoading) return <Skeleton />
     return (
         <div>
             <div className='mb-10   lg:p-1'>
@@ -27,14 +29,14 @@ const Recruitment = () => {
                             return null;
                         } else {
                             return (
-                                <Link to={`/job-detail/${item?.title}/${item?.id}`} className='shadow-lg p-2' key={item?.id}>
+                                <Link to={`/job-detail/${item?.title}/${item?.id}`} className='shadow-lg p-2 rounded' key={item?.id}>
                                     <div className='flex gap-2'>
                                         <img src={item?.logo} className='border rounded-md p-2' width={70} />
                                         <div>
                                             <Link to="/">
-                                                <p className='text-slate-500 font-semibold text-base'>{item?.title}</p>
+                                                <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
                                             </Link>
-                                            <p>{item?.company_name}</p>
+                                            <p className='text-lg'>{item?.company_name}</p>
                                         </div>
                                     </div>
                                     <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
@@ -53,6 +55,6 @@ const Recruitment = () => {
             </div>
         </div>
     )
-}
+});
 
 export default Recruitment

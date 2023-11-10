@@ -1,7 +1,7 @@
 import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
 import { Link, Outlet } from 'react-router-dom';
@@ -31,10 +31,14 @@ const items: MenuItem[] = [
     getItem('Đổi mật khẩu', '/account/change_pass', <AiOutlineLock />),
     getItem('Chuyển đổi tài khoản NTD', '', <LuActivitySquare />),
 ];
+
 const Account = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <Content style={{ padding: '0 20px' }} className='max-w-screen-xl'>
             <Layout style={{ background: colorBgContainer }}>
