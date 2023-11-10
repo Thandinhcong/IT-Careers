@@ -5,7 +5,7 @@ const skillApi = createApi({
     reducerPath: "skill",
     tagTypes: ['skill'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
         fetchFn: async (...arg) => {
             return fetch(...arg)
         },

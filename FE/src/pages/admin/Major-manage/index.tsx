@@ -12,13 +12,15 @@ const MajorManage = () => {
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
     const dataSource = data?.major?.map(({ id, major, description }: IMajors) => {
+        console.log("data", data);
+
         return {
             key: id,
             major,
             description,
         }
     })
-    const columns: ColumnsType<IMajors> = [
+    const columns: ColumnsType<any> = [
         {
             key: "major",
             title: 'Chức Vụ',
@@ -70,7 +72,7 @@ const MajorManage = () => {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={dataSource} />; {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataSource} />
 
         </div>
     )

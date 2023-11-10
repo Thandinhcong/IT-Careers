@@ -6,7 +6,15 @@ const jobpositionApi = createApi({
     reducerPath: "JobPosition",
     tagTypes: ['Jobposition'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api/admin",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
     }),
     endpoints: (builder) => ({
         getjobposition: builder.query<IJobposition[], void>({

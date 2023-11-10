@@ -69,7 +69,7 @@ const JobpositionManage = () => {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={dataSource} />; {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataSource} />
 
         </div>
     )

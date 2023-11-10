@@ -14,7 +14,6 @@ const ListWorkingForm = () => {
 
 
     const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
-        console.log(data);
         return {
             key: id,
             working_form,

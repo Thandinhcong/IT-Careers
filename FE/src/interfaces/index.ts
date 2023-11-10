@@ -15,7 +15,7 @@ export interface IPackages {
 
 }
 export interface IMajors {
-    id?: number,
+    id?: number | string,
     major: string,
     description?: string,
 }
