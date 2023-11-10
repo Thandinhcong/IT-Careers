@@ -6,6 +6,7 @@ import { IMajors } from "../../../interfaces";
 
 const MajorManage = () => {
     const { data, isLoading, error } = useGetMajorQuery();
+
     const [deleteMajor, { isLoading: isRemoveLoading }] = useDeleteMajorMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />

@@ -5,6 +5,7 @@ import { useEditPackageMutation, useGetPackageByIdQuery } from "../../../api/pac
 import { IPackages } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect } from "react";
+import { Option } from "antd/es/mentions";
 
 
 const EditPackage = () => {
@@ -14,6 +15,7 @@ const EditPackage = () => {
 
     const { data: packageData } = useGetPackageByIdQuery(id || "");
     const [form] = Form.useForm();
+
     useEffect(() => {
         form.setFieldsValue({
             title: packageData?.package?.title,
@@ -22,12 +24,14 @@ const EditPackage = () => {
             status: packageData?.package?.status,
         });
     }, [packageData]);
+    console.log(status);
+
     if (isLoading) return <Skeleton />
     const onFinish = (values: IPackages) => {
         editPackage({ ...values, id: Number(id) })
             .unwrap()
             .then(() => {
-                message.success(`Thêm thành công`);
+                message.success(`Cập nhật thành công`);
                 navigate("/admin/package-manage");
             });
     };
@@ -84,6 +88,15 @@ const EditPackage = () => {
                     <Input />
                 </Form.Item>
 
+                <Form.Item
+                    name="status"
+                    label="Trạng thái gói nạp"
+                >
+                    <Select placeholder="Kích hoạt" value={0} >
+                        <Option value="0">Chưa kích hoạt</Option>
+                        <Option value="1">Kích hoạt</Option>
+                    </Select>
+                </Form.Item>
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">
                         {isLoading ? (
