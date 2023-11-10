@@ -13,7 +13,7 @@ const PostManage = () => {
 
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [selectedJobPost, setSelectedJobPost] = React.useState<IJobPost | null>(null);
+    const [selectedJobPost, setSelectedJobPost] = React.useState<any | null>(null);
     const [selectedPostId, setSelectedPostId] = useState<string | number | null>(null); //Lưu id bài đăng đã chọn
 
     const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
@@ -70,7 +70,7 @@ const PostManage = () => {
             }
         }
     }
-    const dataJobPost = data?.jobPost?.map(({ id, title, company_name, start_date, end_date, require, gender, interest, status }: IJobPost) => {
+    const dataJobPost: any = data?.jobPost?.map(({ id, title, company_name, start_date, end_date, require, gender, interest, status }: IJobPost) => {
         return {
             key: id,
             title,

@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IJobPost, IListOneJobs } from "../interfaces";
+import { IJobPost } from "../interfaces";
+export interface IJobPosts {
+    status?: string,
+    jobPost: IJobPost[]
+}
 const JobPostApi = createApi({
     reducerPath: "job-post",
     tagTypes: ['job-post'],
@@ -16,11 +20,11 @@ const JobPostApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getJobPost: builder.query<IJobPost[], void>({
+        getJobPost: builder.query<IJobPosts | any, void>({
             query: () => "/job-post",
             providesTags: ['job-post']
         }),
-        getJobPostById: builder.query<IListOneJobs, number | string>({
+        getJobPostById: builder.query<any, number | string>({
             query: (id) => `/job_detail/${id}`,
             providesTags: ['job-post']
         }),

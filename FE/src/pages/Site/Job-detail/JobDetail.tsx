@@ -50,13 +50,13 @@ const JobDetail = () => {
     };
     const [showModal2, setShowModa2l] = useState(false);
 
-    const { id } = useParams();
+    const { id }: any = useParams()
 
     //lấy thông tin xem đã ứng tuyển chưa
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
 
-    const idJob = parseInt(id, 10);
+    const idJob: any = parseInt(id, 10);
 
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
@@ -66,7 +66,7 @@ const JobDetail = () => {
     const { data: infoUser } = useGetInfoUserQuery();
 
     const user = infoUser?.candidate;
-    const idUser = user?.id;
+    const idUser: any = user?.id;
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({

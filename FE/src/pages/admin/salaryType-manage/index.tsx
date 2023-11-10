@@ -15,7 +15,6 @@ const SalaryTypeManage = () => {
 
     if (isLoading) return <Skeleton loading />;
     const salaryTypeData = data?.salaryType?.map(({ id, salary_type }: ISalaryType) => {
-        console.log(data);
         return {
             key: id,
             salary_type: new Intl.NumberFormat('en-US').format(salary_type)

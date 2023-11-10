@@ -31,7 +31,7 @@ const HeaderCompany = () => {
             message.success("đăng xuất");
             navigate("/business/signin");
         } catch (error) {
-            notyf.error('Đăng xuất không thành công: ', error);
+            notyf.error('Đăng xuất không thành công: ');
         }
     };
     const CV = [

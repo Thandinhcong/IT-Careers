@@ -40,7 +40,7 @@ const CandidateInformation = () => {
     }, [candidateData]);
 
     const onFinish = (values: IAccount) => {
-        const image = values.image && values.image.fileList[0]?.originFileObj;
+        const image: any = values.image && values.image.fileList[0]?.originFileObj;
         if (image) {
             UploadImage({
                 file: image,
@@ -56,13 +56,11 @@ const CandidateInformation = () => {
                             navigate("");
                             notyf.success("Cập nhật thành công!");
                         })
-                        .catch((error: any) => {
-                            notyf.error('Lỗi khi cập nhật thông tin:', error);
-                        });
+                    // .catch((error: any ) => {
+                    //     notyf.error('Lỗi khi cập nhật thông tin:', error);
+                    // });
                 })
-                .catch((error: any) => {
-                    notyf.error('Lỗi khi tải ảnh lên:', error);
-                });
+                .catch();
         }
     };
 
@@ -138,7 +136,7 @@ const CandidateInformation = () => {
                         ]}
                     >
                         <Upload
-                            onChange={(e) => onChangeFile(e, 'image')} // Truyền tên trường 'logo'
+                            onChange={(e: any) => onChangeFile(e, 'image')} // Truyền tên trường 'logo'
                             fileList={imageUrl ? [{ originFileObj: imageUrl }] : []}>
                             <Button icon={<IoCloudUploadOutline />}>Click to Upload</Button>
                         </Upload>

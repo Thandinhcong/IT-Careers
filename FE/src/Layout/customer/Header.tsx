@@ -29,7 +29,7 @@ const Header = () => {
   const { data: candidateData } = useGetCandidatesQuery();
 
   const [useLogout] = useLogOutMutation();
-  const [isLogin, setIsLogin] = useState(() => {
+  const [isLogin] = useState(() => {
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   });
@@ -228,7 +228,7 @@ const Header = () => {
                 >
                   <Popover.Panel className="absolute -right-1 top-full z-10 mt-3 w-screen max-w-[250px] overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5">
                     <div className="p-2">
-                      {profile.map((item) => (
+                      {profile.map((item: any) => (
                         <div
                           onClick={item.onclick}
                           key={item.name}

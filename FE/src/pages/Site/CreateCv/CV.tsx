@@ -252,7 +252,7 @@ const Cv = () => {
     };
 
     const handleDownload = () => {
-        var content = document.getElementById("MYRESUME");
+        var content: any = document.getElementById("MYRESUME");
         var pri: any = document.getElementById("ifmcontentstoprint").contentWindow;
 
         pri.document.open();

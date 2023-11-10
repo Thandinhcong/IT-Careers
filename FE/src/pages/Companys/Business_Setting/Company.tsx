@@ -148,7 +148,7 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Upload
-                                    onChange={(e) => onChangeFile(e, 'logo')} // Truyền tên trường 'logo'
+                                    onChange={(e: any) => onChangeFile(e, 'logo')} // Truyền tên trường 'logo'
                                     fileList={logoUrl ? [{ originFileObj: logoUrl }] : []}
                                 >
                                     <Button>Tải lên</Button>
@@ -268,7 +268,7 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Upload
-                                    onChange={(e) => onChangeFile(e, 'image_paper')} // Truyền tên trường 'image_paper'
+                                    onChange={(e: any) => onChangeFile(e, 'image_paper')} // Truyền tên trường 'image_paper'
                                     fileList={licenseUrl ? [{ originFileObj: licenseUrl }] : []}
                                 >
                                     <Button>Tải lên</Button>

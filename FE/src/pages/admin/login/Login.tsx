@@ -19,7 +19,7 @@ const LoginAdmin = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormLoginAdmin>({
         resolver: yupResolver(schemaLoginAdmin)
     })
-    const [admin, setAdmin] = useLocalStorage("admin", null);
+    const [setAdmin] = useLocalStorage("admin", null);
     const [LoginAdmin] = useAdminLoginMutation();
     const onHandleSubmit = async (data: FormLoginAdmin) => {
         try {
