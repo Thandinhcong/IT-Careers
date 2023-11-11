@@ -32,7 +32,6 @@ const SignInCompanies = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
 
                 return notyf.error(error.data.message)
             });

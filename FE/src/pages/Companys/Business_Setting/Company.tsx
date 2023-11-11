@@ -7,13 +7,13 @@ import { ICompanyInfor } from '../../../interfaces'
 import { message } from 'antd'
 import { useEditCompanyInfoMutation, useGetInforQuery } from '../../../api/CompanyInfoApi'
 import { UploadImage } from '../../../components/upload';
+import TextArea from 'antd/es/input/TextArea';
 
 
 const CompanySetting = () => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
     const { data: companyData } = useGetInforQuery();
-    console.log(companyData);
 
     const [form] = Form.useForm();
     const [logoUrl, setLogoUrl] = useState<string | null>(companyData?.company?.logo || null);
@@ -62,8 +62,8 @@ const CompanySetting = () => {
                     editcompany({ ...values })
                         .unwrap()
                         .then(() => {
-                            window.location.reload();
                             message.success('Cập nhật thành công');
+                            window.location.reload();
                         })
                         .catch((error) => {
                             console.error('Lỗi khi cập nhật thông tin công ty:', error);
@@ -275,9 +275,9 @@ const CompanySetting = () => {
                                 </Upload>
                             </Form.Item>
                             {licenseUrl ? (
-                                <img src={licenseUrl} alt="Uploaded Image" className='w-full' />
+                                <img src={licenseUrl} alt="Uploaded Image" width={100} className='w-full' />
                             ) : (
-                                <img src={companyData?.company?.image_paper} alt="Initial Image" className='w-full' />
+                                <img src={companyData?.company?.image_paper} alt="Initial Image" width={100} className='w-full' />
                             )}
                             <h2 className='font-bold flex items-center'>Quy mô tối thiểu</h2>
                             <Form.Item<ICompanyInfor>
@@ -317,7 +317,7 @@ const CompanySetting = () => {
                                     { required: true, message: 'Trường này không được bỏ trống !' },
                                 ]}
                             >
-                                <Input />
+                                <TextArea />
                             </Form.Item>
 
                             <Form.Item labelAlign="left">
