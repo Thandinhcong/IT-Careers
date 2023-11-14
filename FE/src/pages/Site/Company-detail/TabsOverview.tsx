@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './style.css'
@@ -10,12 +10,12 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { ICompanys } from '../../../interfaces';
+import { Skeleton } from 'antd';
 
-const TabsOverview = ({ onTabChange }: any) => {
+const TabsOverview = React.memo(({ onTabChange }: any) => {
     const { id } = useParams();
-    const { data } = useGetOneCompanysQuery(id || '');
-    const listCompanyDetail: ICompanys | undefined = data && data?.company;
+    const { data, isLoading } = useGetOneCompanysQuery(id || '');
+    const listCompanyDetail: any = data && data?.company;
 
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
@@ -24,6 +24,8 @@ const TabsOverview = ({ onTabChange }: any) => {
     const handleTabChange = () => {
         onTabChange("tab2");
     };
+    if (isLoading) return <Skeleton loading />
+
     const post = [
         { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract1', location: 'Tây Hồ Hà Nội1', salary: '8-15', date: '4 tuần trước' },
         { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract2', location: 'Tây Hồ Hà Nội2', salary: '8-15', date: '3 tuần trước' },
@@ -120,7 +122,7 @@ const TabsOverview = ({ onTabChange }: any) => {
         </div>
 
     )
-}
+});
 
 export default TabsOverview
 

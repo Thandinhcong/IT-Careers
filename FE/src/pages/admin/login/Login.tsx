@@ -1,15 +1,21 @@
-import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormLoginAdmin, schemaLoginAdmin } from '../../../schemas';
 import { useAdminLoginMutation } from '../../../api/admin/loginAdminApi';
 import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { Notyf } from 'notyf';
 
 
 const LoginAdmin = () => {
     const navigate = useNavigate();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const { register, handleSubmit, formState: { errors } } = useForm<FormLoginAdmin>({
         resolver: yupResolver(schemaLoginAdmin)
     })
@@ -22,26 +28,14 @@ const LoginAdmin = () => {
                 accessToken: results?.access_token,
                 admin: results?.admin
             })
-            Swal.fire({
-                position: 'top',
-                icon: 'success',
-                title: 'Đăng nhập thành công',
-                timer: 1500
-            })
-
+            notyf.success("Đăng nhập admin thành công!");
             setTimeout(() => {
-                alert("Đăng nhập admin thành công");
                 navigate("/admin")
             }, 1000)
 
-        } catch (error) {
-            Swal.fire({
-                position: 'top',
-                icon: 'error',
-                title: 'Opps',
-                text: "Thong tin taì khoản hoặc mật khẩu không chính xác!",
-                timer: 1500
-            })
+        } catch (error: any) {
+            notyf.error(error?.message);
+
         }
     }
 

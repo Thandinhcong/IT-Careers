@@ -63,7 +63,7 @@ const EditMajors = () => {
                     name="major"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^\S{3,}$/, message: "Tên chức vụ phải trên 3 kí tự" }
+                        { min: 2, message: "Tối thiểu 2 ký tự" }
                     ]}
                 >
                     <Input />

@@ -1,21 +1,29 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IPackages } from "../interfaces";
+import { IOnePackage, IPackage, IPackages } from "../interfaces";
 
 const packageApi = createApi({
     reducerPath: "package",
     tagTypes: ['package'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
         fetchFn: async (...arg) => {
             return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
         }
     }),
     endpoints: (builder) => ({
-        getPackage: builder.query<IPackages[], void>({
+        getPackage: builder.query<IPackage, void>({
             query: () => "/package",
             providesTags: ['package']
         }),
-        getPackageById: builder.query<IPackages, number | string>({
+        getPackageById: builder.query<IOnePackage, number | string>({
             query: (id) => "/package/" + id,
             providesTags: ['package']
         }),
@@ -27,7 +35,7 @@ const packageApi = createApi({
             }),
             invalidatesTags: ['package']
         }),
-        editPackage: builder.mutation<IPackages, IPackages>({
+        editPackage: builder.mutation<IOnePackage, IPackages>({
             query: (packages: IPackages) => ({
                 url: `/package/${packages.id}`,
                 method: "PUT",

@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
-import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
 import { Notyf } from "notyf";
 
-const SignUp = () => {
+const SignUp = React.memo(() => {
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -16,10 +15,9 @@ const SignUp = () => {
             y: 'top',
         },
     });
-    const { data } = useAdminLoginMutation();
-    const loginGoogle = () => {
-        window.location.href = "http://127.0.0.1:8000/api/auth/google"
-    }
+    // const loginGoogle = () => {
+    //     window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    // }
     const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })
@@ -84,7 +82,7 @@ const SignUp = () => {
                                 <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Số điện thoại</label>
                                 <input
                                     {...register("phone")}
-                                    type="number" name="phone" id="phone" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Phone Number" />
+                                    type="text" name="phone" id="phone" className="bg-gray-50 outline-none border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Phone Number" />
                                 <div className="text-red-500 my-2">
                                     {errors.phone && errors.phone.message}
                                 </div>
@@ -135,6 +133,6 @@ const SignUp = () => {
             </div >
         </section >
     )
-}
+})
 
 export default SignUp

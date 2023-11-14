@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IAccount } from "../interfaces";
 
+
+export interface IAccountAll {
+    status?: string,
+    data: IAccount[]
+}
 const AccountApi = createApi({
     reducerPath: "candidate_information",
     tagTypes: ['candidates'],
@@ -17,7 +22,7 @@ const AccountApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getCandidates: builder.query<IAccount, void>({
+        getCandidates: builder.query<any, void>({
             query: () => "/candidate_information",
             providesTags: ['candidates']
         }),

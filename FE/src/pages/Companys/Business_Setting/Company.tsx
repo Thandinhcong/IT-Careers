@@ -1,5 +1,4 @@
-// import { Button, Form, Input, Layout, Upload, theme } from 'antd'
-import { Button, DatePicker, Form, Input, Layout, Upload, theme } from 'antd'
+import { Button, Form, Input, Layout, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -45,7 +44,7 @@ const CompanySetting = () => {
         });
     }, [companyData]);
 
-    const onFinish = (values: ICompanyInfor) => {
+    const onFinish = (values: ICompanyInfor | any) => {
         // Truy cập vào mảng fileList trong trường logo và lấy originFileObj
         const logo = values.logo && values.logo.fileList[0]?.originFileObj;
         const imagePaper = values.image_paper && values.image_paper.fileList[0]?.originFileObj;
@@ -63,8 +62,8 @@ const CompanySetting = () => {
                     editcompany({ ...values })
                         .unwrap()
                         .then(() => {
-                            navigate("");
                             message.success('Cập nhật thành công');
+                            window.location.reload();
                         })
                         .catch((error) => {
                             console.error('Lỗi khi cập nhật thông tin công ty:', error);
@@ -149,7 +148,7 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Upload
-                                    onChange={(e) => onChangeFile(e, 'logo')} // Truyền tên trường 'logo'
+                                    onChange={(e: any) => onChangeFile(e, 'logo')} // Truyền tên trường 'logo'
                                     fileList={logoUrl ? [{ originFileObj: logoUrl }] : []}
                                 >
                                     <Button>Tải lên</Button>
@@ -196,7 +195,6 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Input type='date' />
-                                <DatePicker />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Văn Phòng</h2>
                             <Form.Item<ICompanyInfor>
@@ -270,16 +268,16 @@ const CompanySetting = () => {
                                 ]}
                             >
                                 <Upload
-                                    onChange={(e) => onChangeFile(e, 'image_paper')} // Truyền tên trường 'image_paper'
+                                    onChange={(e: any) => onChangeFile(e, 'image_paper')} // Truyền tên trường 'image_paper'
                                     fileList={licenseUrl ? [{ originFileObj: licenseUrl }] : []}
                                 >
                                     <Button>Tải lên</Button>
                                 </Upload>
                             </Form.Item>
                             {licenseUrl ? (
-                                <img src={licenseUrl} alt="Uploaded Image" className='w-full' />
+                                <img src={licenseUrl} alt="Uploaded Image" width={100} className='w-full' />
                             ) : (
-                                <img src={companyData?.company?.image_paper} alt="Initial Image" className='w-full' />
+                                <img src={companyData?.company?.image_paper} alt="Initial Image" width={100} className='w-full' />
                             )}
                             <h2 className='font-bold flex items-center'>Quy mô tối thiểu</h2>
                             <Form.Item<ICompanyInfor>
@@ -319,7 +317,7 @@ const CompanySetting = () => {
                                     { required: true, message: 'Trường này không được bỏ trống !' },
                                 ]}
                             >
-                                <Input />
+                                <TextArea />
                             </Form.Item>
 
                             <Form.Item labelAlign="left">

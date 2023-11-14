@@ -9,12 +9,19 @@ import { PiSignOutLight } from 'react-icons/pi';
 import { useGetInforQuery } from '../../api/companies/jobPostCompany';
 import { useLogOutCompaniesMutation } from '../../api/auth/Companies';
 import { message } from 'antd';
+import { Notyf } from 'notyf';
 
 const HeaderCompany = () => {
 
     const { data: Infor } = useGetInforQuery();
-    console.log(Infor?.company?.logo);
-
+    const listIcon = Infor?.company?.logo;
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const navigate = useNavigate();
     const [logout] = useLogOutCompaniesMutation()
     const handleLogout = async () => {
@@ -24,7 +31,7 @@ const HeaderCompany = () => {
             message.success("đăng xuất");
             navigate("/business/signin");
         } catch (error) {
-            console.error('Đăng xuất không thành công: ', error);
+            notyf.error('Đăng xuất không thành công: ');
         }
     };
     const CV = [
@@ -70,7 +77,11 @@ const HeaderCompany = () => {
                     <Popover.Button
                         className="flex outline-none items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                     >
-                        <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
+                        {listIcon ? (
+                            <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
+                        ) : (
+                            <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                        )}
                     </Popover.Button>
 
                     <Transition
@@ -95,10 +106,10 @@ const HeaderCompany = () => {
                                             {item.icon}
                                         </div>
                                         <div className="flex-auto">
-                                            <a href={item.href} className="block font-semibold text-gray-900">
+                                            <Link to={item.href} className="block font-semibold text-gray-900">
                                                 {item.name}
                                                 <span className="absolute inset-0" />
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 ))}

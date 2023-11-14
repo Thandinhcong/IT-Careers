@@ -1,6 +1,6 @@
 import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
-import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input } from 'antd';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
@@ -18,8 +18,7 @@ const isExpired = (endDate: string) => {
     return currentDate.isAfter(end);
 };
 const TabMain = () => {
-    const { data } = useGetJobPostByIdCompanyQuery();
-
+    const { data, isLoading } = useGetJobPostByIdCompanyQuery();
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -76,8 +75,8 @@ const TabMain = () => {
                 // Đóng Modal
                 setIsModalOpen(false);
             })
-            .catch((errorInfo) => {
-                console.log('Xác minh lỗi:', errorInfo);
+            .catch(() => {
+
             });
     };
 
@@ -85,9 +84,7 @@ const TabMain = () => {
         setIsModalOpen(false);
     };
 
-    const confirm = (id: number | string) => { //dừng tuyển
-        console.log(id);
-
+    const confirm = (id: number | string) => {
         stopJobPost(id);
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');
@@ -250,7 +247,7 @@ const TabMain = () => {
             }
         },
     ];
-
+    if (isLoading) return <Skeleton loading />;
     const jobPostData = data?.Job_position?.map((item: IJobPost) => {
 
         return {

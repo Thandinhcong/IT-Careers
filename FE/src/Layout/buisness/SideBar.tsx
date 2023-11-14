@@ -16,13 +16,18 @@ import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 
 const SideBarCompany = () => {
     const { data: Infor } = useGetInforQuery();
+    const listIcon = Infor?.company?.logo;
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
     return (
         <div className='p-2 border font-medium text-[#526484] text-sm sticky top-0 h-screen overflow-y-auto'>
             <div className='flex items-center gap-2'>
-                <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
+                {listIcon ? (
+                    <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
+                ) : (
+                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                )}
                 <p>{Infor?.company?.company_name}</p>
             </div>
             <div className='flex items-center gap-3 mt-10 ml-4'>

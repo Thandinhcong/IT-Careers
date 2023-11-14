@@ -1,6 +1,5 @@
 import { BsSearch } from 'react-icons/bs'
 import { MdRoom } from 'react-icons/md'
-// import ContentCompany from '../Company/Content'
 
 const SearchJobs = () => {
     return (

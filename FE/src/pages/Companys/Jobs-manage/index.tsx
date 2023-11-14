@@ -5,8 +5,9 @@ import TabPostPass from './TabPostPass';
 import TabPostFail from './TabPostFail';
 import TabPostExpired from './TabPostExpired';
 import TabPostStop from './TabPostStop';
+import React from 'react';
 
-const JobsManage = () => {
+const JobsManage = React.memo(() => {
     return (
         <div className='bg-gray-100 py-8 px-5'>
             <div className='max-w-[1100px] mx-auto bg-white p-4'>
@@ -47,6 +48,6 @@ const JobsManage = () => {
             </div>
         </div>
     )
-}
+});
 
 export default JobsManage

@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom"
 import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IAccount } from "../../../interfaces";
 import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
 
@@ -12,7 +11,6 @@ const AccountManage = () => {
     const { data, isLoading, error } = useGetCandidatesQuery();
     const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
     if (isLoading) return <Skeleton loading />;
-    console.log(data);
 
     if (error) {
         if ('status' in error) {
@@ -60,7 +58,7 @@ const AccountManage = () => {
 
 
 
-    const columns: ColumnsType<IAccount> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',

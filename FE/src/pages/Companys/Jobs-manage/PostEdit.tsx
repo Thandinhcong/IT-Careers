@@ -1,5 +1,5 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select, message, } from 'antd';
-import { IJobPost } from '../../../interfaces';
+import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, message, } from 'antd';
+import { IJobPost, ILevel } from '../../../interfaces';
 import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
@@ -14,7 +14,7 @@ const PostEdit = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
-    const { data: PostData } = useGetJobPostByIdCompanyIdQuery(id || "");
+    const { data: PostData, isLoading } = useGetJobPostByIdCompanyIdQuery(id || "");
     console.log(PostData);
 
     const [jobPost] = useEditJobPostMutation();
@@ -22,7 +22,7 @@ const PostEdit = () => {
 
     useEffect(() => {
         form.setFieldsValue({
-            // Account
+            // Account  
             name: Infor?.company?.name,
             phone: Infor?.company?.phone,
             address: Infor?.company?.address,
@@ -52,12 +52,13 @@ const PostEdit = () => {
 
         });
         if (PostData?.level?.province_id) {
-            setSelectedProvincetId(PostData.level.province_id);
+            setSelectedProvincetId(PostData?.level?.province_id);
         }
+
     }, [Infor, PostData]);
 
     const onFinish = (values: IJobPost) => {
-        if (values.start_date !== undefined && values.end_date !== undefined) {
+        if (values.start_date !== undefined && values.end_date !== undefined && moment.isMoment(values.end_date) && moment.isMoment(values.start_date)) {
             const startDate = values.start_date.toDate();
             const endDate = values.end_date.toDate();
 
@@ -105,7 +106,7 @@ const PostEdit = () => {
             }
         }
     };
-
+    if (isLoading) return <Skeleton loading />;
     return (
         <div className='bg-gray-100 py-8 px-4'>
             <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
@@ -161,7 +162,7 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.level.map((options: any) => (
+                                    {data?.data?.level.map((options: ILevel) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.level}
                                         </Select.Option>
@@ -213,7 +214,7 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.academic_level.map((options: any) => (
+                                    {data?.data?.academic_level.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.academic_level}
                                         </Select.Option>
@@ -229,7 +230,7 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.exp.map((options: any) => (
+                                    {data?.data?.exp.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.experience}
                                         </Select.Option>
@@ -261,7 +262,7 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.major_id.map((options: any) => (
+                                    {data?.data?.major_id.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.major}
                                         </Select.Option>

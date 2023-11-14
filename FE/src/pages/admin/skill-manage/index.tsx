@@ -26,7 +26,7 @@ const SkillManage = () => {
             message.success('Xoá thành công');
         }, 1000);
     };
-    const columns: ColumnsType<ISkill> = [
+    const columns: ColumnsType<any> = [
         {
             title: 'STT',
             key: 'index',

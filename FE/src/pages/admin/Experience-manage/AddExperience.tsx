@@ -15,13 +15,11 @@ const AddExperience = () => {
             .unwrap()
             .then(async () => {
                 await pause(3000);
+                message.success("Thêm thành công")
                 navigate("/admin/experience-manage");
             });
     };
 
-    const onFinishFailed = (errorInfo: unknown) => {
-        console.log("Failed:", errorInfo);
-    };
 
     return (
         <div>
@@ -34,7 +32,6 @@ const AddExperience = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off"
             >

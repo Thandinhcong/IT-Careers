@@ -13,9 +13,6 @@ interface MenuItem {
     label: React.ReactNode;
 }
 
-interface MenuProps {
-    items: MenuItem[];
-}
 
 function getItem(
     label: React.ReactNode,

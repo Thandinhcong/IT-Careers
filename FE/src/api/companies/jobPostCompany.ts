@@ -1,12 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IJobPost } from "../../interfaces";
+import { ICompanyInfor, IJobPost } from "../../interfaces";
+
+export interface IJobPostAll {
+    status?: string,
+    data: IJobPost[]
+}
+export interface IJobPostOne {
+    status?: string,
+    data: IJobPost
+}
 const JobPostCompanyApi = createApi({
     reducerPath: "job_post",
     tagTypes: ['job_post'],
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api",
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authCompany');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
             }
@@ -16,7 +25,7 @@ const JobPostCompanyApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getJobPostByIdCompany: builder.query<IJobPost, void>({
+        getJobPostByIdCompany: builder.query<IJobPostAll | any, void>({
             query: () => "/company/job_post",
             providesTags: ['job_post']
         }),
@@ -24,15 +33,15 @@ const JobPostCompanyApi = createApi({
             query: () => "/company/job_post_expires",
             providesTags: ['job_post']
         }),
-        getJobPostByIdCompanyId: builder.query<IJobPost, number | string>({
+        getJobPostByIdCompanyId: builder.query<IJobPostOne | any, number | string>({
             query: (id) => "/company/job_post/" + id,
             providesTags: ['job_post']
         }),
-        getInfor: builder.query<[], void>({
+        getInfor: builder.query<ICompanyInfor, void>({
             query: () => "/company/company_information",
             providesTags: ['job_post']
         }),
-        getJobPostSelectById: builder.query<[], void>({
+        getJobPostSelectById: builder.query<any, void>({
             query: () => "/company/job_post_select",
             providesTags: ['job_post']
         }),

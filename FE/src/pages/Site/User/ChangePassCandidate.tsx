@@ -1,19 +1,25 @@
 import { Button, Form, Input } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { useChangePassCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
 import { IAccount } from '../../../interfaces'
-import { message } from 'antd'
+import { Notyf } from 'notyf';
 
 const ChangePassCandidate = () => {
     const { data: candidateData } = useGetCandidatesQuery();
-    // const [isPasswordMatched, setIsPasswordMatched] = useState(true);
     const [form] = Form.useForm();
 
     const [changePassCandidate, { isLoading: isUpdateLoading }] = useChangePassCandidateMutation();
     const navigate = useNavigate();
 
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     useEffect(() => {
         form.setFieldsValue({
             password: candidateData?.candidate?.password,
@@ -23,28 +29,19 @@ const ChangePassCandidate = () => {
     }, [candidateData]);
 
     const onFinish = (values: IAccount) => {
-        // if (values.password !== candidateData?.candidate?.password) {
-        //     setIsPasswordMatched(true);
-        //     return;
-        // }
+
         changePassCandidate({ ...values })
             .unwrap()
             .then(async () => {
                 navigate("/account/change_pass");
-                message.success('Đổi mật khẩu thành công')
+                notyf.success('Đổi mật khẩu thành công')
             });
     };
 
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
+
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
-            {/* <div>
-                <h2 className='font-bold'>ID tài khoản</h2>
-                <p>1231390</p>
-            </div> */}
             <Form
                 form={form}
                 name="basic"
@@ -53,7 +50,6 @@ const ChangePassCandidate = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off">
                 <div>

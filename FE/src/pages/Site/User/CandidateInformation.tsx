@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { IAccount } from '../../../interfaces'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useEditCandidateMutation, useGetCandidatesQuery } from '../../../api/accountApi'
-import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { IoCloudUploadOutline } from 'react-icons/io5'
 import { UploadImage } from '../../../components/upload'
+import { Notyf } from 'notyf'
 
 
 
@@ -17,6 +17,13 @@ const CandidateInformation = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(candidateData?.candidate?.image || null);
     const [editCandidate, { isLoading: isUpdateLoading }] = useEditCandidateMutation();
     const navigate = useNavigate();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
 
     useEffect(() => {
         form.setFieldsValue({
@@ -33,7 +40,7 @@ const CandidateInformation = () => {
     }, [candidateData]);
 
     const onFinish = (values: IAccount) => {
-        const image = values.image && values.image.fileList[0]?.originFileObj;
+        const image: any = values.image && values.image.fileList[0]?.originFileObj;
         if (image) {
             UploadImage({
                 file: image,
@@ -47,16 +54,13 @@ const CandidateInformation = () => {
                         .unwrap()
                         .then(() => {
                             navigate("");
-                            message.success('Cập nhật thành công');
-                            console.log(values);
+                            notyf.success("Cập nhật thành công!");
                         })
-                        .catch((error) => {
-                            console.error('Lỗi khi cập nhật thông tin:', error);
-                        });
+                    // .catch((error: any ) => {
+                    //     notyf.error('Lỗi khi cập nhật thông tin:', error);
+                    // });
                 })
-                .catch((error) => {
-                    console.error('Lỗi khi tải ảnh lên:', error);
-                });
+                .catch();
         }
     };
 
@@ -72,11 +76,11 @@ const CandidateInformation = () => {
                 if (Response) {
                     const imageUrl = Response.data.url;
                     if (fieldName === 'image') {
-                        setImageUrl(imageUrl); // Gán đường dẫn ảnh Logo
+                        setImageUrl(imageUrl);
                     }
                 }
             } catch (error) {
-                console.error(error);
+
             }
         }
     };
@@ -86,10 +90,7 @@ const CandidateInformation = () => {
     };
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
-            {/* <div>
-                <h2 className='font-bold'>ID tài khoản</h2>
-                <p>1231390</p>
-            </div> */}
+
             <Form
                 form={form}
                 name="basic"
@@ -135,7 +136,7 @@ const CandidateInformation = () => {
                         ]}
                     >
                         <Upload
-                            onChange={(e) => onChangeFile(e, 'image')} // Truyền tên trường 'logo'
+                            onChange={(e: any) => onChangeFile(e, 'image')} // Truyền tên trường 'logo'
                             fileList={imageUrl ? [{ originFileObj: imageUrl }] : []}>
                             <Button icon={<IoCloudUploadOutline />}>Click to Upload</Button>
                         </Upload>

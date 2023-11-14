@@ -4,58 +4,59 @@ import { Link } from 'react-router-dom'
 import { Dropdown, Space } from 'antd';
 import { AiOutlineDown, AiOutlinePlus } from 'react-icons/ai';
 import { useGetInfoUserQuery } from '../../../api/auths';
+import React from 'react';
 
 
 const items: MenuProps['items'] = [
     {
         key: '1',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
+            <Link target="_blank" rel="noopener noreferrer" to="#">
                 Thông tin cá nhân
-            </a>
+            </Link>
         ),
     },
     {
         key: '2',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
+            <Link target="_blank" rel="noopener noreferrer" to="#">
                 Trình độ
-            </a>
+            </Link>
         ),
     },
     {
         key: '3',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
+            <Link target="_blank" rel="noopener noreferrer" to="#">
                 Công việc quan tâm và mong muốn
-            </a>
+            </Link>
         ),
     },
     {
         key: '4',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
+            <Link target="_blank" rel="noopener noreferrer" to="#">
                 Kỹ năng
-            </a>
+            </Link>
         ),
     },
     {
         key: '5',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="#">
+            <Link target="_blank" rel="noopener noreferrer" to="#">
                 Thành tựu
-            </a>
+            </Link>
         ),
     },
 
 ];
 
 
-const Profile = () => {
+const Profile = React.memo(() => {
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
-
+    const listImage = data?.candidate?.image;
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -63,11 +64,16 @@ const Profile = () => {
                     <div className="relative w-full h-full">
                         <img src="https://123job.vn/images/profile/background_profile.png" alt="" className='w-[832px]' />
                         <div className="absolute bottom-0 left-0 translate-x-[35%] translate-y-[70%]">
-                            <Avatar
-                                size={100}
-                                src={data?.candidate?.image}
-                                className="avatar"
-                            />
+                            {listImage ? (
+                                <Avatar
+                                    size={100}
+                                    src={data?.candidate?.image}
+                                    className="avatar"
+                                />
+
+                            ) : (
+                                <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" width={100} alt="icon" className='rounded-full' />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -155,6 +161,6 @@ const Profile = () => {
             </div>
         </div>
     )
-}
+});
 
 export default Profile

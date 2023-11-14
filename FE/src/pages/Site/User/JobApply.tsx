@@ -1,25 +1,30 @@
 import { Button } from 'antd'
 import { useGetJobApplyQuery } from '../../../api/jobPostApply'
+import { CiLocationOn, CiTimer } from 'react-icons/ci';
+import { MdOutlineAttachMoney } from 'react-icons/md';
+import { VND } from '../../../components/upload';
+import React from 'react';
 
-const JobApply = () => {
+const JobApply = React.memo(() => {
     const { data } = useGetJobApplyQuery();
     const listJob = data?.job_list;
-
 
     return (
         <div>
             {listJob ? (
-                <div>
+                <div className='w-[800px] rounded'>
                     <h2 className='text-2xl font-semibold'>Việc làm đã ứng tuyển</h2>
                     {listJob?.map((item: any) => {
                         return (
-                            <div key={item?.id} className='mt-5 flex gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
-                                <img src={item?.logo} alt="Anh logo" />
+                            <div key={item?.id} className='mt-5 grid grid-cols-[30%,70%] items-center gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
+                                <img src={item?.logo} alt="Anh logo" width={100} />
                                 <div>
-                                    <p>{item?.title}</p>
-                                    <p>{item?.company_name}</p>
-                                    <p>{item?.district}</p>
-                                    <p>Ứng tuyển: {item?.time_apply}</p>
+                                    <p className='text-xl font-semibold'>{item?.title}</p>
+                                    <div className='flex gap-2 items-center text-lg'> {item?.company_name}</div>
+                                    <p className='flex gap-2 items-center my-1'> <i><i><CiLocationOn /> </i></i>{item?.province} -  {item?.district}</p>
+                                    <p className='flex items-center gap-2'><i><MdOutlineAttachMoney /></i> {VND.format(item?.min_salary)} - {VND.format(item?.max_salary
+                                    )} </p>
+                                    <p className='flex items-center gap-2'> <i><CiTimer /> </i> Ứng tuyển: {item?.time_apply}</p>
                                 </div>
                             </div>)
 
@@ -48,6 +53,6 @@ const JobApply = () => {
             )}
         </div>
     )
-}
+});
 
 export default JobApply

@@ -1,6 +1,6 @@
+import React from "react"
 import { AiFillStar } from "react-icons/ai"
-const Aside = () => {
-
+const Aside = React.memo(() => {
 
     return (
         <div className="bg-white  h-[1050px]">
@@ -119,6 +119,6 @@ const Aside = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Aside

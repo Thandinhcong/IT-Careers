@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Policy = () => {
     return (
         <div className="col-span-3">

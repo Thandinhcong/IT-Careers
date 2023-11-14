@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useGetInfoUserQuery } from '../../../api/auths';
 import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
 import { Notyf } from 'notyf';
@@ -16,22 +16,30 @@ const LayoutUser = () => {
         },
     });
     const [findJob] = useFindJobsMutation();
-    const [isSearchingJob, setIsSearchingJob] = useState(false);
+    const [isSearchingJob, setIsSearchingJob] = useState(() => {
+        // Retrieve the value from localStorage or set a default value
+        return localStorage.getItem('isSearchingJob') === 'true' || false;
+    });
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
+    const listImage = data?.candidate?.image;
 
     const onChange = (checked: boolean) => {
         setIsSearchingJob(checked);
+        localStorage.setItem('isSearchingJob', checked.toString());
         if (checked) {
             findJob();
             notyf.success("Bật tìm việc thành công");
+
         } else {
             notyf.success("Tắt tìm việc thành công")
+
         }
     };
     useEffect(() => {
-        setIsSearchingJob(isSearchingJob)
-    }, [isSearchingJob])
+        // Update the state when the component mounts
+        setIsSearchingJob(localStorage.getItem('isSearchingJob') === 'true' || false);
+    }, []);
 
 
     return (
@@ -42,15 +50,21 @@ const LayoutUser = () => {
                     <div className='shadow-sm shadow-blue-300 px-6'>
                         <div className='flex justify-between'>
                             <div className='w-28'>
-                                <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
+                                {listImage ? (
+                                    <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
+
+                                ) : (
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" className='rounded-full' />
+                                )
+                                }
                             </div>
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
                                 <div><p className='text-lg font-semibold'>{listInfo?.name}</p></div>
                                 <p className="mb-0 ">
-                                    <a href="#" className='text-blue-500'>
+                                    <Link to="/account" className='text-blue-500'>
                                         Cập nhật hồ sơ thu hút NTD
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         </div>
@@ -66,38 +80,20 @@ const LayoutUser = () => {
                                         Trạng thái tìm việc<span>{isSearchingJob ? ' Bật' : ' Tắt'}</span>
                                     </b>
                                 </div>
-                                <div>
-                                    <p className='w-96 text-gray-600 pr-5 '>
-                                        Chế độ Tìm việc sẽ tự tắt sau 2 tuần. Nếu sau 2 tuần bạn chưa nhận được cơ hội việc làm hãy bật lại
-                                    </p>
-                                </div>
-                            </div>
-                            <div className='mb-5'>
-                                <div className="flex justify-between items-baseline">
-                                    <label className="h-0 w-0">
-                                        <Switch defaultChecked className='bg-gray-400' />
-                                        {/* <span className="slider round"></span> */}
-                                    </label>
 
-                                    <b className="text-gray-600 text-2xl w-4/5">Cho phép NTD liên hệ qua bạn</b>
-                                </div>
-                                <div>
-                                    <p className='text-gray-600 pl-3'>
-                                        Cho phép các Nhà tuyển dụng đã được 123Job xác thực xem CV hoặc hồ sở Online để có thể liên hệ với bạn
-                                    </p>
-                                </div>
                             </div>
                             <div className='text-red-500 w-96 pl-3'>
-                                <p className='text-xm'><AiOutlineWarning className='w-7 inline-block items-baseline' />Bạn cần hoàn thiện trên 70% IT Career Profile để bắt đầu tiếp cận với nhà tuyển dụng.</p>
+                                <p className='text-xm'><AiOutlineWarning className='w-7 inline-block items-baseline' />Bạn cần hoàn thiện trên 70% BEWORK Profile để bắt đầu tiếp cận với nhà tuyển dụng.</p>
                             </div>
                         </div>
-                        <div className='mb-9'>
+                        <Link to={'/account'} className='mb-9'>
                             <Button
+
                                 type='primary'
                                 className='bg-blue-500 mt-5 text-white h-12 mb-8'>
                                 <b>Cập nhật profile</b>
                             </Button>
-                        </div>
+                        </Link>
                     </div>
                     <div className='shadow-sm shadow-blue-300 p-8'>
                         <span className='text-2xl text-blue-500'>CV của bạn đã hay chưa ?</span>

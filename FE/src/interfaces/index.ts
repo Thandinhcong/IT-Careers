@@ -1,15 +1,21 @@
+
+export interface IPackage {
+    data: IPackages[]
+}
+export interface IOnePackage {
+    package: IPackages,
+    status: number
+}
 export interface IPackages {
     id?: number,
     title?: string,
     coin?: number,
     price?: number,
-    reduced_price?: number,
     status?: number,
-    type_account?: number
 
 }
 export interface IMajors {
-    id?: number,
+    id?: number | string,
     major: string,
     description?: string,
 }
@@ -56,8 +62,8 @@ export interface IJobPost {
     ranks_id?: number,
     major_id?: number,
     interest?: string, //quyền lợi
-    start_date?: string,
-    end_date?: string,
+    start_date?: string | any,
+    end_date?: string | any,
     status?: number,
     office?: number,
     address?: string,
@@ -67,7 +73,9 @@ export interface IJobPost {
     area_id?: number,
     working_form?: string,
     name: string | number,
-    view: number
+    view: number,
+    level: IJobPost,
+    data: IJobPost[],
 }
 export interface ICvApply {
     id?: number | string,
@@ -81,13 +89,17 @@ export interface ICvApply {
     phone?: string
     email?: string
     candidate_id?: number | string
-    data: object
+    data: ICvApply
     profile: string | number
     time_apply: string
-    candidate_code: string
+    candidate_code: number
     job_post_name: string
-    list_candidate_apply_job: Array
+    list_candidate_apply_job: ICvApply
     image: string
+    length: string | number
+    filter: CallableFunction
+    path_cv: string
+    created_at: string
 }
 export interface IFindJob {
     candidate_id: number | string
@@ -118,6 +130,7 @@ export interface ICompanyInfor {
     company_size_max?: number,
     company_size_min?: number,
     status?: number
+    company: ICompanyInfor
 }
 export interface IListInfo {
     status: string
@@ -155,7 +168,7 @@ export interface IAccount {
     email?: string,
     password?: string,
     phone?: string,
-    image?: string,
+    image?: string | any,
     address?: string,
     gender?: number,
     type?: number,
@@ -164,6 +177,7 @@ export interface IAccount {
     password_confirmation?: string,
     re_password?: string,
     password_old?: string,
+    avatar: string
 }
 
 export interface IChangePass {
@@ -192,7 +206,7 @@ export interface ICompanys {
     image_paper: string,
     description: string,
     coin: number,
-    status: Selection,
+    status?: any,
     company_size_min: number,
     company_size_max: number
 }
@@ -210,7 +224,8 @@ export interface IListJobs {
     area: string
     status: number,
     province: string,
-    district: string
+    district: string,
+    end_date: string
 }
 export interface IListDataJobs {
     status: IJobPost,
@@ -219,6 +234,10 @@ export interface IListDataJobs {
 export interface IListOneJobs {
     status: string,
     job_detail: IListJobsDetail[],
+}
+export interface IListOneJob {
+    status: string,
+    job_detail: IListJobsDetail,
 }
 export interface IListJobsDetail {
     id: string | number,
@@ -240,5 +259,7 @@ export interface IListJobsDetail {
     require: string,
     interest: string,
     province: string,
-    district: string
+    district: string,
+    status: number,
+    logo: string
 }

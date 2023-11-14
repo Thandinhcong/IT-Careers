@@ -1,19 +1,34 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { pause } from "../utils/pause";
 import { IJobposition, } from "../interfaces";
 
+export interface IJobpositionALL {
+    status: string,
+    Job_position: IJobposition[]
+}
+export interface IJobpositionOne {
+    status: string,
+    Job_position: IJobposition
+}
 const jobpositionApi = createApi({
     reducerPath: "JobPosition",
     tagTypes: ['Jobposition'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api/admin",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
     }),
     endpoints: (builder) => ({
-        getjobposition: builder.query<IJobposition[], void>({
+        getjobposition: builder.query<IJobpositionALL, void>({
             query: () => "/job_position",
             providesTags: ['Jobposition']
         }),
-        getjobpositionById: builder.query<IJobposition, number | string>({
+        getjobpositionById: builder.query<IJobpositionOne, any>({
             query: (id) => "/job_position/" + id,
             providesTags: ['Jobposition']
         }),
@@ -25,7 +40,7 @@ const jobpositionApi = createApi({
             }),
             invalidatesTags: ['Jobposition']
         }),
-        updatejobposition: builder.mutation<IJobposition, IJobposition>({
+        updatejobposition: builder.mutation<IJobpositionOne, any>({
             query: (jobposition: IJobposition) => ({
                 url: `/job_position/${jobposition.id}`,
                 method: "PUT",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
 import { SlSocialFacebook } from 'react-icons/sl';
@@ -7,11 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
-import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
+// import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
 import { Notyf } from "notyf";
 
 
-const Login = () => {
+const Login = React.memo(() => {
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -25,7 +25,6 @@ const Login = () => {
     });
     const [user, setUser] = useLocalStorage("user", null)
     const [login] = useLoginMutation();
-    const { data } = useAdminLoginMutation();
     const loginGoogle = () => {
         window.location.href = "http://127.0.0.1:8000/api/auth/google"
     }
@@ -120,6 +119,6 @@ const Login = () => {
             </div>
         </section>
     )
-}
+})
 
 export default Login

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { AiOutlinePhone, AiOutlineMail, AiOutlineArrowLeft } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
@@ -7,19 +7,20 @@ import { Form, Radio, Modal, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 
-const CvCandodateDetail = () => {
+const CvCandodateDetail = React.memo(() => {
 
     const { id } = useParams();
     const { data } = useGetCandidateDetailQuery(id || "");
     const [assse] = useAssseCandidateMutation();
+    const listInfoCandidateApply = data?.data;
+    const listImage = data?.data?.image;
     const [form] = Form.useForm();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-    console.log(selectedCvApplyId);
 
 
-    const showModal = (id: any) => {
+    const showModal = (id: number) => {
         setSlectedCvApplyId(id);
         setIsModalOpen(true);
     };
@@ -68,9 +69,17 @@ const CvCandodateDetail = () => {
                                 <AiOutlineArrowLeft className="inline-block" /> Về trang chính
                             </Link>
                             <div className="bg-white p-4 mb-4 mt-4 flex items-center">
-                                <img
-                                    className="w-20 rounded-full border border-gray-400 p-1"
-                                    src="https://cdn1.123job.vn/123job/uploads/2023/10/06/2023_10_06______622e2e506d59c1af0f1a16739bcc252d.png" alt="" />
+                                {listImage ? (
+                                    <img
+                                        className="w-20 rounded-full border border-gray-400 p-1"
+                                        src={listImage} alt=""
+                                    />
+                                ) : (
+                                    <img
+                                        className="w-20 rounded-full border border-gray-400 p-1"
+                                        src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt=""
+                                    />
+                                )}
                                 <div className="ml-4">
                                     <p className=" font-sans font-semibold">{data?.data?.name}</p>
                                     <div className="flex items-center mt-2">
@@ -91,7 +100,7 @@ const CvCandodateDetail = () => {
                             <div className="bg-white p-4">
                                 <p className="font-bold mb-1.5">Lời Nhắn </p>
                                 <p className="text-sm">
-                                    Em là sinh viên mới học xong đang chờ bằng, cần một nơi để thực tập, rèn luyện kĩ năng bản thân. - Điểm mạnh: khả năng tự học cao - Điếm yếu: ngoại ngữ kém cần hoàn hiện nhiều
+                                    {listInfoCandidateApply?.introduce}
                                 </p>
                             </div>
                             <hr />
@@ -104,7 +113,7 @@ const CvCandodateDetail = () => {
                                     <button
                                         type="button"
                                         className="bg-[#e4efff] text-[#0971fe] hover:text-white hover:bg-blue-500 text-center w-full py-2 rounded text-[15px]"
-                                        onClick={() => showModal(data?.data?.candidate_code)}
+                                        onClick={() => data?.data?.candidate_code && showModal(data.data.candidate_code)}
                                     >
                                         Phù Hợp
                                     </button>
@@ -113,7 +122,7 @@ const CvCandodateDetail = () => {
                                     <button
                                         type="button"
                                         className="bg-[#fceceb] text-[#e85347]  hover:text-white hover:bg-red-500 text-center w-full py-2 rounded text-[15px]"
-                                        onClick={() => showModal(data?.data?.candidate_code)}
+                                        onClick={() => data?.data?.candidate_code && showModal(data.data.candidate_code)}
                                     >
                                         Không Phù Hợp
                                     </button>
@@ -201,6 +210,6 @@ const CvCandodateDetail = () => {
         </div>
 
     )
-}
+});
 
 export default CvCandodateDetail

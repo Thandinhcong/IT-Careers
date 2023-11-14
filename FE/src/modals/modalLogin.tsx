@@ -1,4 +1,3 @@
-import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { SlSocialFacebook } from 'react-icons/sl'
 import { Link } from 'react-router-dom'
@@ -6,7 +5,7 @@ import { TEModal, TEModalBody, TEModalContent, TEModalDialog, TEModalHeader } fr
 
 const ModalLogin = () => {
     return (
-        <TEModal >
+        <TEModal show >
             <TEModalDialog>
                 <TEModalContent>
                     <TEModalHeader>

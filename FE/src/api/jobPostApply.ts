@@ -6,6 +6,9 @@ export interface IJobPostApply {
     email: string,
     phone: string,
     name: string,
+    job_list: Array<string>,
+    introduce: string,
+    candidate_id?: number | string
 }
 const jobPostApply = createApi({
     reducerPath: "jobPostApply",
@@ -25,12 +28,12 @@ const jobPostApply = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getJobApply: builder.query<IJobPostApply, void>({
+        getJobApply: builder.query<IJobPostApply | any, void>({
             query: () => '/job_apply',
             providesTags: ['JobPostApply']
         }),
         applyJob: builder.mutation({
-            query: (data: IJobPostApply) => ({
+            query: (data: IJobPostApply | any) => ({
                 url: `/candidate_apply/${data?.id}`,
                 method: "POST",
                 body: data
@@ -40,6 +43,6 @@ const jobPostApply = createApi({
     })
 
 })
-export const { useApplyJobMutation,useGetJobApplyQuery } = jobPostApply;
+export const { useApplyJobMutation, useGetJobApplyQuery } = jobPostApply;
 export default jobPostApply;
 export const JobPostApplyReducer = jobPostApply.reducer;

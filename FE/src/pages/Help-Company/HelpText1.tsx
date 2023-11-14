@@ -14,23 +14,23 @@ const HelpText1 = () => {
                 <h3 className="text-2xl mb-3">Tổng Hợp Dịch Vụ</h3>
                 <p className='mb-3'>Những sản phẩm và dịch vụ hỗ trợ giúp bạn tuyển dụng hiệu quả, tiện lợi và dễ dàng hơn.</p>
 
-                <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Sản Phẩm Và Dịch Vụ</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'> Dịch vụ hỗ trợ đăng tin</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Tìm kiếm hồ sơ ứng viên</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Chuyên trang tuyển dụng</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Kết nối ứng viên</span>
                 </Link>
@@ -41,15 +41,15 @@ const HelpText1 = () => {
                 <h3 className="text-2xl mb-3">Gợi ý Nhanh</h3>
                 <p className='mb-3'>Một số hướng dẫn, gợi ý để bạn thiết lập sản phẩm của chúng tôi nhanh chóng.</p>
 
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Đăng tin tuyển dụng</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Mẹo chiến dịch thu hút</span>
                 </Link>
-                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ">
+                <Link to="https://example.com" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-white-200 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500  border border-solid border-gray-300 mt-8 mb-8 ">
                     <FaFile className="h-10 w-9 ml-5  text-gray-700" />
                     <span className='ml-3 mt-2'>Tạo chiến dịch hiệu quả</span>
                 </Link>

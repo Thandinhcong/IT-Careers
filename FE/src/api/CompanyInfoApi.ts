@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IAccount, ICompanyInfor } from "../interfaces";
+import { ICompanyInfor } from "../interfaces";
 
 const CompnayInfoApi = createApi({
     reducerPath: "company_information",
@@ -10,19 +10,19 @@ const CompnayInfoApi = createApi({
             return fetch(...arg)
         },
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('accessToken');
+            const token = localStorage.getItem('authCompany');
             if (token) {
                 headers.set('Authorization', `Bearer ${token}`);
-                // console.log(token);
             }
+            return headers;
         },
     }),
     endpoints: (builder) => ({
-        getInfor: builder.query<[], void>({
+        getInfor: builder.query<any, void>({
             query: () => "/company_information",
             providesTags: ['company']
         }),
-        editCompanyInfo: builder.mutation({
+        editCompanyInfo: builder.mutation<any, any>({
             query: (company: ICompanyInfor) => ({
                 url: `/company_information/`,
                 method: "POST",

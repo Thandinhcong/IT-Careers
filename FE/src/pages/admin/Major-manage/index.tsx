@@ -6,18 +6,20 @@ import { IMajors } from "../../../interfaces";
 
 const MajorManage = () => {
     const { data, isLoading, error } = useGetMajorQuery();
+
     const [deleteMajor, { isLoading: isRemoveLoading }] = useDeleteMajorMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
     const dataSource = data?.major?.map(({ id, major, description }: IMajors) => {
+
         return {
             key: id,
             major,
             description,
         }
     })
-    const columns: ColumnsType<IMajors> = [
+    const columns: ColumnsType<any> = [
         {
             key: "major",
             title: 'Chức Vụ',
@@ -69,7 +71,7 @@ const MajorManage = () => {
                 </Button>
             </div>
 
-            <Table columns={columns} dataSource={dataSource} />; {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataSource} />
 
         </div>
     )

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import RecruiterEmployer from '../../main/recruiter'
 import Recruitment from '../../main/Recruitment'
 import DreamJob from '../../main/DreamJob'

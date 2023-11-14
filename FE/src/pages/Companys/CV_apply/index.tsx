@@ -1,6 +1,6 @@
 import { Form, Radio, Modal, message } from "antd"
 import { AiOutlineFilter, AiOutlineReload } from "react-icons/ai"
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
 import { useAssseCandidateMutation, useGetCvApllyJobPostIdQuery } from "../../../api/companies/cvApply";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { ICvApply } from "../../../interfaces";
 import TextArea from "antd/es/input/TextArea";
 
-const CVApply = () => {
+const CVApply = React.memo(() => {
 
     const { data } = useGetCvApllyJobPostIdQuery();
     const [form] = Form.useForm();
@@ -17,10 +17,9 @@ const CVApply = () => {
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-    console.log(selectedCvApplyId);
 
 
-    const showModal = (id: any) => {
+    const showModal = (id: number) => {
         setSlectedCvApplyId(id);
         setIsModalOpen(true);
     };
@@ -63,9 +62,10 @@ const CVApply = () => {
     const filteredCandidates =
         filterOption === "newest"
             ? data?.list_candidate_apply_job
-            : data?.list_candidate_apply_job.filter(
+            : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
+    console.log(filteredCandidates);
 
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
@@ -88,7 +88,7 @@ const CVApply = () => {
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"
                                 ? data?.list_candidate_apply_job?.length || 0
-                                : data?.list_candidate_apply_job.filter((item: ICvApply) => item.status === 0).length || 0}
+                                : data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0}
                         </span> ứng viên
                     </p>
                     <div className="flex items-center gap-3">
@@ -104,13 +104,22 @@ const CVApply = () => {
                     </div>
                 </div>
                 {filteredCandidates?.map((item: ICvApply) => (
-                    <div className="bg-white my-4 p-4 grid-cols-1">
+                    <div key={item?.id} className="bg-white my-4 p-4 grid-cols-1">
                         <div>
                             <div className="flex justify-between my-4 p-2 items-center border-b-2">
                                 <div>
-                                    <img
-                                        className="w-20 rounded-full border border-gray-400 p-1"
-                                        src={item.image} alt="" />
+                                    {item?.image ? (
+                                        <img
+                                            className="w-20 rounded-full border border-gray-400 p-1"
+                                            src={item.image} alt=""
+                                        />
+                                    ) : (
+                                        <img
+                                            className="w-20 rounded-full border border-gray-400 p-1"
+                                            src='https://cdn-icons-png.flaticon.com/512/1946/1946429.png' alt=""
+                                        />
+                                    )
+                                    }
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 w-7/12">
                                     <p className="font-semibold text-base">{item.name}</p>
@@ -249,6 +258,6 @@ const CVApply = () => {
 
         </div >
     )
-}
+});
 
 export default CVApply

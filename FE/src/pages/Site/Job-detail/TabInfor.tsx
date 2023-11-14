@@ -1,13 +1,17 @@
 import { AiOutlineInsertRowRight } from "react-icons/ai"
 import { useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail } from "../../../interfaces";
+import React from "react";
+import { Skeleton } from "antd";
 
 
-const TabInfor = () => {
+const TabInfor = React.memo(() => {
     const { id } = useParams();
-    const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail | undefined = data && data.job_detail;
+    const { data, isLoading } = useGetOneJobsQuery(id || "");
+    const listOne = data && data.job_detail;
+
+    if (isLoading) return <Skeleton loading />
+
     return (
         <div className="p-3 h-[550px] overflow-y-auto">
             <h2 className="font-semibold text-lg my-4">Thông tin nhà tuyển dụng</h2>
@@ -28,6 +32,6 @@ const TabInfor = () => {
             <p className="uppercase">{listOne?.description}</p>
         </div>
     )
-}
+})
 
 export default TabInfor

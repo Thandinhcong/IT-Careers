@@ -1,21 +1,39 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ISkill } from "../interfaces";
 
+
+export interface ISkillAll {
+    status: string,
+    data: ISkill[],
+}
+export interface ISkillOne {
+    status: string,
+    data: ISkill,
+}
 const skillApi = createApi({
     reducerPath: "skill",
     tagTypes: ['skill'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api",
+        baseUrl: import.meta.env.VITE_API_ADMIN,
         fetchFn: async (...arg) => {
             return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("admin") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
         }
+
     }),
     endpoints: (builder) => ({
-        getSkill: builder.query<ISkill[], void>({
+        getSkill: builder.query<ISkillAll, void>({
             query: () => "/skill",
             providesTags: ['skill']
         }),
-        getSkillById: builder.query<ISkill, number | string>({
+        getSkillById: builder.query<any, any>({
             query: (id) => "/skill/" + id,
             providesTags: ['skill']
         }),
@@ -27,8 +45,8 @@ const skillApi = createApi({
             }),
             invalidatesTags: ['skill']
         }),
-        editSkill: builder.mutation<ISkill, ISkill>({
-            query: (skill: ISkill) => ({
+        editSkill: builder.mutation<any, any>({
+            query: (skill: any) => ({
                 url: `/skill/${skill.id}`,
                 method: "PUT",
                 body: skill

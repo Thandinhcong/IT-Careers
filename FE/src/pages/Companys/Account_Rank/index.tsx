@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiOutlineArrowRight, AiOutlineSearch } from 'react-icons/ai'
 import { BsFillClipboardCheckFill, BsFillJournalBookmarkFill, BsFillStarFill } from 'react-icons/bs'
 import { GiPresent } from 'react-icons/gi'
@@ -36,12 +35,12 @@ const AccRank = () => {
                     <p className=' ml-2 mt-3 text-gray-500'>IT Cassers nhận thấy hiện nay, các chính sách ưu đãi cho các nhà tuyển dụng lớn là chưa có nhiều, chính vì vậy tính năng Hạng tài khoản này được ra mắt nhằm cung cấp các quyền lợi, chính sách ưu đãi nhất cho các nhà tuyển dụng sử dụng dịch vụ của IT Cassers.</p>
                     <div className='border shadow p-3 mr-3 mt-5'>
                         <h3 className='ml-3'>Tài Liệu Nên Xem</h3>
-                        <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-blue-100 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ml-5 ">
+                        <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-blue-100  shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ml-5 ">
 
                             <span className=' flex-grow text-blue-600 ml-3 mt-2 mb-2'>Khái Niệm Về Tài Khoản</span>
                             <AiOutlineArrowRight className="ml-3 mt-3 mb-2" />
                         </Link>
-                        <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-blue-100 rounded-full shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ml-5 ">
+                        <Link to="" target="_blank" rel="noopener noreferrer" className="flex  p-2 bg-blue-100  shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-lg border border-solid border-gray-300 mt-8 mb-8 ml-5 ">
 
                             <span className=' flex-grow text-blue-600 ml-3 mt-2 mb-2'>Các loại tài khoản ? Bạn phù hợp với loại nào? </span>
                             <AiOutlineArrowRight className="ml-30 mt-3 mb-2" />

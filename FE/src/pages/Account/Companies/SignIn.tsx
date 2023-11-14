@@ -20,18 +20,19 @@ const SignInCompanies = () => {
             .then((response) => {
                 // Lấy token từ kết quả trả về
                 const accessToken = response.access_token;
-                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('authCompany', accessToken);
             })
             .then(() => {
                 // Lưu token vào localStorage
                 // Kiểm tra xem token đã được lưu trong localStorage hay chưa
-                const isTokenStored = localStorage.getItem('accessToken') !== null;
+                const isTokenStored = localStorage.getItem('authCompany') !== null;
                 if (isTokenStored) {
                     notyf.success("Đăng nhập thành công");
                     window.location.href = '/business';
                 }
             })
             .catch((error) => {
+
                 return notyf.error(error.data.message)
             });
     };

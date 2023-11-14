@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
@@ -20,7 +20,6 @@ import TabNew from "./TabNew";
 import TabInfor from "./TabInfor";
 import { Link, useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
-import { IListJobsDetail } from "../../../interfaces";
 import { useGetInfoUserQuery, useLoginMutation } from "../../../api/auths";
 import { useForm } from "react-hook-form";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
@@ -32,8 +31,9 @@ import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
+import { Skeleton } from "antd";
 
-const JobDetail = () => {
+const JobDetail = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -51,24 +51,23 @@ const JobDetail = () => {
     };
     const [showModal2, setShowModa2l] = useState(false);
 
-    const { id } = useParams();
+    const { id }: any = useParams()
 
     //lấy thông tin xem đã ứng tuyển chưa
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
 
-    const idJob = parseInt(id, 10);
+    const idJob: any = parseInt(id, 10);
 
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
 
-    const { data } = useGetOneJobsQuery(id || "");
-    const listOne: IListJobsDetail = data?.job_detail;
+    const { data, isLoading } = useGetOneJobsQuery(id || "");
+    const listOne: any = data?.job_detail;
 
     const { data: infoUser } = useGetInfoUserQuery();
-    console.log(infoUser);
 
     const user = infoUser?.candidate;
-    const idUser = user?.id;
+    const idUser: any = user?.id;
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
@@ -79,7 +78,7 @@ const JobDetail = () => {
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin),
     });
-    const [userLogin, setUser] = useLocalStorage("user", null);
+    const [users, setUser] = useLocalStorage("user", null);
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {
@@ -128,10 +127,10 @@ const JobDetail = () => {
             }
         }
     };
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+    if (isLoading) return <Skeleton loading />
     return (
         <div>
             <div className="max-w-screen-xl mx-auto">
@@ -147,7 +146,7 @@ const JobDetail = () => {
                         </div>
                         <div className="flex flex-col gap-2">
                             {isAlreadyApplied ? (
-                                <p className="px-2 text-base bg-blue-500 rounded-lg py-1 text-white">Bạn đã ứng tuyển công việc này!</p>
+                                <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
                             ) : (
 
                                 <TERipple rippleColor="white" className="">
@@ -314,7 +313,7 @@ const JobDetail = () => {
                                         Thư mô tả
                                     </label>
                                     <textarea
-                                        {...register("desc")}
+                                        {...register("introduce")}
                                         className="w-full rounded-lg border-gray-200 p-3 text-sm outline-none border border-solid "
                                         placeholder="Viết thư giới thiệu bản thân (điểm mạnh điểm yếu,...). Đây là cách gây ấn tượng với nhà tuyển dụng nếu bạn chưa có kinh nhiệm làm việc hoặc CV không tốt"
                                         rows={4}
@@ -411,6 +410,6 @@ const JobDetail = () => {
             </TEModal>
         </div>
     );
-};
+});
 
 export default JobDetail;

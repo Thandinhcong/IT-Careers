@@ -37,7 +37,7 @@ const AddSkill = () => {
                     name="skill"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-                        { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Kỹ năng phải trên 6 kí tự" }
+                        { min: 3, message: "Kỹ năng phải trên 3 kí tự" }
 
                     ]}
                 >

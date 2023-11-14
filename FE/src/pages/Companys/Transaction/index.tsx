@@ -1,8 +1,4 @@
-import React, { useState } from 'react';
-import { AiOutlineSetting, AiOutlineUnorderedList } from 'react-icons/ai';
-import { LiaExchangeAltSolid } from 'react-icons/lia';
-import { FiBriefcase, FiUsers } from 'react-icons/fi';
-import { IoIosOptions } from 'react-icons/io';
+import React from 'react';
 import { Layout, Menu, theme } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
@@ -15,9 +11,7 @@ interface MenuItem {
     label: React.ReactNode;
 }
 
-interface MenuProps {
-    items: MenuItem[];
-}
+
 
 function getItem(
     label: React.ReactNode,
