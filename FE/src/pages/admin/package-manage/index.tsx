@@ -14,13 +14,10 @@ const PackageManage = () => {
 
     const [removePackage, { isLoading: isRemoveLoading }] = useDeletePackageMutation();
     if (isLoading) return <Skeleton loading />;
-    const packageData = data?.data?.map(({ id, title, coin, price, status }: IPackages) => {
+    const packageData = data?.data?.map((item: IPackages) => {
         return {
-            key: id,
-            title,
-            coin,
-            price,
-            status,
+            key: item?.id,
+            ...item,
         }
     })
     const confirm = (id: number | string) => {

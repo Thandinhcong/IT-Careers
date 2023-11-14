@@ -2,17 +2,17 @@ import { Button, Table, Skeleton, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineEdit } from "react-icons/ai";
 import { useGetManageWebsiteQuery, IManageWebsite } from "../../../api/admin/manageWebsiteApi";
+import { Link } from 'react-router-dom';
+import React from 'react';
 
 
 
-const Manage_Website = () => {
+const Manage_Website = React.memo(() => {
     const { data, isLoading } = useGetManageWebsiteQuery();
 
     if (isLoading) return <Skeleton loading />;
 
-
     const InfoWebsite = data?.data?.map((item: IManageWebsite) => {
-        console.log("info", item);
         return {
             key: item.id,
             ...item
@@ -72,9 +72,8 @@ const Manage_Website = () => {
             width: 100,
             render: ({ key: id }: { key: string | number }) => (
                 <div className="flex gap-2">
-
-                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`manage-website/update/${id}`}>
-                        <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
+                    <Button className="bg-yellow-400 border-none hover:bg-yellow-300" >
+                        <Link to={`/admin/manage-website/update/${id}`} className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</Link>
                     </Button>
                 </div>
             ),
@@ -92,6 +91,6 @@ const Manage_Website = () => {
 
         </div>
     )
-}
+});
 
 export default Manage_Website

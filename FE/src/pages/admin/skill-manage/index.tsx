@@ -12,12 +12,10 @@ const SkillManage = () => {
     const { data, isLoading } = useGetSkillQuery();
     const [removeSkill, { isLoading: isRemoveLoading }] = useDeleteSkillMutation();
     if (isLoading) return <Skeleton loading />;
-    const skillData = data?.data?.map(({ id, skill, description }: ISkill) => {
-        console.log(data);
+    const skillData = data?.data?.map((item: ISkill) => {
         return {
-            key: id,
-            skill,
-            description,
+            key: item?.id,
+            ...item,
         }
     })
     const confirm = (id: number | string) => {

@@ -11,12 +11,11 @@ const MajorManage = () => {
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
     if (error) return <div>error</div>;
-    const dataSource = data?.major?.map(({ id, major, description }: IMajors) => {
+    const dataSource = data?.major?.map((item: IMajors) => {
 
         return {
-            key: id,
-            major,
-            description,
+            key: item?.id,
+            ...item,
         }
     })
     const columns: ColumnsType<any> = [
@@ -26,12 +25,6 @@ const MajorManage = () => {
             dataIndex: 'major',
             width: 50,
         },
-        // {
-        //     key: "description",
-        //     title: 'Mô tả',
-        //     dataIndex: 'description',
-        //     width: 150,
-        // },
         {
             title: 'Action',
             key: 'action',

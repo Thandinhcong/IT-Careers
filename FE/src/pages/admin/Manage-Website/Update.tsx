@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { EnterOutlined } from "@ant-design/icons"
-import { useState } from "react";
+import React, { useState } from "react";
 import { useGetManageOneWebsiteQuery, useUpdate_ManageMutation } from "../../../api/admin/manageWebsiteApi";
 import { UploadImage } from "../../../components/upload";
 import { useForm } from "react-hook-form";
@@ -8,26 +8,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormManage, schemaUpdateManage } from "../../../schemas/manage";
 import { Skeleton, message } from "antd";
 
-const UpdateManage = () => {
+const UpdateManage = React.memo(() => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
     const [UpdateManage, { isLoading: isUpdateLoading }] = useUpdate_ManageMutation();
-    const { data } = useGetManageOneWebsiteQuery(id || '');
-    const { register, handleSubmit } = useForm<FormManage>({
+    const { data, isLoading } = useGetManageOneWebsiteQuery(id || '');
+    const listData = data?.man_web;
+    const { register, handleSubmit } = useForm({
         resolver: yupResolver(schemaUpdateManage),
         defaultValues: async () => {
-            return await data.man_web;
+            return await listData;
         }
     })
-
+    if (isLoading) return <Skeleton />
     const onHandleSubmit = async (values: FormManage) => {
         if (typeof image !== "string") return;
         values.logo = image
         values.banner = image
 
         try {
-            UpdateManage({
+            await UpdateManage({
                 id,
                 ...values,
             })
@@ -176,6 +177,6 @@ const UpdateManage = () => {
 
         </div>
     )
-}
+});
 
 export default UpdateManage  
