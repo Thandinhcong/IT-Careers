@@ -8,15 +8,17 @@ const JobPostApi = createApi({
     reducerPath: "job-post",
     tagTypes: ['job-post'],
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://127.0.0.1:8000/api/admin",
-        prepareHeaders: (headers) => {
-            const token = localStorage.getItem('accessToken');
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
-        },
+        baseUrl: import.meta.env.VITE_API_CANDIDATE,
         fetchFn: (...arg) => {
             return fetch(...arg)
+        },
+        prepareHeaders: (headers) => {
+            const user = JSON.parse(localStorage.getItem("user") as string);
+            const token = user?.accessToken;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
         }
     }),
     endpoints: (builder) => ({

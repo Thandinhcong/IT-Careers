@@ -36,6 +36,7 @@ import authGooleApi, { authsGooleReducer } from '../api/authGoogle/authGoogle';
 import candidateappliedApi, { candidateappliedReducer } from '../api/listCandidateapplied';
 import CvApplyApi, { CvApplyReducer } from '../api/companies/cvApply';
 import FindJobCompanyApi, { FindJobCompanyReducer } from '../api/companies/findJob';
+import PackagesCompanyApi, { packageCompanyReducer } from '../api/companies/package';
 
 const persistConfig = {
     key: 'root',
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
 
     [CvApplyApi.reducerPath]: CvApplyReducer,
     [FindJobCompanyApi.reducerPath]: FindJobCompanyReducer,
+    [PackagesCompanyApi.reducerPath]: packageCompanyReducer,
 })
 const middleware = [
     MajorApi.middleware,
@@ -94,6 +96,7 @@ const middleware = [
     candidateappliedApi.middleware,
     CvApplyApi.middleware,
     FindJobCompanyApi.middleware,
+    PackagesCompanyApi.middleware,
 ]
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

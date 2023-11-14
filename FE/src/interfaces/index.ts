@@ -12,6 +12,9 @@ export interface IPackages {
     coin?: number,
     price?: number,
     status?: number,
+    amount?: number,
+    invoice_id: number,
+    package_id?: number
 
 }
 export interface IMajors {
