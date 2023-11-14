@@ -25,7 +25,7 @@ const TabInfor = () => {
                 </div>
             </div>
             <h3 className="font-semibold my-2">Giới thiệu</h3>
-            <p className="uppercase">{listOne?.company_name}</p>
+            <p className="uppercase">{listOne?.description}</p>
         </div>
     )
 }

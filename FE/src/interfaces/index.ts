@@ -195,8 +195,6 @@ export interface ICompanys {
     status: Selection,
     company_size_min: number,
     company_size_max: number
-
-
 }
 export interface IListOneCompany {
     status: string
