@@ -98,6 +98,8 @@ import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
 import IsCheckLogin from "./pages/auths/isCheckLogin"
 import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
+import Manage_Website from "./pages/admin/Manage-Website"
+import UpdateManage from "./pages/admin/Manage-Website/Update"
 
 
 function App() {
@@ -129,8 +131,8 @@ function App() {
               <Route path='profile' element={< Profile />} />
             </Route >
             <Route path='account' element={< Account />} />
-            <Route path="tao-cv" element={<Cv />} />
           </Route>
+          <Route path="tao-cv" element={<Cv />} />
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />
@@ -233,6 +235,9 @@ function App() {
           <Route path="major-manage" element={<MajorManage />} />
           <Route path="major-manage/create-major" element={<AddMajors />} />
           <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
+          <Route path="manage-website" element={<Manage_Website />} />
+          <Route path="manage-website/update/:id" element={<UpdateManage />} />
+
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes >
