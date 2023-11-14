@@ -40,7 +40,10 @@ const ManageWebsiteApi = createApi({
       query: () => "/man-web",
       providesTags: ["ManageWebsite"],
     }),
-    getManageOneWebsite: builder.query<IManageWebsiteOne, number | string>({
+    getManageOneWebsite: builder.query<
+      IManageWebsiteOne | any,
+      number | string
+    >({
       query: (id: string | number) => "/man-web/" + id,
       providesTags: ["ManageWebsite"],
     }),
