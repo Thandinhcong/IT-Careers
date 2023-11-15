@@ -45,6 +45,9 @@ import FindJobCompanyApi, {
 import ManageWebsiteApi, {
   ManageWebsiteReducer,
 } from "../api/admin/manageWebsiteApi";
+import manageWebAllApi, {
+  manageWebAllApiReducer,
+} from "../api/manageWebsiteApi/manageWebApi";
 
 const persistConfig = {
   key: "root",
@@ -78,6 +81,7 @@ const rootReducer = combineReducers({
   [CvApplyApi.reducerPath]: CvApplyReducer,
   [FindJobCompanyApi.reducerPath]: FindJobCompanyReducer,
   [ManageWebsiteApi.reducerPath]: ManageWebsiteReducer,
+  [manageWebAllApi.reducerPath]: manageWebAllApiReducer,
 });
 const middleware = [
   MajorApi.middleware,
@@ -105,6 +109,7 @@ const middleware = [
   CvApplyApi.middleware,
   FindJobCompanyApi.middleware,
   ManageWebsiteApi.middleware,
+  manageWebAllApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

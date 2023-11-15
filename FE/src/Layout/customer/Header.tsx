@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
   AiOutlineBars,
@@ -17,7 +17,9 @@ import { useLogOutMutation } from "../../api/auths";
 import { Notyf } from "notyf";
 import { useGetCandidatesQuery } from "../../api/accountApi";
 
-const Header = () => {
+const Header = React.memo((data: any) => {
+  const listData = data?.data;
+
   const notyf = new Notyf({
     duration: 2000,
     position: {
@@ -108,9 +110,10 @@ const Header = () => {
           <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
-              className="h-8 w-auto"
-              src="https://123job.vn/images/logo_tim.png"
+              className=" "
+              src={listData?.logo}
               alt=""
+              width={60}
             />
           </Link>
         </div>
@@ -395,6 +398,6 @@ const Header = () => {
       </Dialog>
     </header>
   );
-};
+});
 
 export default Header;

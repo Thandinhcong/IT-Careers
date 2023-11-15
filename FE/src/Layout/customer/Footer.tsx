@@ -1,14 +1,17 @@
-    import { AiFillLinkedin, AiOutlineFacebook, AiOutlineYoutube } from "react-icons/ai"
+import React from "react";
+import { AiFillLinkedin, AiOutlineFacebook, AiOutlineYoutube } from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 
-const Footer = () => {
+const Footer = React.memo((dataFooter: any) => {
+    const listINfo = dataFooter?.dataFooter;
+
     return (
         <footer className="bg-slate-50 w-full">
             <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8 lg:pt-24">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 py-4">
                     <div className="">
-                        <p className="font-bold text-gray-900">Về 123job.vn</p>
+                        <p className="font-bold text-gray-900">Về {listINfo?.name_web}</p>
                         <ul className="mt-6 space-y-4 text-sm">
                             <li>
                                 <Link to="#" className="text-gray-900 transition hover:opacity-75">
@@ -155,8 +158,8 @@ const Footer = () => {
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div>
                         <div className="">
-                            <img src="https://123job.vn/images/logo_tim.png" className="w-24" alt="" />
-                            <p className="font-medium text-base">Công ty cổ phần VNP Group</p>
+                            <img src={listINfo?.logo} className="w-24 " alt="" />
+                            <p className="  mt-10 text-xl  font-semibold">{listINfo?.company_name}</p>
                         </div>
 
                         <p
@@ -184,7 +187,7 @@ const Footer = () => {
                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                                 />
                             </svg>
-                            <span>Trụ sở HN: 102 Thái Thịnh, Trung Liệt, Đống Đa, Hà Nội</span>
+                            <span> {listINfo?.address}</span>
                         </p>
                         <img src="https://123job.vn/images/gov.png" alt="" />
                     </div>
@@ -214,7 +217,7 @@ const Footer = () => {
                                             />
                                         </svg>
 
-                                        <span className="flex-1 text-gray-900">Email: contact@123job.vn</span>
+                                        <span className="flex-1 text-gray-900">Email: {listINfo?.email}</span>
                                     </a>
                                 </li>
 
@@ -238,7 +241,7 @@ const Footer = () => {
                                             />
                                         </svg>
 
-                                        <span className="flex-1 text-gray-900"> Zalo/Phone: 0368.201.788 - Ngọc Bích</span>
+                                        <span className="flex-1 text-gray-900"> Zalo/Phone: {listINfo?.phone} - Đinh Văn Thản</span>
                                     </a>
                                 </li>
 
@@ -260,13 +263,13 @@ const Footer = () => {
                                         />
                                     </svg>
                                     <address className="-mt-0.5 flex-1 not-italic text-gray-900">
-                                        Liên hệ hợp tác: 0333.383.630 - Nguyễn Hưng
+                                        Liên hệ hợp tác:  {listINfo?.sdt_lienhe} - Anh Thản
                                     </address>
                                 </li>
                             </ul>
 
                             <div>
-                                <p className="my-4 font-medium text-lg">Cộng đồng 123job.vn</p>
+                                <p className="my-4 font-medium text-lg">Cộng đồng {listINfo?.name_web}</p>
                                 <span className="text-4xl flex gap-2">
                                     <a href=""><AiOutlineFacebook className="text-blue-500" /></a>
                                     <a href=""><AiOutlineYoutube className=" text-red-600" /></a>
@@ -281,12 +284,12 @@ const Footer = () => {
                 <div className="pt-6">
                     <div className="text-center">
                         <p className="mt-4 text-md text-gray-900 sm:order-first sm:mt-0">
-                            Copyright © 2018 123job.vn - Nền tảng tìm kiếm việc làm và review công ty hàng đầu tại Việt Nam
+                            Copyright © 2023 {listINfo?.company_name} - Nền tảng tìm kiếm việc làm và review công ty hàng đầu tại Việt Nam
                         </p>
                     </div>
                 </div>
             </div>
         </footer>
     )
-}
+});
 export default Footer

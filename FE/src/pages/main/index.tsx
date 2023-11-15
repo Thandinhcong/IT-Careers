@@ -1,4 +1,3 @@
-import RecruiterEmployer from './recruiter'
 import Recruitment from './Recruitment'
 import TopArea from './TopArea'
 import DreamJob from './DreamJob'
@@ -15,7 +14,6 @@ const Main = () => {
         <div className=''>
             <Banner />
             <div className='max-w-screen-xl mx-auto'>
-                <RecruiterEmployer />
                 <Recruitment />
                 <TopArea />
                 <DreamJob />
