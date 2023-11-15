@@ -54,7 +54,7 @@ const LayoutUser = () => {
                                     <img src={data?.candidate?.image} alt="" className='h-28 rounded-full' />
 
                                 ) : (
-                                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" className='rounded-full' />
+                                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" className='rounded-full' />
                                 )
                                 }
                             </div>

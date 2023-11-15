@@ -26,7 +26,7 @@ const SideBarCompany = () => {
                 {listIcon ? (
                     <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                 ) : (
-                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" width={40} className='rounded-full' />
                 )}
                 <p>{Infor?.company?.company_name}</p>
             </div>

@@ -72,7 +72,7 @@ const Profile = React.memo(() => {
                                 />
 
                             ) : (
-                                <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" width={100} alt="icon" className='rounded-full' />
+                                <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" width={100} alt="icon" className='rounded-full' />
                             )}
                         </div>
                     </div>

@@ -217,7 +217,7 @@ const Header = React.memo((data: any) => {
                       alt="avatar"
                     />
                   ) : (
-                    <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" width={40} className='rounded-full' />
                   )}
                 </Popover.Button>
                 <Transition
