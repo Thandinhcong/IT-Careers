@@ -210,7 +210,7 @@ const JobDetail = React.memo(() => {
                                 <TabNew />
                             </TETabsPane>
                             <TETabsPane show={basicActive === "tab2"}>
-                                <TabInfor />
+                                <TabInfor listOne={listOne} />
                             </TETabsPane>
                         </TETabsContent>
                     </div>

@@ -22,14 +22,13 @@ const HeaderCompany = () => {
             y: 'top',
         },
     });
-    const navigate = useNavigate();
     const [logout] = useLogOutCompaniesMutation()
     const handleLogout = async () => {
         try {
             await logout();
-            localStorage.removeItem('accessToken');
-            message.success("đăng xuất");
-            navigate("/business/signin");
+            localStorage.removeItem('authCompany');
+            notyf.success("Đăng xuấ thành công!");
+            window.location.href = "/business/signin";
         } catch (error) {
             notyf.error('Đăng xuất không thành công: ');
         }

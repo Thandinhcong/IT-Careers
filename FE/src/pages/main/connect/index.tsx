@@ -3,7 +3,7 @@ const Connect = () => {
     return (
         <section className=' font-medium  relative'>
             <div className='bg-blue-500 rounded-2xl p-10 text-white'>
-                <h3 className='text-2xl  my-5'>IT Careers</h3>
+                <h3 className='text-2xl  my-5'>BEWORK</h3>
                 <h1 className='text-5xl mb-10 font-semibold'>Kết nối nhà tuyển dụng</h1>
                 <p>Chúng tôi giúp bạn kết nối với nhà tuyển dụng nhanh nhất, <br /> tiện lợi nhất, giúp bạn có công việc mơ ước.</p>
                 <div className='grid grid-cols-3 gap-6 my-10 w-2/3'>

@@ -70,17 +70,10 @@ const PostManage = () => {
             }
         }
     }
-    const dataJobPost: any = data?.jobPost?.map(({ id, title, company_name, start_date, end_date, require, gender, interest, status }: IJobPost) => {
+    const dataJobPost: any = data?.jobPost?.map((item: IJobPost) => {
         return {
-            key: id,
-            title,
-            company_name,
-            start_date,
-            end_date,
-            require,
-            gender,
-            interest,
-            status
+            key: item?.id,
+            ...item,
         }
     })
     const columns: ColumnsType<IJobPost> = [

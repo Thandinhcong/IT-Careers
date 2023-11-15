@@ -29,6 +29,8 @@ const LayoutAdmin = () => {
         { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
         { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
         { key: '12', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
+        { key: '13', icon: <FileProtectOutlined />, label: 'Quản lý Website', path: 'manage-website' },
+
 
     ];
 

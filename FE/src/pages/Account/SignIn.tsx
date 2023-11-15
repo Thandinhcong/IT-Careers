@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
-import { SlSocialFacebook } from 'react-icons/sl';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
@@ -12,6 +11,7 @@ import { Notyf } from "notyf";
 
 
 const Login = React.memo(() => {
+
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -56,7 +56,7 @@ const Login = React.memo(() => {
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img className="w-20 h-15 mr-2" src="https://123job.vn/images/logo_tim.png" alt="logo" />
+                    <img className="w-20 h-15 mr-2" src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" alt="logo" />
                 </Link>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-[500px] xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -96,24 +96,22 @@ const Login = React.memo(() => {
                                 <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
 
                             </div>
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={loginGoogle}
-                                    className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
-                                    <span className="w-10"><FcGoogle /></span>
 
-                                    <span> Google</span>
-                                </button>
-                                <button className="rounded-lg bg-blue-800 text-white flex items-center space-x-2 px-9 py-2 mt-4 ml-2">
-                                    <span className="w-10">< SlSocialFacebook /></span>
-                                    <span> Facebook</span>
-                                </button>
-                            </div>
+
+
+
                             <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
-                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Chưa có tài khoản? <Link to="/dang-ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký</Link>
-                            </p>
                         </form>
+                        <button
+                            onClick={loginGoogle}
+                            className="rounded-lg bg-gray-200 w-full  text-black flex items-center justify-center space-x-2 px-9 py-2 mt-4 ">
+                            <span className="w-10"><FcGoogle /></span>
+
+                            <span> Google</span>
+                        </button>
+                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            Chưa có tài khoản? <Link to="/dang-ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký</Link>
+                        </p>
                     </div>
                 </div>
             </div>

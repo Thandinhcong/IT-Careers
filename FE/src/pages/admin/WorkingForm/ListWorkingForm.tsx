@@ -14,11 +14,10 @@ const ListWorkingForm = () => {
     if (isRemoveLoading) return <Skeleton />
 
 
-    const dataSource = data?.workingForm?.map(({ id, working_form, description }: IWorkingForm) => {
+    const dataSource = data?.workingForm?.map((item: IWorkingForm) => {
         return {
-            key: id,
-            working_form,
-            description,
+            key: item?.id,
+            ...item
         }
     })
 

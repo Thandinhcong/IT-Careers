@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import RecruiterEmployer from '../../main/recruiter'
 import Recruitment from '../../main/Recruitment'
 import DreamJob from '../../main/DreamJob'
 import Utilities from '../../main/Utilities'
@@ -16,11 +15,9 @@ const Jobs = () => {
 
             <div className='max-w-screen-xl mx-auto'>
                 <SearchJobs />
-                <RecruiterEmployer />
                 <Connect />
                 <Recruitment />
                 <DreamJob />
-                <Recruitment />
                 <Utilities />
                 <ToRecruitment />
             </div>

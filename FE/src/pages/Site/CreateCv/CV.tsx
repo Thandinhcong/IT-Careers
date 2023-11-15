@@ -263,7 +263,7 @@ const Cv = () => {
     };
 
     return (
-        <div className="builder-container  max-w-screen-2xl">
+        <div className="builder-container   max-w-screen-2xl">
             <div className={"new-project-mondel " + adprom}>
                 <div className="Mondel-heading">
                     {" "}
@@ -365,7 +365,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Công ty"
                         value={companyName}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setcompanyName(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -376,7 +376,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Chức vụ"
                         value={role}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setrole(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -387,7 +387,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Công việc đã làm"
                         value={expBulletedPoint1}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setexpBulletedPoint1(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -398,7 +398,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Học được những gì tron dự án đó"
                         value={expBulletedPoint2}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setexpBulletedPoint2(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -435,7 +435,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Trường học"
                         value={schoolName}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setschoolName(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -446,7 +446,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Cấp bậc"
                         value={degree}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setdegree(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -457,7 +457,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Ngày bắt đầu"
                         value={startYear}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setstartYear(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -468,7 +468,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="Ngày kết thúc"
                         value={endYear}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setendYear(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -479,7 +479,7 @@ const Cv = () => {
                         id="outlined-basic"
                         label="GPA"
                         value={score}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setscore(e.target.value);
                         }}
                         style={{ width: "100%", marginBottom: "30px", height: "40px" }}
@@ -531,7 +531,7 @@ const Cv = () => {
                     Thêm{" "}
                 </Button>
             </div>
-            <div className="builder-container-nav overflow-y-hidden">
+            <div className="builder-container-nav  bg-blue-500 overflow-y-hidden">
                 <div className="builder-name"> Tạo CV </div>
                 <div className="other-links-builder">
                     <Link
@@ -547,7 +547,7 @@ const Cv = () => {
                         Trang chủ{" "}
                     </Link>
 
-                    <Button onClick={handleDownload} variant="contained">
+                    <Button className="" onClick={handleDownload} variant="contained">
                         {" "}
                         Download{" "}
                     </Button>
@@ -678,7 +678,7 @@ const Cv = () => {
                     </div>
                     <div className="skills-div-container">
                         {" "}
-                        {skls.map((s, index) => {
+                        {skls.map((s: any, index) => {
                             return (
                                 <div>
                                     {" "}
@@ -697,7 +697,7 @@ const Cv = () => {
                             );
                         })}
                     </div>
-                    <div> Dự án </div>{" "}
+                    <div className=""> Dự án </div>{" "}
                     <div className="full-name-div">
                         {" "}
                         <Button
@@ -712,7 +712,7 @@ const Cv = () => {
                         </Button>
                     </div>
                     <div className="Project-list-left">
-                        {proj.map((pr, index) => {
+                        {proj.map((pr: any, index) => {
                             return (
                                 <div
                                     style={{
@@ -760,7 +760,7 @@ const Cv = () => {
                     <div className="exp-list-left">
                         <div className="Project-list-left">
                             {" "}
-                            {exper.map((e, index) => {
+                            {exper.map((e: any, index) => {
                                 return (
                                     <div
                                         style={{
@@ -808,7 +808,7 @@ const Cv = () => {
                     </div>
                     <div className="edu-list-left">
                         <div className="Project-list-left">
-                            {edu.map((ed, index) => {
+                            {edu.map((ed: any, index) => {
                                 return (
                                     <div
                                         style={{
@@ -991,7 +991,7 @@ const Cv = () => {
                                 </div>
                             </div>{" "}
                             <div>
-                                <div className="skills-section-heading">
+                                <div className="skills-section-heading ">
                                     Thành tích{" "}
                                 </div>
 
