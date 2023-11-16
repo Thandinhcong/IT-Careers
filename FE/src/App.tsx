@@ -91,8 +91,7 @@ import LoginAdmin from "./pages/admin/login/Login"
 import PostEdit from "./pages/Companys/Jobs-manage/PostEdit"
 import IsLogin from "./pages/auths/isLogin"
 import NotFound from "./pages/notFound/NotFound"
-import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail"
-import Cv from "./pages/Site/CreateCv/CV"
+import CvCandodateDetail from "./pages/Companys/CV_apply_jobpost/CvCandidateDetail";
 import CandidateInformation from "./pages/Site/User/CandidateInformation"
 import ChangePassCandidate from "./pages/Site/User/ChangePassCandidate"
 import CVApplyJobPost from "./pages/Companys/CV_apply_jobpost/CVApplyJobPost"
@@ -100,6 +99,7 @@ import IsCheckLogin from "./pages/auths/isCheckLogin"
 import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
 import Manage_Website from "./pages/admin/Manage-Website"
 import UpdateManage from "./pages/admin/Manage-Website/Update"
+import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
 
 
 function App() {
@@ -131,8 +131,9 @@ function App() {
               <Route path='profile' element={< Profile />} />
             </Route >
             <Route path='account' element={< Account />} />
+            <Route path="tao-cv" element={<CreateCvTest />} />
           </Route>
-          <Route path="tao-cv" element={<Cv />} />
+
           <Route path='help/' element={<Help />}>
             <Route path='contact' element={< Contact />} />
             <Route path='policy' element={< Policy />} />

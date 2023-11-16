@@ -1,5 +1,9 @@
+import { useEffect } from "react"
 
 const FAQ = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <div className="col-span-3">
             <h1 className="font-bold text-xl my-4">Câu hỏi thường gặp</h1>

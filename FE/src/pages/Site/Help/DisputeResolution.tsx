@@ -1,5 +1,9 @@
+import { useEffect } from "react"
 
 const DisputeResolution = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <div className="col-span-3">
             <h1 className="font-bold text-xl my-4">Quy trình giải quyết tranh chấp</h1>
@@ -13,7 +17,7 @@ const DisputeResolution = () => {
                     <p>
                         <span className="w-10 inline-block base-line"></span>
                         <span className="underline">Bước 1 </span>
-                        : Người Tìm Việc/Nhà Tuyển Dụng (Bên Khiếu Nại) khiếu nại trực tiếp tới Công ty bằng một trong các cách sau: gửi email tới contact@123job.vn.
+                        : Người Tìm Việc/Nhà Tuyển Dụng (Bên Khiếu Nại) khiếu nại trực tiếp tới Công ty bằng một trong các cách sau: gửi email tới bework@gmail.com.
                     </p>
                     <p>
                         <span className="w-10 inline-block base-line"></span>
