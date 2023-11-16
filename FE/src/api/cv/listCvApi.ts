@@ -28,6 +28,7 @@ const listCvApi = createApi({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ["CV"],
     }),
     updateCv: buidler.mutation<any, string | number>({
       query: (data: any) => ({
@@ -35,6 +36,7 @@ const listCvApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["CV"],
     }),
     //profile
     listInfo: buidler.query({

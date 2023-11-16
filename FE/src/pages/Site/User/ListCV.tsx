@@ -18,7 +18,16 @@ const ListCV = () => {
     const listCv = data?.data;
     //tạo
     const [CreateCV] = useAddCvMutation();
+    const handleAddCV = async (data: any) => {
+        try {
+            await CreateCV(data).unwrap();
 
+        } catch (error: any) {
+            notyf.error(error?.data?.message)
+            console.log(error);
+
+        }
+    }
     //delete
     const [deleteCV] = useDelete_cvMutation();
     const handleDelete = async (id: any) => {
@@ -67,7 +76,7 @@ const ListCV = () => {
                         })}
                     </div>
                     <div className='text-center m-5'>
-                        <Link to={`/tao-cv`} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</Link>
+                        <button onClick={() => handleAddCV()} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</button>
                     </div>
                 </div>
 
