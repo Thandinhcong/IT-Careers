@@ -131,7 +131,7 @@ function App() {
               <Route path='profile' element={< Profile />} />
             </Route >
             <Route path='account' element={< Account />} />
-            <Route path="tao-cv" element={<CreateCvTest />} />
+            <Route path="tao-cv/:id" element={<CreateCvTest />} />
           </Route>
 
           <Route path='help/' element={<Help />}>

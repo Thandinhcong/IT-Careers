@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 // import './main.css'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
-import { useAddExpMutation, useListCvQuery, useListInfoQuery, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
+import { useAddExpMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
+import { IoTrashOutline } from 'react-icons/io5';
 const CreateCvTest = () => {
     const notyf = new Notyf({
         duration: 2000,
@@ -12,21 +14,29 @@ const CreateCvTest = () => {
             y: 'top',
         },
     });
+    const { id } = useParams();
     const { data: dataCV } = useListCvQuery();
-    const idPost = dataCV?.data[0]?.id;
+    const dataMap = dataCV?.data.find((item: any) => item.id == id)
+    const { data: getExp } = useListInfoQuery(id || '');
+    const idPost = dataMap?.id;
     const { data } = useListInfoQuery(idPost || '');
     //call api update info cv
     const [updateInfoCv] = useUpdateInfoProfileMutation();
+
     const listProfile = data?.profile?.cv;
-    const { register, handleSubmit } = useForm<any>();
+    const { register, handleSubmit, reset } = useForm<any>();
     const onHandleSubmit = async (data: any) => {
         try {
             await updateInfoCv({
                 id: idPost,
                 ...data
             }).unwrap();
+            notyf.success("Cập nhật thông tin thành công")
+            console.log(data);
+
         } catch (error: any) {
-            notyf.error(error.message)
+            notyf.error(error?.data?.error)
+
         }
     }
     //profile
@@ -96,15 +106,34 @@ const CreateCvTest = () => {
     // kinh nghiệm
 
     const [addExp] = useAddExpMutation();
-    const { register: registerExp, handleSubmit: handleSubmitExp } = useForm<any>();
+    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp } = useForm<any>();
+
+    const listExp = getExp?.profile?.exps;
+    console.log(listExp);
+
+    const [deleteExp] = useRemoveExpMutation();
+    const handleDeleteExp = async (id: any) => {
+        try {
+            await deleteExp(id).unwrap();
+            notyf.success("Xóa dự án thành công")
+
+        } catch (error: any) {
+            console.log(error);
+
+            notyf.error(error)
+
+        }
+    }
     const onHandleSubmitExp = async (data: any) => {
         try {
             await addExp({
                 profile_id: idPost,
                 ...data
             }).unwrap();
-        } catch (error) {
+            notyf.success("Thêm dự án thành công")
 
+        } catch (error: any) {
+            notyf.error(error?.data?.message)
         }
     }
     const [experience, setExperience] = useState([{ position: "", company_name: '', start_date: '', end_date: '' }]);
@@ -129,12 +158,16 @@ const CreateCvTest = () => {
 
     useEffect(() => {
         if (listProfile) {
-            setProfile(listProfile); // Cập nhật profile từ dữ liệu đã lấy
+            setProfile(listProfile);
         }
-    }, [listProfile]);
+        setExperience(listExp);
+        reset(listProfile);
+        resetExp(experience)
+    }, [listProfile, listExp]);
 
     return (
         <div className='max-w-screen-xl mx-auto'>
+
             {/* nhập */}
             <div className='mx-24'>
                 <div>
@@ -144,21 +177,20 @@ const CreateCvTest = () => {
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
                                 <input
-                                    value={profile.title}
                                     {...register('title')}
-
+                                    name='title'
+                                    defaultValue={profile.title}
                                     onChange={handleInputChange}
                                     type="text" className='border border-gray-200 p-2 w-full'
-
                                 />
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Họ tên:</label>
                                 <input type="text"
                                     {...register('name')}
+                                    // {...setValue('name')}
                                     name='name'
-
-                                    value={profile.name}
+                                    defaultValue={profile?.name}
                                     onChange={handleInputChange}
                                     className='border border-gray-200 p-2 w-full' />
                             </div>
@@ -166,8 +198,9 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Số điện thoại:</label>
                                 <input type="text"
                                     {...register('phone')}
+                                    // {...setValue('phone')}
                                     name='phone'
-                                    value={profile.phone}
+                                    defaultValue={profile?.phone}
                                     onChange={handleInputChange}
                                     className='border border-gray-200 p-2 w-full' />
                             </div>
@@ -175,7 +208,9 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Email:</label>
                                 <input type="text"
                                     {...register('email')}
-                                    value={profile.email}
+                                    // {...setValue('email')}
+
+                                    defaultValue={profile?.email}
                                     onChange={handleInputChange}
                                     name='email'
                                     className='border border-gray-200 p-2 w-full' />
@@ -184,7 +219,7 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name"
                                     className='block font-semibold mb-2'>Địa chỉ:</label>
                                 <input type="text"
-                                    value={profile.address}
+                                    defaultValue={profile?.address}
                                     onChange={handleInputChange}
                                     name="address" className='border border-gray-200 p-2 w-full' />
                             </div>
@@ -194,7 +229,7 @@ const CreateCvTest = () => {
                                     className='block font-semibold mb-2'>Ngày sinh</label>
                                 <input type="text"
                                     {...register('birth')}
-                                    value={profile.birth}
+                                    defaultValue={profile?.birth}
                                     name='birth'
                                     onChange={handleInputChange} className='border border-gray-200 p-2 w-full' />
                             </div>
@@ -205,7 +240,7 @@ const CreateCvTest = () => {
                 </div>
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kinh nghiệm làm việc</h2>
-                    {experience.map((experiences, index) => (
+                    {experience?.map((experiences: any, index) => (
                         <form key={index} onSubmit={handleSubmitExp(onHandleSubmitExp)}>
                             <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                 <div>
@@ -216,7 +251,7 @@ const CreateCvTest = () => {
                                         {...registerExp("company_name")}
                                         type="text"
                                         name='company_name'
-                                        value={experiences.company_name}
+                                        defaultValue={experiences.company_name}
                                         onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
                                         className='border border-gray-200 p-2 w-full'
                                     />
@@ -230,22 +265,35 @@ const CreateCvTest = () => {
                                         {...registerExp("position")}
                                         type="text"
                                         name='position'
-                                        value={experiences.position}
+                                        defaultValue={experiences.position}
                                         onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
                                         className='border border-gray-200 p-2 w-full'
                                     />
                                 </div>
+
                                 {index > 0 && (
-                                    <div>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleRemoveExp(index)}
-                                            className='bg-red-500 text-white p-1.5 float-right'
-                                        >
-                                            <AiOutlineClose />
-                                        </button>
+                                    <div className='flex gap-2'>
+                                        <div>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveExp(index)}
+                                                className='bg-red-500 text-white p-1.5 float-right'
+                                            >
+                                                <AiOutlineClose />
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteExp(experiences?.id)}
+                                                className='bg-red-500 text-white p-1.5 float-right'
+                                            >
+                                                <IoTrashOutline />
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
+
                                 <div>
                                     <label className='block font-semibold mb-2 '>
                                         <div>Ngày bắt đầu</div>
@@ -254,7 +302,7 @@ const CreateCvTest = () => {
                                         type="text"
                                         {...registerExp('start_date')}
                                         name='start_date'
-                                        value={experiences.start_date}
+                                        defaultValue={experiences.start_date}
                                         onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
                                         className='border border-gray-200 p-2 w-full'
                                     />
@@ -268,7 +316,7 @@ const CreateCvTest = () => {
                                         {...registerExp('end_date')}
                                         type="text"
                                         name='end_date'
-                                        value={experiences.end_date}
+                                        defaultValue={experiences.end_date}
                                         onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
                                         className='border border-gray-200 p-2 w-full'
                                     />
@@ -284,7 +332,7 @@ const CreateCvTest = () => {
                 </div>
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Học vấn</h2>
-                    {education.map((educations, index) => (
+                    {education?.map((educations, index) => (
                         <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                             <div>
                                 <label className='block font-semibold mb-2 '>
@@ -322,7 +370,6 @@ const CreateCvTest = () => {
                                 </div>
                             )}
 
-
                             <div>
                                 <label className='block font-semibold mb-2 '>
                                     <div>Ngày bắt đầu</div>
@@ -356,7 +403,7 @@ const CreateCvTest = () => {
 
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kĩ năng</h2>
-                    {skills.map((skill, index) => (
+                    {skills?.map((skill, index) => (
                         <div key={index} className='border border-gray-200 p-5 my-3'>
                             <div>
                                 <label className='font-semibold mb-2 flex justify-between items-center'>
@@ -392,7 +439,7 @@ const CreateCvTest = () => {
 
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Project</h2>
-                    {projects.map((project, index) => (
+                    {projects?.map((project, index) => (
                         <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                             <div>
                                 <label className='block font-semibold mb-2 '>

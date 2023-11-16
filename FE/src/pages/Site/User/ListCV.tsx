@@ -25,8 +25,6 @@ const ListCV = () => {
 
         } catch (error: any) {
             notyf.error(error?.data?.message)
-            console.log(error);
-
         }
     }
     //delete
@@ -37,8 +35,8 @@ const ListCV = () => {
             try {
                 await deleteCV(id).unwrap();
                 notyf.success('Xóa thành công')
-            } catch (error) {
-                notyf.error("Xóa thất bại")
+            } catch (error: any) {
+                notyf.error(error?.data?.message)
             }
         }
     }
@@ -61,12 +59,12 @@ const ListCV = () => {
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
                             return (
-                                <div className=' shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
+                                <div key={item?.id} className=' shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
                                     <p>Tên Cv : {item?.title}</p>
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
                                         <Link to=""><CgEye /></Link>
-                                        <Link to=""><CiEdit /></Link>
+                                        <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                     </div>
                                     <button
                                         className='text-white bg-blue-500 px-3 py-2 rounded '
@@ -77,7 +75,7 @@ const ListCV = () => {
                         })}
                     </div>
                     <div className='text-center m-5'>
-                        <button onClick={() => handleAddCV()} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</button>
+                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</button>
                     </div>
                 </div>
 
@@ -93,7 +91,7 @@ const ListCV = () => {
                         <Button
                             type='primary'
                             className='bg-blue-600 text-white text-lg h-12'
-                            onClick={() => handleAddCV()}
+                            onClick={handleAddCV}
                         >
 
                             Tạo CV đầu tiên

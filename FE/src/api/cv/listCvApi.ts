@@ -40,7 +40,7 @@ const listCvApi = createApi({
     }),
     //profile
     listInfo: buidler.query({
-      query: (id: any) => "/update_cv/" + id,
+      query: (id: any) => `/update_cv/${id}`,
       providesTags: ["CV"],
     }),
     updateInfoProfile: buidler.mutation<any, string | number>({
@@ -49,6 +49,7 @@ const listCvApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["CV"],
     }),
     //kinh nghiệm
     addExp: buidler.mutation<any, string | number>({
@@ -57,11 +58,12 @@ const listCvApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["CV"],
     }),
     removeExp: buidler.mutation<any, string | number>({
       query: (id: any) => ({
         url: `/update_cv/delete_exp/${id}`,
-        method: "DELETE",
+        method: "GET",
       }),
       invalidatesTags: ["CV"],
     }),
@@ -81,6 +83,79 @@ const listCvApi = createApi({
       }),
       invalidatesTags: ["CV"],
     }),
+    //project
+    addProject: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/save_project`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    updateProject: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/update_project/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    deleteProject: buidler.mutation<any, string | number>({
+      query: (id: any) => ({
+        url: `/update_cv/delete_project/${id}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["CV"],
+    }),
+
+    //education
+    addEdu: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/save_edu`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    updateEdu: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/update_edu/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    deleteEdu: buidler.mutation<any, string | number>({
+      query: (id: any) => ({
+        url: `/update_cv/delete_edu/${id}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    //skill
+    addSkill: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/save_skill`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    updateSkill: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/update_skill/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
+    deleteSkill: buidler.mutation<any, string | number>({
+      query: (id: any) => ({
+        url: `/update_cv/delete_skill/${id}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["CV"],
+    }),
   }),
 });
 export const {
@@ -92,6 +167,20 @@ export const {
   useRemoveExpMutation,
   useActive_cvMutation,
   useDelete_cvMutation,
+  //project
+  useAddProjectMutation,
+  useDeleteProjectMutation,
+  useUpdateProjectMutation,
+
+  //edu
+  useAddEduMutation,
+  useUpdateEduMutation,
+  useDeleteEduMutation,
+
+  //skill
+  useAddSkillMutation,
+  useUpdateSkillMutation,
+  useDeleteSkillMutation,
 } = listCvApi;
 export const listCvReducer = listCvApi.reducer;
 export default listCvApi;

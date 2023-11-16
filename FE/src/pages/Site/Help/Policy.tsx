@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 
 const Policy = () => {
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])

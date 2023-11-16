@@ -30,7 +30,7 @@ const LayoutUser = () => {
         if (checked) {
             findJob();
             notyf.success("Bật tìm việc thành công");
-
+            return
         } else {
             notyf.success("Tắt tìm việc thành công")
 
