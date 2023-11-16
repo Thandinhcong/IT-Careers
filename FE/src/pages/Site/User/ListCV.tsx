@@ -21,6 +21,7 @@ const ListCV = () => {
     const handleAddCV = async (data: any) => {
         try {
             await CreateCV(data).unwrap();
+            notyf.success('Tạo thành công')
 
         } catch (error: any) {
             notyf.error(error?.data?.message)
@@ -54,7 +55,7 @@ const ListCV = () => {
     return (
 
         <div className=''>
-            {listCv ? (
+            {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
                     <h2 className='text-2xl text-center my-10'>Danh sách CV</h2>
                     <div className='grid grid-cols-3 gap-5 '>
@@ -92,17 +93,17 @@ const ListCV = () => {
                         <Button
                             type='primary'
                             className='bg-blue-600 text-white text-lg h-12'
+                            onClick={() => handleAddCV()}
                         >
-                            <Link to="/tao-cv">
-                                Tạo CV đầu tiên
-                            </Link>
+
+                            Tạo CV đầu tiên
+
                         </Button>
                     </div>
                     <div className='w-52 ml-5'>
                         <img src="https://123job.vn/images/banner/create-first-resume-logo.png" alt="" />
                     </div>
                 </div>
-
             )}
         </div>
     )
