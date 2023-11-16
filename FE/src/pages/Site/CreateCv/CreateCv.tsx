@@ -86,10 +86,10 @@ const CreateCvTest = () => {
         setProjects(updatedProjects);
     };
     //học vấn
-    const [education, setEducation] = useState([{ school: '', GPA: '', start_date_project: '', end_date_project: '' }]);
+    const [education, setEducation] = useState([{ school: '', GPA: '', start_date: '', end_date: '', type_degree: "" }]);
 
     const handleAddEdu = () => {
-        setEducation([...education, { school: '', GPA: '', start_date_project: '', end_date_project: '' }]);
+        setEducation([...education, { school: '', GPA: '', start_date: '', end_date: '', type_degree: "" }]);
     };
 
     const handleRemoveEdu = (index: any) => {
@@ -153,8 +153,6 @@ const CreateCvTest = () => {
         updatedExp[index][field] = value;
         setExperience(updatedExp);
     };
-
-
 
     useEffect(() => {
         if (listProfile) {
@@ -332,7 +330,7 @@ const CreateCvTest = () => {
                 </div>
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Học vấn</h2>
-                    {education?.map((educations, index) => (
+                    {education?.map((educations: any, index) => (
                         <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                             <div>
                                 <label className='block font-semibold mb-2 '>
@@ -357,6 +355,48 @@ const CreateCvTest = () => {
                                     onChange={(e) => handleChangeEdu(index, 'GPA', e.target.value)}
                                     className='border border-gray-200 p-2 w-full'
                                 />
+                            </div>
+                            <div>
+                                <label className='block font-semibold mb-2 '>
+                                    <div>Loại bằng</div>
+                                </label>
+                                <select
+                                    defaultValue={educations.type_degree}
+                                    className='border border-gray-200 p-2 w-full outline-none'
+                                    onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
+                                >
+                                    <option
+                                        value=""
+                                    >
+                                        Đại Học
+                                    </option>
+                                    <option
+                                        value=""
+                                    >
+                                        Cao đẳng
+                                    </option>
+                                    <option
+                                        value=""
+                                    >
+                                        Trung cấp
+                                    </option>
+                                    <option
+                                        value=""
+                                    >
+                                        Sau đại học(Tiến sĩ/Thạc sỹ)
+                                    </option>
+                                    <option
+                                        value=""
+                                    >
+                                        Trung tâm đào tạo
+                                    </option>
+                                    <option
+                                        value=""
+                                    >
+                                        Du Học
+                                    </option>
+                                </select>
+
                             </div>
                             {index > 0 && (
                                 <div>
@@ -578,8 +618,8 @@ const CreateCvTest = () => {
                                     <p className='bg-gray-100 font-semibold my-4 text-lg'>{item.school}</p>
                                     <div className='flex flex-col gap-1'>
                                         <p className='font-semibold'>Thời gian:
-                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item?.start_date_project}</span>-
-                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item?.end_date_project}</span>
+                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
+                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
                                         </p>
                                         <p className='font-semibold'>GPA:
                                             <span className='font-normal ml-1'>{item?.GPA}</span>
