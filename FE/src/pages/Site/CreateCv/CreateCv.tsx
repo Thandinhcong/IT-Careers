@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 // import './main.css'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
-import { useAddExpMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
+import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useDeleteEduMutation, useDeleteProjectMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
+import { useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 const CreateCvTest = () => {
     const notyf = new Notyf({
         duration: 2000,
@@ -17,7 +18,7 @@ const CreateCvTest = () => {
     const { id } = useParams();
     const { data: dataCV } = useListCvQuery();
     const dataMap = dataCV?.data.find((item: any) => item.id == id)
-    const { data: getExp } = useListInfoQuery(id || '');
+    const { data: getCV } = useListInfoQuery(id || '');
     const idPost = dataMap?.id;
     const { data } = useListInfoQuery(idPost || '');
     //call api update info cv
@@ -68,6 +69,35 @@ const CreateCvTest = () => {
         setSkills(updatedSkills);
     };
     //project
+    const [addProject] = useAddProjectMutation();
+    const [deleteProject] = useDeleteProjectMutation();
+    const { register: registerProject, handleSubmit: handleSubmitProject, reset: resetProject } = useForm<any>();
+    const listProject = getCV?.profile?.projects;
+    //thêm dự án
+    const onHandleAddProject = async (data: any) => {
+        try {
+            addProject({
+                profile_id: idPost,
+                ...data
+            }).unwrap();
+            notyf.success("Thêm Dự án thành công")
+
+        } catch (error: any) {
+            console.log("error project", error);
+
+            notyf.error("Xóa dự án thành công")
+        }
+    }
+    //xóa dự án
+    const handleDeleteProject = async (id: string | number) => {
+        try {
+            await deleteProject(id).unwrap();
+            notyf.success("Xóa học vấn thành công")
+
+        } catch (error: any) {
+            notyf.error(error)
+        }
+    }
     const [projects, setProjects] = useState([{ project_name: '', project_describe: '', start_date_project: '', end_date_project: '', project_link: '' }]);
 
     const handleAddProject = () => {
@@ -86,10 +116,42 @@ const CreateCvTest = () => {
         setProjects(updatedProjects);
     };
     //học vấn
-    const [education, setEducation] = useState([{ school: '', GPA: '', start_date: '', end_date: '', type_degree: "" }]);
+    const { data: dataMajor } = useGetMajorQuery();
+    const listMajor = dataMajor?.major;
+    const listEducation = getCV?.profile?.educations;
+
+    const [addEducation] = useAddEduMutation();
+    const [deleteEducation] = useDeleteEduMutation();
+    const { register: registerEducation, handleSubmit: handleSubmitEducation, reset: resetEducation } = useForm<any>();
+    //thêm học vấn
+    const handleAddEducation = async (data: any) => {
+        try {
+            await addEducation({
+                profile_id: idPost,
+                ...data
+            }).unwrap();
+            notyf.success("Thêm học vấn thành công")
+
+        } catch (error: any) {
+            notyf.error(error)
+            console.log("error eddu", error);
+
+        }
+    }
+    // xóa học vấn
+    const handleDeleteEducation = async (id: string | number) => {
+        try {
+            await deleteEducation(id).unwrap();
+            notyf.success("Xóa học vấn thành công")
+
+        } catch (error: any) {
+            notyf.error(error)
+        }
+    }
+    const [education, setEducation] = useState([{ major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
 
     const handleAddEdu = () => {
-        setEducation([...education, { school: '', GPA: '', start_date: '', end_date: '', type_degree: "" }]);
+        setEducation([...education, { major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
     };
 
     const handleRemoveEdu = (index: any) => {
@@ -108,8 +170,7 @@ const CreateCvTest = () => {
     const [addExp] = useAddExpMutation();
     const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp } = useForm<any>();
 
-    const listExp = getExp?.profile?.exps;
-    console.log(listExp);
+    const listExp = getCV?.profile?.exps;
 
     const [deleteExp] = useRemoveExpMutation();
     const handleDeleteExp = async (id: any) => {
@@ -124,6 +185,7 @@ const CreateCvTest = () => {
 
         }
     }
+
     const onHandleSubmitExp = async (data: any) => {
         try {
             await addExp({
@@ -159,9 +221,11 @@ const CreateCvTest = () => {
             setProfile(listProfile);
         }
         setExperience(listExp);
+        setEducation(listEducation)
         reset(listProfile);
-        resetExp(experience)
-    }, [listProfile, listExp]);
+        resetExp(experience);
+        resetEducation(education);
+    }, [listProfile, listExp, listEducation]);
 
     return (
         <div className='max-w-screen-xl mx-auto'>
@@ -331,110 +395,144 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Học vấn</h2>
                     {education?.map((educations: any, index) => (
-                        <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Trường học</div>
-                                </label>
-                                <input
-                                    type="text"
-                                    name='project_name'
-                                    value={educations.school}
-                                    onChange={(e: any) => handleChangeEdu(index, 'school', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Điểm trung bình</div>
-                                </label>
-                                <input
-                                    type="text"
-                                    name='project_describe'
-                                    value={educations.GPA}
-                                    onChange={(e) => handleChangeEdu(index, 'GPA', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Loại bằng</div>
-                                </label>
-                                <select
-                                    defaultValue={educations.type_degree}
-                                    className='border border-gray-200 p-2 w-full outline-none'
-                                    onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
-                                >
-                                    <option
-                                        value=""
-                                    >
-                                        Đại Học
-                                    </option>
-                                    <option
-                                        value=""
-                                    >
-                                        Cao đẳng
-                                    </option>
-                                    <option
-                                        value=""
-                                    >
-                                        Trung cấp
-                                    </option>
-                                    <option
-                                        value=""
-                                    >
-                                        Sau đại học(Tiến sĩ/Thạc sỹ)
-                                    </option>
-                                    <option
-                                        value=""
-                                    >
-                                        Trung tâm đào tạo
-                                    </option>
-                                    <option
-                                        value=""
-                                    >
-                                        Du Học
-                                    </option>
-                                </select>
-
-                            </div>
-                            {index > 0 && (
+                        <form key={index} onSubmit={handleSubmitEducation(handleAddEducation)}>
+                            <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                 <div>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveEdu(index)}
-                                        className='bg-red-500 text-white p-1.5 float-right'
-                                    >
-                                        <AiOutlineClose />
-                                    </button>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Trường học</div>
+                                    </label>
+                                    <input
+                                        {...registerEducation('name')}
+                                        type="text"
+                                        name='name'
+                                        defaultValue={educations.name}
+                                        onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
+                                        className='border border-gray-200 p-2 w-full'
+                                    />
                                 </div>
-                            )}
+                                <div>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Điểm trung bình</div>
+                                    </label>
+                                    <input
+                                        {...registerEducation('gpa')}
 
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Ngày bắt đầu</div>
-                                </label>
-                                <input
-                                    type="date"
-                                    name='start_date_project'
-                                    value={educations.start_date_project}
-                                    onChange={(e) => handleChangeEdu(index, 'start_date_project', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
+                                        type="text"
+                                        name='gpa'
+                                        defaultValue={educations.gpa}
+                                        onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
+                                        className='border border-gray-200 p-2 w-full'
+                                    />
+                                </div>
+                                <div>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Chuyên ngành</div>
+                                    </label>
+                                    <select
+                                        {...registerEducation('major_id')}
+                                        defaultValue={educations.major_id}
+                                        className='border border-gray-200 p-2 w-full outline-none'
+                                        onChange={(e: any) => handleChangeEdu(index, 'major_id', e.target.value)}
+                                    >
+                                        {listMajor?.map((item: any) => {
+                                            return (<option
+                                                key={item?.id}
+                                                value={item?.id}
+                                            >
+                                                {item?.major}
+                                            </option>)
+                                        })}
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Loại bằng</div>
+                                    </label>
+                                    <select
+                                        {...registerEducation('type_degree')}
+                                        defaultValue={educations.type_degree}
+                                        className='border border-gray-200 p-2 w-full outline-none'
+                                        onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
+                                    >
+                                        <option
+                                            value="1"
+                                        >
+                                            Đại Học
+                                        </option>
+                                        <option
+                                            value="2"
+                                        >
+                                            Cao đẳng
+                                        </option>
+                                        <option
+                                            value="3"
+                                        >
+                                            Trung cấp
+                                        </option>
+                                        <option
+                                            value="4"
+                                        >
+                                            Sau đại học(Tiến sĩ/Thạc sỹ)
+                                        </option>
+                                        <option
+                                            value="5"
+                                        >
+                                            Trung tâm đào tạo
+                                        </option>
+                                        <option
+                                            value="6"
+                                        >
+                                            Du Học
+                                        </option>
+                                    </select>
+
+                                </div>
+                                {index > 0 && (
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveEdu(index)}
+                                            className='bg-red-500 text-white p-1.5 float-right'
+                                        >
+                                            <AiOutlineClose />
+                                        </button>
+                                    </div>
+                                )}
+
+                                <div>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Ngày bắt đầu</div>
+                                    </label>
+                                    <input
+                                        {...registerEducation('start_date')}
+
+                                        type="text"
+                                        name='start_date'
+                                        defaultValue={educations.start_date}
+                                        onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
+                                        className='border border-gray-200 p-2 w-full'
+                                    />
+                                </div>
+                                <div>
+                                    <label className='block font-semibold mb-2 '>
+                                        <div>Ngày kết thúc</div>
+                                    </label>
+                                    <input
+                                        {...registerEducation('end_date')}
+
+                                        type="text"
+                                        name='end_date'
+                                        defaultValue={educations.end_date}
+                                        onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
+                                        className='border border-gray-200 p-2 w-full'
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Ngày kết thúc</div>
-                                </label>
-                                <input
-                                    type="date"
-                                    name='end_date_project'
-                                    value={educations.end_date_project}
-                                    onChange={(e) => handleChangeEdu(index, 'end_date_project', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                        </div>
+                            <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
+                                Lưu
+                            </button>
+                        </form>
                     ))}
                     <button type="button" onClick={handleAddEdu} className='bg-blue-500 text-white p-1.5'>
                         <AiOutlinePlus />
@@ -615,14 +713,14 @@ const CreateCvTest = () => {
                         {education?.map((item, index) => {
                             return (
                                 <div key={index}>
-                                    <p className='bg-gray-100 font-semibold my-4 text-lg'>{item.school}</p>
+                                    <p className='bg-gray-100 font-semibold my-4 text-lg'>{item.name}</p>
                                     <div className='flex flex-col gap-1'>
                                         <p className='font-semibold'>Thời gian:
                                             <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
                                             <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
                                         </p>
                                         <p className='font-semibold'>GPA:
-                                            <span className='font-normal ml-1'>{item?.GPA}</span>
+                                            <span className='font-normal ml-1'>{item?.gpa}</span>
                                         </p>
                                     </div>
                                 </div>

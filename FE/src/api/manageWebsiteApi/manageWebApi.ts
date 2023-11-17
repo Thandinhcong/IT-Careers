@@ -14,9 +14,13 @@ const manageWebAllApi = createApi({
       query: () => "/web_tt",
       providesTags: ["ListMana"],
     }),
+    getMajor: builder.query<any, void>({
+      query: () => "/major",
+      providesTags: ["ListMana"],
+    }),
   }),
 });
-export const { useGetInfoManaWebsiteQuery } = manageWebAllApi;
+export const { useGetInfoManaWebsiteQuery, useGetMajorQuery } = manageWebAllApi;
 
 export const manageWebAllApiReducer = manageWebAllApi.reducer;
 
