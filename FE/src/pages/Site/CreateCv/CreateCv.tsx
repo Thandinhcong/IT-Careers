@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 // import './main.css'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
-import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useDeleteEduMutation, useDeleteProjectMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
+import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
@@ -41,7 +41,7 @@ const CreateCvTest = () => {
         }
     }
     //profile
-    const [profile, setProfile] = useState({ title: '', name: '', birth: "", phone: "", email: '', address: '', });
+    const [profile, setProfile] = useState({ title: '', name: '', birth: "", phone: "", email: '', address: '', image: "" });
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setProfile((prevProfile) => ({
@@ -50,6 +50,30 @@ const CreateCvTest = () => {
         }));
     };
     //skill
+    const [addSkill] = useAddSkillMutation();
+    const [deleteSkill] = useDeleteSkillMutation();
+    const listSkill = getCV?.profile?.skill_cv;
+    const { register: registerSkill, handleSubmit: handleSubmitSkill, reset: resetSkill } = useForm<any>();
+    const onHandleAddSkill = async (data: any) => {
+        try {
+            await addSkill(data).unwrap();
+            notyf.success("Thêm kỹ năng thành công")
+
+        } catch (error) {
+            console.log("add skill", error);
+
+        }
+    }
+    const onHandleDeleteSkill = async (id: any) => {
+        try {
+            await deleteSkill(id).unwrap();
+            notyf.success("Xóa kỹ năng thành công")
+
+        } catch (error) {
+            console.log("skill", error);
+
+        }
+    }
     const [skills, setSkills] = useState(['']);
 
     const handleAddSkill = (e: any) => {
@@ -98,10 +122,10 @@ const CreateCvTest = () => {
             notyf.error(error)
         }
     }
-    const [projects, setProjects] = useState([{ project_name: '', project_describe: '', start_date_project: '', end_date_project: '', project_link: '' }]);
+    const [projects, setProjects] = useState([{ project_name: '', project_describe: '', start_date: '', end_date: '', project_link: '' }]);
 
     const handleAddProject = () => {
-        setProjects([...projects, { project_name: '', project_describe: '', start_date_project: '', end_date_project: '', project_link: '' }]);
+        setProjects([...projects, { project_name: '', project_describe: '', start_date: '', end_date: '', project_link: '' }]);
     };
 
     const handleRemoveProject = (index: any) => {
@@ -122,7 +146,7 @@ const CreateCvTest = () => {
 
     const [addEducation] = useAddEduMutation();
     const [deleteEducation] = useDeleteEduMutation();
-    const { register: registerEducation, handleSubmit: handleSubmitEducation, reset: resetEducation } = useForm<any>();
+    const { register: registerEducation, handleSubmit: handleSubmitEducation, reset: resetEducation, setValue, watch } = useForm<any>();
     //thêm học vấn
     const handleAddEducation = async (data: any) => {
         try {
@@ -135,7 +159,6 @@ const CreateCvTest = () => {
         } catch (error: any) {
             notyf.error(error)
             console.log("error eddu", error);
-
         }
     }
     // xóa học vấn
@@ -217,25 +240,44 @@ const CreateCvTest = () => {
     };
 
     useEffect(() => {
-        if (listProfile) {
-            setProfile(listProfile);
-        }
+        //skill
+        setSkills(listSkill);
+        //profile
+        setProfile(listProfile);
+        // dự án
+        setProjects(listProject);
+        //kinh nghiệm
         setExperience(listExp);
-        setEducation(listEducation)
+        //học vấn
+        setEducation(listEducation);
+        //reset
+        resetSkill(listSkill);
+        resetProject(listProject);
         reset(listProfile);
         resetExp(experience);
         resetEducation(education);
-    }, [listProfile, listExp, listEducation]);
+    }, [listProfile, listExp, listEducation, listProject, listSkill]);
 
     return (
         <div className='max-w-screen-xl mx-auto'>
 
             {/* nhập */}
             <div className='mx-24'>
+                {/* thông tin cá nhân */}
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Thông tin cá nhân</h2>
                     <form onSubmit={handleSubmit(onHandleSubmit)}>
                         <div className='border border-gray-200 p-5 grid grid-cols-3 gap-8'>
+                            <div>
+                                <label className='block font-semibold mb-2'>Hinh anh</label>
+                                <input
+                                    {...register('image')}
+                                    name='title'
+                                    defaultValue={profile.image}
+                                    onChange={handleInputChange}
+                                    type="file" className='border border-gray-200 p-2 w-full'
+                                />
+                            </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
                                 <input
@@ -250,7 +292,7 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Họ tên:</label>
                                 <input type="text"
                                     {...register('name')}
-                                    // {...setValue('name')}
+
                                     name='name'
                                     defaultValue={profile?.name}
                                     onChange={handleInputChange}
@@ -260,7 +302,6 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Số điện thoại:</label>
                                 <input type="text"
                                     {...register('phone')}
-                                    // {...setValue('phone')}
                                     name='phone'
                                     defaultValue={profile?.phone}
                                     onChange={handleInputChange}
@@ -270,8 +311,6 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Email:</label>
                                 <input type="text"
                                     {...register('email')}
-                                    // {...setValue('email')}
-
                                     defaultValue={profile?.email}
                                     onChange={handleInputChange}
                                     name='email'
@@ -300,195 +339,135 @@ const CreateCvTest = () => {
                         <button className='mt-5 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
                     </form>
                 </div>
+                {/* kinh nghiệm làm việc */}
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kinh nghiệm làm việc</h2>
                     {experience?.map((experiences: any, index) => (
-                        <form key={index} onSubmit={handleSubmitExp(onHandleSubmitExp)}>
-                            <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Tên công ty</div>
-                                    </label>
-                                    <input
-                                        {...registerExp("company_name")}
-                                        type="text"
-                                        name='company_name'
-                                        defaultValue={experiences.company_name}
-                                        onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
+                        <div>
+                            <button
+                                type="button"
+                                onClick={() => handleDeleteExp(experiences?.id)}
+                                className='bg-red-500 text-white p-1.5 '
+                            >
+                                <IoTrashOutline />
+                            </button>
 
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Mô tả</div>
-                                    </label>
-                                    <input
-                                        {...registerExp("position")}
-                                        type="text"
-                                        name='position'
-                                        defaultValue={experiences.position}
-                                        onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
-
-                                {index > 0 && (
-                                    <div className='flex gap-2'>
-                                        <div>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveExp(index)}
-                                                className='bg-red-500 text-white p-1.5 float-right'
-                                            >
-                                                <AiOutlineClose />
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDeleteExp(experiences?.id)}
-                                                className='bg-red-500 text-white p-1.5 float-right'
-                                            >
-                                                <IoTrashOutline />
-                                            </button>
-                                        </div>
+                            <form key={index} onSubmit={handleSubmitExp(onHandleSubmitExp)}>
+                                <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
+                                    {/* tên công ty */}
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Tên công ty</div>
+                                        </label>
+                                        <input
+                                            {...registerExp("company_name")}
+                                            type="text"
+                                            name='company_name'
+                                            defaultValue={experiences.company_name}
+                                            onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
                                     </div>
-                                )}
 
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Ngày bắt đầu</div>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        {...registerExp('start_date')}
-                                        name='start_date'
-                                        defaultValue={experiences.start_date}
-                                        onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả</div>
+                                        </label>
+                                        <input
+                                            {...registerExp("position")}
+                                            type="text"
+                                            name='position'
+                                            defaultValue={experiences.position}
+                                            onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveExp(index)}
+                                            className='bg-red-500 text-white p-1.5 float-right'
+                                        >
+                                            <AiOutlineClose />
+                                        </button>
+                                    </div>
+                                    {/* ngày bắt đầu */}
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày bắt đầu</div>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            {...registerExp('start_date')}
+                                            name='start_date'
+                                            defaultValue={experiences.start_date}
+                                            onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                    {/* ngày kết thúc */}
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày kết thúc</div>
+                                        </label>
+                                        <input
+                                            {...registerExp('end_date')}
+                                            type="text"
+                                            name='end_date'
+                                            defaultValue={experiences.end_date}
+                                            onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
                                 </div>
+                                <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
 
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Ngày kết thúc</div>
-                                    </label>
-                                    <input
-                                        {...registerExp('end_date')}
-                                        type="text"
-                                        name='end_date'
-                                        defaultValue={experiences.end_date}
-                                        onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
-                            </div>
-                            <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
-
-                        </form>
+                            </form>
+                        </div>
                     ))}
                     <button type="button" onClick={handleAddExp} className='bg-blue-500 text-white p-1.5'>
                         <AiOutlinePlus />
                     </button>
                 </div>
+                {/* học vấn */}
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Học vấn</h2>
                     {education?.map((educations: any, index) => (
-                        <form key={index} onSubmit={handleSubmitEducation(handleAddEducation)}>
-                            <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Trường học</div>
-                                    </label>
-                                    <input
-                                        {...registerEducation('name')}
-                                        type="text"
-                                        name='name'
-                                        defaultValue={educations.name}
-                                        onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Điểm trung bình</div>
-                                    </label>
-                                    <input
-                                        {...registerEducation('gpa')}
+                        <div>
+                            <button
+                                onClick={() => handleDeleteEducation(educations?.id)}
+                                className='text-white bg-red-500 px-3 py-2 rounded'
+                            > <IoTrashOutline /></button>
+                            <form key={index} onSubmit={handleSubmitEducation(handleAddEducation)}>
+                                <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Trường học</div>
+                                        </label>
+                                        <input
+                                            {...registerEducation('name')}
+                                            type="text"
+                                            name='name'
+                                            defaultValue={educations.name}
+                                            onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Điểm trung bình</div>
+                                        </label>
+                                        <input
+                                            {...registerEducation('gpa')}
 
-                                        type="text"
-                                        name='gpa'
-                                        defaultValue={educations.gpa}
-                                        onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Chuyên ngành</div>
-                                    </label>
-                                    <select
-                                        {...registerEducation('major_id')}
-                                        defaultValue={educations.major_id}
-                                        className='border border-gray-200 p-2 w-full outline-none'
-                                        onChange={(e: any) => handleChangeEdu(index, 'major_id', e.target.value)}
-                                    >
-                                        {listMajor?.map((item: any) => {
-                                            return (<option
-                                                key={item?.id}
-                                                value={item?.id}
-                                            >
-                                                {item?.major}
-                                            </option>)
-                                        })}
-
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Loại bằng</div>
-                                    </label>
-                                    <select
-                                        {...registerEducation('type_degree')}
-                                        defaultValue={educations.type_degree}
-                                        className='border border-gray-200 p-2 w-full outline-none'
-                                        onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
-                                    >
-                                        <option
-                                            value="1"
-                                        >
-                                            Đại Học
-                                        </option>
-                                        <option
-                                            value="2"
-                                        >
-                                            Cao đẳng
-                                        </option>
-                                        <option
-                                            value="3"
-                                        >
-                                            Trung cấp
-                                        </option>
-                                        <option
-                                            value="4"
-                                        >
-                                            Sau đại học(Tiến sĩ/Thạc sỹ)
-                                        </option>
-                                        <option
-                                            value="5"
-                                        >
-                                            Trung tâm đào tạo
-                                        </option>
-                                        <option
-                                            value="6"
-                                        >
-                                            Du Học
-                                        </option>
-                                    </select>
-
-                                </div>
-                                {index > 0 && (
+                                            type="text"
+                                            name='gpa'
+                                            defaultValue={educations.gpa}
+                                            onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
                                     <div>
                                         <button
                                             type="button"
@@ -498,76 +477,157 @@ const CreateCvTest = () => {
                                             <AiOutlineClose />
                                         </button>
                                     </div>
-                                )}
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Chuyên ngành</div>
+                                        </label>
+                                        <select
+                                            {...registerEducation('major_id')}
+                                            defaultValue={educations.major_id}
+                                            value={watch("major_id") || educations.major_id}
+                                            className='border border-gray-200 p-2 w-full outline-none'
+                                            onChange={(e: any) => {
+                                                handleChangeEdu(index, 'major_id', e.target.value)
+                                                setValue('major_id', e.target.value)
+                                            }}
+                                        >
+                                            {listMajor?.map((item: any) => {
+                                                return (<option
+                                                    key={item?.id}
+                                                    value={item?.id}
+                                                >
+                                                    {item?.major}
+                                                </option>)
+                                            })}
 
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Ngày bắt đầu</div>
-                                    </label>
-                                    <input
-                                        {...registerEducation('start_date')}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Loại bằng</div>
+                                        </label>
+                                        <select
+                                            {...registerEducation('type_degree')}
+                                            defaultValue={educations.type_degree}
+                                            className='border border-gray-200 p-2 w-full outline-none'
+                                            onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
+                                        >
+                                            <option
+                                                value="1"
+                                            >
+                                                Đại Học
+                                            </option>
+                                            <option
+                                                value="2"
+                                            >
+                                                Cao đẳng
+                                            </option>
+                                            <option
+                                                value="3"
+                                            >
+                                                Trung cấp
+                                            </option>
+                                            <option
+                                                value="4"
+                                            >
+                                                Sau đại học(Tiến sĩ/Thạc sỹ)
+                                            </option>
+                                            <option
+                                                value="5"
+                                            >
+                                                Trung tâm đào tạo
+                                            </option>
+                                            <option
+                                                value="6"
+                                            >
+                                                Du Học
+                                            </option>
+                                        </select>
 
-                                        type="text"
-                                        name='start_date'
-                                        defaultValue={educations.start_date}
-                                        onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
+                                    </div>
+
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày bắt đầu</div>
+                                        </label>
+                                        <input
+                                            {...registerEducation('start_date')}
+
+                                            type="text"
+                                            name='start_date'
+                                            defaultValue={educations.start_date}
+                                            onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày kết thúc</div>
+                                        </label>
+                                        <input
+                                            {...registerEducation('end_date')}
+
+                                            type="text"
+                                            name='end_date'
+                                            defaultValue={educations.end_date}
+                                            onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className='block font-semibold mb-2 '>
-                                        <div>Ngày kết thúc</div>
-                                    </label>
-                                    <input
-                                        {...registerEducation('end_date')}
-
-                                        type="text"
-                                        name='end_date'
-                                        defaultValue={educations.end_date}
-                                        onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
-                                        className='border border-gray-200 p-2 w-full'
-                                    />
-                                </div>
-                            </div>
-                            <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
-                                Lưu
-                            </button>
-                        </form>
+                                <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
+                                    Lưu
+                                </button>
+                            </form>
+                        </div>
                     ))}
                     <button type="button" onClick={handleAddEdu} className='bg-blue-500 text-white p-1.5'>
                         <AiOutlinePlus />
                     </button>
                 </div>
-
+                {/* kỹ năng */}
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kĩ năng</h2>
-                    {skills?.map((skill, index) => (
-                        <div key={index} className='border border-gray-200 p-5 my-3'>
-                            <div>
-                                <label className='font-semibold mb-2 flex justify-between items-center'>
-                                    <div>Kĩ năng</div>
-                                    {index > 0 && (
-                                        <div>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveSkill(index)}
-                                                className='bg-red-500 text-white p-1.5 float-right'
-                                            >
-                                                <AiOutlineClose />
-                                            </button>
-                                        </div>
-                                    )}
-                                </label>
+                    {skills?.map((skill: any, index) => (
+                        <div>
+                            <button
+                                type="button"
+                                onClick={() => onHandleDeleteSkill(skill?.id)}
+                                className='bg-red-500 text-white p-1.5 '
+                            >
+                                <IoTrashOutline />
+                            </button>
+                            <form onSubmit={handleSubmitSkill(onHandleAddSkill)}>
+                                <div key={index} className='border border-gray-200 p-5 my-3'>
+                                    <div>
+                                        <label className='font-semibold mb-2 flex justify-between items-center'>
+                                            <div>Kĩ năng</div>
+                                            <div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveSkill(index)}
+                                                    className='bg-red-500 text-white p-1.5 float-right'
+                                                >
+                                                    <AiOutlineClose />
+                                                </button>
+                                            </div>
 
-                                <input
-                                    type="text"
-                                    name='skill'
-                                    value={skill}
-                                    onChange={(e) => handleChangeSkill(index, e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
+                                        </label>
 
+                                        <input
+                                            type="text"
+                                            name='skill'
+                                            defaultValue={skill}
+                                            onChange={(e) => handleChangeSkill(index, e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+
+                                </div>
+                                <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
+                                    Lưu
+                                </button>
+                            </form>
                         </div>
                     ))}
                     <button type="submit" className='bg-blue-500 text-white p-1.5' onClick={handleAddSkill}>
@@ -575,82 +635,101 @@ const CreateCvTest = () => {
                     </button>
                 </div>
 
+                {/* dự án */}
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Project</h2>
-                    {projects?.map((project, index) => (
-                        <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Tên đề tài</div>
-                                </label>
-                                <input
-                                    type="text"
-                                    name='project_name'
-                                    value={project.project_name}
-                                    onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Mô tả đề tài</div>
-                                </label>
-                                <input
-                                    type="text"
-                                    name='project_describe'
-                                    value={project.project_describe}
-                                    onChange={(e) => handleChangeProject(index, 'project_describe', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            {index > 0 && (
-                                <div>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveProject(index)}
-                                        className='bg-red-500 text-white p-1.5 float-right'
-                                    >
-                                        <AiOutlineClose />
-                                    </button>
-                                </div>
-                            )}
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Link project</div>
-                                </label>
-                                <input
-                                    type="text"
-                                    name='project_link'
-                                    value={project.project_link}
-                                    onChange={(e) => handleChangeProject(index, 'project_link', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
+                    {projects?.map((project: any, index) => (
+                        <div>
+                            <button
+                                type="button"
+                                onClick={() => handleDeleteProject(project?.id)}
+                                className='bg-red-500 text-white p-1.5 '
+                            >
+                                <IoTrashOutline />
+                            </button>
+                            <form onSubmit={handleSubmitProject(onHandleAddProject)}>
+                                <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Tên đề tài</div>
+                                        </label>
+                                        <input
+                                            {...registerProject('project_name')}
+                                            type="text"
+                                            name='project_name'
+                                            defaultValue={project.project_name}
+                                            onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả đề tài</div>
+                                        </label>
+                                        <input
+                                            {...registerProject('project_name')}
 
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Ngày bắt đầu</div>
-                                </label>
-                                <input
-                                    type="date"
-                                    name='start_date_project'
-                                    value={project.start_date_project}
-                                    onChange={(e) => handleChangeProject(index, 'start_date_project', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            <div>
-                                <label className='block font-semibold mb-2 '>
-                                    <div>Ngày kết thúc</div>
-                                </label>
-                                <input
-                                    type="date"
-                                    name='end_date_project'
-                                    value={project.end_date_project}
-                                    onChange={(e) => handleChangeProject(index, 'end_date_project', e.target.value)}
-                                    className='border border-gray-200 p-2 w-full'
-                                />
-                            </div>
+                                            type="text"
+                                            name='project_describe'
+                                            defaultValue={project.project_describe}
+                                            onChange={(e) => handleChangeProject(index, 'project_describe', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveProject(index)}
+                                            className='bg-red-500 text-white p-1.5 float-right'
+                                        >
+                                            <AiOutlineClose />
+                                        </button>
+                                    </div>
+
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Link project</div>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name='project_link'
+                                            defaultValue={project.project_link}
+                                            onChange={(e) => handleChangeProject(index, 'project_link', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày bắt đầu</div>
+                                        </label>
+                                        <input
+                                            {...registerProject('start_date')}
+                                            type="text"
+                                            name='start_date'
+                                            defaultValue={project.start_date}
+                                            onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Ngày kết thúc</div>
+                                        </label>
+                                        <input
+                                            {...registerProject('end_date')}
+
+                                            type="text"
+                                            name='end_date'
+                                            defaultValue={project.end_date}
+                                            onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+                                </div>
+                                <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
+                            </form>
                         </div>
                     ))}
                     <button type="button" onClick={handleAddProject} className='bg-blue-500 text-white p-1.5'>
@@ -663,7 +742,7 @@ const CreateCvTest = () => {
             <div className='grid grid-cols-6 border shadow-4xl w-10/12 mx-auto rounded-xl my-6'>
                 <div className='bg-[#246b5f] col-span-2 px-7 text-white py-12 rounded-tl-lg rounded-bl-xl'>
                     <div className=''>
-                        <img className='w-28 h-28 rounded-full mx-auto' src="https://th.bing.com/th/id/OIP.g-FcRsj_DrnzN7sIDOrsEwHaHa?w=176&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="" />
+                        <img className='w-28 h-28 rounded-full mx-auto' src={profile.image} alt="" />
                     </div>
                     <div className='text-center'>
                         <p className='text-2xl font-semibold mt-5'>{profile.name}</p>
@@ -735,8 +814,8 @@ const CreateCvTest = () => {
                                 <p className='bg-gray-100 font-semibold my-4 text-lg'>{item?.project_name}</p>
                                 <div className='flex flex-col gap-1'>
                                     <p className='font-semibold'>Thời gian:
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item.start_date_project}</span>-
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item.end_date_project}</span>
+                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item.start_date}</span>-
+                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item.end_date}</span>
                                     </p>
                                     <p className='font-semibold mt-2'>Mô tả:
                                         <span className='font-normal ml-1'>{item.project_describe}</span>
