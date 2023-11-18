@@ -49,6 +49,7 @@ import manageWebAllApi, {
   manageWebAllApiReducer,
 } from "../api/manageWebsiteApi/manageWebApi";
 import listCvApi, { listCvReducer } from "../api/cv/listCvApi";
+import SavejobsApi, { SaveJobsReducer } from "../api/savejobpostapi";
 
 const persistConfig = {
   key: "root",
@@ -84,6 +85,7 @@ const rootReducer = combineReducers({
   [ManageWebsiteApi.reducerPath]: ManageWebsiteReducer,
   [manageWebAllApi.reducerPath]: manageWebAllApiReducer,
   [listCvApi.reducerPath]: listCvReducer,
+  [SavejobsApi.reducerPath]: SaveJobsReducer,
 });
 const middleware = [
   MajorApi.middleware,
@@ -113,6 +115,7 @@ const middleware = [
   ManageWebsiteApi.middleware,
   manageWebAllApi.middleware,
   listCvApi.middleware,
+  SavejobsApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

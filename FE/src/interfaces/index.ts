@@ -263,3 +263,8 @@ export interface IListJobsDetail {
   status: number;
   logo: string;
 }
+export interface ISaveJobs {
+  id?: number | string;
+  candidate_id?: number | string;
+  job_post_id?: number | string;
+}

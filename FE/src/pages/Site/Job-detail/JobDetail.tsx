@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
+import { AiFillHeart, AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
     TETabs,
@@ -31,7 +31,7 @@ import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
-import { Skeleton } from "antd";
+import { Button, Skeleton } from "antd";
 
 const JobDetail = React.memo(() => {
     const notyf = new Notyf({

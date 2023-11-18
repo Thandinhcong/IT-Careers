@@ -1,30 +1,75 @@
-import { Button } from 'antd'
+import { Button, Pagination, Skeleton } from 'antd'
 import { AiFillHeart } from 'react-icons/ai'
 import { CiClock2, CiLocationOn } from 'react-icons/ci'
-import { MdAttachMoney } from 'react-icons/md'
+import { MdAttachMoney, MdFavoriteBorder, MdRoom } from 'react-icons/md'
+import { useGetAllSaveJobsQuery } from '../../../api/savejobpostapi'
+import { Link } from 'react-router-dom'
+import { BsCurrencyDollar } from 'react-icons/bs'
+import { VND } from '../../../components/upload'
+import { useState } from 'react'
 
 const JobFavor = () => {
+
+    const { data, isLoading } = useGetAllSaveJobsQuery();
+    const listsaveJobs = data?.listsave
+    console.log(listsaveJobs);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 12; // Số mục hiển thị trên mỗi trang
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+    // Tính toán chỉ mục bắt đầu và kết thúc của danh sách công việc hiển thị trên trang hiện tại
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = currentPage * pageSize;
+    // Lọc và phân trang danh sách công việc
+    const filteredJobs = listsaveJobs?.filter((item) => {
+        return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
+    });
+    const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
+
+    if (isLoading) return <Skeleton />
+
     return (
         <div>
             <h1 className='mb-5 w-5/6 ml-6 text-2xl font-bold'>Việc làm đã lưu</h1>
             <div className='flex justify-between shadow-sm shadow-blue-300 h-auto py-4 ml-5'>
-                <div className='w-48'>
-                    <img src="https://cdn.123job.vn/123job/uploads/2023/09/26/2023_09_26______60b88f50ef873507c6867670c68b6aff.jpg" alt="" />
-                </div>
-                <div className='mb-5 w-5/6 ml-6'>
-                    <b className='text-2xl'>Tuyển thực tập sinh ReactJS</b>
-                    <p className='text-lg'>CÔNG TY CỔ PHẦN CÔNG NGHỆ ITSM</p>
-                    <p className='text-lg flex items-center'><CiLocationOn />Cầu giấy, Hà Nội</p>
-                    <p className='text-lg flex items-center mt-2'><MdAttachMoney />2 - 4 triệu/tháng</p>
-                    <div className='flex justify-between'>
-                        <p className='text-lg flex items-center'><CiClock2 />Đã lưu: 2023-10-05 17:50:19</p>
-                        <Button
-                            className='bg-white text-blue-500 text-lg h-12 ml-60 mr-5'
-                        >
-                            <AiFillHeart className='text-red-500' />
-                        </Button>
-                    </div>
-                </div>
+                {displayedJobs?.map((item) => {
+                    return (
+                        <div>
+                            <div className='shadow-lg p-2 rounded'>
+                                <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
+                                    <div className='flex gap-2'>
+                                        <img src={item?.logo} className='border rounded-md p-2' width={70} />
+                                        <div>
+                                            <Link to="/">
+                                                <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
+                                            </Link>
+                                            <p className='text-lg'>{item?.company_name}</p>
+                                        </div>
+                                    </div>
+                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
+                                </Link>
+                                <div className='flex justify-between items-center mb-2'>
+                                    <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
+                                    <Button className={'border p-1 text-red-500'}>
+                                        <AiFillHeart />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    );
+
+                })}
+
+            </div>
+            {/* Hiển thị Pagination */}
+            <div className="pagination-container flex justify-center items-center">
+                <Pagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={filteredJobs?.length}
+                    onChange={handlePageChange}
+                />
             </div>
         </div>
     )
