@@ -2,13 +2,12 @@ import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react';
 import { BiEdit, BiHomeAlt2, BiMessageRounded, BiSearch } from "react-icons/bi"
 import { IoCartOutline, IoSettingsOutline } from 'react-icons/io5'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { CiUser } from 'react-icons/ci';
 import { PiSignOutLight } from 'react-icons/pi';
 import { useGetInforQuery } from '../../api/companies/jobPostCompany';
 import { useLogOutCompaniesMutation } from '../../api/auth/Companies';
-import { message } from 'antd';
 import { Notyf } from 'notyf';
 
 const HeaderCompany = () => {

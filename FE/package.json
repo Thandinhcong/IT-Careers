@@ -23,6 +23,8 @@
     "chart.js": "^4.4.0",
     "env": "^0.0.2",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.1",
     "moment": "^2.29.4",
     "notyf": "^3.10.0",
     "postcss-cli": "^10.1.0",

@@ -49,14 +49,9 @@ const Header = React.memo((data: any) => {
   const CV = [
     {
       name: "Hồ sơ của tôi  ",
-      href: "#",
-      icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
-    },
-    {
-      name: "Tạo CV",
-      href: "tao-cv",
-      icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
-    },
+      href: "/user/profile",
+      icon: <AiOutlineProfile className="text-blue-500 text-2xl" />,
+    }
   ];
   const profile = [
     {
@@ -180,18 +175,7 @@ const Header = React.memo((data: any) => {
           >
             Công ty
           </Link>
-          <Link
-            to="#"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Sự nghiệp phát triền
-          </Link>
-          <Link
-            to="#"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Công cụ
-          </Link>
+
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center">
