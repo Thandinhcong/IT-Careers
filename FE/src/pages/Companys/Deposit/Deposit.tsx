@@ -24,7 +24,7 @@ const Deposit = () => {
     const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
     const [selectedPrice, setSelectedPrice] = useState<number | undefined>(undefined);
 
-    const handlePriceChange = (e) => {
+    const handlePriceChange = (e: any) => {
         setSelectedPrice(e.target.value);
         setMoneyValue(e.target.value);
         // console.log(e.target.value);

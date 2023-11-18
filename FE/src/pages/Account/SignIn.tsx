@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
-// import { useAdminLoginMutation } from "../../api/admin/loginAdminApi";
 import { Notyf } from "notyf";
 
 
@@ -23,7 +22,8 @@ const Login = React.memo(() => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin)
     });
-    const [user, setUser] = useLocalStorage("user", null)
+    const [user, setUser] = useLocalStorage("user", null);
+
     const [login] = useLoginMutation();
     const loginGoogle = () => {
         window.location.href = "http://127.0.0.1:8000/api/auth/google"

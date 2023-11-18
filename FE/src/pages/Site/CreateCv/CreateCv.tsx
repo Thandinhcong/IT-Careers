@@ -7,6 +7,10 @@ import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
 import { useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
+import { UploadImage } from '../../../components/upload';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { GoDownload } from 'react-icons/go';
 const CreateCvTest = () => {
     const notyf = new Notyf({
         duration: 2000,
@@ -16,7 +20,9 @@ const CreateCvTest = () => {
         },
     });
     const { id } = useParams();
+    const [image, setImage] = useState(null);
     const { data: dataCV } = useListCvQuery();
+
     const dataMap = dataCV?.data.find((item: any) => item.id == id)
     const { data: getCV } = useListInfoQuery(id || '');
     const idPost = dataMap?.id;
@@ -27,6 +33,8 @@ const CreateCvTest = () => {
     const listProfile = data?.profile?.cv;
     const { register, handleSubmit, reset } = useForm<any>();
     const onHandleSubmit = async (data: any) => {
+        if (typeof image !== "string") return;
+        data.image = image;
         try {
             await updateInfoCv({
                 id: idPost,
@@ -56,7 +64,10 @@ const CreateCvTest = () => {
     const { register: registerSkill, handleSubmit: handleSubmitSkill, reset: resetSkill } = useForm<any>();
     const onHandleAddSkill = async (data: any) => {
         try {
-            await addSkill(data).unwrap();
+            await addSkill({
+                profile_id: idPost,
+                ...data
+            }).unwrap();
             notyf.success("Thêm kỹ năng thành công")
 
         } catch (error) {
@@ -74,11 +85,11 @@ const CreateCvTest = () => {
 
         }
     }
-    const [skills, setSkills] = useState(['']);
+    const [skills, setSkills] = useState([{ name_skill: "" }]);
 
     const handleAddSkill = (e: any) => {
         e.preventDefault();
-        setSkills([...skills, '']);
+        setSkills([...skills, { name_skill: "" }]);
     };
 
     const handleRemoveSkill = (index: any) => {
@@ -87,9 +98,9 @@ const CreateCvTest = () => {
         setSkills(updatedSkills);
     };
 
-    const handleChangeSkill = (index: any, value: string) => {
-        const updatedSkills = [...skills];
-        updatedSkills[index] = value;
+    const handleChangeSkill = (index: any, field: any, value: string) => {
+        const updatedSkills: any = [...skills];
+        updatedSkills[index][field] = value;
         setSkills(updatedSkills);
     };
     //project
@@ -97,7 +108,9 @@ const CreateCvTest = () => {
     const [deleteProject] = useDeleteProjectMutation();
     const { register: registerProject, handleSubmit: handleSubmitProject, reset: resetProject } = useForm<any>();
     const listProject = getCV?.profile?.projects;
-    //thêm dự án
+    //thêm dự án\
+    console.log(listProject);
+
     const onHandleAddProject = async (data: any) => {
         try {
             addProject({
@@ -109,7 +122,7 @@ const CreateCvTest = () => {
         } catch (error: any) {
             console.log("error project", error);
 
-            notyf.error("Xóa dự án thành công")
+            notyf.error("YThêm thất bại ")
         }
     }
     //xóa dự án
@@ -122,10 +135,10 @@ const CreateCvTest = () => {
             notyf.error(error)
         }
     }
-    const [projects, setProjects] = useState([{ project_name: '', project_describe: '', start_date: '', end_date: '', project_link: '' }]);
+    const [projects, setProjects] = useState([{ project_name: '', position: '', start_date: '', end_date: '', desc: "", link_project: '' }]);
 
     const handleAddProject = () => {
-        setProjects([...projects, { project_name: '', project_describe: '', start_date: '', end_date: '', project_link: '' }]);
+        setProjects([...projects, { project_name: '', position: '', start_date: '', end_date: '', desc: "", link_project: '' }]);
     };
 
     const handleRemoveProject = (index: any) => {
@@ -203,7 +216,6 @@ const CreateCvTest = () => {
 
         } catch (error: any) {
             console.log(error);
-
             notyf.error(error)
 
         }
@@ -238,6 +250,53 @@ const CreateCvTest = () => {
         updatedExp[index][field] = value;
         setExperience(updatedExp);
     };
+    const onChangeFile = async (e: any) => {
+        const files = e.target.files[0];
+        if (files) {
+            try {
+                const Response = await UploadImage({
+                    file: files,
+                    upload_preset: "demo-upload",
+                });
+
+                if (Response) {
+                    setImage(Response.data.url)
+                }
+            } catch (error) {
+                return error
+            }
+        }
+    };
+    // in pdf
+
+    const generatePDF = async () => {
+        try {
+            const canvas: any = await html2canvas(document.getElementById('pdf-content') as any, {
+                scale: 3,
+                scrollY: -window.scrollY,
+                useCORS: true,
+            });
+            if (!canvas) {
+                console.error("Canvas is undefined.");
+                return;
+            }
+            const imgData = canvas.toDataURL('image/jpeg');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            const pdfWidth = 210;
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            // Add the image to the PDF
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+            pdf.setFontSize(8);
+            pdf.text("© Bework.com", 1, pdfHeight + 1);
+
+            pdf.save(`CV_${profile?.name}.pdf`);
+        } catch (error) {
+        }
+    };
+
+
 
     useEffect(() => {
         //skill
@@ -256,6 +315,7 @@ const CreateCvTest = () => {
         reset(listProfile);
         resetExp(experience);
         resetEducation(education);
+
     }, [listProfile, listExp, listEducation, listProject, listSkill]);
 
     return (
@@ -273,8 +333,8 @@ const CreateCvTest = () => {
                                 <input
                                     {...register('image')}
                                     name='title'
-                                    defaultValue={profile.image}
-                                    onChange={handleInputChange}
+                                    defaultValue={profile?.image}
+                                    onChange={onChangeFile}
                                     type="file" className='border border-gray-200 p-2 w-full'
                                 />
                             </div>
@@ -283,7 +343,7 @@ const CreateCvTest = () => {
                                 <input
                                     {...register('title')}
                                     name='title'
-                                    defaultValue={profile.title}
+                                    defaultValue={profile?.title}
                                     onChange={handleInputChange}
                                     type="text" className='border border-gray-200 p-2 w-full'
                                 />
@@ -343,7 +403,7 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kinh nghiệm làm việc</h2>
                     {experience?.map((experiences: any, index) => (
-                        <div>
+                        <div key={index}>
                             <button
                                 type="button"
                                 onClick={() => handleDeleteExp(experiences?.id)}
@@ -363,7 +423,7 @@ const CreateCvTest = () => {
                                             {...registerExp("company_name")}
                                             type="text"
                                             name='company_name'
-                                            defaultValue={experiences.company_name}
+                                            defaultValue={experiences?.company_name}
                                             onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -400,8 +460,10 @@ const CreateCvTest = () => {
                                         <input
                                             type="text"
                                             {...registerExp('start_date')}
+                                            placeholder='vd: 2023-10-20'
+
                                             name='start_date'
-                                            defaultValue={experiences.start_date}
+                                            defaultValue={experiences?.start_date}
                                             onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -413,9 +475,11 @@ const CreateCvTest = () => {
                                         </label>
                                         <input
                                             {...registerExp('end_date')}
+                                            placeholder='vd: 2023-10-20'
+
                                             type="text"
                                             name='end_date'
-                                            defaultValue={experiences.end_date}
+                                            defaultValue={experiences?.end_date}
                                             onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -434,7 +498,7 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Học vấn</h2>
                     {education?.map((educations: any, index) => (
-                        <div>
+                        <div key={index}>
                             <button
                                 onClick={() => handleDeleteEducation(educations?.id)}
                                 className='text-white bg-red-500 px-3 py-2 rounded'
@@ -449,7 +513,7 @@ const CreateCvTest = () => {
                                             {...registerEducation('name')}
                                             type="text"
                                             name='name'
-                                            defaultValue={educations.name}
+                                            defaultValue={educations?.name}
                                             onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -463,7 +527,7 @@ const CreateCvTest = () => {
 
                                             type="text"
                                             name='gpa'
-                                            defaultValue={educations.gpa}
+                                            defaultValue={educations?.gpa}
                                             onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -483,8 +547,8 @@ const CreateCvTest = () => {
                                         </label>
                                         <select
                                             {...registerEducation('major_id')}
-                                            defaultValue={educations.major_id}
-                                            value={watch("major_id") || educations.major_id}
+                                            defaultValue={educations?.major_id}
+                                            value={watch("major_id") || educations?.major_id}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                             onChange={(e: any) => {
                                                 handleChangeEdu(index, 'major_id', e.target.value)
@@ -508,7 +572,7 @@ const CreateCvTest = () => {
                                         </label>
                                         <select
                                             {...registerEducation('type_degree')}
-                                            defaultValue={educations.type_degree}
+                                            defaultValue={educations?.type_degree}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                             onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
                                         >
@@ -555,7 +619,8 @@ const CreateCvTest = () => {
 
                                             type="text"
                                             name='start_date'
-                                            defaultValue={educations.start_date}
+                                            defaultValue={educations?.start_date}
+                                            placeholder='vd: 2023-10-20'
                                             onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -566,10 +631,10 @@ const CreateCvTest = () => {
                                         </label>
                                         <input
                                             {...registerEducation('end_date')}
-
                                             type="text"
+                                            placeholder='vd: 2023-10-20'
                                             name='end_date'
-                                            defaultValue={educations.end_date}
+                                            defaultValue={educations?.end_date}
                                             onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -589,7 +654,7 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Kĩ năng</h2>
                     {skills?.map((skill: any, index) => (
-                        <div>
+                        <div key={index}>
                             <button
                                 type="button"
                                 onClick={() => onHandleDeleteSkill(skill?.id)}
@@ -615,10 +680,11 @@ const CreateCvTest = () => {
                                         </label>
 
                                         <input
+                                            {...registerSkill('name_skill')}
                                             type="text"
-                                            name='skill'
-                                            defaultValue={skill}
-                                            onChange={(e) => handleChangeSkill(index, e.target.value)}
+                                            name='name_skill'
+                                            defaultValue={skill?.name_skill}
+                                            onChange={(e) => handleChangeSkill(index, "name_skill", e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
@@ -639,7 +705,7 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Project</h2>
                     {projects?.map((project: any, index) => (
-                        <div>
+                        <div key={project?.id}>
                             <button
                                 type="button"
                                 onClick={() => handleDeleteProject(project?.id)}
@@ -651,32 +717,30 @@ const CreateCvTest = () => {
                                 <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
-                                            <div>Tên đề tài</div>
+                                            <div>Tên dự án</div>
                                         </label>
                                         <input
                                             {...registerProject('project_name')}
                                             type="text"
                                             name='project_name'
-                                            defaultValue={project.project_name}
+                                            defaultValue={project?.project_name}
                                             onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
-                                            <div>Mô tả đề tài</div>
+                                            <div>Vị trí:</div>
                                         </label>
                                         <input
-                                            {...registerProject('project_name')}
-
+                                            {...registerProject('position')}
                                             type="text"
-                                            name='project_describe'
-                                            defaultValue={project.project_describe}
-                                            onChange={(e) => handleChangeProject(index, 'project_describe', e.target.value)}
+                                            name='position'
+                                            defaultValue={project?.position}
+                                            onChange={(e: any) => handleChangeProject(index, 'position', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
-
                                     <div>
                                         <button
                                             type="button"
@@ -686,16 +750,32 @@ const CreateCvTest = () => {
                                             <AiOutlineClose />
                                         </button>
                                     </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả dự án</div>
+                                        </label>
+                                        <input
+                                            {...registerProject('desc')}
+                                            type="text"
+                                            name='desc'
+                                            defaultValue={project?.desc}
+                                            onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        />
+                                    </div>
+
+
 
                                     <div>
                                         <label className='block font-semibold mb-2 '>
-                                            <div>Link project</div>
+                                            <div>Link dự án</div>
                                         </label>
                                         <input
+                                            {...registerProject('link_project')}
                                             type="text"
-                                            name='project_link'
-                                            defaultValue={project.project_link}
-                                            onChange={(e) => handleChangeProject(index, 'project_link', e.target.value)}
+                                            name='link_project'
+                                            defaultValue={project?.link_project}
+                                            onChange={(e) => handleChangeProject(index, 'link_project', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
@@ -708,7 +788,7 @@ const CreateCvTest = () => {
                                             {...registerProject('start_date')}
                                             type="text"
                                             name='start_date'
-                                            defaultValue={project.start_date}
+                                            defaultValue={project?.start_date}
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -722,7 +802,7 @@ const CreateCvTest = () => {
 
                                             type="text"
                                             name='end_date'
-                                            defaultValue={project.end_date}
+                                            defaultValue={project?.end_date}
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
@@ -739,97 +819,120 @@ const CreateCvTest = () => {
             </div>
 
             {/* cv hiện */}
-            <div className='grid grid-cols-6 border shadow-4xl w-10/12 mx-auto rounded-xl my-6'>
-                <div className='bg-[#246b5f] col-span-2 px-7 text-white py-12 rounded-tl-lg rounded-bl-xl'>
-                    <div className=''>
-                        <img className='w-28 h-28 rounded-full mx-auto' src={profile.image} alt="" />
-                    </div>
-                    <div className='text-center'>
-                        <p className='text-2xl font-semibold mt-5'>{profile.name}</p>
-                        <p className='border-b-2 my-3 border-gray-300 w-1/6 mx-auto'></p>
-                        <p className='uppercase text-sm'>{profile.title}</p>
-                    </div>
-                    <div className='my-5'>
-                        <h2 className='text-xl my-3 font-semibold'>Thông tin cá nhân</h2>
-                        <div className='leading-8'>
-                            <p>Ngày sinh: <span>{profile.birth}</span></p>
-                            <p>Số điện thoại: <span>{profile.phone}</span></p>
-                            <p>Email: <span>{profile.email}</span></p>
-                            <p>Địa chỉ: <span>{profile.address}</span></p>
+            <div className='border shadow-xl rounded  w-10/12 mx-auto mt-6   '>
+                <div className='grid grid-cols-6   w-10/12 mx-auto  my-6' id="pdf-content">
+                    <div className=' col-span-2 px-7 border-r-2 py-12 '>
+                        <div className=''>
+                            <img className='w-28 h-28 rounded-full mx-auto' src={profile?.image} alt="" />
                         </div>
-                    </div>
-                    <div>
-                        <h2 className='text-xl my-3 font-semibold'>Kĩ năng</h2>
-                        <div>
-                            <p>{skills.join(', ')} </p>
+                        <div className='text-center'>
+                            <p className='text-2xl font-semibold mt-5'>{profile?.name}</p>
+                            <p className='border-b-2 my-3 border-gray-300 w-1/6 mx-auto'></p>
+                            <p className='uppercase text-sm'>{profile?.title}</p>
                         </div>
-                    </div>
-                </div>
-                <div className='bg-white col-span-4 px-7 py-12 flex flex-col gap-8 rounded-tr-lg rounded-br-xl'>
-                    <p className='text-[#1e7a6b] text-xl font-semibold'>Kinh nghiệm làm việc</p>
-                    <p className='border-b border-gray-200 my-2'></p>
-                    {experience?.map((item, index) => {
-                        return (
-                            <div key={index}>
-                                <div className='flex flex-col gap-1'>
-                                    <p className='font-semibold mt-2'>Tên công ty:
-                                        <span className='font-normal ml-1'>{item.company_name}</span>
-                                    </p>
-                                    <p className='font-semibold'>Thời gian:
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item.start_date}</span>-
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item.end_date}</span>
-                                    </p>
-                                    <p className='font-semibold mt-2'>Mô tả:
-                                        <span className='font-normal ml-1'>{item.position}</span>
-                                    </p>
-                                </div>
+                        <div className='my-5'>
+                            <h2 className='text-xl my-3 font-semibold'>Thông tin cá nhân</h2>
+                            <div className='leading-8'>
+                                <p>Ngày sinh: <span>{profile?.birth}</span></p>
+                                <p>Số điện thoại: <span>{profile?.phone}</span></p>
+                                <p>Email: <span>{profile?.email}</span></p>
+                                <p>Địa chỉ: <span>{profile?.address}</span></p>
                             </div>
-                        )
-                    })}
-                    <div >
-                        <p className='text-[#1e7a6b] text-xl font-semibold'>Học vấn</p>
+                        </div>
+                        <div>
+                            <h2 className='text-xl my-3 font-semibold'>Kĩ năng</h2>
+                            <div>
+                                {skills?.map((item: any) => (
+                                    <p className='grid grid-cols-2'>{item?.name_skill} </p>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='bg-white col-span-4 px-7 py-12 flex flex-col gap-8 rounded-tr-lg rounded-br-xl'>
+                        <p className='text-[#1e7a6b] text-xl font-semibold'>Kinh nghiệm làm việc</p>
                         <p className='border-b border-gray-200 my-2'></p>
-                        {education?.map((item, index) => {
+                        {experience?.map((item, index) => {
                             return (
                                 <div key={index}>
-                                    <p className='bg-gray-100 font-semibold my-4 text-lg'>{item.name}</p>
                                     <div className='flex flex-col gap-1'>
-                                        <p className='font-semibold'>Thời gian:
-                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
-                                            <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
+                                        <p className='font-semibold mt-2'>Tên công ty:
+                                            <span className='font-normal ml-1'>{item?.company_name}</span>
                                         </p>
-                                        <p className='font-semibold'>GPA:
-                                            <span className='font-normal ml-1'>{item?.gpa}</span>
+                                        <p className='font-semibold'>Thời gian:
+                                            <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
+                                            <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
+                                        </p>
+                                        <p className='font-semibold mt-2'>Mô tả:
+                                            <span className='font-normal ml-1'>{item?.position}</span>
                                         </p>
                                     </div>
                                 </div>
                             )
                         })}
-                    </div>
-                    <div>
-                        <p className='text-[#1e7a6b] text-xl font-semibold'>Dự án</p>
-                        <p className='border-b border-gray-200 my-2'></p>
-                        {projects?.map((item, index) => {
-                            return <div key={index}>
-                                <p className='bg-gray-100 font-semibold my-4 text-lg'>{item?.project_name}</p>
-                                <div className='flex flex-col gap-1'>
-                                    <p className='font-semibold'>Thời gian:
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg mx-1'>{item.start_date}</span>-
-                                        <span className='bg-[#1b6256] text-white py-1 px-2 rounded-lg ml-1'>{item.end_date}</span>
-                                    </p>
-                                    <p className='font-semibold mt-2'>Mô tả:
-                                        <span className='font-normal ml-1'>{item.project_describe}</span>
-                                    </p>
-                                    <p className='font-semibold'>Link github:
-                                        <span className='underline font-normal ml-1'>{item.project_link}</span>
-                                    </p>
-                                </div>
+                        <div >
+                            <p className='text-[#1e7a6b] text-xl font-semibold'>Học vấn</p>
+                            <p className='border-b border-gray-200 my-2'></p>
+                            {education?.map((item: any, index) => {
+                                return (
+                                    <div key={index}>
+                                        <p className=' font-semibold my-4 text-lg'>{item?.name}</p>
+                                        <div className='flex flex-col gap-1'>
+                                            <p className='font-semibold'>Chuyên ngành:
+                                                <span className='font-normal ml-1'>{item?.major}</span>
+                                            </p>
+                                            <p className='font-semibold'>Thời gian:
+                                                <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
+                                                <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
+                                            </p>
+                                            <p className='font-semibold'>Bằng cấp:
+                                                <span className='font-normal ml-1'>{item?.type_degree}</span>
+                                            </p>
+                                            <p className='font-semibold'>GPA:
+                                                <span className='font-normal ml-1'>{item?.gpa}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        {!projects ? "" : (
+                            <div>
+                                <p className='text-[#1e7a6b] text-xl font-semibold'>Dự án</p>
+                                <p className='border-b border-gray-200 my-2'></p>
+                                {projects?.map((item: any) => {
+                                    return <div key={item?.id}>
+                                        <p className=' font-semibold my-4 text-lg'>{item?.project_name}</p>
+                                        <div className='flex flex-col gap-1'>
+                                            <p className='font-semibold'>Thời gian:
+                                                <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
+                                                <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
+                                            </p>
+                                            <p className='font-semibold mt-2'>Vị trí:
+                                                <span className='font-normal ml-1'>{item?.position}</span>
+                                            </p>
+                                            <p className='font-semibold'>Link:
+                                                <span className='underline font-normal ml-1'>{item?.link_project}</span>
+                                            </p>
+                                            <p className='font-semibold'>Mô tả:
+                                                <span className=' font-normal ml-1'>{item?.desc}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                })}
                             </div>
-                        })}
-
-
+                        )}
                     </div>
                 </div>
+            </div>
+            <div
+                className='flex justify-center rounded m-8'
+            >
+                <button
+                    className='px-3 bg-blue-500 py-2 rounded text-white flex gap-2 items-center'
+                    onClick={generatePDF}
+                >Tải CV
+                    <GoDownload />
+                </button>
             </div>
         </div>
     )
