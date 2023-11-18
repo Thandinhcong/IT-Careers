@@ -55,21 +55,26 @@ const ListCV = () => {
         <div className=''>
             {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
-                    <h2 className='text-2xl text-center my-10'>Danh sách CV</h2>
+                    <h2 className='text-2xl text-center my-10'>Quản lý  CV</h2>
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
                             return (
                                 <div key={item?.id} className=' shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
-                                    <p>Tên Cv : {item?.title}</p>
+                                    <p className='text-center'>Tiêu đề: {item?.title}</p>
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
                                         <Link to=""><CgEye /></Link>
                                         <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                     </div>
-                                    <button
-                                        className='text-white bg-blue-500 px-3 py-2 rounded '
-                                        onClick={() => handleActive(item)}
-                                    >Chọn làm cv chính</button>
+                                    <div className='flex justify-center my-4 pt-2'>
+
+                                        <input
+                                            type='radio'
+                                            name='active'
+                                            className='text-white  text-2xl bg-blue-500 px-3 py-2 rounded '
+                                            onClick={() => handleActive(item)}
+                                        ></input>
+                                    </div>
                                 </div>
                             )
                         })}
@@ -77,6 +82,7 @@ const ListCV = () => {
                     <div className='text-center m-5'>
                         <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</button>
                     </div>
+                    <i className='text-yellow-600 text-sm'>*Lưu ý: sau khi tạo cv bạn cần cập nhật CV của mình</i>
                 </div>
 
             ) : (
