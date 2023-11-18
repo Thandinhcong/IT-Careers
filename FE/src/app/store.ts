@@ -49,6 +49,7 @@ import manageWebAllApi, {
   manageWebAllApiReducer,
 } from "../api/manageWebsiteApi/manageWebApi";
 import listCvApi, { listCvReducer } from "../api/cv/listCvApi";
+import searchApi, { searchReducer } from "../api/searchApi";
 
 const persistConfig = {
   key: "root",
@@ -78,6 +79,7 @@ const rootReducer = combineReducers({
   [findJobApi.reducerPath]: findJobReducer,
   [authGooleApi.reducerPath]: authsGooleReducer,
   [candidateappliedApi.reducerPath]: candidateappliedReducer,
+  [searchApi.reducerPath]: searchReducer,
 
   [CvApplyApi.reducerPath]: CvApplyReducer,
   [FindJobCompanyApi.reducerPath]: FindJobCompanyReducer,
@@ -86,6 +88,7 @@ const rootReducer = combineReducers({
   [listCvApi.reducerPath]: listCvReducer,
 });
 const middleware = [
+  searchApi.middleware,
   MajorApi.middleware,
   workingFormApi.middleware,
   jobpositionApi.middleware,

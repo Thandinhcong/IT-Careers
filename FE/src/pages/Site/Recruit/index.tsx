@@ -1,11 +1,49 @@
-import { useState } from 'react'
-import { AiFillCaretRight, AiOutlineCheckCircle, AiOutlineHeart, AiOutlinePlus, AiOutlineReload, AiTwotoneHeart } from 'react-icons/ai'
-import SearchJobs from './SearchJobs'
+import { AiFillCaretRight, AiOutlineCheckCircle, AiOutlineReload } from 'react-icons/ai'
 import FilterBySalary from './FilterBySalary';
 import FilterByLocation from './FilterByLocation';
+import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import SearchJobs from './SearchJobs'
+import { useSearchQuery } from '../../../api/searchApi';
 
 const Recruit = () => {
     const [isFollowing, setIsFollowing] = useState(false);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search) as any;
+    const search = searchParams.get("search");
+    // const locationQuery = searchParams.get("province") as any;
+    const { data: searchData } = useSearchQuery({ search: search });
+
+    const [filteredWorks, setFilteredWorks] = useState([]);
+    const [noResults, setNoResults] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // const filtered = searchData?.data?.filter((item: any) =>
+                //     item.title.toLowerCase().includes(search.toLowerCase())
+                //     && item.province.toLowerCase().includes(locationQuery.toLowerCase())
+                // );
+                const filtered = searchData?.data?.filter((item: any) =>
+                    item.title.toLowerCase().includes(search.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    setNoResults(true);
+                } else {
+                    setNoResults(false);
+                    setFilteredWorks(filtered);
+                }
+            } catch (error) {
+                // console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [search]);
+
+    console.log(filteredWorks);
 
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
@@ -14,6 +52,9 @@ const Recruit = () => {
     return (
         <div className='max-w-screen-xl mx-auto'>
             <SearchJobs />
+            <div>
+
+            </div>
             <div>
                 <div className='grid grid-cols-8 my-4 gap-8'>
                     <select
@@ -129,91 +170,61 @@ const Recruit = () => {
 
 
                     {/* item 1 */}
-                    <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7'>
-                        <img src="http://smac.com.vn/wp-content/uploads/2019/06/Smac2.0.png" className='col-span-1 w-32 mx-auto' alt="" />
-                        <div className='col-span-4 '>
-                            <a href=""><h3 className="uppercase font-bold text-base">Tuyển dụng TTS Front-end</h3></a>
-                            <p className='text-base text-gray-500'>Công ty SMAC Việt Nam</p>
-                            <p className=''>
-                                <span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                    </svg>
-                                </span>
-                                Tân Bình, Hồ Chí Minh; Hoằng Hóa, Thanh Hóa
-                            </p>
-                            <p><span className='font-bold mr-2'>$</span>1$/tháng</p>
-                            <p><span><AiOutlinePlus className='h-4 w-4 mr-2 shrink-0 text-gray-900 inline-block base-line' /></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit ea, rerum alias similique placeat reiciendis facilis voluptates non quaerat. Quisquam dignissimos in iure doloremque, facilis aperiam obcaecati eius delectus expedita.</p>
-                            <div className="text-right">
-                                <button className='inline-block' onClick={toggleFollow}>
-                                    {isFollowing ? (
-                                        <AiTwotoneHeart className='border text-3xl border-gray-200 text-red-300' />
-                                    ) : (
-                                        <AiOutlineHeart className='border text-3xl border-gray-200 text-gray-400' />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    {/* item 2 */}
-                    <div className='grid grid-cols-5 mx-10 py-4 px-2 my-4 shadow-3xl rounded leading-7'>
-                        <img src="http://smac.com.vn/wp-content/uploads/2019/06/Smac2.0.png" className='col-span-1 w-32 mx-auto' alt="" />
-                        <div className='col-span-4 '>
-                            <a href=""><h3 className="uppercase font-bold text-base">Tuyển dụng TTS Front-end</h3></a>
-                            <p className='text-base text-gray-500'>Công ty SMAC Việt Nam</p>
-                            <p className=''>
-                                <span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                    </svg>
-                                </span>
-                                Tân Bình, Hồ Chí Minh; Hoằng Hóa, Thanh Hóa
-                            </p>
-                            <p><span className='font-bold mr-2'>$</span>1$/tháng</p>
-                            <p><span><AiOutlinePlus className='h-4 w-4 mr-2 shrink-0 text-gray-900 inline-block base-line' /></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit ea, rerum alias similique placeat reiciendis facilis voluptates non quaerat. Quisquam dignissimos in iure doloremque, facilis aperiam obcaecati eius delectus expedita.</p>
-                            <div className="text-right">
-                                <button className='inline-block' onClick={toggleFollow}>
-                                    {isFollowing ? (
-                                        <AiTwotoneHeart className='border text-3xl border-gray-200 text-red-300' />
-                                    ) : (
-                                        <AiOutlineHeart className='border text-3xl border-gray-200 text-gray-400' />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+
+                    {noResults ? (
+                        <p>Không có kết quả tìm kiếm phù hợp.</p>
+                    ) : (
+                        <>
+                            <h1 className='mx-10 text-2xl font-bold'>Kết quả tìm kiếm cho: {search}</h1>
+                            {filteredWorks.length > 0 ? (
+                                <ul>
+                                    {filteredWorks.map((item: any) => (
+                                        <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7'>
+                                            <Link to={`/company/detail/${item.id}`}>
+                                                <img src="http://smac.com.vn/wp-content/uploads/2019/06/Smac2.0.png" className='col-span-1 w-32 mx-auto' alt="" />
+                                            </Link>
+
+                                            <div className='col-span-4 '>
+
+                                                <li key={item.title} className=''>
+
+                                                    <h1 className='text-xl'><b>{item.title}</b></h1>
+                                                    <h2 className='text-gray-500'>Công ty {item.company_name}</h2>
+                                                    <p className='flex items-center'>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                            />
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                            />
+                                                        </svg>
+                                                        {item.province},
+                                                        {item.district}
+                                                    </p>
+                                                    <p><span className='font-bold mr-2'>$</span>Từ {item.min_salary}$ đến {item.max_salary}$</p>
+                                                </li>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Không có công việc phù hợp.</p>
+                            )}
+                        </>
+                    )}
+
                     {/* paginate */}
                     <ol className="flex justify-center gap-1 text-xs font-medium">
                         <li>
