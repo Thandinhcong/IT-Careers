@@ -77,7 +77,7 @@ const CvCandodateDetail = React.memo(() => {
                                 ) : (
                                     <img
                                         className="w-20 rounded-full border border-gray-400 p-1"
-                                        src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt=""
+                                        src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt=""
                                     />
                                 )}
                                 <div className="ml-4">
