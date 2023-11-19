@@ -36,7 +36,6 @@ const PostManage = () => {
         setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
     }
 
-
     const handleModalConfirm = (newStatus: number) => {
         if (selectedJobPost) {
             const updatedJobPost = { ...selectedJobPost, status: newStatus };
@@ -47,6 +46,7 @@ const PostManage = () => {
         setModalVisible(false);
     };
     if (isLoading) return <Skeleton loading />;
+
     if (error) {
         if ('status' in error) {
             if (error.status === 404) {
@@ -70,12 +70,14 @@ const PostManage = () => {
             }
         }
     }
+
     const dataJobPost: any = data?.jobPost?.map((item: IJobPost) => {
         return {
             key: item?.id,
             ...item,
         }
     })
+
     const columns: ColumnsType<IJobPost> = [
         {
             title: 'Tiêu đề',
@@ -173,10 +175,6 @@ const PostManage = () => {
                             <span className='text-[#49eb47]'>Đổi trạng thái</span>
                         )}
                     </Button >
-                    {/* <Button type='link' className="text-[#3eb7ee] px-0" onClick={() => setOpen(true)}>
-                        <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
-                        Xem chi tiết
-                    </Button> */}
                     <Button type='link' className="text-[#3eb7ee] px-0" onClick={() => handleViewJobPost(id)}>
                         <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết

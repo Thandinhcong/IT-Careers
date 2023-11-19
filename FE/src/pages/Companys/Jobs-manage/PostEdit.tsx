@@ -319,7 +319,7 @@ const PostEdit = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* Mô tả công việc/Quyền lợi */}
+                    {/*Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
                         label="Mô tả công việc/Quyền lợi"
@@ -328,7 +328,15 @@ const PostEdit = () => {
                     >
                         <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
                     </Form.Item>
+                    {/* Mô tả công việc */}
+                    <Form.Item
+                        name="desc"
+                        label="Mô tả công việc"
+                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
+                    >
+                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                    </Form.Item>
                     {/* Yêu cầu*/}
                     <Form.Item<IJobPost>
                         name="require"

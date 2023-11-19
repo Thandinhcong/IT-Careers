@@ -1,7 +1,8 @@
 import { Tabs } from 'antd';
-import { AiFillInfoCircle, AiOutlineEye, AiOutlineFileText, AiOutlineHeart } from 'react-icons/ai'
+import { AiFillInfoCircle, AiOutlineEye, AiOutlineHeart } from 'react-icons/ai'
 import SaveJob from './SaveJob';
 import MainFindJob from './Main';
+import OpenProfile from './OpenProfile';
 
 const FindJob = () => {
     return (
@@ -27,13 +28,13 @@ const FindJob = () => {
                         <Tabs.TabPane key="3"
                             tab={<p className='flex items-center gap-2 text-base text-[#526484] font-normal'>
                                 <AiOutlineEye /><span>NTV đã mở</span></p>}>
-                            <MainFindJob />
+                            <OpenProfile />
                         </Tabs.TabPane>
-                        <Tabs.TabPane key="4"
+                        {/* <Tabs.TabPane key="4"
                             tab={<p className='flex items-center gap-2 text-base text-[#526484] font-normal'>
                                 <AiOutlineFileText /><span>Ứng viên của tôi</span></p>}>
                             <MainFindJob />
-                        </Tabs.TabPane>
+                        </Tabs.TabPane> */}
                     </Tabs>
                 </div>
             </div>

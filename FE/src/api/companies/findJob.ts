@@ -1,6 +1,6 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ICvApply, IFindJob } from "../../interfaces";
+import { IFindJob } from "../../interfaces";
 const FindJobCompanyApi = createApi({
     reducerPath: "FindJob",
     tagTypes: ['FindJob'],
@@ -22,7 +22,11 @@ const FindJobCompanyApi = createApi({
             query: () => "/company/find_candidate",
             providesTags: ['FindJob']
         }),
-        getProfileOpen: builder.query<ICvApply, void>({
+        getProfileOpen: builder.query<IFindJob, void>({
+            query: () => "/company/profile_open/",
+            providesTags: ['FindJob']
+        }),
+        getProfileSave: builder.query<IFindJob, void>({
             query: () => "/company/profile_open/",
             providesTags: ['FindJob']
         }),
@@ -30,21 +34,29 @@ const FindJobCompanyApi = createApi({
         //     query: (id) => "/company/candidate_detail/" + id,
         //     providesTags: ['FindJob']
         // }),
-        // assseCandidate: builder.mutation<ICvApply, ICvApply>({
-        //     query: (cvAplly: ICvApply) => ({
-        //         url: `/company/assses_candidate/${cvAplly.id}`,
-        //         method: "POST",
-        //         body: cvAplly
-        //     }),
-        //     invalidatesTags: ['FindJob']
-        // }),
+        openProfile: builder.mutation<void, number | string>({
+            query: (id) => ({
+                url: `/company/open_profile/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ['FindJob']
+        }),
+        saveProfile: builder.mutation<void, number | string>({
+            query: (id) => ({
+                url: `/company/save_profile/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ['FindJob']
+        }),
     })
 })
 export const {
     useGetFindCandidateQuery, //Hiển thị ứng viên bật tìm việc
     useGetProfileOpenQuery, //Hiển thị ứng viên đã mở khoá
+    useGetProfileSaveQuery,
     // useGetCandidateDetailQuery,
-    // useAssseCandidateMutation,
+    useOpenProfileMutation,
+    useSaveProfileMutation
 } = FindJobCompanyApi;
 
 export const FindJobCompanyReducer = FindJobCompanyApi.reducer;
