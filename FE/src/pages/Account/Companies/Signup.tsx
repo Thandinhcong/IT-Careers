@@ -46,10 +46,10 @@ const SignUpCompanies = () => {
 
                 <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-8">
                     <div className="max-w-2xl">
-                        <a className="block text-blue-600" href="/">
+                        <Link className="block text-blue-600" to="/">
                             <span className="sr-only">Home</span>
-                            <img src="https://123job.vn/images/logo_tim.png" className="w-36 mb-10" alt="" />
-                        </a>
+                            <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" className="w-36 mb-10" alt="" />
+                        </Link>
                         <h1 className="mt-6 text-xl font-bold text-blue-500 sm:text-3xl md:text-4xl">Chào mừng bạn đến với BEWORK!!</h1>
                         <p className="mt-4 leading-relaxed text-gray-800">
                             Đăng ký tài khoản nhà tuyển dụng để tìm được những ững viên phù hợp nhất với công ty của bạn

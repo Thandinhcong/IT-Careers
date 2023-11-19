@@ -64,7 +64,7 @@ const CVApplyJobPost = React.memo(() => {
     const filteredCandidates =
         filterOption === "newest"
             ? data?.list_candidate_apply_job
-            : data?.list_candidate_apply_job.filter(
+            : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
 
@@ -90,7 +90,7 @@ const CVApplyJobPost = React.memo(() => {
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"
                                 ? data?.list_candidate_apply_job?.length || 0
-                                : data?.list_candidate_apply_job.filter((item: ICvApply) => item.status === 0).length || 0}
+                                : data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0}
                         </span> ứng viên
                     </p>
                     <div className="flex items-center gap-3">

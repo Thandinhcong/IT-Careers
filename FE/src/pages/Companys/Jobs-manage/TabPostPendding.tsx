@@ -210,7 +210,7 @@ const TabPostPendding = () => {
             views: item.view,
         }
     })
-    const penddingJobPostData = jobPostData.filter((item: IJobPost) => item.status === 0);
+    const penddingJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 0);
     // rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {

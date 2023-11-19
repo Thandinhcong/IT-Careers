@@ -269,9 +269,9 @@ const TabPostStop = () => {
             views: item.view,
         }
     })
-    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 3);
+    const passJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 3);
     const currentDate = moment(); // Lấy ngày hiện tại
-    const filteredJobPosts = passJobPostData.filter((item: IJobPost) => {
+    const filteredJobPosts = passJobPostData?.filter((item: IJobPost) => {
         if (item.end_date) {
             const endDate = moment(item.end_date);
             return endDate.isSameOrAfter(currentDate, 'day'); // So sánh ngày kết thúc với ngày hiện tại

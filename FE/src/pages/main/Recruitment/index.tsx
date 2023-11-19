@@ -12,7 +12,7 @@ const Recruitment = React.memo(() => {
     if (isLoading) return <Skeleton />
     return (
         <div>
-            <div className='mb-10   lg:p-1'>
+            <div className='mb-10   lg:p-1 mt-2'>
                 <div className='flex justify-between'>
                     <h2 className='font-bold md:text-2xl'>
                         Tuyển dụng, việc làm

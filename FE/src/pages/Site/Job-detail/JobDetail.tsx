@@ -32,6 +32,7 @@ import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { Skeleton } from "antd";
+import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 const JobDetail = React.memo(() => {
     const notyf = new Notyf({
@@ -58,9 +59,9 @@ const JobDetail = React.memo(() => {
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-
+    //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
-
+    //id bài đăng
     const { data, isLoading } = useGetOneJobsQuery(id || "");
     const listOne: any = data?.job_detail;
 
@@ -68,8 +69,10 @@ const JobDetail = React.memo(() => {
 
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
+
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
+    // ứng tuyển
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
@@ -80,7 +83,13 @@ const JobDetail = React.memo(() => {
     });
     const [users, setUser] = useLocalStorage("user", null);
 
+
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
+
     const onHandleSubmitLogin = async (data: FormLogin) => {
+
+
         try {
             const results = await login(data).unwrap();
             setUser({
@@ -90,11 +99,12 @@ const JobDetail = React.memo(() => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.message)
+            notyf.error(error?.data?.errors)
         }
     };
     //apply
     const onHandleSubmit = async (job: FromApply) => {
+        console.log(1);
         if (typeof image !== "string") return;
         job.path_cv = image;
         try {
@@ -105,8 +115,10 @@ const JobDetail = React.memo(() => {
             }).unwrap();
             notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
-        } catch (error) {
-            notyf.error("Có lỗi xảy ra vui lòng thử lại!")
+        } catch (error: any) {
+            console.log(error);
+
+            notyf.error(error?.message)
         }
 
     };
@@ -239,16 +251,13 @@ const JobDetail = React.memo(() => {
                                 <AiOutlineClose className="w-5 h-5" />
                             </button>
                         </TEModalHeader>
-                        {/* <!--Modal b ody--> */}
+                        {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">
                                     Tải lên CV từ máy tính
                                 </p>
-                                <p className="text-sm  text-gray-700">
-                                    File doc, docx, pdf. Tối đa 5MB.
-                                </p>
-                                <div>
+                                <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
                                             Họ Tên <span className="text-red-500">*</span>
@@ -291,23 +300,40 @@ const JobDetail = React.memo(() => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="my-2">
-                                    <label htmlFor="">
-                                        CV của bạn <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
-                                    <input
-                                        className="border py-1 w-full "
-                                        type="file"
-                                        {...register("path_cv")}
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            CV của bạn <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
+                                        <input
+                                            className="border py-1 w-full "
+                                            type="file"
+                                            {...register("path_cv")}
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                        />
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div>
+                                    <p>*Cv của bạn</p>
+                                    <select
+                                        {...register('curriculum_vitae_id')}
+                                        className="border px-2 py-2 outline-none rounded"
+                                    >
+                                        {listAllCv?.map((item: any) => {
+                                            return (
+                                                <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                            )
+                                        })}
+                                    </select>
+
+                                </div>
+
+
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
                                         Thư mô tả
@@ -320,6 +346,7 @@ const JobDetail = React.memo(() => {
                                         id="message"
                                     ></textarea>
                                 </div>
+                                <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>
                             <TEModalFooter>
                                 <TERipple rippleColor="light">
@@ -352,6 +379,7 @@ const JobDetail = React.memo(() => {
                         </TEModalHeader>
                         <TEModalBody>
                             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)}>
+
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <input

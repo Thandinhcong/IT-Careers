@@ -212,7 +212,7 @@ const TabPostFail = () => {
             views: item.view,
         }
     })
-    const passJobPostData = jobPostData.filter((item: IJobPost) => item.status === 2);
+    const passJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 2);
     // rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-// import './main.css'
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
-import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateInfoProfileMutation } from '../../../api/cv/listCvApi';
+import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
@@ -33,19 +32,16 @@ const CreateCvTest = () => {
     const listProfile = data?.profile?.cv;
     const { register, handleSubmit, reset } = useForm<any>();
     const onHandleSubmit = async (data: any) => {
-        if (typeof image !== "string") return;
-        data.image = image;
+        // if (typeof image !== "string") return;
+        // data.image = image;
         try {
             await updateInfoCv({
                 id: idPost,
                 ...data
             }).unwrap();
             notyf.success("Cập nhật thông tin thành công")
-            console.log(data);
-
         } catch (error: any) {
             notyf.error(error?.data?.error)
-
         }
     }
     //profile
@@ -61,20 +57,35 @@ const CreateCvTest = () => {
     const [addSkill] = useAddSkillMutation();
     const [deleteSkill] = useDeleteSkillMutation();
     const listSkill = getCV?.profile?.skill_cv;
-    const { register: registerSkill, handleSubmit: handleSubmitSkill, reset: resetSkill } = useForm<any>();
-    const onHandleAddSkill = async (data: any) => {
+    const [updateSkill] = useUpdateSkillMutation();
+    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill } = useForm<any>({
+        defaultValues: listSkill,
+    });
+
+    const onHandleSubmitSkill = async (data: any, skillId?: string) => {
         try {
-            await addSkill({
-                profile_id: idPost,
-                ...data
-            }).unwrap();
-            notyf.success("Thêm kỹ năng thành công")
-
+            if (skillId) {
+                await updateSkill({
+                    id: skillId,
+                    profile_id: idPost,
+                    ...data,
+                }).unwrap();
+                notyf.success("Cập nhật kỹ năng thành công");
+            } else {
+                // Thêm kỹ năng mới
+                await addSkill({
+                    profile_id: idPost,
+                    ...data,
+                }).unwrap();
+                notyf.success("Thêm kỹ năng thành công");
+            }
+            resetSkill();
         } catch (error) {
-            console.log("add skill", error);
-
+            console.log("Submit skill", error);
         }
-    }
+    };
+
+    const [skills, setSkills] = useState([{ name_skill: "" }]);
     const onHandleDeleteSkill = async (id: any) => {
         try {
             await deleteSkill(id).unwrap();
@@ -82,10 +93,8 @@ const CreateCvTest = () => {
 
         } catch (error) {
             console.log("skill", error);
-
         }
     }
-    const [skills, setSkills] = useState([{ name_skill: "" }]);
 
     const handleAddSkill = (e: any) => {
         e.preventDefault();
@@ -105,27 +114,41 @@ const CreateCvTest = () => {
     };
     //project
     const [addProject] = useAddProjectMutation();
-    const [deleteProject] = useDeleteProjectMutation();
-    const { register: registerProject, handleSubmit: handleSubmitProject, reset: resetProject } = useForm<any>();
     const listProject = getCV?.profile?.projects;
-    //thêm dự án\
-    console.log(listProject);
+    const [updateProject] = useUpdateProjectMutation();
+    const {
+        register: registerProject,
+        handleSubmit: handleSubmitProject,
+        reset: resetProject,
+        getValues: getValuesProject
+    } = useForm<any>({
+        defaultValues: listProject
+    });
 
-    const onHandleAddProject = async (data: any) => {
+    const onHandleSubmitProject = async (data: any, projectId?: string) => {
         try {
-            addProject({
-                profile_id: idPost,
-                ...data
-            }).unwrap();
-            notyf.success("Thêm Dự án thành công")
-
-        } catch (error: any) {
-            console.log("error project", error);
-
-            notyf.error("YThêm thất bại ")
+            if (projectId) {
+                await updateProject({
+                    id: projectId,
+                    profile_id: idPost,
+                    ...data
+                }).unwrap();
+                notyf.success("Cập nhật Dự án thành công");
+            } else {
+                await addProject({
+                    profile_id: idPost,
+                    ...data
+                }).unwrap();
+                notyf.success("Thêm Dự án thành công");
+            }
+            resetProject();
+        } catch (error) {
+            console.log("Submit project", error);
+            notyf.error("Thêm/Cập nhật thất bại");
         }
-    }
+    };
     //xóa dự án
+    const [deleteProject] = useDeleteProjectMutation();
     const handleDeleteProject = async (id: string | number) => {
         try {
             await deleteProject(id).unwrap();
@@ -158,23 +181,42 @@ const CreateCvTest = () => {
     const listEducation = getCV?.profile?.educations;
 
     const [addEducation] = useAddEduMutation();
-    const [deleteEducation] = useDeleteEduMutation();
-    const { register: registerEducation, handleSubmit: handleSubmitEducation, reset: resetEducation, setValue, watch } = useForm<any>();
-    //thêm học vấn
-    const handleAddEducation = async (data: any) => {
-        try {
-            await addEducation({
-                profile_id: idPost,
-                ...data
-            }).unwrap();
-            notyf.success("Thêm học vấn thành công")
+    const [updateEdu] = useUpdateEduMutation();
+    const {
+        register: registerEducation,
+        handleSubmit: handleSubmitEducation,
+        getValues: getValuesEdu,
+        watch,
+        setValue: setValueEdu,
+        reset: resetEducation,
+    } = useForm<any>({
+        defaultValues: listEducation
+    });
 
-        } catch (error: any) {
-            notyf.error(error)
-            console.log("error eddu", error);
+    const onHandleSubmitEducation = async (data: any, educationId?: string) => {
+        try {
+            if (educationId) {
+                await updateEdu({
+                    id: educationId,
+                    profile_id: idPost,
+                    ...data
+                }).unwrap();
+                notyf.success("Cập nhật học vấn thành công");
+            } else {
+                await addEducation({
+                    profile_id: idPost,
+                    ...data
+                }).unwrap();
+                notyf.success("Thêm học vấn thành công");
+            }
+            resetEducation();
+        } catch (error) {
+            console.log("Submit education", error);
+            notyf.error("Thêm/Cập nhật học vấn thất bại");
         }
-    }
+    };
     // xóa học vấn
+    const [deleteEducation] = useDeleteEduMutation();
     const handleDeleteEducation = async (id: string | number) => {
         try {
             await deleteEducation(id).unwrap();
@@ -183,7 +225,7 @@ const CreateCvTest = () => {
         } catch (error: any) {
             notyf.error(error)
         }
-    }
+    };
     const [education, setEducation] = useState([{ major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
 
     const handleAddEdu = () => {
@@ -204,33 +246,43 @@ const CreateCvTest = () => {
     // kinh nghiệm
 
     const [addExp] = useAddExpMutation();
-    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp } = useForm<any>();
-
     const listExp = getCV?.profile?.exps;
-
+    const [updateExp] = useUpdateExpMutation();
+    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp, getValues: getValuesExp } = useForm<any>({
+        defaultValues: listExp
+    });
+    const onHandleSubmitExp = async (data: any, expId?: string) => {
+        try {
+            if (expId) {
+                // Cập nhật dự án đã tồn tại
+                await updateExp({
+                    id: expId,
+                    profile_id: idPost,
+                    ...data,
+                }).unwrap();
+                notyf.success("Cập nhật dự án thành công");
+            } else {
+                // Thêm dự án mới
+                await addExp({
+                    profile_id: idPost,
+                    ...data,
+                }).unwrap();
+                notyf.success("Thêm dự án thành công");
+            }
+            resetExp(); // Đặt lại form sau khi submit
+        } catch (error: any) {
+            console.log("Submit experience", error);
+            notyf.error(error?.data?.message);
+        }
+    };
     const [deleteExp] = useRemoveExpMutation();
     const handleDeleteExp = async (id: any) => {
         try {
             await deleteExp(id).unwrap();
             notyf.success("Xóa dự án thành công")
-
         } catch (error: any) {
             console.log(error);
             notyf.error(error)
-
-        }
-    }
-
-    const onHandleSubmitExp = async (data: any) => {
-        try {
-            await addExp({
-                profile_id: idPost,
-                ...data
-            }).unwrap();
-            notyf.success("Thêm dự án thành công")
-
-        } catch (error: any) {
-            notyf.error(error?.data?.message)
         }
     }
     const [experience, setExperience] = useState([{ position: "", company_name: '', start_date: '', end_date: '' }]);
@@ -296,8 +348,6 @@ const CreateCvTest = () => {
         }
     };
 
-
-
     useEffect(() => {
         //skill
         setSkills(listSkill);
@@ -332,7 +382,7 @@ const CreateCvTest = () => {
                                 <label className='block font-semibold mb-2'>Hinh anh</label>
                                 <input
                                     {...register('image')}
-                                    name='title'
+
                                     defaultValue={profile?.image}
                                     onChange={onChangeFile}
                                     type="file" className='border border-gray-200 p-2 w-full'
@@ -412,7 +462,7 @@ const CreateCvTest = () => {
                                 <IoTrashOutline />
                             </button>
 
-                            <form key={index} onSubmit={handleSubmitExp(onHandleSubmitExp)}>
+                            <form onSubmit={handleSubmitExp(() => onHandleSubmitExp(getValuesExp(), experiences?.id))}>
                                 <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                     {/* tên công ty */}
                                     <div>
@@ -503,8 +553,8 @@ const CreateCvTest = () => {
                                 onClick={() => handleDeleteEducation(educations?.id)}
                                 className='text-white bg-red-500 px-3 py-2 rounded'
                             > <IoTrashOutline /></button>
-                            <form key={index} onSubmit={handleSubmitEducation(handleAddEducation)}>
-                                <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
+                            <form onSubmit={handleSubmitEducation(() => onHandleSubmitEducation(getValuesEdu(), educations?.id))}>
+                                <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
                                             <div>Trường học</div>
@@ -524,7 +574,6 @@ const CreateCvTest = () => {
                                         </label>
                                         <input
                                             {...registerEducation('gpa')}
-
                                             type="text"
                                             name='gpa'
                                             defaultValue={educations?.gpa}
@@ -548,12 +597,8 @@ const CreateCvTest = () => {
                                         <select
                                             {...registerEducation('major_id')}
                                             defaultValue={educations?.major_id}
-                                            value={watch("major_id") || educations?.major_id}
                                             className='border border-gray-200 p-2 w-full outline-none'
-                                            onChange={(e: any) => {
-                                                handleChangeEdu(index, 'major_id', e.target.value)
-                                                setValue('major_id', e.target.value)
-                                            }}
+                                            onChange={(e: any) => handleChangeEdu(index, 'major_id', e.target.value)}
                                         >
                                             {listMajor?.map((item: any) => {
                                                 return (<option
@@ -576,9 +621,7 @@ const CreateCvTest = () => {
                                             className='border border-gray-200 p-2 w-full outline-none'
                                             onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
                                         >
-                                            <option
-                                                value="1"
-                                            >
+                                            <option value="1">
                                                 Đại Học
                                             </option>
                                             <option
@@ -662,8 +705,8 @@ const CreateCvTest = () => {
                             >
                                 <IoTrashOutline />
                             </button>
-                            <form onSubmit={handleSubmitSkill(onHandleAddSkill)}>
-                                <div key={index} className='border border-gray-200 p-5 my-3'>
+                            <form onSubmit={handleSubmitSkill(() => onHandleSubmitSkill(getValues(), skill?.id))}>
+                                <div className='border border-gray-200 p-5 my-3'>
                                     <div>
                                         <label className='font-semibold mb-2 flex justify-between items-center'>
                                             <div>Kĩ năng</div>
@@ -676,9 +719,7 @@ const CreateCvTest = () => {
                                                     <AiOutlineClose />
                                                 </button>
                                             </div>
-
                                         </label>
-
                                         <input
                                             {...registerSkill('name_skill')}
                                             type="text"
@@ -688,7 +729,6 @@ const CreateCvTest = () => {
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
-
                                 </div>
                                 <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
                                     Lưu
@@ -705,7 +745,7 @@ const CreateCvTest = () => {
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Project</h2>
                     {projects?.map((project: any, index) => (
-                        <div key={project?.id}>
+                        <div key={index}>
                             <button
                                 type="button"
                                 onClick={() => handleDeleteProject(project?.id)}
@@ -713,8 +753,8 @@ const CreateCvTest = () => {
                             >
                                 <IoTrashOutline />
                             </button>
-                            <form onSubmit={handleSubmitProject(onHandleAddProject)}>
-                                <div key={index} className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
+                            <form onSubmit={handleSubmitProject(() => onHandleSubmitProject(getValuesProject(), project?.id))}>
+                                <div className='border border-gray-200 p-5 my-3 grid grid-cols-3 gap-8'>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
                                             <div>Tên dự án</div>
@@ -763,9 +803,6 @@ const CreateCvTest = () => {
                                             className='border border-gray-200 p-2 w-full'
                                         />
                                     </div>
-
-
-
                                     <div>
                                         <label className='block font-semibold mb-2 '>
                                             <div>Link dự án</div>
@@ -843,7 +880,7 @@ const CreateCvTest = () => {
                             <h2 className='text-xl my-3 font-semibold'>Kĩ năng</h2>
                             <div>
                                 {skills?.map((item: any) => (
-                                    <p className='grid grid-cols-2'>{item?.name_skill} </p>
+                                    <p key={item?.id} className='grid grid-cols-2'>{item?.name_skill} </p>
                                 ))}
                             </div>
                         </div>
@@ -851,9 +888,9 @@ const CreateCvTest = () => {
                     <div className='bg-white col-span-4 px-7 py-12 flex flex-col gap-8 rounded-tr-lg rounded-br-xl'>
                         <p className='text-[#1e7a6b] text-xl font-semibold'>Kinh nghiệm làm việc</p>
                         <p className='border-b border-gray-200 my-2'></p>
-                        {experience?.map((item, index) => {
+                        {experience?.map((item: any) => {
                             return (
-                                <div key={index}>
+                                <div key={item?.id}>
                                     <div className='flex flex-col gap-1'>
                                         <p className='font-semibold mt-2'>Tên công ty:
                                             <span className='font-normal ml-1'>{item?.company_name}</span>
@@ -872,9 +909,9 @@ const CreateCvTest = () => {
                         <div >
                             <p className='text-[#1e7a6b] text-xl font-semibold'>Học vấn</p>
                             <p className='border-b border-gray-200 my-2'></p>
-                            {education?.map((item: any, index) => {
+                            {education?.map((item: any) => {
                                 return (
-                                    <div key={index}>
+                                    <div key={item?.id}>
                                         <p className=' font-semibold my-4 text-lg'>{item?.name}</p>
                                         <div className='flex flex-col gap-1'>
                                             <p className='font-semibold'>Chuyên ngành:
@@ -900,24 +937,26 @@ const CreateCvTest = () => {
                                 <p className='text-[#1e7a6b] text-xl font-semibold'>Dự án</p>
                                 <p className='border-b border-gray-200 my-2'></p>
                                 {projects?.map((item: any) => {
-                                    return <div key={item?.id}>
-                                        <p className=' font-semibold my-4 text-lg'>{item?.project_name}</p>
-                                        <div className='flex flex-col gap-1'>
-                                            <p className='font-semibold'>Thời gian:
-                                                <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
-                                                <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
-                                            </p>
-                                            <p className='font-semibold mt-2'>Vị trí:
-                                                <span className='font-normal ml-1'>{item?.position}</span>
-                                            </p>
-                                            <p className='font-semibold'>Link:
-                                                <span className='underline font-normal ml-1'>{item?.link_project}</span>
-                                            </p>
-                                            <p className='font-semibold'>Mô tả:
-                                                <span className=' font-normal ml-1'>{item?.desc}</span>
-                                            </p>
+                                    return (
+                                        <div key={item?.id}>
+                                            <p className=' font-semibold my-4 text-lg'>{item?.project_name}</p>
+                                            <div className='flex flex-col gap-1'>
+                                                <p className='font-semibold'>Thời gian:
+                                                    <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
+                                                    <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
+                                                </p>
+                                                <p className='font-semibold mt-2'>Vị trí:
+                                                    <span className='font-normal ml-1'>{item?.position}</span>
+                                                </p>
+                                                <p className='font-semibold'>Link:
+                                                    <span className='underline font-normal ml-1'>{item?.link_project}</span>
+                                                </p>
+                                                <p className='font-semibold'>Mô tả:
+                                                    <span className=' font-normal ml-1'>{item?.desc}</span>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )
                                 })}
                             </div>
                         )}
