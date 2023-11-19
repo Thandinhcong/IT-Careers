@@ -33,7 +33,7 @@ const CreateCvTest = () => {
     const { register, handleSubmit, reset } = useForm<any>();
     const onHandleSubmit = async (data: any) => {
         // if (typeof image !== "string") return;
-        // data.image = image;
+        data.image = image;
         try {
             await updateInfoCv({
                 id: idPost,
@@ -186,8 +186,7 @@ const CreateCvTest = () => {
         register: registerEducation,
         handleSubmit: handleSubmitEducation,
         getValues: getValuesEdu,
-        watch,
-        setValue: setValueEdu,
+        // setValue: setValueEdu,
         reset: resetEducation,
     } = useForm<any>({
         defaultValues: listEducation
@@ -402,7 +401,6 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Họ tên:</label>
                                 <input type="text"
                                     {...register('name')}
-
                                     name='name'
                                     defaultValue={profile?.name}
                                     onChange={handleInputChange}
@@ -430,9 +428,10 @@ const CreateCvTest = () => {
                                 <label htmlFor="full-name"
                                     className='block font-semibold mb-2'>Địa chỉ:</label>
                                 <input type="text"
+                                    {...register('address')}
                                     defaultValue={profile?.address}
                                     onChange={handleInputChange}
-                                    name="address" className='border border-gray-200 p-2 w-full' />
+                                    className='border border-gray-200 p-2 w-full' />
                             </div>
                             <div>
                                 <label htmlFor="full-name"
