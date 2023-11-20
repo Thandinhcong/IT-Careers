@@ -29,10 +29,7 @@ const JobPostApi = createApi({
       query: (id) => `/job_detail/${id}`,
       providesTags: ["job-post"],
     }),
-    editJobPostStatus: builder.mutation<
-      IJobPost,
-      { id: number | string; status: number }
-    >({
+    editJobPostStatus: builder.mutation<IJobPost, { id: number | string; status: number }>({
       query: ({ id, status }) => ({
         url: `/job-post/${id}`,
         method: "PUT",

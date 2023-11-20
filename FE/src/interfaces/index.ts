@@ -72,6 +72,7 @@ export interface IJobPost {
   working_form?: string;
   name: string | number;
   view: number;
+  desc: string;
   level: IJobPost;
   data: IJobPost[];
 }
@@ -108,6 +109,10 @@ export interface IFindJob {
   email: string;
   phone: string;
   birth: string;
+  created_at: string;
+  data: IFindJob;
+  filter: CallableFunction;
+  map: CallableFunction;
 }
 export interface ICompanyInfor {
   id?: string | number;
