@@ -88,8 +88,6 @@ const JobDetail = React.memo(() => {
     const listAllCv = listCv?.data;
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
-
-
         try {
             const results = await login(data).unwrap();
             setUser({
@@ -105,8 +103,8 @@ const JobDetail = React.memo(() => {
     //apply
     const onHandleSubmit = async (job: FromApply) => {
         console.log(1);
-        if (typeof image !== "string") return;
-        job.path_cv = image;
+        // if (typeof image !== "string") return;
+        job.path_cv = image as any;
         try {
             await applyJob({
                 id: id,
@@ -116,8 +114,6 @@ const JobDetail = React.memo(() => {
             notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
         } catch (error: any) {
-            console.log(error);
-
             notyf.error(error?.message)
         }
 
@@ -147,7 +143,6 @@ const JobDetail = React.memo(() => {
         <div>
             <div className="max-w-screen-xl mx-auto">
                 <SearchJobs />
-
             </div>
             <div className="bg-gray-50 py-6">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
@@ -317,22 +312,24 @@ const JobDetail = React.memo(() => {
                                         </div>
                                     </div>
                                 </div>
+                                {!listAllCv ? "" : (
 
-                                <div>
-                                    <p>*Cv của bạn</p>
-                                    <select
-                                        {...register('curriculum_vitae_id')}
-                                        className="border px-2 py-2 outline-none rounded"
-                                    >
-                                        {listAllCv?.map((item: any) => {
-                                            return (
-                                                <option key={item?.id} value={item?.id}>{item?.title}</option>
-                                            )
-                                        })}
-                                    </select>
+                                    <div>
+                                        <p>*Cv của bạn</p>
+                                        <select
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 py-2 outline-none rounded"
+                                        >
+                                            <option value="">Vui lòng chọn</option>
+                                            {listAllCv?.map((item: any) => {
+                                                return (
+                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                                )
+                                            })}
+                                        </select>
 
-                                </div>
-
+                                    </div>
+                                )}
 
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
