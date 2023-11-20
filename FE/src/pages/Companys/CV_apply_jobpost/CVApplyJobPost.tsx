@@ -18,7 +18,6 @@ const CVApplyJobPost = React.memo(() => {
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-    console.log(selectedCvApplyId);
 
 
     const showModal = (id: number) => {

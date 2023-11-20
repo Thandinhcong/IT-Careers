@@ -46,7 +46,7 @@ const CVApply = React.memo(() => {
                 } else {
                     message.error("Không có ID hồ sơ ứng tuyển được chọn.");
                 }
-                console.log('Received values:', values);
+                // console.log('Received values:', values);
                 // Đóng Modal
                 setIsModalOpen(false);
             })
@@ -65,7 +65,7 @@ const CVApply = React.memo(() => {
             : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
-    console.log(filteredCandidates);
+    // console.log(filteredCandidates);
 
     return (
         <div className="bg-gray-50 text-sm text-gray-500">

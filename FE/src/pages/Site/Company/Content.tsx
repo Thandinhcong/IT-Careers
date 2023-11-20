@@ -32,7 +32,7 @@ const ContentCompany = React.memo(() => {
                                     </div>
                                 </div>
                             </div>
-                            <p className='text-[#9d2b6b] indent-[110px]'>2.5 <AiFillStar className="inline-block base-line" /></p>
+
                             <div className='grid grid-cols-3 gap-8 py-5'>
                                 <div>
                                     <p className='font-bold'>Địa chỉ</p>
