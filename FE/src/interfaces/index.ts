@@ -189,24 +189,24 @@ export interface IListData {
 }
 
 export interface ICompanys {
-  id?: string | number;
-  company_name: string;
-  tax_code: string;
-  address: string;
-  founded_in: Date;
-  name: string;
-  office: string;
-  email: string;
-  phone: string;
-  map: string;
-  logo: string;
-  link_web: string;
-  image_paper: string;
-  description: string;
-  coin: number;
-  status?: any;
-  company_size_min: number;
-  company_size_max: number;
+  id?: string | number,
+  company_name: string,
+  tax_code: string,
+  address: string,
+  founded_in: Date,
+  name: string,
+  office: string,
+  email: string,
+  phone: string,
+  map: string,
+  logo: string,
+  link_web: string,
+  image_paper: string,
+  description: string,
+  coin: number,
+  status?: any,
+  company_size_min: number,
+  company_size_max: number
 }
 export interface IListOneCompany {
   status: string;
@@ -262,4 +262,9 @@ export interface IListJobsDetail {
   district: string;
   status: number;
   logo: string;
+}
+export interface ISaveJobs {
+  id?: number | string;
+  candidate_id?: number | string;
+  job_post_id?: number | string;
 }

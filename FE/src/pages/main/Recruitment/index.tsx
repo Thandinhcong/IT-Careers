@@ -3,12 +3,54 @@ import { MdFavoriteBorder, MdRoom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
-import { Skeleton } from 'antd'
-import React from 'react'
-
-const Recruitment = React.memo(() => {
+import { Button, Pagination, Skeleton } from 'antd'
+import React, { useState } from 'react'
+import { AiFillHeart } from 'react-icons/ai'
+import { useAddSaveJobsMutation } from '../../../api/savejobpostapi'
+const Recruitment = () => {
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 12; // Số mục hiển thị trên mỗi trang
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+    // Tính toán chỉ mục bắt đầu và kết thúc của danh sách công việc hiển thị trên trang hiện tại
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = currentPage * pageSize;
+    // Lọc và phân trang danh sách công việc
+    const filteredJobs = listJobs?.filter((item) => {
+        return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
+    });
+    const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
+
+    const [saveJob] = useAddSaveJobsMutation();
+    const [isFavorite, setIsFavorite] = useState([]);
+    const handleSaveJob = async (idS) => {
+        try {
+            await saveJob(idS);
+
+            // Kiểm tra xem công việc đã được yêu thích hay chưa
+            const isJobFavorite = isFavorite[idS];
+
+            if (isJobFavorite) {
+                // Nếu công việc đã được yêu thích, hãy xóa nó khỏi danh sách yêu thích
+                setIsFavorite((prevJobs) => {
+                    const updatedJobs = { ...prevJobs };
+                    delete updatedJobs[idS];
+                    return updatedJobs;
+                });
+            } else {
+                // Nếu công việc chưa được yêu thích, hãy thêm nó vào danh sách yêu thích
+                setIsFavorite((prevJobs) => ({ ...prevJobs, [idS]: true }));
+            }
+        } catch (error) {
+            console.error('Lỗi khi lưu công việc:', error);
+        }
+    };
+
     if (isLoading) return <Skeleton />
     return (
         <div>
@@ -21,40 +63,51 @@ const Recruitment = React.memo(() => {
                     <Link to="/jobs" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
-                    {listJobs?.map((item) => {
-                        if (item.status === 0 || item.status === 2) {
-                            return null;
-                        }
-                        else if (new Date() > new Date(item?.end_date)) {
-                            return null;
-                        } else {
-                            return (
-                                <Link to={`/job-detail/${item?.title}/${item?.id}`} className='shadow-lg p-2 rounded' key={item?.id}>
-                                    <div className='flex gap-2'>
-                                        <img src={item?.logo} className='border rounded-md p-2' width={70} />
-                                        <div>
-                                            <Link to="/">
-                                                <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
-                                            </Link>
-                                            <p className='text-lg'>{item?.company_name}</p>
+                    {displayedJobs?.map((item) => {
+                        return (
+                            <div>
+                                <div className='shadow-lg p-2 rounded'>
+                                    <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
+                                        <div className='flex gap-2'>
+                                            <img src={item?.logo} className='border rounded-md p-2' width={70} />
+                                            <div>
+                                                <Link to="/">
+                                                    <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
+                                                </Link>
+                                                <p className='text-lg'>{item?.company_name}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
+                                        <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
+                                    </Link>
                                     <div className='flex justify-between items-center mb-2'>
                                         <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
-                                        <i className='border p-1'><MdFavoriteBorder /></i>
+                                        <Button className={`border p-1 ${isFavorite ? 'text-red-500' : ''}`} onClick={(e) => handleSaveJob(item?.id)}>
+                                            <AiFillHeart />
+                                        </Button>
                                     </div>
-                                    <div>
+                                </div>
+                            </div>
+                        );
 
-                                    </div>
-                                </Link>
-                            );
-                        }
                     })}
+
+                </div>
+                {/* Hiển thị Pagination */}
+                <div className="pagination-container flex justify-center items-center">
+                    <Pagination
+                        current={currentPage}
+                        pageSize={pageSize}
+                        total={filteredJobs?.length}
+                        onChange={handlePageChange}
+                    />
                 </div>
             </div>
+
+
         </div>
     )
-});
+};
 
 export default Recruitment
+
+

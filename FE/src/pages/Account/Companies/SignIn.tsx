@@ -54,7 +54,7 @@ const SignInCompanies = () => {
                             <span className="sr-only">Home</span>
                             <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" className="w-40 mb-20" alt="" />
                         </Link>
-                        <h1 className="mt-6 text-2xl font-bold text-blue-500 sm:text-3xl md:text-4xl">Chào mừng bạn quay trở lại!</h1>
+                        <h1 className="mt-6 text-2xl font-bold text-blue-500 sm:text-3xl md:text-4xl">Chào mừng bạn quay trở lại!!</h1>
                         <p className="mt-4 leading-relaxed text-gray-800">
                             Cùng tạo dựng lợi thế cho doanh nghiệp bằng trải nghiệm công nghệ tuyển dụng ứng dụng sâu AI & Hiring Funnel
                         </p>
@@ -105,6 +105,7 @@ const SignInCompanies = () => {
                 </main>
             </div>
         </section>
+
     )
 }
 
