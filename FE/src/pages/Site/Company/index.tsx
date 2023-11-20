@@ -87,7 +87,7 @@ const Company = React.memo(() => {
                                 className="flex cursor-pointer items-center justify-between text-gray-700"
                             >
                                 <h2 className="text-lg font-medium transition-colors duration-300 group-open:text-blue-600">
-                                    1. Hiện tại có bao nhiêu công ty được review trên 123job?
+                                    1. Hiện tại có bao nhiêu công ty được review trên Bework?
                                 </h2>
 
                                 <span className="relative h-5 w-5 shrink-0">
@@ -124,7 +124,7 @@ const Company = React.memo(() => {
                             </summary>
 
                             <p className="mt-4 leading-relaxed text-gray-700">
-                                Có hơn 60000+ công ty đang được review trên 123job.
+                                Có hơn 60000+ công ty đang được review trên Bework.
                             </p>
                         </details>
 

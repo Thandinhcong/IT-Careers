@@ -32,6 +32,7 @@ const LayoutUser = () => {
             notyf.success("Bật tìm việc thành công");
             return
         } else {
+            findJob();
             notyf.success("Tắt tìm việc thành công")
 
         }

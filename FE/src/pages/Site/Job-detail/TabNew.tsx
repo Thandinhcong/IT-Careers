@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineQuestionCircle, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
 import { CiMedal } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
@@ -23,6 +23,7 @@ import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FcGoogle } from "react-icons/fc";
 import { SlSocialFacebook } from "react-icons/sl";
+import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
 const TabNew = React.memo(() => {
@@ -100,7 +101,8 @@ const TabNew = React.memo(() => {
         }
 
     };
-
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (files) {
@@ -118,6 +120,9 @@ const TabNew = React.memo(() => {
             }
         }
     };
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
@@ -434,16 +439,13 @@ const TabNew = React.memo(() => {
                                 <AiOutlineClose className="w-5 h-5" />
                             </button>
                         </TEModalHeader>
-                        {/* <!--Modal b ody--> */}
+                        {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">
                                     Tải lên CV từ máy tính
                                 </p>
-                                <p className="text-sm  text-gray-700">
-                                    File doc, docx, pdf. Tối đa 5MB.
-                                </p>
-                                <div>
+                                <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
                                             Họ Tên <span className="text-red-500">*</span>
@@ -486,23 +488,40 @@ const TabNew = React.memo(() => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="my-2">
-                                    <label htmlFor="">
-                                        CV của bạn <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
-                                    <input
-                                        className="border py-1 w-full "
-                                        type="file"
-                                        {...register("path_cv")}
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            CV của bạn <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
+                                        <input
+                                            className="border py-1 w-full "
+                                            type="file"
+                                            {...register("path_cv")}
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                        />
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
                                 </div>
+                                {!listAllCv ? "" : (
+                                    <div>
+                                        <p>*Cv của bạn</p>
+                                        <select
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 py-2 outline-none rounded"
+                                        >
+                                            <option value="">Vui lòng chọn</option>
+                                            {listAllCv?.map((item: any) => {
+                                                return (
+                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+                                )}
+
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
                                         Thư mô tả
@@ -515,6 +534,7 @@ const TabNew = React.memo(() => {
                                         id="message"
                                     ></textarea>
                                 </div>
+                                <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>
                             <TEModalFooter>
                                 <TERipple rippleColor="light">

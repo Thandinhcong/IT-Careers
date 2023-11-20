@@ -5,6 +5,7 @@ import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
 import { CiEdit } from 'react-icons/ci';
+import { useEffect } from 'react';
 
 const ListCV = () => {
     const notyf = new Notyf({
@@ -50,12 +51,14 @@ const ListCV = () => {
             notyf.error('Bạn đã chọn cv này rồi!')
         }
     }
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
-
         <div className=''>
             {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
-                    <h2 className='text-2xl text-center my-10'>Quản lý  CV</h2>
+                    <h2 className='text-2xl text-center my-10'>Quản lý CV</h2>
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
                             return (
@@ -67,7 +70,6 @@ const ListCV = () => {
                                         <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                     </div>
                                     <div className='flex justify-center my-4 pt-2'>
-
                                         <input
                                             type='radio'
                                             name='active'
@@ -80,7 +82,7 @@ const ListCV = () => {
                         })}
                     </div>
                     <div className='text-center m-5'>
-                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Thêm CV</button>
+                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV</button>
                     </div>
                     <i className='text-yellow-600 text-sm'>*Lưu ý: sau khi tạo cv bạn cần cập nhật CV của mình</i>
                 </div>
@@ -99,9 +101,7 @@ const ListCV = () => {
                             className='bg-blue-600 text-white text-lg h-12'
                             onClick={handleAddCV}
                         >
-
                             Tạo CV đầu tiên
-
                         </Button>
                     </div>
                     <div className='w-52 ml-5'>

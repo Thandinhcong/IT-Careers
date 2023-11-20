@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
     TETabs,
@@ -102,7 +102,6 @@ const JobDetail = React.memo(() => {
     };
     //apply
     const onHandleSubmit = async (job: FromApply) => {
-        console.log(1);
         // if (typeof image !== "string") return;
         job.path_cv = image as any;
         try {
@@ -313,7 +312,6 @@ const JobDetail = React.memo(() => {
                                     </div>
                                 </div>
                                 {!listAllCv ? "" : (
-
                                     <div>
                                         <p>*Cv của bạn</p>
                                         <select
@@ -327,7 +325,6 @@ const JobDetail = React.memo(() => {
                                                 )
                                             })}
                                         </select>
-
                                     </div>
                                 )}
 

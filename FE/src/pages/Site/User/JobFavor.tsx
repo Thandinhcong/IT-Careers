@@ -1,7 +1,6 @@
 import { Button, Pagination, Skeleton } from 'antd'
 import { AiFillHeart } from 'react-icons/ai'
-import { CiClock2, CiLocationOn } from 'react-icons/ci'
-import { MdAttachMoney, MdFavoriteBorder, MdRoom } from 'react-icons/md'
+import { MdRoom } from 'react-icons/md'
 import { useGetAllSaveJobsQuery } from '../../../api/savejobpostapi'
 import { Link } from 'react-router-dom'
 import { BsCurrencyDollar } from 'react-icons/bs'
@@ -33,9 +32,9 @@ const JobFavor = () => {
         <div>
             <h1 className='mb-5 w-5/6 ml-6 text-2xl font-bold'>Việc làm đã lưu</h1>
             <div className='flex justify-between shadow-sm shadow-blue-300 h-auto py-4 ml-5'>
-                {displayedJobs?.map((item) => {
+                {displayedJobs?.map((item: any) => {
                     return (
-                        <div>
+                        <div key={item?.id}>
                             <div className='shadow-lg p-2 rounded'>
                                 <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
                                     <div className='flex gap-2'>

@@ -1,4 +1,3 @@
-import { AiFillStar } from 'react-icons/ai'
 import Aside from './Aside'
 import { Link } from 'react-router-dom'
 import { useGetAllCompanysQuery } from '../../../api/companyApi';
@@ -52,8 +51,7 @@ const ContentCompany = React.memo(() => {
                                 <p className="font-bold">Giới thiệu</p>
                                 <div className="line-clamp-2">
                                     <p className="text-gray-500">
-                                        {item?.description
-                                        }
+                                        {item?.description}
                                     </p>
                                 </div>
                             </div>

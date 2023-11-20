@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
@@ -10,7 +10,7 @@ import { UploadImage } from '../../../components/upload';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { GoDownload } from 'react-icons/go';
-const CreateCvTest = () => {
+const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -974,6 +974,6 @@ const CreateCvTest = () => {
             </div>
         </div>
     )
-}
+});
 
-export default CreateCvTest
+export default CreateCvTest;
