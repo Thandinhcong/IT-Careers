@@ -43,6 +43,10 @@ const PackagesCompanyApi = createApi({
             query: (param) => "/vnpay_return" + param,
             providesTags: ['Package']
         }),
+        vnpayIpn: builder.query<any, any>({
+            query: (param) => "/vnpay_ipn" + param,
+            providesTags: ['Package']
+        }),
         insertInvoice: builder.mutation<any, any>({
             query: (Package: IPackages) => ({
                 url: "/insert_invoice",
@@ -66,7 +70,8 @@ export const {
     useGetAllPackageQuery,
     useInsertInvoiceMutation,
     usePayMentMutation,
-    useVnpayReturnQuery
+    useVnpayReturnQuery,
+    useVnpayIpnQuery
 } = PackagesCompanyApi;
 
 export const packageCompanyReducer = PackagesCompanyApi.reducer;

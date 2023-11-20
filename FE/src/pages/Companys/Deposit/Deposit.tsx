@@ -1,5 +1,5 @@
 import { Button, Form, Input, InputNumber, Steps } from 'antd';
-import { useGetAllPackageQuery, useInsertInvoiceMutation, usePayMentMutation, useVnpayReturnQuery } from '../../../api/companies/package';
+import { useGetAllPackageQuery, useInsertInvoiceMutation, usePayMentMutation, useVnpayIpnQuery, useVnpayReturnQuery } from '../../../api/companies/package';
 import { IPackages } from '../../../interfaces';
 import { useState } from 'react';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
@@ -11,18 +11,19 @@ const Deposit = () => {
 
     const { data: packages } = useGetAllPackageQuery();// Lấy ra tất cả gói nạp
 
-    const queryString = location.search.substring(0); // Loại bỏ dấu '?' ở đầu chuỗi
-    const param = queryString.length > 0 ? queryString : null;
+    let queryString = location.search.substring(0); // Loại bỏ dấu '?' ở đầu chuỗi
+    let param = queryString.length > 0 ? queryString : null;
 
     const { data: vnpayReturnData } = useVnpayReturnQuery(param);
     console.log(vnpayReturnData);
+    const { data: vnpayIpnData } = useVnpayIpnQuery(param);
+    console.log(vnpayIpnData);
 
 
     const [insertInvoice] = useInsertInvoiceMutation(); // Tạo hoá đơn-Xác nhận thanh toán
     const [payMent] = usePayMentMutation(); // Tạo hoá đơn-Xác nhận thanh toán
 
     const [responseData, setResponseData] = useState<any>(null); //Lưu thông tin tạo hoá đơn
-    console.log(responseData?.invoice);
 
     const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
     const [currentStep, setCurrentStep] = useState(0);
@@ -52,8 +53,6 @@ const Deposit = () => {
             .unwrap()
             .then((response) => {
                 const redirectUrl = response[0].data;
-                console.log('Dữ liệu trả về từ payMent:', redirectUrl);
-
                 // Chuyển hướng trình duyệt đến đường dẫn redirectUrl
                 window.location.href = redirectUrl;
 
@@ -62,6 +61,7 @@ const Deposit = () => {
                 // Xử lý lỗi nếu có
                 console.error(error);
             });
+
     };
 
     return (
@@ -124,14 +124,16 @@ const Deposit = () => {
                                 name='title'
                                 initialValue={responseData.invoice.package.title}
                             >
-                                <Input
+                                <InputNumber
                                     style={{ width: '100%' }}
                                     disabled
                                 />
                             </Form.Item>
+
                             <Form.Item
+                                label=""
                                 name='invoice_id'
-                                initialValue={responseData?.invoice?.invoice_id}
+                                initialValue={responseData.invoice.invoice_id}
                             >
                                 <Input
                                     style={{ width: '100%' }}
@@ -139,10 +141,11 @@ const Deposit = () => {
                                     hidden
                                 />
                             </Form.Item>
+
                             <Form.Item
                                 label='Số tiền nạp'
                                 name='amount'
-                                className='-mt-10'
+                                className='-mt-12'
                                 initialValue={responseData?.invoice?.amount}
                             >
                                 <InputNumber
@@ -156,6 +159,7 @@ const Deposit = () => {
                                     disabled
                                 />
                             </Form.Item>
+
                             <p className='my-2 text-gray-500'>
                                 Số tiền bạn nạp là:
                                 <span className='font-semibold text-gray-800'>   {moneyValue !== undefined && moneyValue.toString()} VND</span>
@@ -185,11 +189,6 @@ const Deposit = () => {
                     {currentStep > 0 && (
                         <Button onClick={onPrevStep}>Quay lại</Button>
                     )}
-                    {/* {currentStep < 1 ? (
-                        <Button type='primary' onClick={onNextStep}>Tiếp theo</Button>
-                    ) : (
-                        <Button type='primary' htmlType='submit' onClick={onNextStep}>Xác nhận</Button>
-                    )} */}
                 </div>
             </div>
         </div>
