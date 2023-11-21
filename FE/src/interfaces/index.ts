@@ -77,9 +77,9 @@ export interface IJobPost {
   data: IJobPost[];
 }
 export interface ICvApply {
-  id?: number | string;
+  id?: number;
   job_post_id?: number | string;
-  curriculum_vitae_id?: number | string;
+  curriculum_vitae_id: number;
   evaluate?: string; // đánh giá
   introduce?: string; // giới thiệu
   status?: number;
