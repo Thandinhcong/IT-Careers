@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
+import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
 import { CiMedal } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -121,40 +121,11 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         }
     };
 
-
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
                 <div className='bg-gray-100 text-green-600 p-4'>
-
-                    <div className='grid grid-cols-2 gap-4 text-sm my-4'>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Chưa có giấy phép kinh doanh</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Tin đăng chưa có video hoặc hình ảnh</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'> Nhà tuyển dụng tạo tài khoản dưới 1 tháng</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Chưa có lịch sử báo xấu tin đăng</span>
-                        </p>
-                    </div>
                     <div>
-                        {/* <!-- Button trigger modal --> */}
-                        <TERipple rippleColor="red" className="flex justify-end items-center">
-                            <button
-                                type="button"
-                                className="text-sm font-medium  text-red-500 "
-                                onClick={() => setShowModal(true)}
-                            >
-                                Tìm hiểu thêm
-                            </button>
-                            <AiOutlineRight className="text-red-500" />
-                        </TERipple>
-
-                        {/* <!-- Modal --> */}
                         <TEModal show={showModal} setShow={setShowModal}>
                             <TEModalDialog>
                                 <TEModalContent>
@@ -175,41 +146,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         </button>
                                     </TEModalHeader>
                                     {/* <!--Modal body--> */}
-                                    <TEModalBody className="text-gray-800">
-                                        <p>Dữ liệu chúng tôi cung cấp giúp bạn an toàn hơn trong quá trình tìm hiểu để ứng tuyển vào công việc hiện tại. Tránh những tin tuyển dụng giả mạo, lừa đảo.</p>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500 " />
-                                            <div>
-                                                <p className="font-semibold">Chưa có giấy phép kinh doanh</p>
-                                                <p>Nhà tuyển dụng chưa cung cấp giấy phép kinh doanh để xác thực tài khoản</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Nhà tuyển dụng tạo tài khoản dưới 1 tháng</p>
-                                                <p>Thời gian tạo tài khoản đăng tin tuyển dụng càng lâu. Mức độ uy tín càng nhiều.</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Tin đăng chưa có video hoặc hình ảnh</p>
-                                                <p>Hình ảnh và video làm việc khi được tải lên cùng tin tuyển dụng. Sẽ giúp ứng viên tìm hiểu rõ hơn về công việc mình đang quan tâm</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Chưa có lịch sử báo xấu tin đăng</p>
-                                                <p>Tin tuyển dụng có số lần báo cáo nhiều 1 lần. Bạn cần lưu ý các tin này. Bạn sẽ an toàn hơn đối với các tin chưa có lịch sử báo xấu trước đó.</p>
-                                            </div>
-                                        </div>
-                                        <p className="text-xs my-3">
-                                            Mọi thông tin liên quan tới tin tuyển dụng này là do người đăng tin đăng tải và chịu trách nhiệm. Chúng tôi luôn cố gắng để có chất lượng thông tin tốt nhất, nhưng chúng tôi không đảm bảo và không chịu trách nhiệm về bất kỳ nội dung nào liên quan tới tin việc làm này. Nếu người tìm việc phát hiện có sai sót hay vấn đề gì xin hãy
-                                            <span className="text-blue-500"> báo cáo cho chúng tôi</span>
-                                        </p>
-                                    </TEModalBody>
+
                                 </TEModalContent>
                             </TEModalDialog>
                         </TEModal>

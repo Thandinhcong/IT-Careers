@@ -181,7 +181,7 @@ const JobDetail = React.memo(() => {
             <div className="max-w-screen-xl mx-auto">
                 <SearchJobs />
             </div>
-            <div className="bg-gray-50 py-6">
+            <div className="bg-gray-50 py-6 ">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
                     <div className="grid grid-cols-4 my-2 gap-10">
                         <div className="col-span-3">

@@ -1,22 +1,30 @@
 import { Button, Pagination, Skeleton } from 'antd'
 import { AiFillHeart } from 'react-icons/ai'
 import { MdRoom } from 'react-icons/md'
-import { useGetAllSaveJobsQuery } from '../../../api/savejobpostapi'
+import { useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { Link } from 'react-router-dom'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { VND } from '../../../components/upload'
 import { useState } from 'react'
+import { Notyf } from 'notyf'
+import { useGetInfoUserQuery } from '../../../api/auths'
 
 const JobFavor = () => {
-
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const { data, isLoading } = useGetAllSaveJobsQuery();
     const listsaveJobs = data?.data
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5; // Số mục hiển thị trên mỗi trang
+    const pageSize = 5;
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
-    // Tính toán chỉ mục bắt đầu và kết thúc của danh sách công việc hiển thị trên trang hiện tại
+
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = currentPage * pageSize;
     // Lọc và phân trang danh sách công việc
@@ -25,6 +33,24 @@ const JobFavor = () => {
     });
     const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
 
+    const { data: infoUser } = useGetInfoUserQuery();
+
+    const user = infoUser?.candidate;
+    const idUser: any = user?.id;
+
+    const [cancelSaveJob] = useUnsaveJobMutation();
+    const handleCancelSaveJob = async (id: any) => {
+        try {
+            await cancelSaveJob({
+                idUser,
+                id
+            }).unwrap();
+            notyf.success("Hủy Lưu việc làm thành công!")
+
+        } catch (error: any) {
+            notyf.error(error?.data?.error);
+        }
+    }
     if (isLoading) return <Skeleton />
 
     return (
@@ -51,7 +77,10 @@ const JobFavor = () => {
                                         </Link>
                                         <div className='flex justify-between items-center mb-2'>
                                             <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
-                                            <Button className={'border p-1 text-red-500'}>
+                                            <Button
+                                                onClick={() => handleCancelSaveJob(item?.id)}
+
+                                                className={'border p-1 text-red-500'}>
                                                 <AiFillHeart />
                                             </Button>
                                         </div>
