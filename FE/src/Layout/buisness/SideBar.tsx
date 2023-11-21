@@ -17,6 +17,8 @@ import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 const SideBarCompany = () => {
     const { data: Infor } = useGetInforQuery();
     const listIcon = Infor?.company?.logo;
+    console.log(Infor?.company);
+
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
@@ -38,7 +40,7 @@ const SideBarCompany = () => {
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <PiMoneyThin />  </p>
                 <p className='mr-3'>Số xu</p>
-                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
+                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>{Infor?.company?.coin} xu</p>
             </div>
             <Link to="/business" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>

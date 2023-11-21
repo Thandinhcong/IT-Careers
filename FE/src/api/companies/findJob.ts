@@ -23,11 +23,11 @@ const FindJobCompanyApi = createApi({
             providesTags: ['FindJob']
         }),
         getProfileOpen: builder.query<IFindJob, void>({
-            query: () => "/company/profile_open/",
+            query: () => "/company/profile_open",
             providesTags: ['FindJob']
         }),
         getProfileSave: builder.query<IFindJob, void>({
-            query: () => "/company/profile_open/",
+            query: () => "/company/profile_save",
             providesTags: ['FindJob']
         }),
         // getCandidateDetail: builder.query<ICvApply, number | string>({
