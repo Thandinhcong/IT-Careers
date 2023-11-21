@@ -86,8 +86,8 @@ const TabNew = React.memo(() => {
     };
 
     const onHandleSubmit = async (job: FromApply) => {
-        if (typeof image !== "string") return;
-        job.path_cv = image;
+        // if (typeof image !== "string") return;
+        job.path_cv = image as any;
         try {
             await applyJob({
                 id: id,

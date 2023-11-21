@@ -33,6 +33,7 @@ import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
 import { Skeleton } from "antd";
+import { useAddSaveJobsMutation, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
     const notyf = new Notyf({
@@ -134,6 +135,47 @@ const JobDetail = React.memo(() => {
             }
         }
     };
+
+
+    const [isJobSaved, setIsJobSaved] = useState(false);
+    //lưu việc làm
+    const [saveJob] = useAddSaveJobsMutation();
+    const [cancelSaveJob] = useUnsaveJobMutation();
+    const handleSaveJob = async () => {
+        try {
+            await saveJob({
+                idUser,
+                id,
+            }).unwrap();
+            setIsJobSaved(true);
+            notyf.success("Lưu việc làm thành công!")
+
+        } catch (error: any) {
+            // await cancelSaveJob({
+            //     idUser,
+            //     id,
+            // }).unwrap();
+            // notyf.success("Hủy lưu!")
+
+        }
+    }
+
+    //hủy lưu
+    // const [cancelSaveJob] = useUnsaveJobMutation();
+    // const handleCancelSaveJob = async () => {
+    //     try {
+    //         await cancelSaveJob({
+    //             idUser,
+    //             id
+    //         }).unwrap();
+    //         console.log(1);
+
+    //     } catch (error) {
+
+    //     }
+    // }
+    const buttonClassName = `bg-white border-2 py-3 font-medium rounded-lg ${isJobSaved ? 'text-white bg-red-600 border-blue-600' : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+        }`;
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -187,7 +229,10 @@ const JobDetail = React.memo(() => {
                                 </button>
 
                             ) : (
-                                <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
+                                <button
+                                    onClick={handleSaveJob}
+                                    className={buttonClassName}
+                                >
                                     <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
                                     Lưu tin
                                 </button>
@@ -430,7 +475,7 @@ const JobDetail = React.memo(() => {
                     </TEModalContent>
                 </TEModalDialog>
             </TEModal>
-        </div>
+        </div >
     );
 });
 

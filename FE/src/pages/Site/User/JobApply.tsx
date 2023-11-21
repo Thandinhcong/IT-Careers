@@ -31,7 +31,6 @@ const JobApply = React.memo(() => {
                     })}
                 </div>
             ) : (
-
                 <div className='flex justify-between ml-6 shadow-sm shadow-blue-300 h-auto py-4'>
                     <div className='mb-5 w-5/6 ml-5'>
                         <b className='text-2xl'>Bạn chưa ứng tuyển việc làm nào!</b>
