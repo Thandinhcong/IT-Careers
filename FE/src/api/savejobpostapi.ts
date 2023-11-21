@@ -49,7 +49,7 @@ const SavejobsApi = createApi({
       invalidatesTags: ["SaveJobs"],
     }),
     unsaveJob: buidler.mutation({
-      query: (savejobs: ISaveJobs) => ({
+      query: (savejobs: ISaveJobs | any) => ({
         url: `cancel_save_job_post/${savejobs.id}`,
         method: "POST",
         body: savejobs,

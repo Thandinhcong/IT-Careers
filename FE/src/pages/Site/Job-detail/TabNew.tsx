@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineQuestionCircle, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
+import React, { useState } from "react";
+import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
 import { CiMedal } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -26,7 +26,7 @@ import { SlSocialFacebook } from "react-icons/sl";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
-const TabNew = React.memo(() => {
+const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -120,16 +120,13 @@ const TabNew = React.memo(() => {
             }
         }
     };
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+
+
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
                 <div className='bg-gray-100 text-green-600 p-4'>
-                    <p className='font-semibold text-lg flex items-center gap-2'>
-                        <AiOutlineCheckCircle className="text-3xl" />123job Trust verified <AiOutlineQuestionCircle />
-                    </p>
+
                     <div className='grid grid-cols-2 gap-4 text-sm my-4'>
                         <p className='flex items-center gap-3'><AiOutlineCheckCircle />
                             <span className='text-gray-800'>Chưa có giấy phép kinh doanh</span>
@@ -316,9 +313,14 @@ const TabNew = React.memo(() => {
                             </button>
 
                         ) : (
-                            <button className="bg-white border-2 px-5 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                Lưu tin
+                            <button
+                                className={`bg-white border-2 py-3 font-medium rounded-lg px-4 ${isJobSaved
+                                    ? 'text-blue-500  border-blue-600'
+                                    : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+                                    }`}
+                                onClick={isJobSaved ? onCancelSaveJob : onSaveJob}
+                            >
+                                {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
                             </button>
                         )}
                     </div>

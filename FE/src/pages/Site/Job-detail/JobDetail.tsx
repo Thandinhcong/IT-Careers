@@ -137,7 +137,9 @@ const JobDetail = React.memo(() => {
     };
 
 
-    const [isJobSaved, setIsJobSaved] = useState(false);
+    const [isJobSaved, setIsJobSaved] = useState(() => {
+        return localStorage.getItem('isJobSaved') === 'true' || false as any;
+    });
     //lưu việc làm
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
@@ -151,34 +153,28 @@ const JobDetail = React.memo(() => {
             notyf.success("Lưu việc làm thành công!")
 
         } catch (error: any) {
-            // await cancelSaveJob({
-            //     idUser,
-            //     id,
-            // }).unwrap();
-            // notyf.success("Hủy lưu!")
+            notyf.error(error?.data?.error)
+        }
+    }
+    //hủy lưu
+    const handleCancelSaveJob = async () => {
+        try {
+            await cancelSaveJob({
+                idUser,
+                id
+            }).unwrap();
+            notyf.success("Hủy Lưu việc làm thành công!")
+            setIsJobSaved(false);
 
+        } catch (error: any) {
+            notyf.error(error?.data?.error);
         }
     }
 
-    //hủy lưu
-    // const [cancelSaveJob] = useUnsaveJobMutation();
-    // const handleCancelSaveJob = async () => {
-    //     try {
-    //         await cancelSaveJob({
-    //             idUser,
-    //             id
-    //         }).unwrap();
-    //         console.log(1);
-
-    //     } catch (error) {
-
-    //     }
-    // }
-    const buttonClassName = `bg-white border-2 py-3 font-medium rounded-lg ${isJobSaved ? 'text-white bg-red-600 border-blue-600' : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
-        }`;
     useEffect(() => {
+        localStorage.setItem('isJobSaved', isJobSaved);
         window.scrollTo(0, 0);
-    }, []);
+    }, [isJobSaved]);
     if (isLoading) return <Skeleton loading />
     return (
         <div>
@@ -230,11 +226,13 @@ const JobDetail = React.memo(() => {
 
                             ) : (
                                 <button
-                                    onClick={handleSaveJob}
-                                    className={buttonClassName}
+                                    className={`bg-white border-2 py-3 font-medium rounded-lg ${isJobSaved
+                                        ? 'text-blue-500  border-blue-600'
+                                        : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+                                        }`}
+                                    onClick={isJobSaved ? handleCancelSaveJob : handleSaveJob}
                                 >
-                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                    Lưu tin
+                                    {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
                                 </button>
                             )}
                         </div>
@@ -258,7 +256,11 @@ const JobDetail = React.memo(() => {
 
                         <TETabsContent className="mt-4">
                             <TETabsPane show={basicActive === "tab1"}>
-                                <TabNew />
+                                <TabNew
+                                    isJobSaved={isJobSaved}
+                                    onSaveJob={handleSaveJob}
+                                    onCancelSaveJob={handleCancelSaveJob}
+                                />
                             </TETabsPane>
                             <TETabsPane show={basicActive === "tab2"}>
                                 <TabInfor listOne={listOne} />

@@ -40,7 +40,8 @@ const Header = React.memo((data: any) => {
     if (confilm) {
       await useLogout();
       localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isJobSaved");
+      localStorage.removeItem("isSearchingJob");
       notyf.success("Đăng xuất thành công!")
       window.location.reload();
     }
