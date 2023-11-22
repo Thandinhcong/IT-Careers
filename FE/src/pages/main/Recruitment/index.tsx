@@ -34,9 +34,7 @@ const Recruitment = () => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
     const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
-    const [isJobSaved, setIsJobSaved] = useState(() => {
-        return localStorage.getItem('isJobSaved') === 'true' || false as any;
-    });
+    const [isJobSaved, setIsJobSaved] = useState(false);
     //lưu việc làm
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
@@ -44,7 +42,6 @@ const Recruitment = () => {
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
     const handleSaveJob = async (id: any) => {
-
         try {
             await saveJob({
                 idUser,
@@ -71,11 +68,6 @@ const Recruitment = () => {
             notyf.error(error?.data?.error);
         }
     }
-
-    useEffect(() => {
-        localStorage.setItem('isJobSaved', isJobSaved);
-    }, [isJobSaved]);
-
 
     if (isLoading) return <Skeleton />
     return (

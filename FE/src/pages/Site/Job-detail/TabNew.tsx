@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
-import { CiMedal } from "react-icons/ci";
 import { Link, useParams } from "react-router-dom";
 import {
     TERipple,
@@ -51,6 +50,8 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const { id }: any = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data && data?.job_detail;
+    console.log(listOne);
+
     const { data: infoUser } = useGetInfoUserQuery();
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
@@ -125,32 +126,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
                 <div className='bg-gray-100 text-green-600 p-4'>
-                    <div>
-                        <TEModal show={showModal} setShow={setShowModal}>
-                            <TEModalDialog>
-                                <TEModalContent>
-                                    <TEModalHeader>
-                                        {/* <!--Modal title--> */}
-                                        <h5 className="text-xl font-medium">
-                                            <CiMedal className="inline-block text-3xl" />
-                                            123job Trust verified
-                                        </h5>
-                                        {/* <!--Close button--> */}
-                                        <button
-                                            type="button"
-                                            className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                                            onClick={() => setShowModal(false)}
-                                            aria-label="Close"
-                                        >
-                                            <AiOutlineClose className="text-xl" />
-                                        </button>
-                                    </TEModalHeader>
-                                    {/* <!--Modal body--> */}
 
-                                </TEModalContent>
-                            </TEModalDialog>
-                        </TEModal>
-                    </div>
                 </div>
                 <div className="text-gray-700">
                     <div>
@@ -202,9 +178,12 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                             </div>
                         </div>
                     </div>
-
                     <div>
-                        <h2 className="font-semibold text-lg my-4">Mô tả công việc/ Quyền lợi</h2>
+                        <h2 className="font-semibold text-lg my-4">Mô tả công việc:</h2>
+                        <p>{listOne?.desc}</p>
+                    </div>
+                    <div>
+                        <h2 className="font-semibold text-lg my-4"> Quyền lợi:</h2>
                         <p>{listOne?.interest}</p>
                     </div>
 

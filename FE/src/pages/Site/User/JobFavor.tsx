@@ -56,7 +56,7 @@ const JobFavor = () => {
     return (
         <div>
             <h1 className='mb-5 ml-6 text-2xl font-bold'>Việc làm đã lưu</h1>
-            {displayedJobs ? (
+            {displayedJobs && displayedJobs?.length ? (
                 <div>
                     <div className=' shadow  w-[800px] h-auto grid gap-5'>
                         {displayedJobs?.map((item: any) => {
@@ -77,12 +77,11 @@ const JobFavor = () => {
                                         </Link>
                                         <div className='flex justify-between items-center mb-2'>
                                             <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
-                                            <Button
+                                            <button
                                                 onClick={() => handleCancelSaveJob(item?.id)}
-
                                                 className={'border p-1 text-red-500'}>
                                                 <AiFillHeart />
-                                            </Button>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

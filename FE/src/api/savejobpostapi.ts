@@ -37,12 +37,12 @@ const SavejobsApi = createApi({
     },
   }),
   endpoints: (buidler) => ({
-    getAllSaveJobs: buidler.query<IJobSaveList, void>({
+    getAllSaveJobs: buidler.query<IJobSaveList | any, void>({
       query: () => "show_save_job_post",
       providesTags: ["SaveJobs"],
     }),
     addSaveJobs: buidler.mutation({
-      query: (data) => ({
+      query: (data: any) => ({
         url: `save_job_post/${data?.id}`,
         method: "POST",
       }),
