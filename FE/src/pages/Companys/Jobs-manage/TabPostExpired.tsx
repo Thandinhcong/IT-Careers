@@ -32,10 +32,7 @@ const TabPostExpired = () => {
     };
     const handleQuantityChange = (value: string | number | null) => { //Tăng giảm ngày đăng lại bài
         // Lấy ngày hiện tại
-        console.log(value);
-
         const currentDate = moment();
-
         // Tính toán ngày kết thúc mới bằng cách thêm số ngày gia hạn vào ngày hiện tại
         const newEndDate = currentDate.add(value, 'days');
 
@@ -64,7 +61,6 @@ const TabPostExpired = () => {
                 } else {
                     message.error("Không có ID bài đăng được chọn.");
                 }
-                console.log('Received values:', values);
                 // Đóng Modal
                 setIsModalOpen(false);
             })
@@ -77,9 +73,7 @@ const TabPostExpired = () => {
         setIsModalOpen(false);
     };
 
-    const confirm = (id: number | string) => { //dừng tuyển
-        console.log(id);
-
+    const confirm = (id: number | string) => {
         stopJobPost(id);
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');
@@ -113,7 +107,6 @@ const TabPostExpired = () => {
                         </div>
                     )
                 }
-
             },
         },
         {

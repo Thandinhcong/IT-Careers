@@ -307,10 +307,6 @@ const SideBarHelp = () => {
                             </ul>
                         </details>
                     </li>
-
-
-
-
                 </ul>
             </div>
         </div></div>

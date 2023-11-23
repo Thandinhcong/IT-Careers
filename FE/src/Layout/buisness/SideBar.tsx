@@ -17,8 +17,6 @@ import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 const SideBarCompany = () => {
     const { data: Infor } = useGetInforQuery();
     const listIcon = Infor?.company?.logo;
-    console.log(Infor?.company);
-
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
     }
@@ -28,7 +26,7 @@ const SideBarCompany = () => {
                 {listIcon ? (
                     <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                 ) : (
-                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" width={40} className='rounded-full' />
+                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="icon" width={40} className='rounded-full' />
                 )}
                 <p>{Infor?.company?.company_name}</p>
             </div>
