@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Switch } from 'antd';
-import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
+import React from 'react';
+import { Button, Skeleton, Switch } from 'antd';
+import { AiOutlineArrowRight } from 'react-icons/ai'
 import { Link, Outlet } from 'react-router-dom';
-import { useGetInfoUserQuery } from '../../../api/auths';
-import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
+
+import { useFindJobsMutation, useGetInfoUserQuery } from '../../../api/find-Job/find_jobApi';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 
@@ -15,34 +15,22 @@ const LayoutUser = React.memo(() => {
             y: 'top',
         },
     });
+    const { data, isLoading } = useGetInfoUserQuery();
     const [findJob] = useFindJobsMutation();
-    const [isSearchingJob, setIsSearchingJob] = useState(() => {
-        // Retrieve the value from localStorage or set a default value
-        return localStorage.getItem('isSearchingJob') === 'true' || false;
-    });
-    const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
     const listImage = data?.candidate?.image;
+    const isCheckFindJob = listInfo?.find_job;
 
-    const onChange = (checked: boolean) => {
-        setIsSearchingJob(checked);
-        localStorage.setItem('isSearchingJob', checked.toString());
+    const onChange = async (checked: boolean) => {
         if (checked) {
-            findJob();
+            await findJob().unwrap();
             notyf.success("Bật tìm việc thành công");
-            return
         } else {
-            findJob();
+            findJob().unwrap();
             notyf.success("Tắt tìm việc thành công")
-
         }
     };
-    useEffect(() => {
-        // Update the state when the component mounts
-        setIsSearchingJob(localStorage.getItem('isSearchingJob') === 'true' || false);
-    }, []);
-
-
+    if (isLoading) return <Skeleton />
     return (
         <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
             <Outlet />
@@ -73,18 +61,19 @@ const LayoutUser = React.memo(() => {
                             <div className='my-5'>
                                 <div className="flex justify-between items-baseline mr-14">
                                     <label className="h-0 w-0">
-                                        <Switch defaultChecked={isSearchingJob}
-                                            onClick={onChange} className='bg-gray-400' />
+                                        <Switch defaultChecked={isCheckFindJob}
+                                            onClick={onChange} className='bg-gray-400'
+                                        />
                                     </label>
 
                                     <b className="text-gray-600 text-2xl">
-                                        Trạng thái tìm việc<span>{isSearchingJob ? ' Bật' : ' Tắt'}</span>
+                                        Trạng thái tìm việc<span>{isCheckFindJob === 1 ? ' Bật' : ' Tắt'}</span>
                                     </b>
                                 </div>
 
                             </div>
                             <div className='text-red-500 w-96 pl-3'>
-                                <p className='text-xm'><AiOutlineWarning className='w-7 inline-block items-baseline' />Bạn cần hoàn thiện trên 70% BEWORK Profile để bắt đầu tiếp cận với nhà tuyển dụng.</p>
+
                             </div>
                         </div>
                         <Link to={'/account'} className='mb-9'>
