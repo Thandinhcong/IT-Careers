@@ -3,14 +3,14 @@ import { AiOutlinePhone, AiOutlineMail, AiOutlineArrowLeft } from 'react-icons/a
 import { Link, useParams } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
 import { useAssseCandidateMutation, useGetCandidateDetailQuery } from '../../../api/companies/cvApply';
-import { Form, Radio, Modal, message } from 'antd';
+import { Form, Radio, Modal, message, Skeleton } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 
 const CvCandodateDetail = React.memo(() => {
 
     const { id } = useParams();
-    const { data } = useGetCandidateDetailQuery(id || "");
+    const { data, isLoading } = useGetCandidateDetailQuery(id || "");
     const [assse] = useAssseCandidateMutation();
     const listInfoCandidateApply = data?.data;
     const listImage = data?.data?.image;
@@ -55,7 +55,7 @@ const CvCandodateDetail = React.memo(() => {
                 console.log('Xác minh lỗi:', errorInfo);
             });
     };
-
+    if (isLoading) return <Skeleton />
     return (
         <div className=' max-w-screen-xl mx-auto text-[#364a63]'>
             <div className="bg-white p-6 shadow-md hover:shadow-xl ">

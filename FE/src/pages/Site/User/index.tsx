@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Switch } from 'antd';
 import { AiOutlineArrowRight, AiOutlineWarning } from 'react-icons/ai'
 import { Link, Outlet } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useFindJobsMutation } from '../../../api/find-Job/find_jobApi';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 
-const LayoutUser = () => {
+const LayoutUser = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -121,6 +121,6 @@ const LayoutUser = () => {
             </div>
         </div>
     )
-}
+});
 
 export default LayoutUser

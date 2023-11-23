@@ -5,9 +5,9 @@ import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
 import { CiEdit } from 'react-icons/ci';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-const ListCV = () => {
+const ListCV = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -111,6 +111,6 @@ const ListCV = () => {
             )}
         </div>
     )
-}
+});
 
 export default ListCV

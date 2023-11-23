@@ -1,15 +1,15 @@
-import { Button, Pagination, Skeleton } from 'antd'
+import { Pagination, Skeleton } from 'antd'
 import { AiFillHeart } from 'react-icons/ai'
 import { MdRoom } from 'react-icons/md'
 import { useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { Link } from 'react-router-dom'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { VND } from '../../../components/upload'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Notyf } from 'notyf'
 import { useGetInfoUserQuery } from '../../../api/auths'
 
-const JobFavor = () => {
+const JobFavor = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -106,6 +106,6 @@ const JobFavor = () => {
             )}
         </div>
     )
-}
+});
 
 export default JobFavor

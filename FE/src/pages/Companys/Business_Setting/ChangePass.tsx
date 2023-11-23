@@ -1,9 +1,10 @@
 import { Notyf } from 'notyf';
 import { useRefeshPasswordMutation } from '../../../api/auth/Companies';
 import { Button, Form, Input } from 'antd';
+import React from 'react';
 
 
-const ChangePassCompany = () => {
+const ChangePassCompany = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -95,6 +96,6 @@ const ChangePassCompany = () => {
     );
 
 
-}
+});
 
 export default ChangePassCompany

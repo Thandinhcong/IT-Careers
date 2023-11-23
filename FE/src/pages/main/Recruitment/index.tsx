@@ -1,15 +1,14 @@
 import { BsArrowRight, BsCurrencyDollar } from 'react-icons/bs'
-import { MdFavoriteBorder, MdOutlineFavorite, MdOutlineFavoriteBorder, MdRoom } from 'react-icons/md'
+import { MdOutlineFavorite, MdOutlineFavoriteBorder, MdRoom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
-import { Button, Pagination, Skeleton } from 'antd'
-import { useEffect, useState } from 'react'
-import { AiFillHeart } from 'react-icons/ai'
+import { Pagination, Skeleton } from 'antd'
+import React, { useState } from 'react'
 import { useAddSaveJobsMutation, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { useGetInfoUserQuery } from '../../../api/auths'
 import { Notyf } from 'notyf'
-const Recruitment = () => {
+const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -22,7 +21,7 @@ const Recruitment = () => {
 
 
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 12; // Số mục hiển thị trên mỗi trang
+    const pageSize = 12;
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
@@ -34,7 +33,7 @@ const Recruitment = () => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
     const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
-    const [isJobSaved, setIsJobSaved] = useState(false);
+    const [savedJobs, setSavedJobs] = useState<any>({});
     //lưu việc làm
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
@@ -47,7 +46,7 @@ const Recruitment = () => {
                 idUser,
                 id,
             }).unwrap();
-            setIsJobSaved(true);
+            setSavedJobs((prevSavedJobs: any) => ({ ...prevSavedJobs, [id]: true }));
             notyf.success("Lưu việc làm thành công!")
 
         } catch (error: any) {
@@ -62,7 +61,7 @@ const Recruitment = () => {
                 id
             }).unwrap();
             notyf.success("Hủy Lưu việc làm thành công!")
-            setIsJobSaved(false);
+            setSavedJobs((prevSavedJobs: any) => ({ ...prevSavedJobs, [id]: false }));
 
         } catch (error: any) {
             notyf.error(error?.data?.error);
@@ -81,7 +80,8 @@ const Recruitment = () => {
                     <Link to="/jobs" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
-                    {displayedJobs?.map((item) => {
+                    {displayedJobs?.map((item: any) => {
+                        const isJobSaved = savedJobs[item?.id] || false;
                         return (
                             <div key={item?.id}>
                                 <div className='shadow-lg p-2 rounded'>
@@ -100,6 +100,7 @@ const Recruitment = () => {
                                     <div className='flex justify-between items-center mb-2'>
                                         <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
                                         <button
+                                            key={item?.id}
                                             onClick={() => isJobSaved ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
                                         >
                                             {isJobSaved ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
@@ -126,7 +127,7 @@ const Recruitment = () => {
 
         </div>
     )
-};
+});
 
 export default Recruitment
 

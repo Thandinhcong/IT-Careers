@@ -1,6 +1,6 @@
 import { Button, Form, Input, Layout, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { ICompanyInfor } from '../../../interfaces'
@@ -10,7 +10,7 @@ import { UploadImage } from '../../../components/upload';
 import TextArea from 'antd/es/input/TextArea';
 
 
-const CompanySetting = () => {
+const CompanySetting = React.memo(() => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
     const { data: companyData } = useGetInforQuery();
@@ -335,7 +335,7 @@ const CompanySetting = () => {
             </Layout>
         </Content>
     )
-};
+});
 
 
 export default CompanySetting

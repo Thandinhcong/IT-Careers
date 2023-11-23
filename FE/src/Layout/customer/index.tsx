@@ -8,7 +8,7 @@ import React from 'react';
 const Layout = React.memo(() => {
     const { data, isLoading } = useGetInfoManaWebsiteQuery();
     const listInfoWeb = data?.data[0];
-    if (isLoading) return <Skeleton />
+    if (isLoading) return <Skeleton className='w-full h-full  col-span-2' />
     return (
         <>
             <Header data={listInfoWeb} />
