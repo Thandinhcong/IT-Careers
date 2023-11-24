@@ -7,6 +7,7 @@ import { FormLogin, schemaLogin } from "../../schemas";
 import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
+import { FaGooglePlusG } from "react-icons/fa";
 
 
 const Login = React.memo(() => {
@@ -53,65 +54,90 @@ const Login = React.memo(() => {
         window.scrollTo(0, 0)
     }, [])
     return (
-        <section className="bg-gray-50 white:bg-gray-900 ">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img className="w-20 h-15 mr-2" src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" alt="logo" />
-                </Link>
-                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-[500px] xl:p-0 white:bg-gray-800 white:border-gray-700">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl white:text-white">
-                            Chào mừng bạn đã quay trở lại
-                        </h1>
-                        <p className="text-sm text-gray-600">Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</p>
-                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit(onHandleSubmit)}>
-                            <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 white:text-white">Email</label>
-                                <input
-                                    {...register("email")}
-                                    type="text" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 white:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 outline-none dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
-                                <div className="text-red-500 my-2">
-                                    {errors.email && errors.email.message}
-                                </div>
-                            </div>
-                            <div>
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 white:text-white">Mật khẩu</label>
-                                <input
-                                    {...register('password')}
-                                    type={showPassword ? 'text' : 'password'}
-                                    placeholder="••••••••" className="bg-gray-50 border border-gray-300 outline-none text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 white:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onClick={togglePasswordVisibility} />
-                                <div className="text-red-500 my-2">
-                                    {errors.password && errors.password.message}
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-start">
-                                    <div className="flex items-center h-5">
-                                        <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label htmlFor="remember" className="text-gray-500 white:text-gray-300">Ghi nhớ tôi</label>
-                                    </div>
-                                </div>
-                                <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
+        <>
+            <section className="bg-white">
+                <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+                    <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+                        <img
+                            alt="Pattern"
+                            src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700832895/nsplsh_534e2846e5b64c40b9b5bb9f34c996d5_mv2_gygm1e.webp"
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
+                    </aside>
+                    <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+                        <div className="max-w-xl lg:max-w-3xl">
+                            <Link className="block text-blue-600" to="/">
+                                <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700416379/riqyog9hekgrzdpdwg8w.png" alt="" width={100} />
+                            </Link>
+                            <h1 className="mt-6 text-2xl font-bold text-blue-500 sm:text-3xl md:text-4xl">
+                                Chào mừng bạn đã quay trở lại
+                            </h1>
+                            <p className="mt-4 leading-relaxed text-gray-500">
+                                Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng
+                            </p>
+                            <form className="mt-8 grid grid-cols-2 gap-6" onSubmit={handleSubmit(onHandleSubmit)}>
 
-                            </div>
-                            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
-                        </form>
-                        <button
-                            onClick={loginGoogle}
-                            className="rounded-lg bg-gray-200 w-full  text-black flex items-center justify-center space-x-2 px-9 py-2 mt-4 ">
-                            <span className="w-10 "><FcGoogle /></span>
+                                <div className="col-span-6">
+                                    <label
+                                        htmlFor="Email"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Email
+                                    </label>
+                                    <input
+                                        {...register("email")}
+                                        type="text"
+                                        className="px-5 py-3 w-full rounded-md outline-none border border-blue-500  bg-white text-sm text-gray-700 shadow-sm"
+                                    />
+                                    <div className="text-red-500 text-sm mt-2">
+                                        {errors?.email && errors?.email?.message}
+                                    </div>
+                                </div>
+                                <div className="col-span-6">
+                                    <label
+                                        htmlFor="Password"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Password
+                                    </label>
+                                    <input
+                                        {...register("password")}
+                                        type="password"
+                                        className="w-full outline-none border border-blue-500 px-5 py-3  rounded-md  bg-white text-sm text-gray-700 shadow-sm"
+                                    />
+                                    <div className="text-red-500 text-sm mt-2">
+                                        {errors?.password && errors?.password?.message}
+                                    </div>
+                                </div>
+                                <Link to="" className="text-blue-500 col-span-6">Quên mật khẩu?</Link>
 
-                            <span>Google</span>
-                        </button>
-                        <p className="text-sm ml-[120px] font-light text-gray-500 white:text-gray-400">
-                            Chưa có tài khoản? <Link to="/dang-ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký</Link>
-                        </p>
-                    </div>
+                                <div className="col-span-6 ">
+                                    <button className="inline-block shrink-0 w-full rounded-md border border-blue-600 bg-blue-600 px-12 py-2 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                                        Đăng nhập
+                                    </button>
+                                </div>
+                                <p className="col-span-6  text-sm w-full text-gray-500 sm:mt-0">
+                                    Bạn chưa có tài khoản?
+                                    <Link to="/dang-ky-tai-khoan" className="text-blue-500 underline">
+                                        Đăng ký
+                                    </Link>
+                                    .
+                                </p>
+                            </form>
+                            <div className="col-span-6 ">
+                                <button className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2">
+                                    <div className="text-xl">
+                                        <FaGooglePlusG />
+                                    </div>
+                                    <span>Google</span>
+                                </button>
+                            </div>
+                        </div>
+                    </main>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
+
     )
 })
 

@@ -10,6 +10,8 @@ import { UploadImage } from '../../../components/upload';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { GoDownload } from 'react-icons/go';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { schemaProfile } from '../../../schemas/svSchema';
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -19,7 +21,7 @@ const CreateCvTest = React.memo(() => {
         },
     });
     const { id } = useParams();
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState<any>(null);
     const { data: dataCV } = useListCvQuery();
 
     const dataMap = dataCV?.data.find((item: any) => item.id == id)
@@ -30,7 +32,9 @@ const CreateCvTest = React.memo(() => {
     const [updateInfoCv] = useUpdateInfoProfileMutation();
 
     const listProfile = data?.profile?.cv;
-    const { register, handleSubmit, reset } = useForm<any>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>({
+        resolver: yupResolver(schemaProfile)
+    });
     const onHandleSubmit = async (data: any) => {
         // if (typeof image !== "string") return;
         data.image = image;
@@ -193,6 +197,8 @@ const CreateCvTest = React.memo(() => {
     });
 
     const onHandleSubmitEducation = async (data: any, educationId?: string) => {
+        console.log(data);
+
         try {
             if (educationId) {
                 await updateEdu({
@@ -254,11 +260,15 @@ const CreateCvTest = React.memo(() => {
         try {
             if (expId) {
                 // Cập nhật dự án đã tồn tại
-                await updateExp({
+                const results = await updateExp({
                     id: expId,
                     profile_id: idPost,
                     ...data,
                 }).unwrap();
+
+
+                console.log(results);
+
                 notyf.success("Cập nhật dự án thành công");
             } else {
                 // Thêm dự án mới
@@ -381,11 +391,12 @@ const CreateCvTest = React.memo(() => {
                                 <label className='block font-semibold mb-2'>Hinh anh</label>
                                 <input
                                     {...register('image')}
-
                                     defaultValue={profile?.image}
                                     onChange={onChangeFile}
                                     type="file" className='border border-gray-200 p-2 w-full'
                                 />
+                                <img src={image} alt="" className=' rounded-full w-[100px]' />
+
                             </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
@@ -422,7 +433,11 @@ const CreateCvTest = React.memo(() => {
                                     defaultValue={profile?.email}
                                     onChange={handleInputChange}
                                     name='email'
-                                    className='border border-gray-200 p-2 w-full' />
+                                    className='border border-gray-200 p-2 w-full'
+                                />
+                                <div className='text-red-500 text-sm'>
+                                    {errors?.email && errors?.email?.message}
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="full-name"
@@ -431,17 +446,25 @@ const CreateCvTest = React.memo(() => {
                                     {...register('address')}
                                     defaultValue={profile?.address}
                                     onChange={handleInputChange}
-                                    className='border border-gray-200 p-2 w-full' />
+                                    className='border border-gray-200 p-2 w-full'
+                                />
+                                <div className='text-red-500 text-sm'>
+                                    {errors?.address && errors?.address?.message}
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="full-name"
 
                                     className='block font-semibold mb-2'>Ngày sinh</label>
-                                <input type="text"
+                                <input type="date"
                                     {...register('birth')}
                                     defaultValue={profile?.birth}
                                     name='birth'
-                                    onChange={handleInputChange} className='border border-gray-200 p-2 w-full' />
+                                    onChange={handleInputChange} className='border border-gray-200 p-2 w-full'
+                                />
+                                <div className='text-red-500 text-sm'>
+                                    {errors?.birth && errors?.birth?.message}
+                                </div>
                             </div>
 
                         </div>
@@ -480,7 +503,7 @@ const CreateCvTest = React.memo(() => {
 
                                     <div>
                                         <label className='block font-semibold mb-2 '>
-                                            <div>Mô tả</div>
+                                            <div>Chức vụ</div>
                                         </label>
                                         <input
                                             {...registerExp("position")}
@@ -507,14 +530,12 @@ const CreateCvTest = React.memo(() => {
                                             <div>Ngày bắt đầu</div>
                                         </label>
                                         <input
-                                            type="text"
                                             {...registerExp('start_date')}
-                                            placeholder='vd: 2023-10-20'
-
                                             name='start_date'
                                             defaultValue={experiences?.start_date}
                                             onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
+                                            type="date"
                                         />
                                     </div>
                                     {/* ngày kết thúc */}
@@ -524,13 +545,11 @@ const CreateCvTest = React.memo(() => {
                                         </label>
                                         <input
                                             {...registerExp('end_date')}
-                                            placeholder='vd: 2023-10-20'
-
-                                            type="text"
                                             name='end_date'
                                             defaultValue={experiences?.end_date}
                                             onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
+                                            type="date"
                                         />
                                     </div>
                                 </div>
@@ -573,11 +592,11 @@ const CreateCvTest = React.memo(() => {
                                         </label>
                                         <input
                                             {...registerEducation('gpa')}
-                                            type="text"
                                             name='gpa'
                                             defaultValue={educations?.gpa}
                                             onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
+                                            type="text"
                                         />
                                     </div>
                                     <div>
@@ -658,13 +677,11 @@ const CreateCvTest = React.memo(() => {
                                         </label>
                                         <input
                                             {...registerEducation('start_date')}
-
-                                            type="text"
-                                            name='start_date'
-                                            defaultValue={educations?.start_date}
-                                            placeholder='vd: 2023-10-20'
+                                            name="start_date"
                                             onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
+                                            defaultValue={educations?.start_date}
                                             className='border border-gray-200 p-2 w-full'
+                                            type="date"
                                         />
                                     </div>
                                     <div>
@@ -673,12 +690,11 @@ const CreateCvTest = React.memo(() => {
                                         </label>
                                         <input
                                             {...registerEducation('end_date')}
-                                            type="text"
-                                            placeholder='vd: 2023-10-20'
-                                            name='end_date'
-                                            defaultValue={educations?.end_date}
+                                            name="end_date"
                                             onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
+                                            defaultValue={educations?.end_date}
                                             className='border border-gray-200 p-2 w-full'
+                                            type="date"
                                         />
                                     </div>
                                 </div>
@@ -822,7 +838,7 @@ const CreateCvTest = React.memo(() => {
                                         </label>
                                         <input
                                             {...registerProject('start_date')}
-                                            type="text"
+                                            type="date"
                                             name='start_date'
                                             defaultValue={project?.start_date}
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
@@ -836,7 +852,7 @@ const CreateCvTest = React.memo(() => {
                                         <input
                                             {...registerProject('end_date')}
 
-                                            type="text"
+                                            type="date"
                                             name='end_date'
                                             defaultValue={project?.end_date}
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}

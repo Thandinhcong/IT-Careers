@@ -22,7 +22,8 @@ const ListCV = React.memo(() => {
     const handleAddCV = async (data: any) => {
         try {
             await CreateCV(data).unwrap();
-            notyf.success('Tạo thành công')
+            notyf.success('Tạo thành công');
+
 
         } catch (error: any) {
             notyf.error(error?.data?.message)
