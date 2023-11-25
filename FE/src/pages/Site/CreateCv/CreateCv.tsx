@@ -49,7 +49,7 @@ const CreateCvTest = React.memo(() => {
         }
     }
     //profile
-    const [profile, setProfile] = useState({ title: '', name: '', birth: "", phone: "", email: '', address: '', image: "" });
+    const [profile, setProfile] = useState({ title: '', careers_goal: "", name: '', birth: "", phone: "", email: '', address: '', image: "" });
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
         setProfile((prevProfile) => ({
@@ -260,15 +260,11 @@ const CreateCvTest = React.memo(() => {
         try {
             if (expId) {
                 // Cập nhật dự án đã tồn tại
-                const results = await updateExp({
+                await updateExp({
                     id: expId,
                     profile_id: idPost,
                     ...data,
                 }).unwrap();
-
-
-                console.log(results);
-
                 notyf.success("Cập nhật dự án thành công");
             } else {
                 // Thêm dự án mới
@@ -393,10 +389,19 @@ const CreateCvTest = React.memo(() => {
                                     {...register('image')}
                                     defaultValue={profile?.image}
                                     onChange={onChangeFile}
-                                    type="file" className='border border-gray-200 p-2 w-full'
+                                    type="file" className='border border-gray-200 p-2 w-full outline-none'
                                 />
                                 <img src={image} alt="" className=' rounded-full w-[100px]' />
 
+                            </div>
+                            <div>
+                                <label className='block font-semibold mb-2'>Mục tiêu nghề nghiệp</label>
+                                <textarea
+                                    {...register('careers_goal')}
+                                    onChange={handleInputChange}
+                                    defaultValue={profile?.careers_goal}
+                                    className='border border-gray-200 p-2 w-full outline-none'
+                                ></textarea>
                             </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
@@ -405,7 +410,7 @@ const CreateCvTest = React.memo(() => {
                                     name='title'
                                     defaultValue={profile?.title}
                                     onChange={handleInputChange}
-                                    type="text" className='border border-gray-200 p-2 w-full'
+                                    type="text" className='border border-gray-200 p-2 w-full outline-none'
                                 />
                             </div>
                             <div>
@@ -415,7 +420,7 @@ const CreateCvTest = React.memo(() => {
                                     name='name'
                                     defaultValue={profile?.name}
                                     onChange={handleInputChange}
-                                    className='border border-gray-200 p-2 w-full' />
+                                    className='border border-gray-200 p-2 w-full outline-none' />
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Số điện thoại:</label>
@@ -424,7 +429,7 @@ const CreateCvTest = React.memo(() => {
                                     name='phone'
                                     defaultValue={profile?.phone}
                                     onChange={handleInputChange}
-                                    className='border border-gray-200 p-2 w-full' />
+                                    className='border border-gray-200 p-2 w-full outline-none' />
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Email:</label>
@@ -433,9 +438,9 @@ const CreateCvTest = React.memo(() => {
                                     defaultValue={profile?.email}
                                     onChange={handleInputChange}
                                     name='email'
-                                    className='border border-gray-200 p-2 w-full'
+                                    className='border border-gray-200 p-2 w-full outline-none'
                                 />
-                                <div className='text-red-500 text-sm'>
+                                <div className='text-red-500 text-sm outline-none'>
                                     {errors?.email && errors?.email?.message}
                                 </div>
                             </div>
@@ -446,7 +451,7 @@ const CreateCvTest = React.memo(() => {
                                     {...register('address')}
                                     defaultValue={profile?.address}
                                     onChange={handleInputChange}
-                                    className='border border-gray-200 p-2 w-full'
+                                    className='border border-gray-200 p-2 w-full outline-none'
                                 />
                                 <div className='text-red-500 text-sm'>
                                     {errors?.address && errors?.address?.message}
@@ -460,7 +465,7 @@ const CreateCvTest = React.memo(() => {
                                     {...register('birth')}
                                     defaultValue={profile?.birth}
                                     name='birth'
-                                    onChange={handleInputChange} className='border border-gray-200 p-2 w-full'
+                                    onChange={handleInputChange} className='border border-gray-200 p-2 w-full outline-none'
                                 />
                                 <div className='text-red-500 text-sm'>
                                     {errors?.birth && errors?.birth?.message}
@@ -875,7 +880,7 @@ const CreateCvTest = React.memo(() => {
                 <div className='grid grid-cols-6   w-10/12 mx-auto  my-6' id="pdf-content">
                     <div className=' col-span-2 px-7 border-r-2 py-12 '>
                         <div className=''>
-                            <img className='w-28 h-28 rounded-full mx-auto' src={profile?.image} alt="" />
+                            <img className='w-40 h-40 mx-auto' src={profile?.image} alt="" />
                         </div>
                         <div className='text-center'>
                             <p className='text-2xl font-semibold mt-5'>{profile?.name}</p>
@@ -901,6 +906,9 @@ const CreateCvTest = React.memo(() => {
                         </div>
                     </div>
                     <div className='bg-white col-span-4 px-7 py-12 flex flex-col gap-8 rounded-tr-lg rounded-br-xl'>
+                        <p className='text-[#1e7a6b] text-xl font-semibold'>Mục tiêu nghề nghiệp</p>
+                        <p>{profile?.careers_goal}</p>
+                        <p className='border-b border-gray-200 my-2'></p>
                         <p className='text-[#1e7a6b] text-xl font-semibold'>Kinh nghiệm làm việc</p>
                         <p className='border-b border-gray-200 my-2'></p>
                         {experience?.map((item: any) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../../api/auths";
@@ -16,9 +16,9 @@ const SignUp = React.memo(() => {
             y: 'top',
         },
     });
-    // const loginGoogle = () => {
-    //     window.location.href = "http://127.0.0.1:8000/api/auth/google"
-    // }
+    const loginGoogle = () => {
+        window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    }
     const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })
@@ -42,10 +42,7 @@ const SignUp = React.memo(() => {
     };
 
 
-    const [showPassword, setShowPassword] = useState(false);
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -63,7 +60,7 @@ const SignUp = React.memo(() => {
                     <div className="max-w-xl lg:max-w-3xl">
 
                         <h1 className="mt-6 text-2xl font-bold text-blue-500 sm:text-3xl md:text-4xl">
-                            Chào mừng bạn đến với BEWORK
+                            Chào mừng bạn đến với <Link to="/">BEWORK</Link>
                         </h1>
                         <p className="mt-4 leading-relaxed text-gray-500">
                             Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng
@@ -162,7 +159,10 @@ const SignUp = React.memo(() => {
                             </p>
                         </form>
                         <div className="col-span-6 ">
-                            <button className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2">
+                            <button
+                                onClick={() => loginGoogle()}
+                                className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2"
+                            >
                                 <div className="text-xl">
                                     <FaGooglePlusG />
                                 </div>

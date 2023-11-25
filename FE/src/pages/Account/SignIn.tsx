@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from 'react-icons/fc';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
@@ -26,9 +25,9 @@ const Login = React.memo(() => {
     const [user, setUser] = useLocalStorage("user", null);
 
     const [login] = useLoginMutation();
-    const loginGoogle = () => {
-        window.location.href = "http://127.0.0.1:8000/api/auth/google"
-    }
+    // const loginGoogle = () => {
+    //     window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    // }
     const onHandleSubmit = async (data: FormLogin) => {
         try {
             const results = await login(data).unwrap();
@@ -45,11 +44,7 @@ const Login = React.memo(() => {
             notyf.error(error.data.message)
         }
     };
-    const [showPassword, setShowPassword] = useState(false);
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])

@@ -243,27 +243,20 @@ const Header = React.memo((data: any) => {
           {isLogin ? (
             ""
           ) : (
-            <div className="flex">
+            <div className="flex items-center">
               <div className="flex">
                 <Link
                   to="/dang-nhap"
-                  className="text-sm font-semibold leading-6 text-gray-900"
+                  className="text-sm font-semibold leading-6  border px-2 rounded py-1 bg-blue-500 text-white"
                 >
                   Đăng nhập <span aria-hidden="true"></span>
-                </Link>
-                <p className="border-r-2 mx-4 border-gray-400 "></p>
-                <Link
-                  to="/dang-ky-tai-khoan"
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Đăng Ký <span aria-hidden="true"></span>
                 </Link>
               </div>
               <Link
                 to="/business/signin"
-                className="text-sm font-semibold leading-6 text-gray-900 ml-4"
+                className="text-sm font-semibold leading-6  ml-4 border px-2 rounded py-1 bg-blue-500 text-white"
               >
-                Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
+                Đăng nhập NDT <span aria-hidden="true"></span>
               </Link>
 
             </div>

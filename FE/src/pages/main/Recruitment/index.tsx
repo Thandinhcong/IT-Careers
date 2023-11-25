@@ -6,8 +6,15 @@ import { VND } from '../../../components/upload'
 import { Pagination, Skeleton } from 'antd'
 import React, { useState } from 'react'
 import { useAddSaveJobsMutation, useUnsaveJobMutation } from '../../../api/savejobpostapi'
-import { useGetInfoUserQuery } from '../../../api/auths'
+import { useGetInfoUserQuery, useLoginMutation } from '../../../api/auths'
 import { Notyf } from 'notyf'
+import { TEModal, TEModalBody, TEModalContent, TEModalDialog, TEModalHeader } from 'tw-elements-react'
+import { FcGoogle } from 'react-icons/fc'
+import { SlSocialFacebook } from 'react-icons/sl'
+import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage'
+import { FormLogin, schemaLogin } from '../../../schemas'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -67,7 +74,25 @@ const Recruitment = React.memo(() => {
             notyf.error(error?.data?.error);
         }
     }
-
+    const [showModal2, setShowModa2l] = useState(false);
+    const [login] = useLoginMutation();
+    const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
+        resolver: yupResolver(schemaLogin),
+    });
+    const [users, setUser] = useLocalStorage("user", null);
+    const onHandleSubmitLogin = async (data: FormLogin) => {
+        try {
+            const results = await login(data).unwrap();
+            setUser({
+                accessToken: results.access_token,
+                users: results.user,
+            });
+            setShowModa2l(false);
+            window.location.reload();
+        } catch (error: any) {
+            notyf.error(error?.message)
+        }
+    };
     if (isLoading) return <Skeleton />
     return (
         <div>
@@ -99,12 +124,21 @@ const Recruitment = React.memo(() => {
                                     </Link>
                                     <div className='flex justify-between items-center mb-2'>
                                         <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
-                                        <button
-                                            key={item?.id}
-                                            onClick={() => isJobSaved ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
-                                        >
-                                            {isJobSaved ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
-                                        </button>
+                                        {!infoUser ? (
+                                            <button
+                                                onClick={() => setShowModa2l(true)}
+                                            >
+                                                <MdOutlineFavoriteBorder />
+                                            </button>
+
+                                        ) : (
+                                            <button
+                                                key={item?.id}
+                                                onClick={() => isJobSaved ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
+                                            >
+                                                {isJobSaved ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +157,59 @@ const Recruitment = React.memo(() => {
                     />
                 </div>
             </div>
+            <TEModal show={showModal2} setShow={setShowModa2l}>
+                <TEModalDialog>
+                    <TEModalContent>
+                        <TEModalHeader>
+                            Đăng nhập
+                        </TEModalHeader>
+                        <TEModalBody>
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)}>
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input
+                                        {...regiterLogin("email")}
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
+                                        placeholder="name@company.com" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.email && ErrorLogin.email.message}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                                    <input
+                                        {...regiterLogin('password')}
+                                        type="password"
+                                        name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.password && ErrorLogin.password.message}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
 
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
+
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+                                        <span> Google</span>
+                                    </button>
+
+                                </div>
+                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
+                                </p>
+                            </form>
+                        </TEModalBody>
+
+                    </TEModalContent>
+                </TEModalDialog>
+            </TEModal>
 
         </div>
     )
