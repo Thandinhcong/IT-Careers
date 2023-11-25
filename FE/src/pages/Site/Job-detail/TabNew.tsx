@@ -21,7 +21,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FcGoogle } from "react-icons/fc";
-import { SlSocialFacebook } from "react-icons/sl";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
@@ -50,7 +49,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const { id }: any = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data && data?.job_detail;
-    console.log(listOne);
 
     const { data: infoUser } = useGetInfoUserQuery();
     const { data: ListJobApply } = useGetJobApplyQuery();

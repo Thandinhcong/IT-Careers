@@ -5,12 +5,11 @@ import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
 import { Pagination, Skeleton } from 'antd'
 import React, { useState } from 'react'
-import { useAddSaveJobsMutation, useUnsaveJobMutation } from '../../../api/savejobpostapi'
+import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { useGetInfoUserQuery, useLoginMutation } from '../../../api/auths'
 import { Notyf } from 'notyf'
 import { TEModal, TEModalBody, TEModalContent, TEModalDialog, TEModalHeader } from 'tw-elements-react'
 import { FcGoogle } from 'react-icons/fc'
-import { SlSocialFacebook } from 'react-icons/sl'
 import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage'
 import { FormLogin, schemaLogin } from '../../../schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -93,6 +92,9 @@ const Recruitment = React.memo(() => {
             notyf.error(error?.message)
         }
     };
+    const { data: JobSave } = useGetAllSaveJobsQuery();
+    console.log(JobSave);
+
     if (isLoading) return <Skeleton />
     return (
         <div>

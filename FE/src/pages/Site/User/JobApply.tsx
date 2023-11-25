@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Skeleton } from 'antd'
 import { useGetJobApplyQuery } from '../../../api/jobPostApply'
 import { CiLocationOn, CiTimer } from 'react-icons/ci';
 import { MdOutlineAttachMoney } from 'react-icons/md';
@@ -7,9 +7,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const JobApply = React.memo(() => {
-    const { data } = useGetJobApplyQuery();
+    const { data, isLoading } = useGetJobApplyQuery();
     const listJob = data?.job_list;
-
+    if (isLoading) return <Skeleton />
     return (
         <div>
             {listJob ? (

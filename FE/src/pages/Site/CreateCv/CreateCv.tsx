@@ -7,11 +7,10 @@ import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
 import { useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 import { UploadImage } from '../../../components/upload';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 import { GoDownload } from 'react-icons/go';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaProfile } from '../../../schemas/svSchema';
+import { FormEdu, FormExp, FormProfile, FormProject, schemaProfile } from '../../../schemas/svSchema';
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -32,7 +31,7 @@ const CreateCvTest = React.memo(() => {
     const [updateInfoCv] = useUpdateInfoProfileMutation();
 
     const listProfile = data?.profile?.cv;
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<any>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormProfile>({
         resolver: yupResolver(schemaProfile)
     });
     const onHandleSubmit = async (data: any) => {
@@ -85,6 +84,7 @@ const CreateCvTest = React.memo(() => {
             }
             resetSkill();
         } catch (error) {
+
             console.log("Submit skill", error);
         }
     };
@@ -124,8 +124,10 @@ const CreateCvTest = React.memo(() => {
         register: registerProject,
         handleSubmit: handleSubmitProject,
         reset: resetProject,
-        getValues: getValuesProject
-    } = useForm<any>({
+        getValues: getValuesProject,
+        formState: { errors: errorsProject }
+
+    } = useForm<FormProject>({
         defaultValues: listProject
     });
 
@@ -192,13 +194,12 @@ const CreateCvTest = React.memo(() => {
         getValues: getValuesEdu,
         // setValue: setValueEdu,
         reset: resetEducation,
-    } = useForm<any>({
+        formState: { errors: errorsEdu }
+    } = useForm<FormEdu>({
         defaultValues: listEducation
     });
 
     const onHandleSubmitEducation = async (data: any, educationId?: string) => {
-        console.log(data);
-
         try {
             if (educationId) {
                 await updateEdu({
@@ -253,7 +254,7 @@ const CreateCvTest = React.memo(() => {
     const [addExp] = useAddExpMutation();
     const listExp = getCV?.profile?.exps;
     const [updateExp] = useUpdateExpMutation();
-    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp, getValues: getValuesExp } = useForm<any>({
+    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp, getValues: getValuesExp, formState: { errors: errorsExp } } = useForm<FormExp>({
         defaultValues: listExp
     });
     const onHandleSubmitExp = async (data: any, expId?: string) => {
@@ -327,31 +328,25 @@ const CreateCvTest = React.memo(() => {
     // in pdf
 
     const generatePDF = async () => {
+        const element = document.getElementById('pdf-content');
+
+        if (!element) {
+            console.error("Element with id 'pdf-content' not found.");
+            return;
+        }
         try {
-            const canvas: any = await html2canvas(document.getElementById('pdf-content') as any, {
-                scale: 3,
-                scrollY: -window.scrollY,
-                useCORS: true,
+            await html2pdf(element, {
+                margin: [0, 0],
+                filename: `CV_${profile?.name} bework.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 4, useCORS: true, imageTimeout: 5000 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
             });
-            if (!canvas) {
-                console.error("Canvas is undefined.");
-                return;
-            }
-            const imgData = canvas.toDataURL('image/jpeg');
-            const pdf = new jsPDF('p', 'mm', 'a4');
-
-            const pdfWidth = 210;
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            // Add the image to the PDF
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-            pdf.setFontSize(8);
-            pdf.text("© Bework.com", 1, pdfHeight + 1);
-
-            pdf.save(`CV_${profile?.name}.pdf`);
         } catch (error) {
+
         }
     };
+
 
     useEffect(() => {
         //skill
@@ -368,8 +363,8 @@ const CreateCvTest = React.memo(() => {
         resetSkill(listSkill);
         resetProject(listProject);
         reset(listProfile);
-        resetExp(experience);
-        resetEducation(education);
+        resetExp(experience as any);
+        resetEducation(education as any);
 
     }, [listProfile, listExp, listEducation, listProject, listSkill]);
 
@@ -392,7 +387,9 @@ const CreateCvTest = React.memo(() => {
                                     type="file" className='border border-gray-200 p-2 w-full outline-none'
                                 />
                                 <img src={image} alt="" className=' rounded-full w-[100px]' />
-
+                                <div className='text-red-500 text-sm outline-none'>
+                                    {errors?.image && errors?.image?.message}
+                                </div>
                             </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Mục tiêu nghề nghiệp</label>
@@ -402,6 +399,7 @@ const CreateCvTest = React.memo(() => {
                                     defaultValue={profile?.careers_goal}
                                     className='border border-gray-200 p-2 w-full outline-none'
                                 ></textarea>
+
                             </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
@@ -412,6 +410,7 @@ const CreateCvTest = React.memo(() => {
                                     onChange={handleInputChange}
                                     type="text" className='border border-gray-200 p-2 w-full outline-none'
                                 />
+
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Họ tên:</label>
@@ -421,6 +420,9 @@ const CreateCvTest = React.memo(() => {
                                     defaultValue={profile?.name}
                                     onChange={handleInputChange}
                                     className='border border-gray-200 p-2 w-full outline-none' />
+                                <div className='text-red-500 text-sm outline-none'>
+                                    {errors?.name && errors?.name?.message}
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Số điện thoại:</label>
@@ -430,6 +432,9 @@ const CreateCvTest = React.memo(() => {
                                     defaultValue={profile?.phone}
                                     onChange={handleInputChange}
                                     className='border border-gray-200 p-2 w-full outline-none' />
+                                <div className='text-red-500 text-sm outline-none'>
+                                    {errors?.phone && errors?.phone?.message}
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="full-name" className='block font-semibold mb-2'>Email:</label>
@@ -504,6 +509,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsExp?.company_name && errorsExp?.company_name?.message}
+                                        </div>
                                     </div>
 
                                     <div>
@@ -518,6 +526,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsExp?.position && errorsExp?.position?.message}
+                                        </div>
                                     </div>
 
                                     <div>
@@ -542,6 +553,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsExp?.start_date && errorsExp?.start_date?.message}
+                                        </div>
                                     </div>
                                     {/* ngày kết thúc */}
                                     <div>
@@ -556,6 +570,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsExp?.end_date && errorsExp?.end_date?.message}
+                                        </div>
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
@@ -590,6 +607,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.name && errorsEdu?.name?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -603,6 +623,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="text"
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.gpa && errorsEdu?.gpa?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <button
@@ -633,6 +656,9 @@ const CreateCvTest = React.memo(() => {
                                             })}
 
                                         </select>
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.major_id && errorsEdu?.major_id?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -673,7 +699,9 @@ const CreateCvTest = React.memo(() => {
                                                 Du Học
                                             </option>
                                         </select>
-
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.type_degree && errorsEdu?.type_degree?.message}
+                                        </div>
                                     </div>
 
                                     <div>
@@ -688,6 +716,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.start_date && errorsEdu?.start_date?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -701,6 +732,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsEdu?.end_date && errorsEdu?.end_date?.message}
+                                        </div>
                                     </div>
                                 </div>
                                 <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
@@ -787,6 +821,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.project_name && errorsProject?.project_name?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -800,6 +837,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'position', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.position && errorsProject?.position?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <button
@@ -822,6 +862,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.desc && errorsProject?.desc?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -835,6 +878,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'link_project', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.link_project && errorsProject?.link_project?.message}
+                                        </div>
                                     </div>
 
                                     <div>
@@ -849,6 +895,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.start_date && errorsProject?.start_date?.message}
+                                        </div>
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -863,6 +912,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsProject?.end_date && errorsProject?.end_date?.message}
+                                        </div>
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
@@ -876,23 +928,23 @@ const CreateCvTest = React.memo(() => {
             </div>
 
             {/* cv hiện */}
-            <div className='border shadow-xl rounded  w-10/12 mx-auto mt-6   '>
-                <div className='grid grid-cols-6   w-10/12 mx-auto  my-6' id="pdf-content">
-                    <div className=' col-span-2 px-7 border-r-2 py-12 '>
+            <div className='border shadow-xl w-9/12 rounded mx-auto mt-6   '>
+                <div className='grid grid-cols-6   w-12/12 mx-auto  my-6' id="pdf-content">
+                    <div className=' col-span-2 px-7 border-r-2 py-12 text-sm'>
                         <div className=''>
                             <img className='w-40 h-40 mx-auto' src={profile?.image} alt="" />
                         </div>
                         <div className='text-center'>
-                            <p className='text-2xl font-semibold mt-5'>{profile?.name}</p>
+                            <p className='text-xl font-semibold mt-5'>{profile?.name}</p>
                             <p className='border-b-2 my-3 border-gray-300 w-1/6 mx-auto'></p>
                             <p className='uppercase text-sm'>{profile?.title}</p>
                         </div>
                         <div className='my-5'>
                             <h2 className='text-xl my-3 font-semibold'>Thông tin cá nhân</h2>
                             <div className='leading-8'>
-                                <p>Ngày sinh: <span>{profile?.birth}</span></p>
-                                <p>Số điện thoại: <span>{profile?.phone}</span></p>
                                 <p>Email: <span>{profile?.email}</span></p>
+                                <p>Số điện thoại: <span>{profile?.phone}</span></p>
+                                <p>Ngày sinh: <span>{profile?.birth}</span></p>
                                 <p>Địa chỉ: <span>{profile?.address}</span></p>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Upload } from 'antd'
+import { Button, Form, Input, Select, Skeleton, Upload } from 'antd'
 import { useEffect, useState } from 'react'
 import { IAccount } from '../../../interfaces'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
@@ -11,7 +11,7 @@ import { Notyf } from 'notyf'
 
 
 const CandidateInformation = () => {
-    const { data: candidateData } = useGetCandidatesQuery();
+    const { data: candidateData, isLoading } = useGetCandidatesQuery();
     const [form] = Form.useForm();
 
     const [imageUrl, setImageUrl] = useState<string | null>(candidateData?.candidate?.image || null);
@@ -88,6 +88,7 @@ const CandidateInformation = () => {
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
     };
+    if (isLoading) return <Skeleton />
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
 

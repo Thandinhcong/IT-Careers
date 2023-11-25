@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Skeleton } from 'antd'
 import { useEffect } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { IAccount } from '../../../interfaces'
 import { Notyf } from 'notyf';
 
 const ChangePassCandidate = () => {
-    const { data: candidateData } = useGetCandidatesQuery();
+    const { data: candidateData, isLoading } = useGetCandidatesQuery();
     const [form] = Form.useForm();
 
     const [changePassCandidate, { isLoading: isUpdateLoading }] = useChangePassCandidateMutation();
@@ -39,7 +39,7 @@ const ChangePassCandidate = () => {
     };
 
 
-
+    if (isLoading) return <Skeleton />
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
             <Form

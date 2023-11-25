@@ -1,7 +1,6 @@
 import Recruitment from './Recruitment'
 import TopArea from './TopArea'
 import DreamJob from './DreamJob'
-import Utilities from './Utilities'
 import Connect from './connect'
 import Reviews from './Review'
 import ToRecruitment from './ToRecruitment'
@@ -17,7 +16,6 @@ const Main = () => {
                 <Recruitment />
                 <TopArea />
                 <DreamJob />
-                <Utilities />
                 <Connect />
                 <Reviews />
                 <ToRecruitment />

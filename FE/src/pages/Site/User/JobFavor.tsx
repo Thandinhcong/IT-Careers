@@ -102,7 +102,12 @@ const JobFavor = React.memo(() => {
 
                 </div>
             ) : (
-                <div>Không có dữ liệu</div>
+                <div className='mx-5'>
+                    <p className='text-blue-500 text-2xl mb-10 text-center'>
+                        Bạn chưa lưu công việc nào!
+                    </p>
+                    <Link to='/jobs' className='border px-5 py-2 bg-blue-500 text-white rounded' >Tìm việc ngay</Link>
+                </div>
             )}
         </div>
     )

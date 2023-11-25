@@ -7,13 +7,17 @@ import { Skeleton } from "antd";
 const HeaderCompanyDetail = React.memo(() => {
     const { id } = useParams();
     const { data, isLoading } = useGetOneCompanysQuery(id || '');
-
+    const isImage = data?.company?.image_paper;
     const listCompanyDetail: any = data && data?.company;
     if (isLoading) return <Skeleton loading />
     return (
         <div className="">
             <div className="relative">
-                <img className="w-full h-56 object-cover rounded-md" src={listCompanyDetail?.image_paper} alt="ảnh banner" />
+                {!isImage ? (
+                    <img className="w-full h-56 object-cover rounded-md" src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700832295/tech_r7rqqf.jpg" alt="ảnh banner" />
+                ) : (
+                    <img className="w-full h-56 object-cover rounded-md" src={listCompanyDetail?.image_paper} alt="ảnh banner" />
+                )}
             </div>
             <div className="flex justify-between items-center px-8">
 
