@@ -62,7 +62,7 @@ const JobFavor = React.memo(() => {
                         {displayedJobs?.map((item: any) => {
                             return (
                                 <div key={item?.id}>
-                                    <div className='shadow-lg p-2 rounded'>
+                                    <div className='shadow-lg p-3 rounded  '>
                                         <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
                                             <div className='flex gap-2'>
                                                 <img src={item?.logo} className='border rounded-md p-2' width={70} />
@@ -75,7 +75,7 @@ const JobFavor = React.memo(() => {
                                             </div>
                                             <p className='flex items-center gap-1 my-2'> <MdRoom /> <span>{item?.province} - {item?.district}</span> </p>
                                         </Link>
-                                        <div className='flex justify-between items-center mb-2'>
+                                        <div className='flex justify-between items-center mb-3'>
                                             <p className='flex items-center gap-1'> <BsCurrencyDollar /><span>{VND.format(item?.min_salary)} - {VND.format(item?.max_salary)}</span></p>
                                             <button
                                                 onClick={() => handleCancelSaveJob(item?.id)}
@@ -83,6 +83,7 @@ const JobFavor = React.memo(() => {
                                                 <AiFillHeart />
                                             </button>
                                         </div>
+                                        <Link to={`/job-detail/${item?.title}/${item?.id}`} className='px-2 py-2 bg-blue-500 text-white rounded-md'>Xem chi tiết</Link>
                                     </div>
                                 </div>
                             );
@@ -91,7 +92,7 @@ const JobFavor = React.memo(() => {
 
                     </div>
                     {/* Hiển thị Pagination */}
-                    <div className="pagination-container flex justify-center items-center">
+                    <div className="pagination-container flex justify-center items-center mt-4">
                         <Pagination
                             current={currentPage}
                             pageSize={pageSize}

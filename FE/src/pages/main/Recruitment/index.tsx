@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
 import { Pagination, Skeleton } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { useGetInfoUserQuery, useLoginMutation } from '../../../api/auths'
 import { Notyf } from 'notyf'
@@ -14,6 +14,7 @@ import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage'
 import { FormLogin, schemaLogin } from '../../../schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import Item from 'antd/es/list/Item'
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -24,6 +25,7 @@ const Recruitment = React.memo(() => {
     });
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
+    console.log("listJobs", listJobs);
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +48,11 @@ const Recruitment = React.memo(() => {
     const idUser: any = user?.id;
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
+
+    const { data: JobSave } = useGetAllSaveJobsQuery();
+    console.log(JobSave);
+
+
     const handleSaveJob = async (id: any) => {
         try {
             await saveJob({
@@ -73,6 +80,7 @@ const Recruitment = React.memo(() => {
             notyf.error(error?.data?.error);
         }
     }
+    //đăng nhập
     const [showModal2, setShowModa2l] = useState(false);
     const [login] = useLoginMutation();
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
@@ -92,9 +100,9 @@ const Recruitment = React.memo(() => {
             notyf.error(error?.message)
         }
     };
-    const { data: JobSave } = useGetAllSaveJobsQuery();
-    console.log(JobSave);
-
+    // useEffect(() => {
+    //     setSavedJobs(JobSave)
+    // }, [])
     if (isLoading) return <Skeleton />
     return (
         <div>

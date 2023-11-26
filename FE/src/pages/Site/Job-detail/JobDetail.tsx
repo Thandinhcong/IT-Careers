@@ -27,13 +27,12 @@ import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UploadImage } from "../../../components/upload";
 import { FcGoogle } from "react-icons/fc";
-import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
 import { Skeleton } from "antd";
-import { useAddSaveJobsMutation, useUnsaveJobMutation } from "../../../api/savejobpostapi";
+import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
     const notyf = new Notyf({
@@ -137,9 +136,10 @@ const JobDetail = React.memo(() => {
     };
 
 
-    const [isJobSaved, setIsJobSaved] = useState(() => {
-        return localStorage.getItem('isJobSaved') === 'true' || false as any;
-    });
+    const { data: JobSave } = useGetAllSaveJobsQuery();
+    const idSaveJob: any = parseInt(id, 10);
+    const isJobSaved = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
+
     //lưu việc làm
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
@@ -149,7 +149,6 @@ const JobDetail = React.memo(() => {
                 idUser,
                 id,
             }).unwrap();
-            setIsJobSaved(true);
             notyf.success("Lưu việc làm thành công!")
 
         } catch (error: any) {
@@ -164,17 +163,11 @@ const JobDetail = React.memo(() => {
                 id
             }).unwrap();
             notyf.success("Hủy Lưu việc làm thành công!")
-            setIsJobSaved(false);
-
         } catch (error: any) {
             notyf.error(error?.data?.error);
         }
     }
 
-    useEffect(() => {
-        localStorage.setItem('isJobSaved', isJobSaved);
-        window.scrollTo(0, 0);
-    }, [isJobSaved]);
     if (isLoading) return <Skeleton loading />
     return (
         <div>
