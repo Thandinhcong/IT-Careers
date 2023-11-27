@@ -43,9 +43,7 @@ const Deposit = () => {
                 setResponseData(response);
                 onNextStep();
             })
-            .catch((error) => {
-                console.error(error);
-            });
+
     };
 
     const onFinishStep2 = (values: IPackages) => {
@@ -57,10 +55,7 @@ const Deposit = () => {
                 window.location.href = redirectUrl;
 
             })
-            .catch((error) => {
-                // Xử lý lỗi nếu có
-                console.error(error);
-            });
+
 
     };
 

@@ -18,7 +18,9 @@ const JobFavor = React.memo(() => {
         },
     });
     const { data, isLoading } = useGetAllSaveJobsQuery();
-    const listsaveJobs = data?.data
+    const listsaveJobs = data?.data;
+    console.log(listsaveJobs);
+
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
     const handlePageChange = (page: number) => {
@@ -36,10 +38,10 @@ const JobFavor = React.memo(() => {
     const { data: infoUser } = useGetInfoUserQuery();
 
     const user = infoUser?.candidate;
-    const idUser: any = user?.id;
+    const idUser: number = user?.id;
 
     const [cancelSaveJob] = useUnsaveJobMutation();
-    const handleCancelSaveJob = async (id: any) => {
+    const handleCancelSaveJob = async (id: number) => {
         try {
             await cancelSaveJob({
                 idUser,

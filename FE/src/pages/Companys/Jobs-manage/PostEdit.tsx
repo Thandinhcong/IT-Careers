@@ -15,7 +15,6 @@ const PostEdit = () => {
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
     const { data: PostData, isLoading } = useGetJobPostByIdCompanyIdQuery(id || "");
-    console.log(PostData);
 
     const [jobPost] = useEditJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
@@ -78,7 +77,6 @@ const PostEdit = () => {
     };
 
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
-        console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
     }
     const handleChange = (value: string) => {

@@ -21,7 +21,6 @@ type FieldType = {
 
 const Payment = () => {
     const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
-    console.log(moneyValue);
     return (
         <div className='bg-gray-100 p-10'>
             <div className='bg-white p-8'>

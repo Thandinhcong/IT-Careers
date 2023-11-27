@@ -36,7 +36,6 @@ const TabPostPass = () => {
 
     const handleQuantityChange = (value: string | number | null) => { //Tăng giảm ngày đăng lại bài
         // Lấy ngày hiện tại
-        console.log(value);
 
         const currentDate = moment();
 
@@ -69,13 +68,11 @@ const TabPostPass = () => {
                 } else {
                     message.error("Không có ID bài đăng được chọn.");
                 }
-                console.log('Received values:', values);
+
                 // Đóng Modal
                 setIsModalOpen(false);
             })
-            .catch((errorInfo) => {
-                console.log('Xác minh lỗi:', errorInfo);
-            });
+
     };
 
     const handleCancel = () => {
@@ -83,8 +80,6 @@ const TabPostPass = () => {
     };
 
     const confirm = (id: number | string) => { //dừng tuyển
-        console.log(id);
-
         stopJobPost(id);
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');

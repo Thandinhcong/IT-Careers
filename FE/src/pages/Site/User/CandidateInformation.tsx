@@ -85,13 +85,9 @@ const CandidateInformation = () => {
         }
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
     if (isLoading) return <Skeleton />
     return (
         <div><h1 className='font-bold text-base mb-8'>Thông tin tài khoản</h1>
-
             <Form
                 form={form}
                 name="basic"
@@ -100,7 +96,6 @@ const CandidateInformation = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off">
                 <div>

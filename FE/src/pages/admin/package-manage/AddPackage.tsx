@@ -17,9 +17,7 @@ const AddPackage = () => {
                 navigate("/admin/package-manage");
             });
     };
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
+
     return (
         <div>
             <Link to="/admin/package-manage">Quay lại <EnterOutlined /></Link>
@@ -31,7 +29,6 @@ const AddPackage = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off"
             >

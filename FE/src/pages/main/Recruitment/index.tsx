@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
 import { Pagination, Skeleton } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { useGetInfoUserQuery, useLoginMutation } from '../../../api/auths'
 import { Notyf } from 'notyf'
@@ -24,8 +24,6 @@ const Recruitment = React.memo(() => {
     });
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
-    console.log("listJobs", listJobs);
-
 
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 12;

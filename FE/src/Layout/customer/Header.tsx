@@ -274,12 +274,13 @@ const Header = React.memo((data: any) => {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link to="#" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-8 w-auto"
-                src="https://123job.vn/images/logo_tim.png"
+                className="h-8  w-auto"
+                src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700416379/riqyog9hekgrzdpdwg8w.png"
                 alt=""
+
               />
             </Link>
             <button
@@ -331,32 +332,14 @@ const Header = React.memo((data: any) => {
                   Việc làm
                 </Link>
                 <Link
-                  to="#"
+                  to="/company"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Công ty
                 </Link>
-                <Link
-                  to="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Sự nghiệp phát triền
-                </Link>
-                <Link
-                  to="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Công cụ
-                </Link>
               </div>
               <div className="py-3">
-                <Link
-                  to={"jobfavor"}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Tin đã lưu{" "}
-                  <AiOutlineHeart className="inline-block base-line" />
-                </Link>
+                <hr />
                 <Link
                   to="/dang-nhap"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -364,10 +347,10 @@ const Header = React.memo((data: any) => {
                   Đăng nhập
                 </Link>
                 <Link
-                  to="/dang-ky-tai-khoan"
+                  to="/business/signin"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Đăng ký
+                  Đăng nhập NTD
                 </Link>
               </div>
             </div>

@@ -27,7 +27,6 @@ const MainFindJob = () => {
 
     const handleModalConfirm = () => {
         if (selectedCandidateId) {
-            console.log(selectedCandidateId);
             openProfile(selectedCandidateId)
                 .unwrap()
                 .then(() => {

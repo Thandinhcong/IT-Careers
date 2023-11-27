@@ -84,8 +84,6 @@ const CreateCvTest = React.memo(() => {
             }
             resetSkill();
         } catch (error) {
-
-            console.log("Submit skill", error);
         }
     };
 
@@ -96,7 +94,7 @@ const CreateCvTest = React.memo(() => {
             notyf.success("Xóa kỹ năng thành công")
 
         } catch (error) {
-            console.log("skill", error);
+
         }
     }
 
@@ -149,7 +147,6 @@ const CreateCvTest = React.memo(() => {
             }
             resetProject();
         } catch (error) {
-            console.log("Submit project", error);
             notyf.error("Thêm/Cập nhật thất bại");
         }
     };
@@ -217,7 +214,6 @@ const CreateCvTest = React.memo(() => {
             }
             resetEducation();
         } catch (error) {
-            console.log("Submit education", error);
             notyf.error("Thêm/Cập nhật học vấn thất bại");
         }
     };
@@ -277,7 +273,6 @@ const CreateCvTest = React.memo(() => {
             }
             resetExp(); // Đặt lại form sau khi submit
         } catch (error: any) {
-            console.log("Submit experience", error);
             notyf.error(error?.data?.message);
         }
     };
@@ -287,7 +282,6 @@ const CreateCvTest = React.memo(() => {
             await deleteExp(id).unwrap();
             notyf.success("Xóa dự án thành công")
         } catch (error: any) {
-            console.log(error);
             notyf.error(error)
         }
     }
@@ -331,7 +325,6 @@ const CreateCvTest = React.memo(() => {
         const element = document.getElementById('pdf-content');
 
         if (!element) {
-            console.error("Element with id 'pdf-content' not found.");
             return;
         }
         try {

@@ -34,7 +34,7 @@ const EditJobposition = () => {
                 });
                 return navigate("/admin/jobposition-manage")
             })
-            .catch((error) => console.log(error))
+            .catch()
     }
     if (isLoading) return <Skeleton />
     type FieldType = {

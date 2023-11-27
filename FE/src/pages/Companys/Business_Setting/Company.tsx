@@ -66,12 +66,10 @@ const CompanySetting = React.memo(() => {
                             window.location.reload();
                         })
                         .catch((error) => {
-                            console.error('Lỗi khi cập nhật thông tin công ty:', error);
+                            message.error('Lỗi khi cập nhật thông tin công ty:', error);
                         });
                 })
-                .catch((error) => {
-                    console.error('Lỗi khi tải ảnh lên:', error);
-                });
+
         }
         if (imagePaper) {
             UploadImage({
@@ -117,7 +115,7 @@ const CompanySetting = React.memo(() => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+
             }
         }
     };

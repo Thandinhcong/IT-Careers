@@ -31,7 +31,6 @@ const Login = React.memo(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
         const token = urlParams.get('token');
-        console.log(token);
 
         if (token) {
             // Lưu token vào localStorage
@@ -40,18 +39,9 @@ const Login = React.memo(() => {
             // Chuyển hướng hoặc thực hiện các hành động khác
             // ...
         } else {
-            console.error('Token not found in URL parameters.');
+
         }
     }
-
-
-    // const handleLoginGoogle = async () => {
-    //     try {
-    //       await  LoginGoogle
-    //     } catch (error) {
-
-    //     }
-    // }
 
     const onHandleSubmit = async (data: FormLogin) => {
         try {

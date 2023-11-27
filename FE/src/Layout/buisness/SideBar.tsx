@@ -6,7 +6,6 @@ import { BsFillBuildingFill } from 'react-icons/bs'
 import { MdHistory, MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
 import { ImFilesEmpty } from "react-icons/im"
-import { RiVipCrownLine } from "react-icons/ri"
 import { HiSquare3Stack3D } from "react-icons/hi2"
 import { TbBrandCampaignmonitor } from "react-icons/tb"
 import { IoDocumentTextOutline } from "react-icons/io5"
@@ -55,10 +54,6 @@ const SideBarCompany = () => {
             <Link to={"/business/cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
-            </Link>
-            <Link to="/business/account-pro" className='flex items-center gap-3 mt-6 ml-4'>
-                <p className='text-xl'> <RiVipCrownLine /> </p>
-                <p className='mr-3'>Tài khoản pro</p>
             </Link>
             <Link to="/business/reports" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>

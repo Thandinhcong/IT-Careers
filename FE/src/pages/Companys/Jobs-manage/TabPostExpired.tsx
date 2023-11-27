@@ -64,9 +64,7 @@ const TabPostExpired = () => {
                 // Đóng Modal
                 setIsModalOpen(false);
             })
-            .catch((errorInfo) => {
-                console.log('Xác minh lỗi:', errorInfo);
-            });
+
     };
 
     const handleCancel = () => {
