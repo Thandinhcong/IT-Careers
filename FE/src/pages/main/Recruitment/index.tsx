@@ -140,7 +140,7 @@ const Recruitment = React.memo(() => {
                                                 key={item?.id}
                                                 onClick={() => isCheckJobSave ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
                                             >
-                                                {isCheckJobSave ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+                                                {isCheckJobSave ? <div className='text-red-500'><MdOutlineFavorite /> </div> : <MdOutlineFavoriteBorder />}
                                             </button>
                                         )}
                                     </div>
