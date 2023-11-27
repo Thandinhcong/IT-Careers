@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
-import { Select } from 'antd';
+import { Form, Select } from 'antd';
 import { MdRoom } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { IJobPost } from '../../../interfaces';
 
 const SearchJobs = () => {
     const navigate = useNavigate();
     const [query, setQuery] = useState("");
-    const [location, setLocation] = useState("");
+    const [province, setProvince] = useState("");
     const [searchError, setSearchError] = useState("");
 
     const handleSubmit = async (e: any) => {
@@ -18,10 +19,14 @@ const SearchJobs = () => {
         //     return;
         // }
 
-        // const queryString = location ? `search=${query}&province=${location}` : `search=${query}`;
+        // const queryString = province ? `search=${query}&province=${province}` : `search=${query}`;
         // await navigate(`/search?${queryString}`);
-        await navigate(`/search?search=${query}`);
+        await navigate(`/search?title=${query}`);
     };
+    // const handleSubmit = (e: any) => {
+    //     e.preventDefault();
+    //     navigate(`/search?search=${query}&province=${province}`);
+    // };
     return (
         <form className="lg:flex gap-2 my-5" onSubmit={handleSubmit}>
             <div className="border rounded-xl bg-white justify-between px-2 my-7 flex items-center lg:py-3 py-2">
@@ -44,13 +49,13 @@ const SearchJobs = () => {
                     Địa điểm
                 </label>
                 <select
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    value={province}
+                    onChange={(e) => setProvince(e.target.value)}
                 >
                     <option value=""></option>
-                    <option value="1">Hà Nội</option>
-                    <option value="2">Hồ chí Minh</option>
-                    <option value="3">Đà Nẵng</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Hồ Chí Minh">Hồ chí Minh</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
                 </select>
                 <span className='pr-5'>
                     <MdRoom />

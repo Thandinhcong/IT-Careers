@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const searchApi = createApi({
     reducerPath: 'search',
@@ -8,14 +8,14 @@ const searchApi = createApi({
     }),
     endpoints: (builder) => ({
         search: builder.query<any, { search: string }>({
-            query: ({ search }) => `search?search=${search}`,
+            query: ({ search }) => `search?title=${search}`,
         }),
     }),
     // endpoints: (builder) => ({
     //     search: builder.query<any, { search: string; province?: string }>({
     //         query: ({ search, province }) => `search?search=${search}${province ? `&province=${province}` : ''}`,
     //     }),
-    // }),
+    // })
 });
 
 export const { useSearchQuery } = searchApi;
