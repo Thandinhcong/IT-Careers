@@ -28,10 +28,6 @@ const HeaderCompany = () => {
             localStorage.removeItem('authCompany');
             notyf.success("Đăng xuấ thành công!");
             window.location.href = "/business/signin";
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('authCompany');
-            document.cookie = 'authCompany=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
-
         } catch (error) {
             notyf.error('Đăng xuất không thành công: ');
         }

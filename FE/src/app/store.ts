@@ -83,9 +83,6 @@ const rootReducer = combineReducers({
   [findJobApi.reducerPath]: findJobReducer,
   [authGooleApi.reducerPath]: authsGooleReducer,
   [candidateappliedApi.reducerPath]: candidateappliedReducer,
-
-  [CvApplyApi.reducerPath]: CvApplyReducer,
-  [FindJobCompanyApi.reducerPath]: FindJobCompanyReducer,
   [ManageWebsiteApi.reducerPath]: ManageWebsiteReducer,
   [manageWebAllApi.reducerPath]: manageWebAllApiReducer,
   [listCvApi.reducerPath]: listCvReducer,
@@ -149,7 +146,6 @@ const middleware = [
   findJobApi.middleware,
   authGooleApi.middleware,
   candidateappliedApi.middleware,
-  CvApplyApi.middleware,
   FindJobCompanyApi.middleware,
   PackagesCompanyApi.middleware,
   CvApplyApi.middleware,
