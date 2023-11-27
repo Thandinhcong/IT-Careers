@@ -150,6 +150,10 @@ const middleware = [
   PackagesCompanyApi.middleware,
   CvApplyApi.middleware,
   FindJobCompanyApi.middleware,
+  ManageWebsiteApi.middleware,
+  manageWebAllApi.middleware,
+  listCvApi.middleware,
+  SavejobsApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
