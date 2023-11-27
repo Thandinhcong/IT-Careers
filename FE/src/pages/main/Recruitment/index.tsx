@@ -40,7 +40,6 @@ const Recruitment = React.memo(() => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
     const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
-    const [savedJobs, setSavedJobs] = useState<any>({});
     //lưu việc làm
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
@@ -49,6 +48,7 @@ const Recruitment = React.memo(() => {
     const [cancelSaveJob] = useUnsaveJobMutation();
 
     const { data: JobSave } = useGetAllSaveJobsQuery();
+    const listJobSave = JobSave?.data;
 
     const handleSaveJob = async (id: any) => {
         try {
@@ -56,7 +56,6 @@ const Recruitment = React.memo(() => {
                 idUser,
                 id,
             }).unwrap();
-            setSavedJobs((prevSavedJobs: any) => ({ ...prevSavedJobs, [id]: true }));
             notyf.success("Lưu việc làm thành công!")
 
         } catch (error: any) {
@@ -71,7 +70,6 @@ const Recruitment = React.memo(() => {
                 id
             }).unwrap();
             notyf.success("Hủy Lưu việc làm thành công!")
-            setSavedJobs((prevSavedJobs: any) => ({ ...prevSavedJobs, [id]: false }));
 
         } catch (error: any) {
             notyf.error(error?.data?.error);
@@ -111,7 +109,8 @@ const Recruitment = React.memo(() => {
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {
-                        const isJobSaved = savedJobs[item?.id] || false;
+                        const isCheckJobSave = listJobSave?.some((data: any) => data?.id === item?.id)
+
                         return (
                             <div key={item?.id}>
                                 <div className='shadow-lg p-2 rounded'>
@@ -139,9 +138,9 @@ const Recruitment = React.memo(() => {
                                         ) : (
                                             <button
                                                 key={item?.id}
-                                                onClick={() => isJobSaved ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
+                                                onClick={() => isCheckJobSave ? handleCancelSaveJob(item?.id) : handleSaveJob(item?.id)}
                                             >
-                                                {isJobSaved ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
+                                                {isCheckJobSave ? <MdOutlineFavorite /> : <MdOutlineFavoriteBorder />}
                                             </button>
                                         )}
                                     </div>
