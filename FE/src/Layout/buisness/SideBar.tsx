@@ -6,7 +6,6 @@ import { BsFillBuildingFill } from 'react-icons/bs'
 import { MdHistory, MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
 import { ImFilesEmpty } from "react-icons/im"
-import { RiVipCrownLine } from "react-icons/ri"
 import { HiSquare3Stack3D } from "react-icons/hi2"
 import { TbBrandCampaignmonitor } from "react-icons/tb"
 import { IoDocumentTextOutline } from "react-icons/io5"
@@ -26,7 +25,7 @@ const SideBarCompany = () => {
                 {listIcon ? (
                     <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                 ) : (
-                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" width={40} className='rounded-full' />
+                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="icon" width={40} className='rounded-full' />
                 )}
                 <p>{Infor?.company?.company_name}</p>
             </div>
@@ -38,7 +37,7 @@ const SideBarCompany = () => {
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <PiMoneyThin />  </p>
                 <p className='mr-3'>Số xu</p>
-                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>400.000 xu</p>
+                <p className='text-blue-500 bg-blue-200 p-1 rounded text-xs'>{Infor?.company?.coin} xu</p>
             </div>
             <Link to="/business" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiOutlineHome /> </p>
@@ -55,10 +54,6 @@ const SideBarCompany = () => {
             <Link to={"/business/cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
-            </Link>
-            <Link to="/business/account-pro" className='flex items-center gap-3 mt-6 ml-4'>
-                <p className='text-xl'> <RiVipCrownLine /> </p>
-                <p className='mr-3'>Tài khoản pro</p>
             </Link>
             <Link to="/business/reports" className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <MdOutlineStackedBarChart /> </p>

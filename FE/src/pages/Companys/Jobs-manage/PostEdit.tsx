@@ -15,7 +15,6 @@ const PostEdit = () => {
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
     const { data: PostData, isLoading } = useGetJobPostByIdCompanyIdQuery(id || "");
-    console.log(PostData);
 
     const [jobPost] = useEditJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
@@ -78,7 +77,6 @@ const PostEdit = () => {
     };
 
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
-        console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
     }
     const handleChange = (value: string) => {
@@ -195,7 +193,7 @@ const PostEdit = () => {
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                     {data?.data?.district_id
-                                        .filter((options: {
+                                        ?.filter((options: {
                                             province_id: string | number | null; id: string | number;
                                         }) => options.province_id == selectedProvinceId)
                                         .map((options: IJobPost) => (
@@ -319,7 +317,7 @@ const PostEdit = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* Mô tả công việc/Quyền lợi */}
+                    {/*Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
                         label="Mô tả công việc/Quyền lợi"
@@ -328,7 +326,15 @@ const PostEdit = () => {
                     >
                         <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
                     </Form.Item>
+                    {/* Mô tả công việc */}
+                    <Form.Item
+                        name="desc"
+                        label="Mô tả công việc"
+                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
+                    >
+                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                    </Form.Item>
                     {/* Yêu cầu*/}
                     <Form.Item<IJobPost>
                         name="require"

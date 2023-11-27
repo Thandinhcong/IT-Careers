@@ -8,7 +8,7 @@ const JobPostApi = createApi({
   reducerPath: "job-post",
   tagTypes: ["job-post"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api/admin",
+    baseUrl: import.meta.env.VITE_API_ADMIN,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("accessToken");
       if (token) {

@@ -40,7 +40,8 @@ const Header = React.memo((data: any) => {
     if (confilm) {
       await useLogout();
       localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("isJobSaved");
+      localStorage.removeItem("isSearchingJob");
       notyf.success("Đăng xuất thành công!")
       window.location.reload();
     }
@@ -49,14 +50,9 @@ const Header = React.memo((data: any) => {
   const CV = [
     {
       name: "Hồ sơ của tôi  ",
-      href: "#",
-      icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
-    },
-    {
-      name: "Tạo CV",
-      href: "tao-cv",
-      icon: <AiOutlineProfile className="text-blue-500 text-3xl" />,
-    },
+      href: "/user/profile",
+      icon: <AiOutlineProfile className="text-blue-500 text-2xl" />,
+    }
   ];
   const profile = [
     {
@@ -180,18 +176,7 @@ const Header = React.memo((data: any) => {
           >
             Công ty
           </Link>
-          <Link
-            to="#"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Sự nghiệp phát triền
-          </Link>
-          <Link
-            to="#"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Công cụ
-          </Link>
+
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center">
@@ -217,7 +202,7 @@ const Header = React.memo((data: any) => {
                       alt="avatar"
                     />
                   ) : (
-                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt="icon" width={40} className='rounded-full' />
+                    <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="icon" width={40} className='rounded-full' />
                   )}
                 </Popover.Button>
                 <Transition
@@ -258,27 +243,20 @@ const Header = React.memo((data: any) => {
           {isLogin ? (
             ""
           ) : (
-            <div className="flex">
+            <div className="flex items-center">
               <div className="flex">
                 <Link
                   to="/dang-nhap"
-                  className="text-sm font-semibold leading-6 text-gray-900"
+                  className="text-sm font-semibold leading-6  border px-2 rounded py-1 bg-blue-500 text-white"
                 >
                   Đăng nhập <span aria-hidden="true"></span>
-                </Link>
-                <p className="border-r-2 mx-4 border-gray-400 "></p>
-                <Link
-                  to="/dang-ky-tai-khoan"
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Đăng Ký <span aria-hidden="true"></span>
                 </Link>
               </div>
               <Link
                 to="/business/signin"
-                className="text-sm font-semibold leading-6 text-gray-900 ml-4"
+                className="text-sm font-semibold leading-6  ml-4 border px-2 rounded py-1 bg-blue-500 text-white"
               >
-                Đăng nhập/Đăng Ký NDT <span aria-hidden="true"></span>
+                Đăng nhập NDT <span aria-hidden="true"></span>
               </Link>
 
             </div>
@@ -296,12 +274,13 @@ const Header = React.memo((data: any) => {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link to="#" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-8 w-auto"
-                src="https://123job.vn/images/logo_tim.png"
+                className="h-8  w-auto"
+                src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700416379/riqyog9hekgrzdpdwg8w.png"
                 alt=""
+
               />
             </Link>
             <button
@@ -353,32 +332,14 @@ const Header = React.memo((data: any) => {
                   Việc làm
                 </Link>
                 <Link
-                  to="#"
+                  to="/company"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Công ty
                 </Link>
-                <Link
-                  to="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Sự nghiệp phát triền
-                </Link>
-                <Link
-                  to="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Công cụ
-                </Link>
               </div>
               <div className="py-3">
-                <Link
-                  to={"jobfavor"}
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Tin đã lưu{" "}
-                  <AiOutlineHeart className="inline-block base-line" />
-                </Link>
+                <hr />
                 <Link
                   to="/dang-nhap"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -386,10 +347,10 @@ const Header = React.memo((data: any) => {
                   Đăng nhập
                 </Link>
                 <Link
-                  to="/dang-ky-tai-khoan"
+                  to="/business/signin"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Đăng ký
+                  Đăng nhập NTD
                 </Link>
               </div>
             </div>

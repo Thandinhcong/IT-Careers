@@ -1,4 +1,4 @@
-import { Form, Radio, Modal, message } from "antd"
+import { Form, Radio, Modal, message, Skeleton } from "antd"
 import { AiOutlineFilter, AiOutlineReload } from "react-icons/ai"
 import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
@@ -10,7 +10,7 @@ import TextArea from "antd/es/input/TextArea";
 
 const CVApply = React.memo(() => {
 
-    const { data } = useGetCvApllyJobPostIdQuery();
+    const { data, isLoading } = useGetCvApllyJobPostIdQuery();
     const [form] = Form.useForm();
     const [assse] = useAssseCandidateMutation();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -46,7 +46,7 @@ const CVApply = React.memo(() => {
                 } else {
                     message.error("Không có ID hồ sơ ứng tuyển được chọn.");
                 }
-                console.log('Received values:', values);
+                // console.log('Received values:', values);
                 // Đóng Modal
                 setIsModalOpen(false);
             })
@@ -65,8 +65,8 @@ const CVApply = React.memo(() => {
             : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
-    console.log(filteredCandidates);
-
+    // console.log(filteredCandidates);
+    if (isLoading) return <Skeleton />
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
             <div className="max-w-screen-lg mx-auto py-4">
@@ -111,30 +111,30 @@ const CVApply = React.memo(() => {
                                     {item?.image ? (
                                         <img
                                             className="w-20 rounded-full border border-gray-400 p-1"
-                                            src={item.image} alt=""
+                                            src={item?.image} alt=""
                                         />
                                     ) : (
                                         <img
                                             className="w-20 rounded-full border border-gray-400 p-1"
-                                            src='https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png' alt=""
+                                            src='https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg' alt=""
                                         />
                                     )
                                     }
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 w-7/12">
-                                    <p className="font-semibold text-base">{item.name}</p>
+                                    <p className="font-semibold text-base">{item?.name}</p>
                                     <p className="flex items-center">
-                                        <p className="flex items-center gap-1"><AiOutlinePhone /><span>{item.phone}</span> </p>
+                                        <p className="flex items-center gap-1"><AiOutlinePhone /><span>{item?.phone}</span> </p>
                                         <p className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
                                             <AiOutlineMail />
-                                            <span>{item.email}</span>
+                                            <span>{item?.email}</span>
                                         </p>
-                                        <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{item.job_post_name}</span></p>
+                                        <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{item?.job_post_name}</span></p>
                                     </p>
                                     <div className="flex justify-between items-center mb-3">
                                         <p className="grid grid-cols-1 gap-3">
                                             <p>Mã ứng viên</p>
-                                            <p>{item.candidate_code}</p>
+                                            <p>{item?.candidate_code}</p>
                                         </p>
                                         <p className="grid grid-cols-1 gap-3">
                                             <p>Ngày ứng tuyển</p>
@@ -166,7 +166,7 @@ const CVApply = React.memo(() => {
                                     </div>
                                 </div>
                                 <div className="flex gap-1 text-gray-700">
-                                    <Link to={`/business/cv-apply/candidate-detail/${item.candidate_code}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
+                                    <Link to={`/business/cv-apply/candidate-detail/${item.curriculum_vitae_id}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
                                         <AiOutlineEye /><span>Chi tiết</span>
                                     </Link>
                                     <TERipple rippleColor="white">

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineCheckCircle, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineQuestionCircle, AiOutlineRight, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
-import { CiMedal } from "react-icons/ci";
+import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd, AiOutlineWarning } from "react-icons/ai"
 import { Link, useParams } from "react-router-dom";
 import {
     TERipple,
@@ -22,10 +21,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FcGoogle } from "react-icons/fc";
-import { SlSocialFacebook } from "react-icons/sl";
+import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
-const TabNew = React.memo(() => {
+const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -50,6 +49,7 @@ const TabNew = React.memo(() => {
     const { id }: any = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data && data?.job_detail;
+
     const { data: infoUser } = useGetInfoUserQuery();
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
@@ -85,8 +85,8 @@ const TabNew = React.memo(() => {
     };
 
     const onHandleSubmit = async (job: FromApply) => {
-        if (typeof image !== "string") return;
-        job.path_cv = image;
+        // if (typeof image !== "string") return;
+        job.path_cv = image as any;
         try {
             await applyJob({
                 id: id,
@@ -100,7 +100,8 @@ const TabNew = React.memo(() => {
         }
 
     };
-
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (files) {
@@ -118,100 +119,12 @@ const TabNew = React.memo(() => {
             }
         }
     };
+
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
                 <div className='bg-gray-100 text-green-600 p-4'>
-                    <p className='font-semibold text-lg flex items-center gap-2'>
-                        <AiOutlineCheckCircle className="text-3xl" />123job Trust verified <AiOutlineQuestionCircle />
-                    </p>
-                    <div className='grid grid-cols-2 gap-4 text-sm my-4'>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Chưa có giấy phép kinh doanh</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Tin đăng chưa có video hoặc hình ảnh</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'> Nhà tuyển dụng tạo tài khoản dưới 1 tháng</span>
-                        </p>
-                        <p className='flex items-center gap-3'><AiOutlineCheckCircle />
-                            <span className='text-gray-800'>Chưa có lịch sử báo xấu tin đăng</span>
-                        </p>
-                    </div>
-                    <div>
-                        {/* <!-- Button trigger modal --> */}
-                        <TERipple rippleColor="red" className="flex justify-end items-center">
-                            <button
-                                type="button"
-                                className="text-sm font-medium  text-red-500 "
-                                onClick={() => setShowModal(true)}
-                            >
-                                Tìm hiểu thêm
-                            </button>
-                            <AiOutlineRight className="text-red-500" />
-                        </TERipple>
 
-                        {/* <!-- Modal --> */}
-                        <TEModal show={showModal} setShow={setShowModal}>
-                            <TEModalDialog>
-                                <TEModalContent>
-                                    <TEModalHeader>
-                                        {/* <!--Modal title--> */}
-                                        <h5 className="text-xl font-medium">
-                                            <CiMedal className="inline-block text-3xl" />
-                                            123job Trust verified
-                                        </h5>
-                                        {/* <!--Close button--> */}
-                                        <button
-                                            type="button"
-                                            className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                                            onClick={() => setShowModal(false)}
-                                            aria-label="Close"
-                                        >
-                                            <AiOutlineClose className="text-xl" />
-                                        </button>
-                                    </TEModalHeader>
-                                    {/* <!--Modal body--> */}
-                                    <TEModalBody className="text-gray-800">
-                                        <p>Dữ liệu chúng tôi cung cấp giúp bạn an toàn hơn trong quá trình tìm hiểu để ứng tuyển vào công việc hiện tại. Tránh những tin tuyển dụng giả mạo, lừa đảo.</p>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500 " />
-                                            <div>
-                                                <p className="font-semibold">Chưa có giấy phép kinh doanh</p>
-                                                <p>Nhà tuyển dụng chưa cung cấp giấy phép kinh doanh để xác thực tài khoản</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-2xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Nhà tuyển dụng tạo tài khoản dưới 1 tháng</p>
-                                                <p>Thời gian tạo tài khoản đăng tin tuyển dụng càng lâu. Mức độ uy tín càng nhiều.</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Tin đăng chưa có video hoặc hình ảnh</p>
-                                                <p>Hình ảnh và video làm việc khi được tải lên cùng tin tuyển dụng. Sẽ giúp ứng viên tìm hiểu rõ hơn về công việc mình đang quan tâm</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-4">
-                                            <AiOutlineCheckCircle className="text-4xl mt-1 text-green-500" />
-                                            <div>
-                                                <p className="font-semibold">Chưa có lịch sử báo xấu tin đăng</p>
-                                                <p>Tin tuyển dụng có số lần báo cáo nhiều 1 lần. Bạn cần lưu ý các tin này. Bạn sẽ an toàn hơn đối với các tin chưa có lịch sử báo xấu trước đó.</p>
-                                            </div>
-                                        </div>
-                                        <p className="text-xs my-3">
-                                            Mọi thông tin liên quan tới tin tuyển dụng này là do người đăng tin đăng tải và chịu trách nhiệm. Chúng tôi luôn cố gắng để có chất lượng thông tin tốt nhất, nhưng chúng tôi không đảm bảo và không chịu trách nhiệm về bất kỳ nội dung nào liên quan tới tin việc làm này. Nếu người tìm việc phát hiện có sai sót hay vấn đề gì xin hãy
-                                            <span className="text-blue-500"> báo cáo cho chúng tôi</span>
-                                        </p>
-                                    </TEModalBody>
-                                </TEModalContent>
-                            </TEModalDialog>
-                        </TEModal>
-                    </div>
                 </div>
                 <div className="text-gray-700">
                     <div>
@@ -263,9 +176,12 @@ const TabNew = React.memo(() => {
                             </div>
                         </div>
                     </div>
-
                     <div>
-                        <h2 className="font-semibold text-lg my-4">Mô tả công việc/ Quyền lợi</h2>
+                        <h2 className="font-semibold text-lg my-4">Mô tả công việc:</h2>
+                        <p>{listOne?.desc}</p>
+                    </div>
+                    <div>
+                        <h2 className="font-semibold text-lg my-4"> Quyền lợi:</h2>
                         <p>{listOne?.interest}</p>
                     </div>
 
@@ -311,9 +227,14 @@ const TabNew = React.memo(() => {
                             </button>
 
                         ) : (
-                            <button className="bg-white border-2 px-5 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                Lưu tin
+                            <button
+                                className={`bg-white border-2 py-3 font-medium rounded-lg px-4 ${isJobSaved
+                                    ? 'text-blue-500  border-blue-600'
+                                    : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+                                    }`}
+                                onClick={isJobSaved ? onCancelSaveJob : onSaveJob}
+                            >
+                                {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
                             </button>
                         )}
                     </div>
@@ -380,33 +301,22 @@ const TabNew = React.memo(() => {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-start">
-                                        <div className="flex items-center h-5">
-                                            <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
-                                        </div>
-                                        <div className="ml-3 text-sm">
-                                            <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                                        </div>
-                                    </div>
-                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
 
-                                </div>
-                                <div className="flex justify-center">
-                                    <button className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
-                                        <span className="w-10"><FcGoogle /></span>
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
 
-                                        <span> Google</span>
-                                    </button>
-                                    <button className="rounded-lg bg-blue-800 text-white flex items-center space-x-2 px-9 py-2 mt-4 ml-2">
-                                        <span className="w-10">< SlSocialFacebook /></span>
-                                        <span> Facebook</span>
-                                    </button>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+                                        <span> Google</span>
+                                    </button>
+
+                                </div>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Don’t have an account yet? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
+                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
                                 </p>
                             </form>
                         </TEModalBody>
@@ -434,16 +344,13 @@ const TabNew = React.memo(() => {
                                 <AiOutlineClose className="w-5 h-5" />
                             </button>
                         </TEModalHeader>
-                        {/* <!--Modal b ody--> */}
+                        {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">
                                     Tải lên CV từ máy tính
                                 </p>
-                                <p className="text-sm  text-gray-700">
-                                    File doc, docx, pdf. Tối đa 5MB.
-                                </p>
-                                <div>
+                                <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
                                             Họ Tên <span className="text-red-500">*</span>
@@ -486,23 +393,40 @@ const TabNew = React.memo(() => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="my-2">
-                                    <label htmlFor="">
-                                        CV của bạn <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
-                                    <input
-                                        className="border py-1 w-full "
-                                        type="file"
-                                        {...register("path_cv")}
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            CV của bạn <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
+                                        <input
+                                            className="border py-1 w-full "
+                                            type="file"
+                                            {...register("path_cv")}
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                        />
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
                                 </div>
+                                {!listAllCv ? "" : (
+                                    <div>
+                                        <p>*Cv của bạn</p>
+                                        <select
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 py-2 outline-none rounded"
+                                        >
+                                            <option value="">Vui lòng chọn</option>
+                                            {listAllCv?.map((item: any) => {
+                                                return (
+                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+                                )}
+
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
                                         Thư mô tả
@@ -515,6 +439,7 @@ const TabNew = React.memo(() => {
                                         id="message"
                                     ></textarea>
                                 </div>
+                                <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>
                             <TEModalFooter>
                                 <TERipple rippleColor="light">

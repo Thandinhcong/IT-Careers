@@ -1,6 +1,6 @@
 import { Button, Form, Input, Layout, Upload, theme } from 'antd'
 import { Content } from 'antd/es/layout/layout'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { ICompanyInfor } from '../../../interfaces'
@@ -10,7 +10,7 @@ import { UploadImage } from '../../../components/upload';
 import TextArea from 'antd/es/input/TextArea';
 
 
-const CompanySetting = () => {
+const CompanySetting = React.memo(() => {
     const [editcompany, { isLoading: isUpdateLoading }] = useEditCompanyInfoMutation();
     const navigate = useNavigate();
     const { data: companyData } = useGetInforQuery();
@@ -66,12 +66,10 @@ const CompanySetting = () => {
                             window.location.reload();
                         })
                         .catch((error) => {
-                            console.error('Lỗi khi cập nhật thông tin công ty:', error);
+                            message.error('Lỗi khi cập nhật thông tin công ty:', error);
                         });
                 })
-                .catch((error) => {
-                    console.error('Lỗi khi tải ảnh lên:', error);
-                });
+
         }
         if (imagePaper) {
             UploadImage({
@@ -117,7 +115,7 @@ const CompanySetting = () => {
                     }
                 }
             } catch (error) {
-                console.error(error);
+
             }
         }
     };
@@ -335,7 +333,7 @@ const CompanySetting = () => {
             </Layout>
         </Content>
     )
-};
+});
 
 
 export default CompanySetting

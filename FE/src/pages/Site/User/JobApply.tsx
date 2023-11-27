@@ -1,14 +1,15 @@
-import { Button } from 'antd'
+import { Button, Skeleton } from 'antd'
 import { useGetJobApplyQuery } from '../../../api/jobPostApply'
 import { CiLocationOn, CiTimer } from 'react-icons/ci';
 import { MdOutlineAttachMoney } from 'react-icons/md';
 import { VND } from '../../../components/upload';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const JobApply = React.memo(() => {
-    const { data } = useGetJobApplyQuery();
+    const { data, isLoading } = useGetJobApplyQuery();
     const listJob = data?.job_list;
-
+    if (isLoading) return <Skeleton />
     return (
         <div>
             {listJob ? (
@@ -19,7 +20,7 @@ const JobApply = React.memo(() => {
                             <div key={item?.id} className='mt-5 grid grid-cols-[30%,70%] items-center gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
                                 <img src={item?.logo} alt="Anh logo" width={100} />
                                 <div>
-                                    <p className='text-xl font-semibold'>{item?.title}</p>
+                                    <Link to={`/job-detail/${item?.title}/${item?.id}`} className='text-xl font-semibold'>{item?.title}</Link>
                                     <div className='flex gap-2 items-center text-lg'> {item?.company_name}</div>
                                     <p className='flex gap-2 items-center my-1'> <i><i><CiLocationOn /> </i></i>{item?.province} -  {item?.district}</p>
                                     <p className='flex items-center gap-2'><i><MdOutlineAttachMoney /></i> {VND.format(item?.min_salary)} - {VND.format(item?.max_salary
@@ -27,13 +28,9 @@ const JobApply = React.memo(() => {
                                     <p className='flex items-center gap-2'> <i><CiTimer /> </i> Ứng tuyển: {item?.time_apply}</p>
                                 </div>
                             </div>)
-
                     })}
-
                 </div>
-
             ) : (
-
                 <div className='flex justify-between ml-6 shadow-sm shadow-blue-300 h-auto py-4'>
                     <div className='mb-5 w-5/6 ml-5'>
                         <b className='text-2xl'>Bạn chưa ứng tuyển việc làm nào!</b>

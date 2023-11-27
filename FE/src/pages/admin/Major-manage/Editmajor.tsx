@@ -34,7 +34,7 @@ const EditMajors = () => {
                 });
                 return navigate("/admin/major-manage")
             })
-            .catch((error) => console.log(error))
+
     }
     if (isLoading) return <Skeleton />
     type FieldType = {

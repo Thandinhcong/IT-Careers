@@ -3,14 +3,14 @@ import { AiOutlinePhone, AiOutlineMail, AiOutlineArrowLeft } from 'react-icons/a
 import { Link, useParams } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
 import { useAssseCandidateMutation, useGetCandidateDetailQuery } from '../../../api/companies/cvApply';
-import { Form, Radio, Modal, message } from 'antd';
+import { Form, Radio, Modal, message, Skeleton } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 
 const CvCandodateDetail = React.memo(() => {
 
     const { id } = useParams();
-    const { data } = useGetCandidateDetailQuery(id || "");
+    const { data, isLoading } = useGetCandidateDetailQuery(id || "");
     const [assse] = useAssseCandidateMutation();
     const listInfoCandidateApply = data?.data;
     const listImage = data?.data?.image;
@@ -47,7 +47,6 @@ const CvCandodateDetail = React.memo(() => {
                 } else {
                     message.error("Không có ID hồ sơ ứng tuyển được chọn.");
                 }
-                console.log('Received values:', values);
                 // Đóng Modal
                 setIsModalOpen(false);
             })
@@ -55,7 +54,7 @@ const CvCandodateDetail = React.memo(() => {
                 console.log('Xác minh lỗi:', errorInfo);
             });
     };
-
+    if (isLoading) return <Skeleton />
     return (
         <div className=' max-w-screen-xl mx-auto text-[#364a63]'>
             <div className="bg-white p-6 shadow-md hover:shadow-xl ">
@@ -77,7 +76,7 @@ const CvCandodateDetail = React.memo(() => {
                                 ) : (
                                     <img
                                         className="w-20 rounded-full border border-gray-400 p-1"
-                                        src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700021129/981099_al3siu.png" alt=""
+                                        src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt=""
                                     />
                                 )}
                                 <div className="ml-4">

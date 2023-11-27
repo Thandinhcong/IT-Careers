@@ -60,6 +60,15 @@ const listCvApi = createApi({
       }),
       invalidatesTags: ["CV"],
     }),
+    //update exp
+    updateExp: buidler.mutation<any, string | number>({
+      query: (data: any) => ({
+        url: `/update_cv/update_exp/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
     removeExp: buidler.mutation<any, string | number>({
       query: (id: any) => ({
         url: `/update_cv/delete_exp/${id}`,
@@ -163,8 +172,11 @@ export const {
   useAddCvMutation,
   useListInfoQuery,
   useUpdateInfoProfileMutation,
+  //kinh no
   useAddExpMutation,
   useRemoveExpMutation,
+  useUpdateExpMutation,
+  //chọn cv
   useActive_cvMutation,
   useDelete_cvMutation,
   //project

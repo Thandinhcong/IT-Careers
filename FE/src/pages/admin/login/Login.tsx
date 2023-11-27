@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormLoginAdmin, schemaLoginAdmin } from '../../../schemas';
 import { useAdminLoginMutation } from '../../../api/admin/loginAdminApi';
 import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Notyf } from 'notyf';
 
 
@@ -40,15 +40,19 @@ const LoginAdmin = () => {
     }
 
     return (
-        <section className="bg-white">
-            <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+        <section className="bg-white flex justify-between">
+            <div className="lg:grid lg:min-h-screen lg:">
                 <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
                     <div className="max-w-xl lg:max-w-3xl">
-
-                        <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                            Đăng nhập admin
+                        <Link to="/">
+                            <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" alt="" width={150} />
+                        </Link>
+                        <h1 className="mt-6 text-2xl  text-gray-900 sm:text-3xl md:text-4xl">
+                            Chào mừng bạn đã quay trở lại!
                         </h1>
-
+                        <h5 className="mt-6 text-base  sm:text-3xl md:text-2xl text-blue-500">
+                            Đăng nhập quản trị viên!
+                        </h5>
                         <form className="mt-8 " onSubmit={handleSubmit(onHandleSubmit)}>
                             <div className='grid grid-cols-6 gap-6'>
 
@@ -99,6 +103,7 @@ const LoginAdmin = () => {
                     </div>
                 </main>
             </div >
+            <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700832295/tech_r7rqqf.jpg" alt="" width={600} />
         </section >
 
     )

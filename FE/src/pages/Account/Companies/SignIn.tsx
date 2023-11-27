@@ -20,7 +20,11 @@ const SignInCompanies = () => {
             .then((response) => {
                 // Lấy token từ kết quả trả về
                 const accessToken = response.access_token;
+                // Lưu token vào localStorage
                 localStorage.setItem('authCompany', accessToken);
+
+                // Lưu token vào cookie
+                document.cookie = `authCompany=${accessToken}; path=/;`;
             })
             .then(() => {
                 // Lưu token vào localStorage
@@ -32,9 +36,9 @@ const SignInCompanies = () => {
                 }
             })
             .catch((error) => {
-
                 return notyf.error(error.data.message)
             });
+
     };
     return (
         <section className="bg-white">
@@ -51,10 +55,10 @@ const SignInCompanies = () => {
 
                 <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-8">
                     <div className="max-w-xl">
-                        <a className="block text-blue-600" href="/">
+                        <Link className="block text-blue-600" to="/">
                             <span className="sr-only">Home</span>
-                            <img src="https://123job.vn/images/logo_tim.png" className="w-40 mb-20" alt="" />
-                        </a>
+                            <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700016144/xhfmztmgbyqu1ezm71dh.png" className="w-40 mb-20" alt="" />
+                        </Link>
                         <h1 className="mt-6 text-2xl font-bold text-blue-500 sm:text-3xl md:text-4xl">Chào mừng bạn quay trở lại!!</h1>
                         <p className="mt-4 leading-relaxed text-gray-800">
                             Cùng tạo dựng lợi thế cho doanh nghiệp bằng trải nghiệm công nghệ tuyển dụng ứng dụng sâu AI & Hiring Funnel
@@ -106,6 +110,7 @@ const SignInCompanies = () => {
                 </main>
             </div>
         </section>
+
     )
 }
 

@@ -2,13 +2,12 @@ import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react';
 import { BiEdit, BiHomeAlt2, BiMessageRounded, BiSearch } from "react-icons/bi"
 import { IoCartOutline, IoSettingsOutline } from 'react-icons/io5'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { IoMdNotificationsOutline } from "react-icons/io"
 import { CiUser } from 'react-icons/ci';
 import { PiSignOutLight } from 'react-icons/pi';
 import { useGetInforQuery } from '../../api/companies/jobPostCompany';
 import { useLogOutCompaniesMutation } from '../../api/auth/Companies';
-import { message } from 'antd';
 import { Notyf } from 'notyf';
 
 const HeaderCompany = () => {
@@ -66,9 +65,6 @@ const HeaderCompany = () => {
                     Kết nối nhanh với ứng viên có nhu cầu trong ngày
                 </div>
             </Link>
-            <Link to="" className='text-2xl  mr-5'>
-                <IoMdNotificationsOutline /> </Link>
-            <Link to="" className='text-2xl mr-5 '> <BiHomeAlt2 /></Link>
 
 
             <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5">
@@ -79,7 +75,7 @@ const HeaderCompany = () => {
                         {listIcon ? (
                             <img src={Infor?.company?.logo} className='rounded-full border p-1 w-12 h-12' alt="logo công ty" />
                         ) : (
-                            <img src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png" alt="icon" width={40} className='rounded-full' />
+                            <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="icon" width={40} className='rounded-full' />
                         )}
                     </Popover.Button>
 
@@ -94,7 +90,7 @@ const HeaderCompany = () => {
                     >
                         <Popover.Panel className="absolute -right-1 top-full z-10 mt-3 w-screen max-w-[250px] overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                             <div className="p-2">
-                                {CV.map((item) => (
+                                {CV?.map((item: any) => (
                                     <div
                                         key={item.name}
                                         onClick={item.onclick}
@@ -118,12 +114,7 @@ const HeaderCompany = () => {
                 </Popover>
 
             </Popover.Group>
-            <Link to="accrank" className="relative inline-block">
-                <img src="https://business.123job.vn/images/rank_0.png" className="w-10 ml-3" />
-                <span className="hidden absolute top-full left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded opacity-0 transition-opacity duration-300">
-                    Chưa có hạng
-                </span>
-            </Link>
+
         </div>
     )
 }

@@ -60,8 +60,6 @@ import UpdateWorkingForm from "./pages/admin/WorkingForm/UpdateWorkingForm"
 import AccountManage from "./pages/admin/Account-manage"
 import CreateAccount from "./pages/admin/Account-manage/CreateAccount"
 import UpdateAccount from "./pages/admin/Account-manage/UpdateAccount"
-import AccountPro from "./pages/Companys/Account_pro"
-import AccRank from "./pages/Companys/Account_Rank"
 import Companymanage from "./pages/admin/Company-manage"
 import JobpositionManage from "./pages/admin/Jobposition-manage"
 import AddJobposition from "./pages/admin/Jobposition-manage/create-jobpostion"
@@ -160,8 +158,6 @@ function App() {
             <Route index element={<Companys />} />
             <Route path="create_campaign" element={<CreateCampaign />} />
             <Route path="reports" element={<CompanyReports />} />
-            <Route path="accrank" element={<AccRank />} />
-
             <Route path="transaction" element={<Transaction />} >
               <Route path="add_money" element={<Add_Money />} />
               <Route path="payment" element={<Payment />} />
@@ -187,7 +183,6 @@ function App() {
             <Route path="cv-apply" element={<CVApply />} />
             <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
             <Route path="jobs-manage" element={<JobsManage />} />
-            <Route path="account-pro" element={<AccountPro />} />
             <Route path="jobs/create" element={<JobCreate />} />
             <Route path="job_post/update/:id" element={<PostEdit />} />
           </Route>

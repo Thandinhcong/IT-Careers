@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
@@ -27,11 +27,12 @@ import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UploadImage } from "../../../components/upload";
 import { FcGoogle } from "react-icons/fc";
-import { SlSocialFacebook } from "react-icons/sl";
 import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
+import { useListCvQuery } from "../../../api/cv/listCvApi";
 import { Skeleton } from "antd";
+import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
     const notyf = new Notyf({
@@ -58,9 +59,9 @@ const JobDetail = React.memo(() => {
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-
+    //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
-
+    //id bài đăng
     const { data, isLoading } = useGetOneJobsQuery(id || "");
     const listOne: any = data?.job_detail;
 
@@ -68,8 +69,10 @@ const JobDetail = React.memo(() => {
 
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
+
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
+    // ứng tuyển
     const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
@@ -79,6 +82,10 @@ const JobDetail = React.memo(() => {
         resolver: yupResolver(schemaLogin),
     });
     const [users, setUser] = useLocalStorage("user", null);
+
+
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {
@@ -90,13 +97,13 @@ const JobDetail = React.memo(() => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.message)
+            notyf.error(error?.data?.errors)
         }
     };
     //apply
     const onHandleSubmit = async (job: FromApply) => {
-        if (typeof image !== "string") return;
-        job.path_cv = image;
+        // if (typeof image !== "string") return;
+        job.path_cv = image as any;
         try {
             await applyJob({
                 id: id,
@@ -105,8 +112,8 @@ const JobDetail = React.memo(() => {
             }).unwrap();
             notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
-        } catch (error) {
-            notyf.error("Có lỗi xảy ra vui lòng thử lại!")
+        } catch (error: any) {
+            notyf.error(error?.message)
         }
 
     };
@@ -127,17 +134,47 @@ const JobDetail = React.memo(() => {
             }
         }
     };
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+
+
+    const { data: JobSave } = useGetAllSaveJobsQuery();
+    const idSaveJob: any = parseInt(id, 10);
+    const isJobSaved = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
+
+    //lưu việc làm
+    const [saveJob] = useAddSaveJobsMutation();
+    const [cancelSaveJob] = useUnsaveJobMutation();
+    const handleSaveJob = async () => {
+        try {
+            await saveJob({
+                idUser,
+                id,
+            }).unwrap();
+            notyf.success("Lưu việc làm thành công!")
+
+        } catch (error: any) {
+            notyf.error(error?.data?.error)
+        }
+    }
+    //hủy lưu
+    const handleCancelSaveJob = async () => {
+        try {
+            await cancelSaveJob({
+                idUser,
+                id
+            }).unwrap();
+            notyf.success("Hủy Lưu việc làm thành công!")
+        } catch (error: any) {
+            notyf.error(error?.data?.error);
+        }
+    }
+
     if (isLoading) return <Skeleton loading />
     return (
         <div>
             <div className="max-w-screen-xl mx-auto">
                 <SearchJobs />
-
             </div>
-            <div className="bg-gray-50 py-6">
+            <div className="bg-gray-50 py-6 ">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
                     <div className="grid grid-cols-4 my-2 gap-10">
                         <div className="col-span-3">
@@ -181,9 +218,14 @@ const JobDetail = React.memo(() => {
                                 </button>
 
                             ) : (
-                                <button className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                    Lưu tin
+                                <button
+                                    className={`bg-white border-2 py-3 font-medium rounded-lg ${isJobSaved
+                                        ? 'text-blue-500  border-blue-600'
+                                        : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+                                        }`}
+                                    onClick={isJobSaved ? handleCancelSaveJob : handleSaveJob}
+                                >
+                                    {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
                                 </button>
                             )}
                         </div>
@@ -207,7 +249,11 @@ const JobDetail = React.memo(() => {
 
                         <TETabsContent className="mt-4">
                             <TETabsPane show={basicActive === "tab1"}>
-                                <TabNew />
+                                <TabNew
+                                    isJobSaved={isJobSaved}
+                                    onSaveJob={handleSaveJob}
+                                    onCancelSaveJob={handleCancelSaveJob}
+                                />
                             </TETabsPane>
                             <TETabsPane show={basicActive === "tab2"}>
                                 <TabInfor listOne={listOne} />
@@ -239,16 +285,13 @@ const JobDetail = React.memo(() => {
                                 <AiOutlineClose className="w-5 h-5" />
                             </button>
                         </TEModalHeader>
-                        {/* <!--Modal b ody--> */}
+                        {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">
                                     Tải lên CV từ máy tính
                                 </p>
-                                <p className="text-sm  text-gray-700">
-                                    File doc, docx, pdf. Tối đa 5MB.
-                                </p>
-                                <div>
+                                <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
                                             Họ Tên <span className="text-red-500">*</span>
@@ -291,23 +334,40 @@ const JobDetail = React.memo(() => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="my-2">
-                                    <label htmlFor="">
-                                        CV của bạn <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
-                                    <input
-                                        className="border py-1 w-full "
-                                        type="file"
-                                        {...register("path_cv")}
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            CV của bạn <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
+                                        <input
+                                            className="border py-1 w-full "
+                                            type="file"
+                                            {...register("path_cv")}
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                        />
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
                                 </div>
+                                {!listAllCv ? "" : (
+                                    <div>
+                                        <p>*Cv của bạn</p>
+                                        <select
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 py-2 outline-none rounded"
+                                        >
+                                            <option value="">Vui lòng chọn</option>
+                                            {listAllCv?.map((item: any) => {
+                                                return (
+                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+                                )}
+
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
                                         Thư mô tả
@@ -320,6 +380,7 @@ const JobDetail = React.memo(() => {
                                         id="message"
                                     ></textarea>
                                 </div>
+                                <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>
                             <TEModalFooter>
                                 <TERipple rippleColor="light">
@@ -374,33 +435,22 @@ const JobDetail = React.memo(() => {
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-start">
-                                        <div className="flex items-center h-5">
-                                            <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
-                                        </div>
-                                        <div className="ml-3 text-sm">
-                                            <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                                        </div>
-                                    </div>
-                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
 
-                                </div>
-                                <div className="flex justify-center">
-                                    <button className="rounded-lg bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
-                                        <span className="w-10"><FcGoogle /></span>
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
 
-                                        <span> Google</span>
-                                    </button>
-                                    <button className="rounded-lg bg-blue-800 text-white flex items-center space-x-2 px-9 py-2 mt-4 ml-2">
-                                        <span className="w-10">< SlSocialFacebook /></span>
-                                        <span> Facebook</span>
-                                    </button>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+                                        <span> Google</span>
+                                    </button>
+
+                                </div>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Don’t have an account yet? <Link to="/signup" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</Link>
+                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
                                 </p>
                             </form>
                         </TEModalBody>
@@ -408,7 +458,7 @@ const JobDetail = React.memo(() => {
                     </TEModalContent>
                 </TEModalDialog>
             </TEModal>
-        </div>
+        </div >
     );
 });
 

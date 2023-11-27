@@ -11,6 +11,9 @@ export interface IPackages {
   coin?: number;
   price?: number;
   status?: number;
+  amount?: number;
+  invoice_id: number;
+  package_id?: number;
 }
 export interface IMajors {
   id?: number | string;
@@ -72,13 +75,14 @@ export interface IJobPost {
   working_form?: string;
   name: string | number;
   view: number;
+  desc: string;
   level: IJobPost;
   data: IJobPost[];
 }
 export interface ICvApply {
-  id?: number | string;
+  id?: number;
   job_post_id?: number | string;
-  curriculum_vitae_id?: number | string;
+  curriculum_vitae_id: number;
   evaluate?: string; // đánh giá
   introduce?: string; // giới thiệu
   status?: number;
@@ -108,6 +112,10 @@ export interface IFindJob {
   email: string;
   phone: string;
   birth: string;
+  created_at: string;
+  data: IFindJob;
+  filter: CallableFunction;
+  map: CallableFunction;
 }
 export interface ICompanyInfor {
   id?: string | number;
@@ -262,4 +270,9 @@ export interface IListJobsDetail {
   district: string;
   status: number;
   logo: string;
+}
+export interface ISaveJobs {
+  id?: number | string;
+  candidate_id?: number | string;
+  job_post_id?: number | string;
 }

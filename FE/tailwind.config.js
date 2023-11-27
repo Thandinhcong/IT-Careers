@@ -13,7 +13,7 @@ export default {
           ' 0px 0px 15px rgba(0 0 0 / 0.25)',
         ],
         '5xl': [
-          ' 0 1px 6px 1px rgba(54,74,99,.1);',
+          ' 0 1px 3px 1px rgba(54,74,99,.1);',
         ],
       },
     },

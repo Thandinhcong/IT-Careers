@@ -31,9 +31,7 @@ const EditExperience = () => {
             });
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log("Failed:", errorInfo);
-    };
+
 
     return (
         <div>
@@ -47,7 +45,6 @@ const EditExperience = () => {
                 style={{ maxWidth: 400 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 labelWrap={true}
                 autoComplete="off"
             >

@@ -68,7 +68,7 @@ const CreateCampaign = () => {
                                 <span>Tạo ngày 26/09/2023</span>
                             </p>
                         </div>
-                        <a href="" className='px-3 py-2 rounded border border-solid border-blue-500 text-blue-500 flex items-center gap-2'>Đăng tin <span><GoArrowRight /></span> </a>
+                        <Link to="" className='px-3 py-2 rounded border border-solid border-blue-500 text-blue-500 flex items-center gap-2'>Đăng tin <span><GoArrowRight /></span> </Link>
                     </div>
                 </div>
             </div>

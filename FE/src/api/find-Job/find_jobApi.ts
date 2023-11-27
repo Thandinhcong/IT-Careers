@@ -5,7 +5,9 @@ const findJobApi = createApi({
   tagTypes: ["FindJob"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8000/api/candidate",
-
+    fetchFn: (...arg) => {
+      return fetch(...arg);
+    },
     prepareHeaders: (headers) => {
       const user = JSON.parse(localStorage.getItem("user") as string);
       const token = user?.accessToken;
@@ -24,8 +26,12 @@ const findJobApi = createApi({
       }),
       invalidatesTags: ["FindJob"],
     }),
+    getInfoUser: buidler.query<any, void>({
+      query: () => "/candidate_information",
+      providesTags: ["FindJob"],
+    }),
   }),
 });
-export const { useFindJobsMutation } = findJobApi;
+export const { useFindJobsMutation, useGetInfoUserQuery } = findJobApi;
 export const findJobReducer = findJobApi.reducer;
 export default findJobApi;

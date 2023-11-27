@@ -32,7 +32,7 @@ const Reviews = () => {
                         <p className='text-center'>Để giữ cho đơn xin việc của bạn nhất quán và chuyên nghiệp, các mẫu CV xin việc của chúng tôi hoàn toàn phù hợp với các mẫu Sơ yếu lý lịch. Tạo và tải xuống Sơ yếu lý lịch chuyên nghiệp của bạn trong vòng chưa đầy 5 phút..</p>
                     </div>
                     <div className='flex justify-center'>
-                        <Link to="" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tạo CV miễn phí</Link>
+                        <Link to="/user/listcv" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tạo CV miễn phí</Link>
                     </div>
                 </div>
                 <div className='shadow-xl p-5 mb-8'>

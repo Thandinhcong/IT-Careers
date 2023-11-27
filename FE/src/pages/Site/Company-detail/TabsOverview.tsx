@@ -91,8 +91,6 @@ const TabsOverview = React.memo(({ onTabChange }: any) => {
                     spaceBetween={25}
                     slidesPerView={4}
                     navigation={true}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log('slide change')}
                     className="my-swiper"
                 >
                     {post.map((item, index) => (

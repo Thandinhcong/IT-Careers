@@ -1,140 +1,193 @@
-
+import { Button, Form, Input, InputNumber, Steps } from 'antd';
+import { useGetAllPackageQuery, useInsertInvoiceMutation, usePayMentMutation, useVnpayIpnQuery, useVnpayReturnQuery } from '../../../api/companies/package';
+import { IPackages } from '../../../interfaces';
 import { useState } from 'react';
-import AsideDeposit from './AsideDeposit'
-import { Button, Form, Input, InputNumber, Radio } from 'antd';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 
-const onFinish = (values: unknown) => {
-    console.log('Success:', values);
-};
 
-const onFinishFailed = (errorInfo: unknown) => {
-    console.log('Failed:', errorInfo);
-};
-
-type FieldType = {
-    username?: string;
-    tel?: string;
-    email?: string;
-    money?: number;
-
-};
+const { Step } = Steps;
 
 const Deposit = () => {
-    const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
-    const [selectedPrice, setSelectedPrice] = useState<number | undefined>(undefined);
 
-    const handlePriceChange = (e) => {
-        setSelectedPrice(e.target.value);
-        setMoneyValue(e.target.value);
-        // console.log(e.target.value);
+    const { data: packages } = useGetAllPackageQuery();// Lấy ra tất cả gói nạp
+
+    let queryString = location.search.substring(0); // Loại bỏ dấu '?' ở đầu chuỗi
+    let param = queryString.length > 0 ? queryString : null;
+
+    const { data: vnpayReturnData } = useVnpayReturnQuery(param);
+    console.log(vnpayReturnData);
+    const { data: vnpayIpnData } = useVnpayIpnQuery(param);
+    console.log(vnpayIpnData);
+
+
+    const [insertInvoice] = useInsertInvoiceMutation(); // Tạo hoá đơn-Xác nhận thanh toán
+    const [payMent] = usePayMentMutation(); // Tạo hoá đơn-Xác nhận thanh toán
+
+    const [responseData, setResponseData] = useState<any>(null); //Lưu thông tin tạo hoá đơn
+
+    const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
+    const [currentStep, setCurrentStep] = useState(0);
+
+    const onNextStep = () => {
+        setCurrentStep((prevStep) => prevStep + 1);
+    };
+
+    const onPrevStep = () => {
+        setCurrentStep((prevStep) => prevStep - 1);
+    };
+
+    const onFinishStep1 = (values: IPackages) => {
+        insertInvoice(values)
+            .unwrap()
+            .then((response) => {
+                setResponseData(response);
+                onNextStep();
+            })
 
     };
-    console.log(moneyValue);
+
+    const onFinishStep2 = (values: IPackages) => {
+        payMent(values)
+            .unwrap()
+            .then((response) => {
+                const redirectUrl = response[0].data;
+                // Chuyển hướng trình duyệt đến đường dẫn redirectUrl
+                window.location.href = redirectUrl;
+
+            })
+
+
+    };
 
     return (
-        <div className='grid grid-cols-7 gap-3 bg-gray-100 p-10'>
-            <div className='col-span-4 bg-white p-8'>
-                <h2 className='font-semibold text-lg'>Nạp xu vào tài khoản</h2>
-                <Form
-                    name="basic"
-                    labelCol={{ span: 24 }}
-                    wrapperCol={{ span: 24 }}
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                    <Form.Item<FieldType>
-                        label="Họ và tên"
-                        name="username"
-                        rules={[{ required: true, message: 'Cần nhập thông tin này!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
+        <div className='bg-gray-100 p-10'>
+            <div className='bg-white p-8'>
+                <Steps current={currentStep}>
+                    <Step title='Chọn gói' />
+                    <Step title='Xác nhận thanh toán' />
+                </Steps>
 
-                    <Form.Item<FieldType>
-                        label="Số điện thoại"
-                        name="tel"
-                        rules={[{ required: true, message: 'Cần nhập thông tin này!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item<FieldType>
-                        label="Email"
-                        name="email"
-                        rules={[
-                            { required: true, message: 'Cần nhập thông tin này!' },
-                            { type: 'email', message: 'Email không đúng định dạng!' },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item<FieldType>
-                        label="Số tiền nạp"
-                        name="money"
-                        rules={[
-                            { required: true, message: 'Cần nhập thông tin này!' },
-                            { type: 'number', min: 100000, max: 10000000, message: 'Số tiền nạp phải từ 100,000 đến 10,000,000 VND!' }
-                        ]}
+                {currentStep === 0 && (
+                    <div>
+                        <h2 className='font-semibold text-lg'>Nạp xu</h2>
+                        <div className='grid grid-cols-4 gap-6 my-5 mx-14'>
+                            {packages?.package?.map((item: IPackages) => (
+                                <div key={item.id} className='flex-col border border-gray-100 shadow-5xl rounded-2xl text-center leading-8 py-3'>
+                                    <h2 className='text-lg'>{item.title}</h2>
+                                    <p>Giá: {item.price} <span className='text-[10px] text-red-500'>VND</span></p>
+                                    <p>Số xu: {item.coin} xu</p>
+                                    <Form
+                                        className='-mt-12 -mb-3'
+                                        name='basic'
+                                        labelCol={{ span: 24 }}
+                                        wrapperCol={{ span: 24 }}
+                                        style={{ maxWidth: 400 }}
+                                        initialValues={{ package_id: item.id }}
+                                        onFinish={onFinishStep1}
+                                        autoComplete='off'
+                                    >
+                                        <Form.Item name='package_id'>
+                                            <Input hidden />
+                                        </Form.Item>
 
-                    >
-                        <InputNumber
-                            style={{ width: '100%' }}
-                            addonAfter={<span>VND(1VND = 1Xu)</span>}
-                            value={moneyValue}
-                            formatter={(value) => {
-                                setMoneyValue(value);
-                                return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                            }}
-
-                        />
-                    </Form.Item>
-                    <input type="text" value={moneyValue} />
-                    <p className='my-2 text-gray-500'>
-                        Số tiền bạn nạp là:
-                        <span className='font-semibold text-gray-800'>   {moneyValue !== undefined && moneyValue.toString()} VND</span>
-                    </p>
-                    <div className="flex flex-wrap gap-3 items-center my-2">
-                        <div className='text-gray-500 font-medium text-base mr-2'>
-                            <p>Đề xuất: </p>
-                        </div>
-                        <Radio.Group onChange={handlePriceChange}>
-                            <Radio.Button value={100000}>100,000</Radio.Button>
-                            <Radio.Button value={300000}>300,000</Radio.Button>
-                            <Radio.Button value={500000}>500,000</Radio.Button>
-                            <Radio.Button value={700000}>700,000</Radio.Button>
-                            <Radio.Button value={1000000}>1,000,000</Radio.Button>
-                        </Radio.Group>
-                    </div>
-
-                    <p className='font-semibold text-gray-500 text-base'>Thanh toán</p>
-                    <div className='bg-[#f5f6fa] flex justify-between items-center p-3 my-3 text-gray-500'>
-                        <div className='leading-8'>
-                            <p>Số tiền nạp: </p>
-                            <p>Thuế VAT: </p>
-                            <p>Xu khuyến mãi:</p>
-                        </div>
-                        <div className='leading-8'>
-                            <p>{moneyValue} VND</p>
-                            <p>{moneyValue !== undefined ? (moneyValue / 10) : 0} VND</p>
-                            <p>{moneyValue !== undefined ? (moneyValue / 10) : 0} Xu</p>
+                                        <Form.Item labelAlign='left'>
+                                            <Button type='primary' className='bg-blue-600 w-1/3' htmlType='submit'>
+                                                Chọn
+                                            </Button>
+                                        </Form.Item>
+                                    </Form>
+                                </div>
+                            ))}
                         </div>
                     </div>
+                )}
+                {currentStep === 1 && (
+                    <div className='bg-white p-8'>
+                        <h2 className='font-semibold text-lg'>Xác nhận thanh toán</h2>
+                        <Form
+                            className='mx-40'
+                            name='basic'
+                            labelCol={{ span: 24 }}
+                            wrapperCol={{ span: 24 }}
+                            style={{ maxWidth: 600 }}
+                            initialValues={{ remember: true }}
+                            onFinish={onFinishStep2}
+                            autoComplete='off'
+                        >
+                            <Form.Item
+                                label="Tên gói nạp"
+                                name='title'
+                                initialValue={responseData.invoice.package.title}
+                            >
+                                <InputNumber
+                                    style={{ width: '100%' }}
+                                    disabled
+                                />
+                            </Form.Item>
 
-                    <Form.Item className='flex justify-end'>
-                        <Button type="primary" htmlType="submit" className='bg-blue-600 flex items-center gap-1 p-5' danger>
-                            <AiOutlineCheckCircle className='text-xl' /> <span>Xác nhận giao dịch</span>
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-            <div className='bg-white p-6 leading-8 col-span-3 text-gray-600'>
-                <AsideDeposit />
+                            <Form.Item
+                                label=""
+                                name='invoice_id'
+                                initialValue={responseData.invoice.invoice_id}
+                            >
+                                <Input
+                                    style={{ width: '100%' }}
+                                    disabled
+                                    hidden
+                                />
+                            </Form.Item>
+
+                            <Form.Item
+                                label='Số tiền nạp'
+                                name='amount'
+                                className='-mt-12'
+                                initialValue={responseData?.invoice?.amount}
+                            >
+                                <InputNumber
+                                    style={{ width: '100%' }}
+                                    addonAfter={<span>VND(1VND = 1Xu)</span>}
+                                    value={moneyValue}
+                                    formatter={(value) => {
+                                        setMoneyValue(value);
+                                        return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                    }}
+                                    disabled
+                                />
+                            </Form.Item>
+
+                            <p className='my-2 text-gray-500'>
+                                Số tiền bạn nạp là:
+                                <span className='font-semibold text-gray-800'>   {moneyValue !== undefined && moneyValue.toString()} VND</span>
+                            </p>
+
+                            <p className='font-semibold text-gray-500 text-base'>Thanh toán</p>
+                            <div className='bg-[#f5f6fa] flex justify-between items-center p-3 my-3 text-gray-500'>
+                                <div className='leading-8'>
+                                    <p>Số tiền nạp: </p>
+                                    <p>Số xu:</p>
+                                </div>
+                                <div className='leading-8'>
+                                    <p>{moneyValue} VND</p>
+                                    <p>{moneyValue} Xu</p>
+                                </div>
+                            </div>
+
+                            <Form.Item className='flex justify-end'>
+                                <Button type='primary' htmlType='submit' className='bg-blue-600 flex items-center gap-1 p-5' danger>
+                                    <AiOutlineCheckCircle className='text-xl' /> <span>Xác nhận giao dịch</span>
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </div>
+                )}
+                <div className='flex justify-between mt-4'>
+                    {currentStep > 0 && (
+                        <Button onClick={onPrevStep}>Quay lại</Button>
+                    )}
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Deposit
+export default Deposit;

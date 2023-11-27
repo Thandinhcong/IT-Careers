@@ -172,7 +172,7 @@ const JobCreate = React.memo(() => {
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                     {data?.data?.district_id
-                                        .filter((options: {
+                                        ?.filter((options: {
                                             province_id: string | number | null; id: string | number;
                                         }) => options.province_id == selectedProvinceId)
                                         .map((options: IJobPost) => (
@@ -287,10 +287,19 @@ const JobCreate = React.memo(() => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* Mô tả công việc/Quyền lợi */}
+                    {/*Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
-                        label="Mô tả công việc/Quyền lợi"
+                        label="Quyền lợi"
+                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
+
+                    >
+                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                    </Form.Item>
+                    {/* Mô tả công việc */}
+                    <Form.Item
+                        name="desc"
+                        label="Mô tả công việc"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
                     >
@@ -386,17 +395,17 @@ const JobCreate = React.memo(() => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Form.Item<IJobPost>
+                    {/* <Form.Item<IJobPost>
                         label="company_id"
                         name="company_id"
                         initialValue={Infor?.company?.id}
                         rules={[
                             { required: true, message: 'Trường này không được bỏ trống !' },
                         ]}
-                        hidden
+
                     >
                         <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item>
+                    </Form.Item> */}
                     <div className='flex justify-between mt-4'>
                         <Button className='bg-gray-100 h-10 flex items-center gap-1'>
                             <AiOutlineEye /> <span>Xem trước bài đăng</span>

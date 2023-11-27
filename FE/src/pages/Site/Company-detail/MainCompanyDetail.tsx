@@ -6,8 +6,6 @@ import {
     TETabsPane,
 } from "tw-elements-react";
 import TabsOverview from "./TabsOverview";
-import TabAffair from "./TabAffair";
-import TabsFeedback from "./TabsFeedback";
 
 
 const MainCompanyDetail = () => {
@@ -26,8 +24,6 @@ const MainCompanyDetail = () => {
 
     const tabs = [
         { tabName: 'Tổng quan 1', active: 'tab1', component: <TabsOverview onTabChange={handleTabChange} /> },
-        { tabName: 'Việc làm', active: 'tab2', component: <TabAffair /> },
-        { tabName: 'Đánh giá', active: 'tab3', component: <TabsFeedback /> },
     ];
     useEffect(() => {
         window.scrollTo(0, 0)
