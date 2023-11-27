@@ -14,7 +14,6 @@ import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage'
 import { FormLogin, schemaLogin } from '../../../schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import Item from 'antd/es/list/Item'
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -50,8 +49,6 @@ const Recruitment = React.memo(() => {
     const [cancelSaveJob] = useUnsaveJobMutation();
 
     const { data: JobSave } = useGetAllSaveJobsQuery();
-    console.log(JobSave);
-
 
     const handleSaveJob = async (id: any) => {
         try {
@@ -100,9 +97,7 @@ const Recruitment = React.memo(() => {
             notyf.error(error?.message)
         }
     };
-    // useEffect(() => {
-    //     setSavedJobs(JobSave)
-    // }, [])
+
     if (isLoading) return <Skeleton />
     return (
         <div>

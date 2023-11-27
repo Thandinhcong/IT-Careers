@@ -23,7 +23,7 @@ const SavejobsApi = createApi({
   reducerPath: "savejobs",
   tagTypes: ["SaveJobs"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api/candidate/",
+    baseUrl: import.meta.env.VITE_API_CANDIDATE,
     fetchFn: async (...arg) => {
       return fetch(...arg);
     },
@@ -38,19 +38,19 @@ const SavejobsApi = createApi({
   }),
   endpoints: (buidler) => ({
     getAllSaveJobs: buidler.query<IJobSaveList | any, void>({
-      query: () => "show_save_job_post",
+      query: () => "/show_save_job_post",
       providesTags: ["SaveJobs"],
     }),
     addSaveJobs: buidler.mutation({
       query: (data: any) => ({
-        url: `save_job_post/${data?.id}`,
+        url: `/save_job_post/${data?.id}`,
         method: "POST",
       }),
       invalidatesTags: ["SaveJobs"],
     }),
     unsaveJob: buidler.mutation({
       query: (savejobs: ISaveJobs | any) => ({
-        url: `cancel_save_job_post/${savejobs.id}`,
+        url: `/cancel_save_job_post/${savejobs.id}`,
         method: "POST",
         body: savejobs,
       }),

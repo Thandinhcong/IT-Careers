@@ -7,6 +7,7 @@ import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
+import { useLoginGoogleQuery } from "../../api/authGoogle/authGoogle";
 
 
 const Login = React.memo(() => {
@@ -25,9 +26,33 @@ const Login = React.memo(() => {
     const [user, setUser] = useLocalStorage("user", null);
 
     const [login] = useLoginMutation();
-    // const loginGoogle = () => {
-    //     window.location.href = "http://127.0.0.1:8000/api/auth/google"
+    const loginGoogle = () => {
+        window.location.href = 'http://127.0.0.1:8000/api/auth/google';
+        const urlParams = new URLSearchParams(window.location.search);
+
+        const token = urlParams.get('token');
+        console.log(token);
+
+        if (token) {
+            // Lưu token vào localStorage
+            localStorage.setItem('token', token);
+            navigate("/")
+            // Chuyển hướng hoặc thực hiện các hành động khác
+            // ...
+        } else {
+            console.error('Token not found in URL parameters.');
+        }
+    }
+
+
+    // const handleLoginGoogle = async () => {
+    //     try {
+    //       await  LoginGoogle
+    //     } catch (error) {
+
+    //     }
     // }
+
     const onHandleSubmit = async (data: FormLogin) => {
         try {
             const results = await login(data).unwrap();
@@ -120,7 +145,10 @@ const Login = React.memo(() => {
                                 </p>
                             </form>
                             <div className="col-span-6 ">
-                                <button className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2">
+                                <button
+                                    onClick={loginGoogle}
+                                    className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2"
+                                >
                                     <div className="text-xl">
                                         <FaGooglePlusG />
                                     </div>
