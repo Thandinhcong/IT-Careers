@@ -1,5 +1,5 @@
 
-const AsideDeposit = () => {
+const InsertInvoice = () => {
     return (
         <div>
             <h2 className='font-semibold text-lg'>Khuyến mãi khi mua xu</h2>
@@ -59,4 +59,4 @@ const AsideDeposit = () => {
     )
 }
 
-export default AsideDeposit
+export default InsertInvoice

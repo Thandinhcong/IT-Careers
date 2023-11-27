@@ -20,7 +20,11 @@ const SignInCompanies = () => {
             .then((response) => {
                 // Lấy token từ kết quả trả về
                 const accessToken = response.access_token;
+                // Lưu token vào localStorage
                 localStorage.setItem('authCompany', accessToken);
+
+                // Lưu token vào cookie
+                document.cookie = `authCompany=${accessToken}; path=/;`;
             })
             .then(() => {
                 // Lưu token vào localStorage
@@ -34,6 +38,8 @@ const SignInCompanies = () => {
             .catch((error) => {
                 return notyf.error(error.data.message)
             });
+        console.log(values);
+
     };
     return (
         <section className="bg-white">

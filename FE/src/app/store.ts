@@ -24,6 +24,15 @@ import authApi, { authsReducer } from "../api/auths";
 import authCompaniesApi from "../api/auth/Companies";
 import AccountApi, { AccountReducer } from "../api/accountApi";
 
+import ManageWebsiteApi, {
+  ManageWebsiteReducer,
+} from "../api/admin/manageWebsiteApi";
+import manageWebAllApi, {
+  manageWebAllApiReducer,
+} from "../api/manageWebsiteApi/manageWebApi";
+import listCvApi, { listCvReducer } from "../api/cv/listCvApi";
+import SavejobsApi, { SaveJobsReducer } from "../api/savejobpostapi";
+
 import companyApi, { companyReducer } from "../api/companyApi";
 import jobsApi, { JobsReducer } from "../api/jobApi";
 import companysApi, { companysReducer } from "../api/CompanymanagerApi";
@@ -42,14 +51,9 @@ import CvApplyApi, { CvApplyReducer } from "../api/companies/cvApply";
 import FindJobCompanyApi, {
   FindJobCompanyReducer,
 } from "../api/companies/findJob";
-import ManageWebsiteApi, {
-  ManageWebsiteReducer,
-} from "../api/admin/manageWebsiteApi";
-import manageWebAllApi, {
-  manageWebAllApiReducer,
-} from "../api/manageWebsiteApi/manageWebApi";
-import listCvApi, { listCvReducer } from "../api/cv/listCvApi";
-import SavejobsApi, { SaveJobsReducer } from "../api/savejobpostapi";
+import PackagesCompanyApi, {
+  packageCompanyReducer,
+} from "../api/companies/package";
 
 const persistConfig = {
   key: "root",
@@ -86,7 +90,42 @@ const rootReducer = combineReducers({
   [manageWebAllApi.reducerPath]: manageWebAllApiReducer,
   [listCvApi.reducerPath]: listCvReducer,
   [SavejobsApi.reducerPath]: SaveJobsReducer,
+  [CvApplyApi.reducerPath]: CvApplyReducer,
+  [FindJobCompanyApi.reducerPath]: FindJobCompanyReducer,
+  [PackagesCompanyApi.reducerPath]: packageCompanyReducer,
 });
+// const middleware = [
+//   MajorApi.middleware,
+//   workingFormApi.middleware,
+//   jobpositionApi.middleware,
+//   skillApi.middleware,
+//   JobPostApi.middleware,
+//   packageApi.middleware,
+//   SalaryTypeApi.middleware,
+//   experienceApi.middleware,
+//   LevelApi.middleware,
+//   authApi.middleware,
+//   authCompaniesApi.middleware,
+//   AccountApi.middleware,
+//   companyApi.middleware,
+//   companysApi.middleware,
+//   jobsApi.middleware,
+//   jobPostApply.middleware,
+//   AdminLogin.middleware,
+//   CompnayInfoApi.middleware,
+//   JobPostCompanyApi.middleware,
+//   findJobApi.middleware,
+//   authGooleApi.middleware,
+//   candidateappliedApi.middleware,
+//   CvApplyApi.middleware,
+//   FindJobCompanyApi.middleware,
+//   ManageWebsiteApi.middleware,
+//   manageWebAllApi.middleware,
+//   listCvApi.middleware,
+//   SavejobsApi.middleware,
+// ];
+
+// })
 const middleware = [
   MajorApi.middleware,
   workingFormApi.middleware,
@@ -112,10 +151,9 @@ const middleware = [
   candidateappliedApi.middleware,
   CvApplyApi.middleware,
   FindJobCompanyApi.middleware,
-  ManageWebsiteApi.middleware,
-  manageWebAllApi.middleware,
-  listCvApi.middleware,
-  SavejobsApi.middleware,
+  PackagesCompanyApi.middleware,
+  CvApplyApi.middleware,
+  FindJobCompanyApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
