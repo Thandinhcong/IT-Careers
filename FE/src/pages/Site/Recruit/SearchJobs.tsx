@@ -19,9 +19,9 @@ const SearchJobs = () => {
         //     return;
         // }
 
-        // const queryString = province ? `search=${query}&province=${province}` : `search=${query}`;
-        // await navigate(`/search?${queryString}`);
-        await navigate(`/search?title=${query}`);
+        const queryString = province ? `search=${query}&province=${province}` : `search=${query}`;
+        await navigate(`/search?${queryString}`);
+        // await navigate(`/search?search=${query}`);
     };
     // const handleSubmit = (e: any) => {
     //     e.preventDefault();
@@ -53,9 +53,9 @@ const SearchJobs = () => {
                     onChange={(e) => setProvince(e.target.value)}
                 >
                     <option value=""></option>
-                    <option value="Hà Nội">Hà Nội</option>
-                    <option value="Hồ Chí Minh">Hồ chí Minh</option>
-                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="1">Hà Nội</option>
+                    <option value="2">Hồ chí Minh</option>
+                    <option value="3">Đà Nẵng</option>
                 </select>
                 <span className='pr-5'>
                     <MdRoom />

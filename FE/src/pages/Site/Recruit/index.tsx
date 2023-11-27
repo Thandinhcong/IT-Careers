@@ -11,13 +11,13 @@ const Recruit = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search) as any;
-    const search = searchParams.get("title");
+    const search = searchParams.get("search");
     const province = searchParams.get("province");
-    // const { data: searchData, error } = useSearchQuery({ search: search, province: province });
-    const { data: searchData, error } = useSearchQuery({ search: search });
+    // const { data: searchData } = useSearchQuery({ search: search, province: province });
+    const { data: searchData } = useSearchQuery({ search: search });
 
     const [filteredWorks, setFilteredWorks] = useState([]);
-    const [noResults, setNoResults] = useState(false);
+    const [noResults, setNoResults] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +30,7 @@ const Recruit = () => {
 
                 // console.log(filtered); // Check the filtered array
 
-                if (filtered?.length === 0) {
+                if (filtered?.length == 0) {
                     setNoResults(true);
                 } else {
                     setNoResults(false);
@@ -176,7 +176,7 @@ const Recruit = () => {
                         <p>Không có kết quả tìm kiếm phù hợp.</p>
                     ) : ( */}
                     <>
-                        <h1 className='mx-10 text-2xl font-bold'>Kết quả tìm kiếm cho: {search}</h1>
+                        <h1 className='mx-10 text-2xl font-bold'>Kết quả tìm kiếm cho: {search}, địa chỉ là: {province}</h1>
                         {filteredWorks.length > 0 ? (
                             <ul>
                                 {filteredWorks.map((item: any) => (
@@ -188,7 +188,6 @@ const Recruit = () => {
                                         <div className='col-span-4 '>
 
                                             <li key={item.title} className=''>
-
                                                 <h1 className='text-xl'><b>{item.title}</b></h1>
                                                 <h2 className='text-gray-500'>Công ty {item.company_name}</h2>
                                                 <p className='flex items-center'>
