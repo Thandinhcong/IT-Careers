@@ -65,7 +65,6 @@ const CVApply = React.memo(() => {
             : data?.list_candidate_apply_job?.filter(
                 (item: ICvApply) => item.status === 0
             );
-    // console.log(filteredCandidates);
     if (isLoading) return <Skeleton />
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
@@ -110,7 +109,7 @@ const CVApply = React.memo(() => {
                                 <div>
                                     {item?.image ? (
                                         <img
-                                            className="w-20 rounded-full border border-gray-400 p-1"
+                                            className="w-20 h-20 rounded-full border border-gray-400 p-1"
                                             src={item?.image} alt=""
                                         />
                                     ) : (
@@ -157,11 +156,11 @@ const CVApply = React.memo(() => {
                                                 ? 'p-1 rounded text-xs text-center bg-yellow-200 text-yellow-500'
                                                 : item?.qualifying_round_id === 1
                                                     ? 'p-1 rounded text-xs text-center bg-[#b5ff95] text-[#62a745]'
-
-                                                    : ''
+                                                    : 'p-1 rounded text-xs text-center bg-gray-200 text-gray-500'
                                                 }`}>
-                                                {item.qualifying_round_id === 0 ? 'không phù hợp' : item.qualifying_round_id === 1 ? 'phù hợp' : ''}
+                                                {item.qualifying_round_id === 0 ? 'không phù hợp' : item.qualifying_round_id === 1 ? 'phù hợp' : 'chưa đánh giá'}
                                             </p>
+
                                         </p>
                                     </div>
                                 </div>

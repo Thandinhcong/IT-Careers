@@ -1,5 +1,5 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, message, } from 'antd';
-import { IJobPost, ILevel } from '../../../interfaces';
+import { IJobPost } from '../../../interfaces';
 import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
@@ -11,6 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const PostEdit = () => {
     const { id } = useParams();
     const { data } = useGetJobPostSelectByIdQuery();
+    console.log(data);
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
@@ -41,7 +42,8 @@ const PostEdit = () => {
             gender: PostData?.level?.gender,
             quantity: PostData?.level?.quantity,
             interest: PostData?.level?.interest,
-            require: PostData?.level?.require,
+            requirement: PostData?.level?.requirement,
+            desc: PostData?.level?.desc,
             start_date: PostData?.level?.start_date
                 ? moment(PostData?.level?.start_date)
                 : null,
@@ -72,7 +74,7 @@ const PostEdit = () => {
                 navigate("/business/jobs-manage");
             })
             .catch((error) => {
-                message.error("Đăng bài thất bại" + error.message);
+                message.error(error?.data?.errors);
             });
     };
 
@@ -99,8 +101,6 @@ const PostEdit = () => {
             const minEndDate = moment(currentDate).add(10, 'days');
             if (value.isBefore(minEndDate, 'day')) {
                 callback('Ngày kết thúc phải sau ngày bắt đầu ít nhất 10 ngày');
-            } else {
-                callback();
             }
         }
     };
@@ -160,9 +160,9 @@ const PostEdit = () => {
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.level.map((options: ILevel) => (
+                                    {data?.data?.job_position.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
-                                            {options.level}
+                                            {options.job_position}
                                         </Select.Option>
                                     ))}
                                 </Select>
@@ -240,7 +240,7 @@ const PostEdit = () => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Giới tính"
-                                name="gender" // Sửa name thành "gender"
+                                name="gender"
                                 initialValue={PostData?.level?.gender}
                                 rules={[{ required: true }]}
                             >
@@ -263,6 +263,22 @@ const PostEdit = () => {
                                     {data?.data?.major_id.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.major}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        {/* Loại bài đăng */}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Loại tin đăng"
+                                name="type_job_post_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                    {data?.data?.type_job_post.map((options: IJobPost) => (
+                                        <Select.Option key={options.id} value={options.id}>
+                                            {options.name}
                                         </Select.Option>
                                     ))}
                                 </Select>
@@ -320,7 +336,7 @@ const PostEdit = () => {
                     {/*Quyền lợi */}
                     <Form.Item<IJobPost>
                         name="interest"
-                        label="Mô tả công việc/Quyền lợi"
+                        label="Quyền lợi"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
                     >
@@ -337,7 +353,7 @@ const PostEdit = () => {
                     </Form.Item>
                     {/* Yêu cầu*/}
                     <Form.Item<IJobPost>
-                        name="require"
+                        name="requirement"
                         label="Yêu cầu"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 

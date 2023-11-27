@@ -113,7 +113,7 @@ const SaveJob = () => {
             </div>
             <div className="bg-gray-100 -mx-4">
                 <div className="pt-4 bg-gray-100 mb-2 flex justify-between">
-                    <p className="text-gray-700">Có 28154 kết quả tìm kiếm.</p>
+                    <p className="text-gray-700">Có {data?.data?.length || 0} kết quả tìm kiếm.</p>
                     <select
                         name=""
                         className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-48"

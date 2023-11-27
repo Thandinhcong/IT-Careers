@@ -52,7 +52,7 @@ const JobCreate = React.memo(() => {
                 window.location.href = '/business/jobs-manage';
             })
             .catch((error) => {
-                message.error("Đăng bài thất bại" + error.message);
+                message.error(error?.data?.errors);
             });
     };
 
@@ -76,7 +76,7 @@ const JobCreate = React.memo(() => {
     const validateEndDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
         if (value) {
             const currentDate = moment();
-            const minEndDate = moment(currentDate).add(10, 'days');
+            const minEndDate = moment(currentDate).add(9, 'days');
             if (value.isBefore(minEndDate, 'day')) {
                 callback('Ngày kết thúc phải sau ngày hiện tại ít nhất 10 ngày');
             } else {
@@ -251,6 +251,22 @@ const JobCreate = React.memo(() => {
                                 </Select>
                             </Form.Item>
                         </Col>
+                        {/* Gói bài đăng */}
+                        <Col span={12}>
+                            <Form.Item<IJobPost>
+                                label="Loại tin"
+                                name="type_job_post_id"
+                                rules={[{ required: true }]}
+                            >
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                    {data?.data?.type_job_post.map((options: IJobPost) => (
+                                        <Select.Option key={options.id} value={options.id}>
+                                            {options.name}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
                         {/* Số lượng */}
                         <Col span={12}>
                             <Form.Item<IJobPost>
@@ -308,7 +324,7 @@ const JobCreate = React.memo(() => {
 
                     {/* Yêu cầu*/}
                     <Form.Item<IJobPost>
-                        name="require"
+                        name="requirement"
                         label="Yêu cầu"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
@@ -395,17 +411,13 @@ const JobCreate = React.memo(() => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    {/* <Form.Item<IJobPost>
+                    <Form.Item<IJobPost>
                         label="company_id"
                         name="company_id"
                         initialValue={Infor?.company?.id}
-                        rules={[
-                            { required: true, message: 'Trường này không được bỏ trống !' },
-                        ]}
-
                     >
                         <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item> */}
+                    </Form.Item>
                     <div className='flex justify-between mt-4'>
                         <Button className='bg-gray-100 h-10 flex items-center gap-1'>
                             <AiOutlineEye /> <span>Xem trước bài đăng</span>
