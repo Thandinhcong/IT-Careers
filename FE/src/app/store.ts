@@ -54,14 +54,16 @@ import FindJobCompanyApi, {
 import PackagesCompanyApi, {
   packageCompanyReducer,
 } from "../api/companies/package";
+import AreaApi, { areaApiReducer } from "../api/areaApi";
 import searchApi, { searchReducer } from "../api/searchApi";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", ""],
+  whitelist: ["", ""],
 };
 const rootReducer = combineReducers({
+  [AreaApi.reducerPath]: areaApiReducer,
   [MajorApi.reducerPath]: MajorReducer,
   [workingFormApi.reducerPath]: workingFormReducer,
   [jobpositionApi.reducerPath]: JoppositionFormReducer,
@@ -160,6 +162,7 @@ const middleware = [
   manageWebAllApi.middleware,
   listCvApi.middleware,
   SavejobsApi.middleware,
+  AreaApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

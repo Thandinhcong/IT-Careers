@@ -2,7 +2,7 @@ import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit
 import React, { useState } from 'react';
 import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
+import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useGetJobPostSelectByIdQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -24,6 +24,7 @@ const TabMain = () => {
     const [form] = Form.useForm();
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [stopJobPost] = useStopJobPostMutation();
+    const { data: select } = useGetJobPostSelectByIdQuery();
 
     const defaultEndDate = moment().add(10, 'days'); //giá trị mặc định là sau 10 ngày hiện tại
     const defaultQuantity = 10;
@@ -31,6 +32,7 @@ const TabMain = () => {
     const [searchKeyword, setSearchKeyword] = useState(""); // Trạng thái lưu từ khoá tìm kiếm
     const [originalJobPostData, setOriginalJobPostData] = useState([]); // Trạng thái lưu mảng bài đăng ban đầu
     console.log(originalJobPostData);
+
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);
         setIsModalOpen(true);
@@ -63,15 +65,18 @@ const TabMain = () => {
                         .unwrap()
                         .then(() => {
                             message.success(`Gia hạn thành bài đăng thành công`);
+                            // Đóng Modal
+                            setIsModalOpen(false);
                         })
                         .catch((error) => {
-                            message.error("Đăng bài thất bại" + error.message);
+                            message.error(error.data.errors);
                         });
                 } else {
                     message.error("Không có ID bài đăng được chọn.");
                 }
                 // Đóng Modal
                 setIsModalOpen(false);
+                console.log('Received values:', values);
             })
             .catch(() => {
 
@@ -87,6 +92,10 @@ const TabMain = () => {
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');
         }, 1000);
+    };
+
+    const handleChange = (value: string) => {
+        console.log(`selected ${value}`);
     };
 
     const columns: ColumnsType<IJobPost> = [
@@ -121,10 +130,10 @@ const TabMain = () => {
         },
         {
             title: 'Loại tin',
-            dataIndex: 'type',
+            dataIndex: 'type_post',
             width: 100,
-            render: (type: string) => (
-                <p className="text-center">{type}</p>
+            render: (type_post: string) => (
+                <p className="text-center">{type_post}</p>
             )
         },
         {
@@ -254,10 +263,11 @@ const TabMain = () => {
             title: item.title,
             gender: item.gender,
             quantity: item.quantity,
-            require: item.require,
+            require: item.requirement,
             start_date: item.start_date,
             end_date: item.end_date,
             office: item.office,
+            type_post: item.name,
             job_position_id: item.job_position_id,
             province: item.province, //Tỉnh/ Thành phố
             district: item.district, //Quận/ Huyện
@@ -334,15 +344,17 @@ const TabMain = () => {
                         initialValues={{ remember: true }}
                         autoComplete="off"
                     >
-                        <Form.Item
-                            name="selectedOption"
+                        <Form.Item<IJobPost>
                             label="Chọn loại tin đăng"
-                        // rules={[{ required: true, message: 'Vui lòng chọn một tùy chọn!' }]}
+                            name="type_job_post_id"
+                            rules={[{ required: true }]}
                         >
-                            <Select style={{ width: '100%' }} placeholder="--Chọn loại tin--">
-                                <Select.Option value="option1">Vip 1</Select.Option>
-                                <Select.Option value="option2">Vip 2</Select.Option>
-                                <Select.Option value="option3">Vip 3</Select.Option>
+                            <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                {select?.data?.type_job_post.map((options: IJobPost) => (
+                                    <Select.Option key={options.id} value={options.id}>
+                                        {options.name}
+                                    </Select.Option>
+                                ))}
                             </Select>
                         </Form.Item>
                         <Row gutter={16}>

@@ -49,7 +49,7 @@ export interface IJobPost {
   skill_id?: number;
   quantity?: number;
   gender?: number;
-  require?: string; //yêu cầu
+  requirement?: string; //yêu cầu
   min_salary?: number;
   max_salary?: number;
   level_id?: number;
@@ -78,6 +78,9 @@ export interface IJobPost {
   desc: string;
   level: IJobPost;
   data: IJobPost[];
+  length: string | number;
+  type_job_post_id: string | number;
+  require: string;
 }
 export interface ICvApply {
   id?: number;
@@ -113,9 +116,13 @@ export interface IFindJob {
   phone: string;
   birth: string;
   created_at: string;
+  save_profile: string;
   data: IFindJob;
   filter: CallableFunction;
   map: CallableFunction;
+  length: string | number;
+  address: string;
+  title: string;
 }
 export interface ICompanyInfor {
   id?: string | number;
@@ -136,6 +143,7 @@ export interface ICompanyInfor {
   company_size_max?: number;
   company_size_min?: number;
   status?: number;
+  coin: number;
   company: ICompanyInfor;
 }
 export interface IListInfo {

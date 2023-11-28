@@ -149,15 +149,14 @@ const CVApplyJobPost = React.memo(() => {
                                         </div>
                                         <div className="grid grid-cols-1 gap-3">
                                             <p>Vòng hồ sơ</p>
-                                            <div className={`${item?.qualifying_round_id === 0
+                                            <p className={`${item?.qualifying_round_id === 0
                                                 ? 'p-1 rounded text-xs text-center bg-yellow-200 text-yellow-500'
                                                 : item?.qualifying_round_id === 1
                                                     ? 'p-1 rounded text-xs text-center bg-[#b5ff95] text-[#62a745]'
-
-                                                    : ''
+                                                    : 'p-1 rounded text-xs text-center bg-gray-200 text-gray-500'
                                                 }`}>
-                                                {item.qualifying_round_id === 0 ? 'không phù hợp' : item.qualifying_round_id === 1 ? 'phù hợp' : ''}
-                                            </div>
+                                                {item.qualifying_round_id === 0 ? 'không phù hợp' : item.qualifying_round_id === 1 ? 'phù hợp' : 'chưa đánh giá'}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

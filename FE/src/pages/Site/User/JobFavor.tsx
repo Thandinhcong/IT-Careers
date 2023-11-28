@@ -19,7 +19,7 @@ const JobFavor = React.memo(() => {
     });
     const { data, isLoading } = useGetAllSaveJobsQuery();
     const listsaveJobs = data?.data;
-    console.log(listsaveJobs);
+
 
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
@@ -36,7 +36,6 @@ const JobFavor = React.memo(() => {
     const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
 
     const { data: infoUser } = useGetInfoUserQuery();
-
     const user = infoUser?.candidate;
     const idUser: number = user?.id;
 
@@ -60,11 +59,12 @@ const JobFavor = React.memo(() => {
             <h1 className='mb-5 ml-6 text-2xl font-bold'>Việc làm đã lưu</h1>
             {displayedJobs && displayedJobs?.length ? (
                 <div>
-                    <div className=' shadow  w-[800px] h-auto grid gap-5'>
+                    <div className='   w-[800px] h-auto grid gap-5'>
                         {displayedJobs?.map((item: any) => {
+
                             return (
                                 <div key={item?.id}>
-                                    <div className='shadow-lg p-3 rounded  '>
+                                    <div className='border p-3 rounded  '>
                                         <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
                                             <div className='flex gap-2'>
                                                 <img src={item?.logo} className='border rounded-md p-2' width={70} />

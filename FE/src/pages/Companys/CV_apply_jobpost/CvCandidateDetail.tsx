@@ -70,7 +70,7 @@ const CvCandodateDetail = React.memo(() => {
                             <div className="bg-white p-4 mb-4 mt-4 flex items-center">
                                 {listImage ? (
                                     <img
-                                        className="w-20 rounded-full border border-gray-400 p-1"
+                                        className="w-20 h-20 rounded-full border border-gray-400 p-1"
                                         src={listImage} alt=""
                                     />
                                 ) : (

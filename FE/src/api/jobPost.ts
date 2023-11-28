@@ -6,7 +6,7 @@ export interface IJobPosts {
 }
 const JobPostApi = createApi({
   reducerPath: "job-post",
-  tagTypes: ["job-post"],
+  tagTypes: ["Job-post"],
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_ADMIN,
     prepareHeaders: (headers) => {
@@ -23,11 +23,11 @@ const JobPostApi = createApi({
   endpoints: (builder) => ({
     getJobPost: builder.query<IJobPosts | any, void>({
       query: () => "/job-post",
-      providesTags: ["job-post"],
+      providesTags: ["Job-post"],
     }),
     getJobPostById: builder.query<any, number | string>({
       query: (id) => `/job_detail/${id}`,
-      providesTags: ["job-post"],
+      providesTags: ["Job-post"],
     }),
     editJobPostStatus: builder.mutation<
       IJobPost,
@@ -38,7 +38,7 @@ const JobPostApi = createApi({
         method: "PUT",
         body: { status },
       }),
-      invalidatesTags: ["job-post"],
+      invalidatesTags: ["Job-post"],
     }),
   }),
 });
