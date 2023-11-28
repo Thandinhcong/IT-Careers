@@ -13,24 +13,30 @@ const Recruit = () => {
     const searchParams = new URLSearchParams(location.search) as any;
     const search = searchParams.get("search");
     const province = searchParams.get("province");
-    // const { data: searchData } = useSearchQuery({ search: search, province: province });
-    const { data: searchData } = useSearchQuery({ search: search });
+    const { data: searchData } = useSearchQuery({ search: search, province: province });
+    // const { data: searchData } = useSearchQuery({ search: search });
 
     const [filteredWorks, setFilteredWorks] = useState([]);
     const [noResults, setNoResults] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // console.log(searchData); // Check API data
-                const filtered = searchData?.data?.filter((item: any) =>
-                    item.title.toLowerCase().includes(search.toLowerCase())
-                    // && item.province.includes(province)
-                );
+                const filtered = searchData?.data?.filter((item: any) => {
+                    // Log item.province
+                    console.log("Item Province:", item.province);
+
+                    return (
+                        item.title.toLowerCase().includes(search.toLowerCase()) ||
+                        item.province.includes(province) && item.title.toLowerCase().includes(search.toLowerCase())
+                    );
+                });
 
                 // console.log(filtered); // Check the filtered array
 
-                if (filtered?.length == 0) {
+                if (filtered?.length === 0) {
                     setNoResults(true);
                 } else {
                     setNoResults(false);
@@ -42,9 +48,9 @@ const Recruit = () => {
         };
 
         fetchData();
-    }, [search]);
+    }, [search, province]);
 
-    console.log(searchData)
+    console.log(filteredWorks)
 
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
@@ -172,58 +178,58 @@ const Recruit = () => {
 
                     {/* item 1 */}
 
-                    {/* {noResults ? (
+                    {noResults ? (
                         <p>Không có kết quả tìm kiếm phù hợp.</p>
-                    ) : ( */}
-                    <>
-                        <h1 className='mx-10 text-2xl font-bold'>Kết quả tìm kiếm cho: {search}, địa chỉ là: {province}</h1>
-                        {filteredWorks.length > 0 ? (
-                            <ul>
-                                {filteredWorks.map((item: any) => (
-                                    <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7'>
-                                        <Link to={`/company/detail/${item.id}`}>
-                                            <img src="http://smac.com.vn/wp-content/uploads/2019/06/Smac2.0.png" className='col-span-1 w-32 mx-auto' alt="" />
-                                        </Link>
+                    ) : (
+                        <>
+                            <h1 className='mx-10 text-2xl font-bold'>Kết quả tìm kiếm cho: {search}</h1>
+                            {filteredWorks && filteredWorks.length > 0 ? (
+                                <ul>
+                                    {filteredWorks.map((item: any) => (
+                                        <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' key={item.id}>
+                                            <Link to={`/company/detail/${item.id}`}>
+                                                <img src="http://smac.com.vn/wp-content/uploads/2019/06/Smac2.0.png" className='col-span-1 w-32 mx-auto' alt="" />
+                                            </Link>
 
-                                        <div className='col-span-4 '>
+                                            <div className='col-span-4 '>
 
-                                            <li key={item.title} className=''>
-                                                <h1 className='text-xl'><b>{item.title}</b></h1>
-                                                <h2 className='text-gray-500'>Công ty {item.company_name}</h2>
-                                                <p className='flex items-center'>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                        strokeWidth="2"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                                        />
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                                        />
-                                                    </svg>
-                                                    {item.province},
-                                                    {item.district}
-                                                </p>
-                                                <p><span className='font-bold mr-2'>$</span>Từ {item.min_salary}$ đến {item.max_salary}$</p>
-                                            </li>
+                                                <li key={item.title} className=''>
+                                                    <h1 className='text-xl'><b>{item.title}</b></h1>
+                                                    <h2 className='text-gray-500'>Công ty {item.company_name}</h2>
+                                                    <p className='flex items-center'>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                        >
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                            />
+                                                            <path
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                            />
+                                                        </svg>
+                                                        {item.province},
+                                                        {item.district}
+                                                    </p>
+                                                    <p><span className='font-bold mr-2'>$</span>Từ {item.min_salary}$ đến {item.max_salary}$</p>
+                                                </li>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>Không có công việc phù hợp.</p>
-                        )}
-                    </>
-                    {/* )} */}
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Không có công việc phù hợp.</p>
+                            )}
+                        </>
+                    )}
 
                     {/* paginate */}
                     <ol className="flex justify-center gap-1 text-xs font-medium">
