@@ -80,6 +80,7 @@ export interface IJobPost {
   data: IJobPost[];
   length: string | number;
   type_job_post_id: string | number;
+  require: string;
 }
 export interface ICvApply {
   id?: number;
@@ -119,7 +120,7 @@ export interface IFindJob {
   data: IFindJob;
   filter: CallableFunction;
   map: CallableFunction;
-  length: string | number
+  length: string | number;
   address: string;
   title: string;
 }

@@ -26,7 +26,7 @@ const PostManage = () => {
             setSelectedJobPost({ id: jobPostId, status: newStatus });
         } else {
             // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
-            updateStatus({ id: jobPostId, status: newStatus });
+            updateStatus({ id: jobPostId, status: newStatus }).unwrap();
             message.success("Cập nhật trạng thái thành công");
         }
     };
@@ -101,7 +101,7 @@ const PostManage = () => {
             key: 'end_date',
         },
         {
-            title: 'Thời gian kết thúc',
+            title: 'Yêu cầu',
             dataIndex: 'require',
             key: 'require',
         },
@@ -290,10 +290,13 @@ const PostManage = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div>
-                                        <h2 className="font-semibold text-lg my-4">Mô tả công việc/ Yêu cầu</h2>
-                                        <p>{item.require}</p>
+                                        <h2 className="font-semibold text-lg my-4">Mô tả công việc </h2>
+                                        <p>{item?.desc}</p>
+                                    </div>
+                                    <div>
+                                        <h2 className="font-semibold text-lg my-4"> Yêu cầu</h2>
+                                        <p>{item?.require}</p>
                                     </div>
 
                                     <div>
