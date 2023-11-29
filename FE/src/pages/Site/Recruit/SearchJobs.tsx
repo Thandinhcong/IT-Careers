@@ -43,7 +43,6 @@ const SearchJobs = () => {
                 // console.error("Error fetching data:", error);
             }
         };
-
         fetchData();
     }, [search, province]);
 
@@ -81,8 +80,9 @@ const SearchJobs = () => {
                 </span>
             </div>
             <div className='border rounded-xl bg-white justify-between px-2 my-7 flex items-center lg:py-3 py-2'>
-                <Select placeholder="Chọn địa chỉ" className='w-32' onChange={(value) => setProvince(value)}>
+                <Select placeholder="Chọn địa chỉ" className='w-[400px] border-none' onChange={(value) => setProvince(value)}>
                     {searchData?.data?.province_id.map((options: IJobPost) => (
+
                         <Select.Option key={options.id} value={options.id}>
                             {options.province}
                         </Select.Option>

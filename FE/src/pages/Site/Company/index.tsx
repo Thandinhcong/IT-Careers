@@ -11,6 +11,8 @@ const Company = React.memo(() => {
     const { data, isLoading } = useSearchCompaniesQuery();
 
     const listCompanys = data?.list_company;
+    console.log(listCompanys);
+
     const [records, setRecords] = useState([])
     const Filter = (e: any) => {
         const keyword = e.target.value.toLowerCase();

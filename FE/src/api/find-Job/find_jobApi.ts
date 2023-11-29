@@ -30,8 +30,25 @@ const findJobApi = createApi({
       query: () => "/candidate_information",
       providesTags: ["FindJob"],
     }),
+    SaveInfoFindJob: buidler.mutation<any, void>({
+      query: (credentials) => ({
+        url: "/save_info_find_job",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["FindJob"],
+    }),
+    getDataFindJob: buidler.query<any, void>({
+      query: () => "/get_data_find_job",
+      providesTags: ["FindJob"],
+    }),
   }),
 });
-export const { useFindJobsMutation, useGetInfoUserQuery } = findJobApi;
+export const {
+  useFindJobsMutation,
+  useGetInfoUserQuery,
+  useSaveInfoFindJobMutation,
+  useGetDataFindJobQuery,
+} = findJobApi;
 export const findJobReducer = findJobApi.reducer;
 export default findJobApi;

@@ -1,13 +1,41 @@
 import { Avatar } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
 import React from 'react';
+import { useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
+import { useForm } from 'react-hook-form';
+import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
+
 
 
 const Profile = React.memo(() => {
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
+    const idUser = listInfo?.id;
     const listImage = data?.candidate?.image;
+    const [SaveInfoFindJob] = useSaveInfoFindJobMutation();
+    const { data: DataMajor } = useGetMajorQuery();
+    const listMajor = DataMajor?.major;
+    // exp
+    const { data: Exp } = useGetExperienceQuery();
+    const listExp = Exp?.data;
+    //
+
+    const { register, handleSubmit, formState } = useForm();
+    const onHandleSubmit = async (data: any) => {
+        try {
+            const results = await SaveInfoFindJob({
+                idUser,
+                ...data
+            }).unwrap();
+            console.log("Thêm thành công", results);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -47,34 +75,34 @@ const Profile = React.memo(() => {
                         </div>
                         <div className='flex flex-col gap-2  p-2'>
                             <p >Số điện thoại</p>
-                            <input type="text" value={listInfo?.phone} placeholder='Số điện thoại' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            <input type="text" disabled value={listInfo?.phone} placeholder='Số điện thoại' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
                         </div>
                         <div className='flex flex-col gap-2  p-2'>
                             <p >Email</p>
-                            <input type="text" value={listInfo?.email} placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            <input type="text" disabled value={listInfo?.email} placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
                         </div>
+                        <form onSubmit={handleSubmit(onHandleSubmit)}>
+                            <div className='flex flex-col gap-2  p-2'>
+                                <p >Địa điểm làm việc</p>
+                                <input type="text" placeholder='vd: Hà Nội' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            </div>
+                            <div className='flex flex-col gap-2  p-2'>
+                                <p >Ngành nghề muốn quan tâm</p>
+                                <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            </div>
+                            <div className='flex flex-col gap-2  p-2'>
+                                <label>Kinh nghiệm ngành nghề</label>
+                                <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            </div>
+                            <div className='flex flex-col gap-2  p-2'>
+                                <label>Mức lương mong muốn</label>
+                                <input type="text" placeholder='20000000' {...register('desired_salary')} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            </div>
+                            <div className='flex justify-center mb-2'>
 
-                        <div className='flex flex-col gap-2  p-2'>
-                            <p >Địa điểm làm việc
-                            </p>
-                            <input type="text" placeholder='vd: Hà Nội' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
-                        </div>
-                        <div className='flex flex-col gap-2  p-2'>
-                            <p >Ngành nghề muốn quan tâm</p>
-                            <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
-                        </div>
-                        <div className='flex flex-col gap-2  p-2'>
-                            <label>Kinh nghiệm ngành nghề</label>
-                            <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
-                        </div>
-                        <div className='flex flex-col gap-2  p-2'>
-                            <label>Mức lương mong muốn</label>
-                            <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
-                        </div>
-                        <div className='flex justify-center mb-2'>
-
-                            <button className='bg-blue-500 px-5 py-2 text-white  rounded '>Lưu</button>
-                        </div>
+                                <button className='bg-blue-500 px-5 py-2 text-white  rounded '>Lưu</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
-import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
+import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useSaveCvMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
@@ -10,7 +10,10 @@ import { UploadImage } from '../../../components/upload';
 import html2pdf from 'html2pdf.js';
 import { GoDownload } from 'react-icons/go';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { FormEdu, FormExp, FormProfile, FormProject, schemaProfile } from '../../../schemas/svSchema';
+
+
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -19,8 +22,8 @@ const CreateCvTest = React.memo(() => {
             y: 'top',
         },
     });
-    const { id } = useParams();
-    const [image, setImage] = useState<any>(null);
+    const { id }: any = useParams();
+    const [imagee, setImage] = useState<any>(null);
     const { data: dataCV } = useListCvQuery();
 
     const dataMap = dataCV?.data.find((item: any) => item.id == id)
@@ -36,7 +39,7 @@ const CreateCvTest = React.memo(() => {
     });
     const onHandleSubmit = async (data: any) => {
         // if (typeof image !== "string") return;
-        data.image = image;
+        // data.image = imagee;
         try {
             await updateInfoCv({
                 id: idPost,
@@ -302,6 +305,51 @@ const CreateCvTest = React.memo(() => {
         updatedExp[index][field] = value;
         setExperience(updatedExp);
     };
+    const [saveCv] = useSaveCvMutation();
+
+    const handleSaveCv = async () => {
+        try {
+            const element = document.getElementById('pdf-content');
+            // Create PDF
+            const pdfOptions = {
+                margin: [0, 0],
+                filename: `CV_${profile?.name}bework.pdf`,
+                image: { type: 'jpg', quality: 0.98 },
+                html2canvas: { scale: 3, useCORS: true, imageTimeout: 2000 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            };
+            const pdfBlob = await html2pdf().from(element).set(pdfOptions).outputPdf();
+            const cloudinaryResponse = await uploadToCloudinary(pdfBlob);
+
+            await saveCv({
+                id,
+                path_cv: cloudinaryResponse.secure_url,
+            }).unwrap();
+            notyf.success("Lưu Cv thành công");
+        } catch (error) {
+            notyf.error("Lưu Cv thất bại");
+        }
+    };
+
+    // Function to upload PDF to Cloudinary
+    const uploadToCloudinary = async (pdfBlob: Blob) => {
+        const formData = new FormData();
+        formData.append('file', new Blob([pdfBlob], { type: 'application/pdf' }), `CV${profile?.title} bework.pdf`);
+
+        // Add other Cloudinary upload options as needed
+        formData.append('upload_preset', 'demo-upload');
+        const name = "dxzlnojyv";
+        const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${name}/upload`, {
+            method: 'POST',
+            body: formData,
+        }).then((res) => res.json())
+
+
+        return cloudinaryResponse;
+    };
+
+
+
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (files) {
@@ -339,6 +387,12 @@ const CreateCvTest = React.memo(() => {
 
         }
     };
+
+
+
+
+
+
 
 
     useEffect(() => {
@@ -379,7 +433,7 @@ const CreateCvTest = React.memo(() => {
                                     onChange={onChangeFile}
                                     type="file" className='border border-gray-200 p-2 w-full outline-none'
                                 />
-                                <img src={image} alt="" className=' rounded-full w-[100px]' />
+                                <img src={imagee} alt="" className=' rounded-full w-[100px]' />
                                 <div className='text-red-500 text-sm outline-none'>
                                     {errors?.image && errors?.image?.message}
                                 </div>
@@ -1039,6 +1093,12 @@ const CreateCvTest = React.memo(() => {
                     onClick={generatePDF}
                 >Tải CV
                     <GoDownload />
+                </button>
+                <button
+                    className='px-3 mx-2 bg-blue-500 py-2 rounded text-white flex gap-2 items-center'
+                    onClick={handleSaveCv}
+                >Lưu cv
+
                 </button>
             </div>
         </div>

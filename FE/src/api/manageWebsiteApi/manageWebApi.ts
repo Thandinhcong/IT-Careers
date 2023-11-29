@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IExperienceAll } from "../experienceApi";
 
 const manageWebAllApi = createApi({
   reducerPath: "listMana",
@@ -18,9 +19,17 @@ const manageWebAllApi = createApi({
       query: () => "/major",
       providesTags: ["ListMana"],
     }),
+    getExperience: builder.query<IExperienceAll, void>({
+      query: () => "/experience",
+      providesTags: ["ListMana"],
+    }),
   }),
 });
-export const { useGetInfoManaWebsiteQuery, useGetMajorQuery } = manageWebAllApi;
+export const {
+  useGetInfoManaWebsiteQuery,
+  useGetMajorQuery,
+  useGetExperienceQuery,
+} = manageWebAllApi;
 
 export const manageWebAllApiReducer = manageWebAllApi.reducer;
 

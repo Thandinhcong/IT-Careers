@@ -67,7 +67,7 @@ const ListCV = React.memo(() => {
                                     <p className='text-center'>Tiêu đề: {item?.title}</p>
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
-                                        <Link to=""><CgEye /></Link>
+                                        <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
                                         <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                     </div>
                                     <div className='flex justify-center my-4 pt-2'>

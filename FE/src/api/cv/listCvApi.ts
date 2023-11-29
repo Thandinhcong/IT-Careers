@@ -165,6 +165,16 @@ const listCvApi = createApi({
       }),
       invalidatesTags: ["CV"],
     }),
+
+    // lưu cv
+    SaveCv: buidler.mutation<any, any | number>({
+      query: (data: any) => ({
+        url: `/update_cv/saveCV/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
   }),
 });
 export const {
@@ -193,6 +203,9 @@ export const {
   useAddSkillMutation,
   useUpdateSkillMutation,
   useDeleteSkillMutation,
+
+  // lưu Cv
+  useSaveCvMutation,
 } = listCvApi;
 export const listCvReducer = listCvApi.reducer;
 export default listCvApi;

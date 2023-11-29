@@ -14,7 +14,7 @@ const SideBarHelp = () => {
                         <Link to=""
                             className="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
                         >
-                            Trung tâm trợ giúp - IT-Cassers
+                            Trung tâm trợ giúp - Bework
                         </Link>
                     </li>
 
