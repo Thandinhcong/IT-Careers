@@ -62,8 +62,8 @@ const CompanySetting = React.memo(() => {
                     editcompany({ ...values })
                         .unwrap()
                         .then(() => {
+
                             message.success('Cập nhật thành công');
-                            window.location.reload();
                         })
                         .catch((error) => {
                             message.error('Lỗi khi cập nhật thông tin công ty:', error);
@@ -84,6 +84,7 @@ const CompanySetting = React.memo(() => {
                         .unwrap()
                         .then(() => {
                             navigate("");
+                            window.location.reload();
                             message.success('Cập nhật thành công');
                         })
                         .catch((error) => {
@@ -244,18 +245,17 @@ const CompanySetting = React.memo(() => {
                                     { pattern: /^(0[0-9]{9,10})$/, message: "Số điện thoại không đúng định dạng" }
                                 ]}
                             >
-                                <Input />
+                                <Input disabled />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Email</h2>
                             <Form.Item<ICompanyInfor>
-
                                 name="email"
                                 rules={[
                                     { required: true, message: 'Trường này không được bỏ trống !' },
 
                                 ]}
                             >
-                                <Input />
+                                <Input disabled />
                             </Form.Item>
                             <h2 className='font-bold flex items-center'>Giấy Phép</h2>
                             <Form.Item

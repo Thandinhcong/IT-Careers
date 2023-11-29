@@ -260,16 +260,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                         <a href=""><AiFillLinkedin className="text-blue-500" /></a>
                     </span>
                 </div>
-                <div className="border border-gray-100 p-3 my-4">
-                    <h2 className="font-semibold text-base">Báo cáo tin tuyển dụng</h2>
-                    <p className="my-3">
-                        Nếu bạn thấy rằng tin tuyển dụng này không đúng hoặc có một trong các dấu hiệu lừa đảo: yêu cầu nộp tiền phỏng vấn, phí giữ chỗ, phí đồng phục ...
-                    </p>
-                    <button className="flex items-center gap-2 text-[#666] bg-[#f6f7f9] w-full justify-center rounded-md py-3">
-                        <AiOutlineWarning />
-                        <p>Báo cáo tin tuyển dụng</p>
-                    </button>
-                </div>
+
             </div>
             <TEModal show={showModal2} setShow={setShowModa2l}>
                 <TEModalDialog>

@@ -117,7 +117,7 @@ const CandidateInformation = () => {
                             { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                         ]}
                     >
-                        <Input />
+                        <Input disabled />
                     </Form.Item>
                     <h2 className='font-bold flex items-center gap-3 my-2'>Avatar {imageUrl ? (
                         <img src={imageUrl} alt="Uploaded Image" className='w-16 h-16 rounded-full' />
@@ -146,7 +146,7 @@ const CandidateInformation = () => {
                             { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
                         ]}
                     >
-                        <Input />
+                        <Input disabled />
                     </Form.Item>
                     <h2 className='font-bold flex items-center'>Địa chỉ</h2>
                     <Form.Item<IAccount>

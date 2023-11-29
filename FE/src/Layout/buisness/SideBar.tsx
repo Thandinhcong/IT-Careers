@@ -127,10 +127,7 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
             </Link>
-            <div className='flex items-center gap-3 mt-6 ml-4'>
-                <p className='text-xl'> <MdHistory /> </p>
-                <Link to='activity_history'><p className='mr-3'>Lịch sử hoạt động</p></Link>
-            </div>
+
             <div className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <AiTwotoneSetting /> </p>
                 <Link to='business_setting'><p className='mr-3'>Cài đặt tài khoản</p></Link>
