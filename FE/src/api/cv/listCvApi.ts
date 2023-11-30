@@ -22,7 +22,7 @@ const listCvApi = createApi({
       query: () => "/cv",
       providesTags: ["CV"],
     }),
-    addCv: buidler.mutation<any, void>({
+    addCv: buidler.mutation<any, any>({
       query: (credentials) => ({
         url: "/create_cv",
         method: "POST",

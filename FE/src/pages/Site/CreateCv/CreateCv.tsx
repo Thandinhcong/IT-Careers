@@ -23,7 +23,7 @@ const CreateCvTest = React.memo(() => {
         },
     });
     const { id }: any = useParams();
-    const [imagee, setImage] = useState<any>(null);
+    const [image, setImage] = useState<any>(null);
     const { data: dataCV } = useListCvQuery();
 
     const dataMap = dataCV?.data.find((item: any) => item.id == id)
@@ -39,7 +39,7 @@ const CreateCvTest = React.memo(() => {
     });
     const onHandleSubmit = async (data: any) => {
         // if (typeof image !== "string") return;
-        // data.image = imagee;
+        data.image = image;
         try {
             await updateInfoCv({
                 id: idPost,
@@ -423,7 +423,7 @@ const CreateCvTest = React.memo(() => {
                                     onChange={onChangeFile}
                                     type="file" className='border border-gray-200 p-2 w-full outline-none'
                                 />
-                                <img src={imagee} alt="" className=' rounded-full w-[100px]' />
+                                <img src={image} alt="" className=' rounded-full w-[100px]' />
                                 <div className='text-red-500 text-sm outline-none'>
                                     {errors?.image && errors?.image?.message}
                                 </div>

@@ -19,7 +19,8 @@ const Profile = React.memo(() => {
     // exp
     const { data: Exp } = useGetExperienceQuery();
     const listExp = Exp?.data;
-    //
+    //districs
+
 
     const { register, handleSubmit, formState } = useForm();
     const onHandleSubmit = async (data: any) => {
@@ -92,7 +93,17 @@ const Profile = React.memo(() => {
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <label>Kinh nghiệm ngành nghề</label>
-                                <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                                <select
+                                    {...register('experience_id')}
+                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                >
+                                    <option>Vui lòng chọn</option>
+                                    {listExp?.map((item: any) => {
+                                        return (
+                                            <option key={item?.id} value={item?.id}>{item?.experience}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <label>Mức lương mong muốn</label>

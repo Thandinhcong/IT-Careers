@@ -12,7 +12,6 @@ import { DefaultOptionType } from "antd/es/cascader";
 
 const MainFindJob = () => {
     const { data } = useGetFindCandidateQuery();
-    console.log(data)
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [showModal, setShowModal] = useState(false);
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
@@ -86,7 +85,7 @@ const MainFindJob = () => {
     // };
 
     const handleFilter = () => {
-        let result: IFindJob[] | never[] = data?.data || [];
+        let result: any = data?.data || [];
 
         // Lọc theo tên
         if (filterName) {

@@ -27,7 +27,6 @@ import CreateCampaign from "./pages/Companys/Create_campaign"
 import LayoutBusinessSetting from "./pages/Companys/Business_Setting"
 import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
-import Guide from "./pages/Site/Guide/Guide"
 import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
 import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
@@ -115,7 +114,6 @@ function App() {
           <Route path="company" element={<Company />} />
           <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
-          <Route path="guide" element={<Guide />} />
           <Route path="jobs" element={<Jobs />} />
           <Route element={<IsCheckLogin />} >
             <Route path='account/' element={< Account />} >
