@@ -76,14 +76,18 @@ const LayoutUser = React.memo(() => {
 
                             </div>
                         </div>
-                        <Link to={'/account'} className='mb-9'>
+
+                        <Link to={'/user/profile'} className='mb-9'>
                             <Button
 
                                 type='primary'
                                 className='bg-blue-500 mt-5 text-white h-12 mb-8'>
                                 <b>Cập nhật profile</b>
                             </Button>
+
                         </Link>
+                        <br />
+                        <i className='text-yellow-400'>Lưu ý: Bạn cần nhập thông tin và active CV của mình để nhà tuyển dụng có thể liên hệ với bạn</i>
                     </div>
                     <div className='shadow-sm shadow-blue-300 p-8'>
                         <span className='text-2xl text-blue-500'>CV của bạn đã hay chưa ?</span>
