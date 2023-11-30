@@ -313,13 +313,14 @@ const CreateCvTest = React.memo(() => {
             // Create PDF
             const pdfOptions = {
                 margin: [0, 0],
-                filename: `CV_${profile?.name}bework.pdf`,
-                image: { type: 'jpg', quality: 0.98 },
+                filename: `CVbework.pdf`,
+                image: { type: 'jpeg', quality: 1 },
                 html2canvas: { scale: 3, useCORS: true, imageTimeout: 2000 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
             };
-            const pdfBlob = await html2pdf().from(element).set(pdfOptions).outputPdf();
+            const pdfBlob = await html2pdf().set(pdfOptions).from(element).output('blob').then((data: any) => { return data });
             const cloudinaryResponse = await uploadToCloudinary(pdfBlob);
+
 
             await saveCv({
                 id,
@@ -331,7 +332,6 @@ const CreateCvTest = React.memo(() => {
         }
     };
 
-    // Function to upload PDF to Cloudinary
     const uploadToCloudinary = async (pdfBlob: Blob) => {
         const formData = new FormData();
         formData.append('file', new Blob([pdfBlob], { type: 'application/pdf' }), `CV${profile?.title} bework.pdf`);
@@ -343,11 +343,8 @@ const CreateCvTest = React.memo(() => {
             method: 'POST',
             body: formData,
         }).then((res) => res.json())
-
-
         return cloudinaryResponse;
     };
-
 
 
     const onChangeFile = async (e: any) => {
@@ -387,13 +384,6 @@ const CreateCvTest = React.memo(() => {
 
         }
     };
-
-
-
-
-
-
-
 
     useEffect(() => {
         //skill
