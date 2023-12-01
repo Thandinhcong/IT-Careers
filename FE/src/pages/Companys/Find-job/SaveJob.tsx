@@ -1,46 +1,39 @@
-import React, { useState } from "react";
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
+import { useEffect, useState } from "react";
+import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
-import { useGetProfileSaveQuery, useOpenProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
-import { IFindJob } from "../../../interfaces";
-import { Modal, message } from "antd";
+import { useCancelSaveProfileMutation, useGetProfileSaveQuery, useSaveProfileMutation } from "../../../api/companies/findJob";
+import { IFindJob, IJobPost } from "../../../interfaces";
+import { Select, message } from "antd";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostCompany";
+import { BaseOptionType } from "antd/es/select";
+import { DefaultOptionType } from "antd/es/cascader";
 
-const SaveJob = () => {
-    const [showModal, setShowModal] = useState(false);
+const MainFindJob = () => {
     const { data } = useGetProfileSaveQuery();
+    const { data: select } = useGetJobPostSelectByIdQuery();
+    const [showModal, setShowModal] = useState(false);
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
-    const [modalVisible, setModalVisible] = React.useState(false);
-    const [openProfile] = useOpenProfileMutation();
+    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
     const [saveProfile] = useSaveProfileMutation();
+    const [cancelSaveProfile] = useCancelSaveProfileMutation();
+
+    const [filterName, setFilterName] = useState('');
+    const [filterProvince, setFilterProvince] = useState('');
+    const [filterDistrict, setFilterDistrict] = useState('');
+    // const [filterSalary, setFilterSalary] = useState('');
+    const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
+
+    useEffect(() => {// Lưu trữ data vào filteredData khi data thay đổi
+        setFilteredData((data?.data || []) as IFindJob[]);
+    }, [data]);
 
     const handleOpenModal = (candidateId: number | string) => {
         setSelectedCandidateId(candidateId); // lưu id của ứng viên được chọn vào state
         setShowModal(true);
     };
 
-    const handleOpenModalUnlock = (candidateId: number | string | null) => {
-        setModalVisible(true);
-        setSelectedCandidateId(candidateId);
-    }
-
-    const handleModalConfirm = () => {
-        if (selectedCandidateId) {
-            openProfile(selectedCandidateId)
-                .unwrap()
-                .then(() => {
-                    message.success("Mở khoá thành công");
-                    setShowModal(false);
-                })
-                .catch((error) => {
-                    setShowModal(false);
-                    message.error(error.data.error);
-                });
-        }
-
-        setModalVisible(false);
-    };
 
     const formatTimeDifference = (createdAt: string) => {
         if (!createdAt || typeof createdAt !== 'string') {
@@ -63,37 +56,89 @@ const SaveJob = () => {
                 message.success("Lưu thành công");
             })
             .catch((error) => {
-                message.error(error.data.error);
+                console.log(error.data.error);
+                cancelSaveProfile(id)
+                message.info("Huỷ lưu");
             });
     }
+
+    const handleSelectProvinceId = (key: number | string, rovinceName: BaseOptionType | DefaultOptionType) => {
+        console.log(rovinceName);
+        setSelectedProvincetId(key); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+        setFilterProvince(rovinceName?.children);
+    }
+
+    const handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterName(event.target.value);
+    };
+
+    const handleDistrictSelectChange = (value: string) => {
+        // Cập nhật giá trị của select Quận/Huyện
+        setFilterDistrict(value);
+    };
+
+    const handleFilter = () => {
+        let result: any = data?.data || [];
+
+        // Lọc theo tên
+        if (filterName) {
+            result = result.filter((item: { name: string; }) => item.name.toLowerCase().includes(filterName.toLowerCase()));
+        }
+
+        // Lọc theo Tỉnh/Thành Phố và Quận/Huyện
+        if (filterProvince || filterDistrict) {
+            result = result.filter((item: { address: string; }) => {
+                const addressLower = item.address.toLowerCase();
+
+                return (!filterProvince || addressLower.includes(filterProvince.toLowerCase())) &&
+                    (!filterDistrict || addressLower.includes(filterDistrict.toLowerCase()));
+            });
+        }
+
+        setFilteredData(result);
+    };
+    const handleFilterButtonClick = () => {
+        // Gọi hàm lọc dữ liệu
+        handleFilter();
+    };
+    const handleClearFilterButtonClick = () => {
+        // Xóa tất cả các giá trị lọc và cập nhật state
+        setFilterName('');
+        setFilterDistrict('');
+        // setFilterSalary('');
+        setFilteredData((data?.data || []) as IFindJob[]);
+        setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
+        setFilterProvince(''); // Reset giá trị của quận/huyện
+    };
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
-                <input type="text" placeholder="Tìm tên việc, chức danh" className="border border-gray-200 p-2 rounded-md outline-blue-400 w-1/4" />
-                <select
-                    name=""
-                    className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40"
-                >
-                    <option value="">- Tỉnh thành -</option>
-                    <option value="JM">Hà Nội</option>
-                    <option value="SRV">Đà Nẵng</option>
-                    <option value="JH">Bình Dương</option>
-                    <option value="BBK">Hồ Chí Minh</option>
-                    <option value="AK">Khánh Hòa</option>
-                    <option value="BG">Đồng Nai</option>
-                </select>
-                <select
-                    name=""
-                    className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40 "
-                >
-                    <option value="">- Quận/Huyện -</option>
-                    <option value="JM">Hà Nội</option>
-                    <option value="SRV">Đà Nẵng</option>
-                    <option value="JH">Bình Dương</option>
-                    <option value="BBK">Hồ Chí Minh</option>
-                    <option value="AK">Khánh Hòa</option>
-                    <option value="BG">Đồng Nai</option>
-                </select>
+                <input
+                    type="text"
+                    placeholder="Tìm tên việc, chức danh"
+                    className="border border-gray-200 p-2 rounded-md outline-blue-400 w-1/4"
+                    value={filterName}
+                    onChange={handleNameInputChange}
+                />
+                <Select placeholder="--Tỉnh, Thành phố--" className="h-[37px] w-40" onChange={handleSelectProvinceId}>
+                    {select?.data?.province_id.map((options: IJobPost) => (
+                        <Select.Option key={options.id} rovinceName={options.province} className="my-1">
+                            {options.province}
+                        </Select.Option>
+                    ))}
+                </Select>
+                <Select placeholder="--Quận, Huyện--" className="h-[37px] w-40" onChange={handleDistrictSelectChange}>
+                    {select?.data?.district_id
+                        ?.filter((options: {
+                            province_id: string | number | null; id: string | number;
+                        }) => options.province_id == selectedProvinceId)
+                        .map((options: IJobPost) => (
+                            <Select.Option key={options.id} value={options.name}>
+                                {options.name}
+                            </Select.Option>
+                        ))}
+                </Select>
+
                 <select
                     name=""
                     className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40 "
@@ -108,12 +153,18 @@ const SaveJob = () => {
                     <option value="BG">16-20 triệu</option>
                     <option value="BG">20-25 triệu</option>
                 </select>
-                <button className="bg-blue-600 text-white flex items-center rounded-md px-3"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
-                <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-3"><AiOutlineReload /><p>Xóa lọc</p></button>
+                <button className="bg-blue-600 text-white flex items-center rounded-md px-3" onClick={handleFilterButtonClick}>
+                    <AiOutlineFilter className="text-lg" />
+                    <p>Lọc</p>
+                </button>
+                <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-3" onClick={handleClearFilterButtonClick}>
+                    <AiOutlineReload />
+                    <p>Xóa lọc</p>
+                </button>
             </div>
             <div className="bg-gray-100 -mx-4">
                 <div className="pt-4 bg-gray-100 mb-2 flex justify-between">
-                    <p className="text-gray-700">Có {data?.data?.length || 0} kết quả tìm kiếm.</p>
+                    <p className="text-gray-700">Có {filteredData?.length || 0} kết quả tìm kiếm.</p>
                     <select
                         name=""
                         className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-48"
@@ -124,7 +175,7 @@ const SaveJob = () => {
                     </select>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    {data?.data?.map((item: IFindJob) => (
+                    {filteredData?.map((item: IFindJob) => (
                         <div className="p-4 bg-white text-base" key={item.candidate_id}>
                             <div className="flex gap-4 leading-7">
                                 <img src={item.image} className="w-14 rounded-full border p-1.5" alt="" />
@@ -135,8 +186,8 @@ const SaveJob = () => {
                             </div>
                             <p className="text-gray-500 my-3">Công việc quan tâm</p>
                             <div className="leading-8 border-b pb-2">
-                                <p className="flex items-center"><AiOutlineCalendar /> <span className="w-28">Vị trí:</span> <span>Đội Bếp</span></p>
-                                <p className="flex items-center"><AiOutlineEnvironment /> <span className="w-28">Địa điểm:</span> <span>Hồ Chí Minh</span></p>
+                                <p className="flex items-center"><AiOutlineCalendar /> <span className="w-28">Vị trí:</span> <span>{item.title}</span></p>
+                                <p className="flex items-center"><AiOutlineEnvironment /> <span className="w-28">Địa điểm:</span> <span>{item.address}</span></p>
                                 <p className="flex items-center"><AiOutlineDollarCircle /> <span className="w-28">Mức lương:</span> <span>Trên 50 triệu</span></p>
                             </div>
                             <div className="mt-3 flex justify-between">
@@ -149,8 +200,9 @@ const SaveJob = () => {
                                 <div>
                                     <button
                                         onClick={() => handleSaveProfile(item.candidate_id)}
-                                        className="bg-gray-100 p-3 mr-2 rounded text-gray-400">
-                                        <AiOutlineHeart />
+                                        className={`bg-gray-100 p-3 mr-2 rounded ${item.save_profile === "chưa lưu" ? 'text-gray-400' : 'text-red-500'}`}
+                                    >
+                                        {item.save_profile === "chưa lưu" ? <AiOutlineHeart /> : <AiFillHeart />}
                                     </button>
 
                                     <TERipple rippleColor="white">
@@ -210,7 +262,7 @@ const SaveJob = () => {
                                                     <p className="font-semibold">Địa điểm làm việc</p>
                                                 </div>
                                                 <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>Quận 7, Hồ Chí Minh</p>
+                                                    <p>{item.address}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">
@@ -302,17 +354,6 @@ const SaveJob = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div className="border border-slate-200 p-2 my-3">
-                                            <p className="flex justify-between">
-                                                <span>Phí mở liên hệ</span>
-                                                <span className="text-red-400">2000 xu</span>
-                                            </p>
-                                            <p className="flex justify-between">
-                                                <span>Số xu trong tài khoản</span>
-                                                <span>30000 xu</span>
-                                            </p>
-                                        </div>
                                     </TEModalBody>
                                     <TEModalFooter>
                                         <TERipple rippleColor="light">
@@ -324,40 +365,15 @@ const SaveJob = () => {
                                                 <AiOutlineClose /><span>Đóng</span>
                                             </button>
                                         </TERipple>
-                                        <TERipple rippleColor="right">
-                                            <button
-                                                type="button"
-                                                className="ml-3 flex items-center gap-1 bg-blue-500 text-white rounded-md p-2"
-                                                onClick={() => handleOpenModalUnlock(selectedCandidateId)} // Chuyển thêm tham số vào hàm
-                                            >
-                                                <AiOutlineSwap /> <span>Mở liên hệ</span>
-                                            </button>
-                                        </TERipple>
                                     </TEModalFooter>
-                                    {/* Modal xác nhận mở khoá */}
-                                    <Modal
-                                        title="Xác nhận mở khoá ứng viên"
-                                        visible={modalVisible}
-                                        okText="Có"
-                                        cancelText="Không"
-                                        okType="default"
-                                        onOk={handleModalConfirm} // Không cần truyền tham số vào hàm này
-                                        onCancel={() => setModalVisible(false)}
-                                        zIndex={1200}
-                                    >
-                                        Bạn có muốn mở khoá ứng viên này không không?
-                                    </Modal>
                                 </TEModalContent>
                             )
                         })
                     }
                 </TEModalDialog>
             </TEModal>
-
-
-
         </div>
     )
 };
 
-export default SaveJob
+export default MainFindJob

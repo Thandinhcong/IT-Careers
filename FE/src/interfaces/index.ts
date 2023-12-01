@@ -79,7 +79,7 @@ export interface IJobPost {
   level: IJobPost;
   data: IJobPost[];
   length: string | number;
-  type_job_post_id: string;
+  type_job_post_id: number;
   type_job_post: string;
   require: string;
 }

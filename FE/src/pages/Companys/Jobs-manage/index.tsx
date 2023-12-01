@@ -6,6 +6,7 @@ import TabPostFail from './TabPostFail';
 import TabPostExpired from './TabPostExpired';
 import TabPostStop from './TabPostStop';
 import React from 'react';
+import TabPostVIP from './TabPostVIP';
 
 const JobsManage = React.memo(() => {
     return (
@@ -18,6 +19,7 @@ const JobsManage = React.memo(() => {
                     <Tabs.TabPane key="2"
                         tab={<p className=' text-base text-[#526484] font-medium'>
                             <span>Vip</span></p>}>
+                        <TabPostVIP />
                     </Tabs.TabPane>
                     <Tabs.TabPane key="3"
                         tab={<p className=' text-base text-[#526484] font-medium'>

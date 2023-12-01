@@ -77,19 +77,15 @@ const MainFindJob = () => {
         setFilterDistrict(value);
     };
 
-    // const handleSalarySelectChange = (value) => {
-    //     // Cập nhật giá trị của select Mức lương
-    //     setFilterSalary(value);
-
-
-    // };
-
     const handleFilter = () => {
         let result: any = data?.data || [];
 
-        // Lọc theo tên
+        // Lọc theo chức vụ
         if (filterName) {
-            result = result.filter((item: { name: string; }) => item.name.toLowerCase().includes(filterName.toLowerCase()));
+            result = result.filter((item: { title: string; }) => {
+                const regex = new RegExp(filterName, 'i'); // 'i' là để không phân biệt chữ hoa, chữ thường
+                return regex.test(item.title);
+            });
         }
 
         // Lọc theo Tỉnh/Thành Phố và Quận/Huyện
@@ -101,12 +97,6 @@ const MainFindJob = () => {
                     (!filterDistrict || addressLower.includes(filterDistrict.toLowerCase()));
             });
         }
-
-        // Lọc theo Mức lương
-        // if (filterSalary) {
-        //     result = result.filter(item => item.salary.toLowerCase() === filterSalary.toLowerCase());
-        // }
-
         setFilteredData(result);
     };
     const handleFilterButtonClick = () => {
@@ -193,7 +183,7 @@ const MainFindJob = () => {
                                 <img src={item.image} className="w-14 rounded-full border p-1.5" alt="" />
                                 <div>
                                     <p className="font-semibold text-lg">{item.name}</p>
-                                    <p>{item.phone}-<span> Năm sinh: 1980</span></p>
+                                    <p>{item.phone}-<span> Năm sinh: {item.birth}</span></p>
                                 </div>
                             </div>
                             <p className="text-gray-500 my-3">Công việc quan tâm</p>
@@ -266,7 +256,7 @@ const MainFindJob = () => {
                                                     <p className="font-semibold">Chức danh, tên công việc</p>
                                                 </div>
                                                 <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>Nau An Cho Nguoi Han Quoc</p>
+                                                    <p>{item.title}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">
@@ -330,7 +320,7 @@ const MainFindJob = () => {
                                                     <p className="font-semibold">Năm sinh</p>
                                                 </div>
                                                 <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>1982</p>
+                                                    <p>{item.birth}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">
