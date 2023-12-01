@@ -63,7 +63,6 @@ const MainFindJob = () => {
     }
 
     const handleSelectProvinceId = (key: number | string, rovinceName: BaseOptionType | DefaultOptionType) => {
-        console.log(rovinceName);
         setSelectedProvincetId(key); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
         setFilterProvince(rovinceName?.children);
     }

@@ -1,13 +1,15 @@
 import { Avatar } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
-import React from 'react';
-import { useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
+import React, { useState } from 'react';
+import { useGetDataFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
 import { useForm } from 'react-hook-form';
 import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 
 
 
 const Profile = React.memo(() => {
+    const [filterProvince, setFilterProvince] = useState('');
+    const [filterDistrict, setFilterDistrict] = useState('');
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
@@ -21,6 +23,10 @@ const Profile = React.memo(() => {
     const listExp = Exp?.data;
     //districs
 
+    const { data: dataFindJob } = useGetDataFindJobQuery();
+    const province = dataFindJob?.data?.province;
+    const district = dataFindJob?.data?.district;
+    console.log("dataFindJob", district);
 
     const { register, handleSubmit, formState } = useForm();
     const onHandleSubmit = async (data: any) => {
@@ -85,11 +91,45 @@ const Profile = React.memo(() => {
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <div className='flex flex-col gap-2  p-2'>
                                 <p >Địa điểm làm việc</p>
-                                <input type="text" placeholder='vd: Hà Nội' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                                <select
+                                    {...register('province_id')}
+                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                >
+                                    <option value="">Tỉnh/Thành phố</option>
+                                    {province?.map((item: any) => {
+                                        return (
+                                            <option key={item?.id} value={item?.id}>{item?.province}</option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <div className='flex flex-col gap-2  p-2'>
+                                <p >Địa điểm làm việc</p>
+                                <select
+                                    {...register('province_id')}
+                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                >
+                                    <option value="">Quận/ Huyện</option>
+                                    {district?.map((item: any) => {
+                                        return (
+                                            <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <p >Ngành nghề muốn quan tâm</p>
-                                <input type="text" placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                                <select
+                                    {...register('major_id')}
+                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                >
+                                    <option value="">Vui lòng chọn</option>
+                                    {listMajor?.map((item: any) => {
+                                        return (
+                                            <option key={item?.id} value={item?.id}>{item?.major}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <label>Kinh nghiệm ngành nghề</label>
@@ -110,7 +150,6 @@ const Profile = React.memo(() => {
                                 <input type="text" placeholder='20000000' {...register('desired_salary')} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
                             </div>
                             <div className='flex justify-center mb-2'>
-
                                 <button className='bg-blue-500 px-5 py-2 text-white  rounded '>Lưu</button>
                             </div>
                         </form>

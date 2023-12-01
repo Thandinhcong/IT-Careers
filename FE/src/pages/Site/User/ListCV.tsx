@@ -8,6 +8,8 @@ import { CiEdit } from 'react-icons/ci';
 import React, { useEffect, useState } from 'react';
 import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FromUpload, schemaUploadImage } from '../../../schemas/apply';
 
 const ListCV = React.memo(() => {
 
@@ -33,8 +35,10 @@ const ListCV = React.memo(() => {
         }
     }
     //upload
-    const { register, handleSubmit } = useForm();
-    const handleUploadCv = async (upload: any) => {
+    const { register, handleSubmit, formState: { errors } } = useForm<FromUpload>({
+        resolver: yupResolver(schemaUploadImage)
+    });
+    const handleUploadCv = async (upload: FromUpload) => {
         upload.path_cv = image;
 
         try {
@@ -152,6 +156,7 @@ const ListCV = React.memo(() => {
                                 type="file"
                                 className="hidden"
                             />
+                            <div className='text-sm text-red-500'>{errors.path_cv && errors.path_cv.message}</div>
                             <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
                         </label>
                     </form>

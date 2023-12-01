@@ -23,12 +23,17 @@ const manageWebAllApi = createApi({
       query: () => "/experience",
       providesTags: ["ListMana"],
     }),
+    getDistrict: builder.query({
+      query: () => "/job_post_select",
+      providesTags: ["ListMana"],
+    }),
   }),
 });
 export const {
   useGetInfoManaWebsiteQuery,
   useGetMajorQuery,
   useGetExperienceQuery,
+  useGetDistrictQuery,
 } = manageWebAllApi;
 
 export const manageWebAllApiReducer = manageWebAllApi.reducer;

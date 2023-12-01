@@ -19,43 +19,40 @@ const FindJobCompanyApi = createApi({
   endpoints: (builder) => ({
     getFindCandidate: builder.query<IFindJob, void>({
       query: () => "/company/find_candidate",
-      providesTags: ['FindJob']
+      providesTags: ["FindJob"],
     }),
     getProfileOpen: builder.query<IFindJob, void>({
       query: () => "/company/profile_open",
-      providesTags: ['FindJob']
+      providesTags: ["FindJob"],
     }),
     getProfileSave: builder.query<IFindJob, void>({
       query: () => "/company/profile_save",
-      providesTags: ['FindJob']
+      providesTags: ["FindJob"],
     }),
-    // getCandidateDetail: builder.query<ICvApply, number | string>({
-    //     query: (id) => "/company/candidate_detail/" + id,
-    //     providesTags: ['FindJob']
-    // }),
+
     openProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/open_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ['FindJob']
+      invalidatesTags: ["FindJob"],
     }),
     saveProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/save_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ['FindJob']
+      invalidatesTags: ["FindJob"],
     }),
     cancelSaveProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/cancel_save_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ['FindJob']
+      invalidatesTags: ["FindJob"],
     }),
-  })
-})
+  }),
+});
 export const {
   useGetFindCandidateQuery, //Hiển thị ứng viên bật tìm việc
   useGetProfileOpenQuery, //Hiển thị ứng viên đã mở khoá
@@ -63,7 +60,7 @@ export const {
   // useGetCandidateDetailQuery,
   useOpenProfileMutation,
   useSaveProfileMutation,
-  useCancelSaveProfileMutation
+  useCancelSaveProfileMutation,
 } = FindJobCompanyApi;
 
 export const FindJobCompanyReducer = FindJobCompanyApi.reducer;

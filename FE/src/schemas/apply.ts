@@ -23,3 +23,8 @@ export const schemaJobApply = yup.object({
   curriculum_vitae_id: yup.string(),
 });
 export type FromApply = yup.InferType<typeof schemaJobApply>;
+
+export const schemaUploadImage = yup.object({
+  path_cv: yup.string().required("Trường dữ liệu bắt buộc"),
+});
+export type FromUpload = yup.InferType<typeof schemaUploadImage>;
