@@ -19,6 +19,8 @@ const isExpired = (endDate: string) => {
 };
 const TabMain = () => {
     const { data, isLoading } = useGetJobPostByIdCompanyQuery();
+    console.log(data);
+
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -55,10 +57,12 @@ const TabMain = () => {
         form
             .validateFields()
             .then((values) => {
-                if (values.end_date !== undefined) {
+                if (values.end_date !== undefined || values.start_date !== undefined) {
                     const endDate = values.end_date.toDate();
+                    const startDate = values.start_date.toDate();
                     // Định dạng ngày thành chuỗi "YYYY-MM-DD"
                     values.end_date = moment(endDate).format('YYYY-MM-DD');
+                    values.start_date = moment(startDate).format('YYYY-MM-DD');
                 }
                 if (selectedJobId !== null) {
                     extendJobPost({ ...values, id: selectedJobId })
@@ -69,7 +73,7 @@ const TabMain = () => {
                             setIsModalOpen(false);
                         })
                         .catch((error) => {
-                            message.error(error.data.errors);
+                            message.error(error?.data?.errors);
                         });
                 } else {
                     message.error("Không có ID bài đăng được chọn.");
@@ -381,11 +385,17 @@ const TabMain = () => {
                                     <DatePicker style={{ width: '100%' }} disabled />
                                 </Form.Item>
                             </Col>
-
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    name="start_date"
+                                    label="Ngày bắt đầu"
+                                    hidden
+                                    initialValue={moment()} // Đặt giá trị mặc định của DatePicker là ngày hiện tại
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
                         </Row>
-
-
-
                     </Form>
                 </div>
             </Modal>

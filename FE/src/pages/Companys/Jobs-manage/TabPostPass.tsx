@@ -1,8 +1,8 @@
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
 import React, { useState } from 'react';
-import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
+import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useGetJobPostSelectByIdQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -18,16 +18,22 @@ const isExpired = (endDate: string) => {
     return currentDate.isAfter(end);
 };
 const TabPostPass = () => {
-    const { data } = useGetJobPostByIdCompanyQuery();
+    const { data, isLoading } = useGetJobPostByIdCompanyQuery();
+    console.log(data);
 
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
     const [stopJobPost] = useStopJobPostMutation();
+    const { data: select } = useGetJobPostSelectByIdQuery();
 
-    const defaultEndDate = moment().add(5, 'days'); //giá trị mặc định là sau 5 ngày hiện tại
-    const defaultQuantity = 5;
+    const defaultEndDate = moment().add(10, 'days'); //giá trị mặc định là sau 10 ngày hiện tại
+    const defaultQuantity = 10;
+
+    const [searchKeyword, setSearchKeyword] = useState(""); // Trạng thái lưu từ khoá tìm kiếm
+    const [originalJobPostData, setOriginalJobPostData] = useState([]); // Trạng thái lưu mảng bài đăng ban đầu
+    console.log(originalJobPostData);
 
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);
@@ -51,39 +57,49 @@ const TabPostPass = () => {
         form
             .validateFields()
             .then((values) => {
-                if (values.end_date !== undefined) {
+                if (values.end_date !== undefined || values.start_date !== undefined) {
                     const endDate = values.end_date.toDate();
+                    const startDate = values.start_date.toDate();
                     // Định dạng ngày thành chuỗi "YYYY-MM-DD"
                     values.end_date = moment(endDate).format('YYYY-MM-DD');
+                    values.start_date = moment(startDate).format('YYYY-MM-DD');
                 }
                 if (selectedJobId !== null) {
                     extendJobPost({ ...values, id: selectedJobId })
                         .unwrap()
                         .then(() => {
                             message.success(`Gia hạn thành bài đăng thành công`);
+                            // Đóng Modal
+                            setIsModalOpen(false);
                         })
                         .catch((error) => {
-                            message.error("Đăng bài thất bại" + error.message);
+                            message.error(error?.data?.errors);
                         });
                 } else {
                     message.error("Không có ID bài đăng được chọn.");
                 }
-
                 // Đóng Modal
                 setIsModalOpen(false);
+                console.log('Received values:', values);
             })
+            .catch(() => {
 
+            });
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
-    const confirm = (id: number | string) => { //dừng tuyển
+    const confirm = (id: number | string) => {
         stopJobPost(id);
         setTimeout(() => {
             message.success('Bài đăng đã được dừng tuyển');
         }, 1000);
+    };
+
+    const handleChange = (value: string) => {
+        console.log(`selected ${value}`);
     };
 
     const columns: ColumnsType<IJobPost> = [
@@ -118,10 +134,10 @@ const TabPostPass = () => {
         },
         {
             title: 'Loại tin',
-            dataIndex: 'type',
+            dataIndex: 'type_post',
             width: 100,
-            render: (type: string) => (
-                <p className="text-center">{type}</p>
+            render: (type_post: string) => (
+                <p className="text-center">{type_post}</p>
             )
         },
         {
@@ -158,7 +174,7 @@ const TabPostPass = () => {
             title: 'Lượt xem',
             dataIndex: 'views',
             width: 100,
-            render: (views: string) => (
+            render: (views: number) => (
                 <p className="text-center">{views}</p>
             )
         },
@@ -242,7 +258,7 @@ const TabPostPass = () => {
             }
         },
     ];
-
+    if (isLoading) return <Skeleton loading />;
     const jobPostData = data?.Job_position?.map((item: IJobPost) => {
 
         return {
@@ -251,10 +267,11 @@ const TabPostPass = () => {
             title: item.title,
             gender: item.gender,
             quantity: item.quantity,
-            require: item.require,
+            require: item.requirement,
             start_date: item.start_date,
             end_date: item.end_date,
             office: item.office,
+            type_post: item.name,
             job_position_id: item.job_position_id,
             province: item.province, //Tỉnh/ Thành phố
             district: item.district, //Quận/ Huyện
@@ -265,13 +282,8 @@ const TabPostPass = () => {
         }
     })
     const passJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 1);
-    const currentDate = moment(); // Lấy ngày hiện tại
-    const filteredJobPosts = passJobPostData?.filter((item: IJobPost) => {
-        if (item.end_date) {
-            const endDate = moment(item.end_date);
-            return endDate.isSameOrAfter(currentDate, 'day'); // So sánh ngày kết thúc với ngày hiện tại
-        }
-        return false; // Bỏ qua các bài đăng không có 'end_date'
+    const filteredJobPostData = passJobPostData?.filter((item: IJobPost) => {
+        return item.title?.toLowerCase().includes(searchKeyword.toLowerCase()); // Lọc theo từ khoá trong tiêu đề bài đăng
     });
     // rowSelection object indicates the need for row selection
     const rowSelection = {
@@ -285,20 +297,37 @@ const TabPostPass = () => {
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
-                <input type="text" placeholder="Tìm theo tiêu đề hoặc mã tin" className="border border-gray-200 py-2 px-4 rounded-md outline-blue-400 w-1/2" />
-                <button className="bg-blue-600 text-white flex items-center rounded-md px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
-                <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-5"><AiOutlineReload /><p>Xóa lọc</p></button>
+                <Input
+                    type="text"
+                    placeholder="Tìm theo tiêu đề bài đăng"
+                    className="border border-gray-200 py-2 px-4 rounded-md outline-blue-400 w-1/2"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button
+                    className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-5"
+                    onClick={() => {
+                        setSearchKeyword(""); // đặt input về chuỗi rỗng
+                        setOriginalJobPostData([]); //đặt lại mảng về ban đầu
+                    }}
+                >
+                    <AiOutlineReload />
+                    <p>Xóa lọc</p>
+                </button>
             </div>
             <div>
                 <Divider />
-
-                <Table
-                    rowSelection={{
-                        ...rowSelection,
-                    }}
-                    columns={columns}
-                    dataSource={filteredJobPosts}
-                />
+                {filteredJobPostData && filteredJobPostData.length > 0 ? (
+                    <Table
+                        rowSelection={{
+                            ...rowSelection,
+                        }}
+                        columns={columns}
+                        dataSource={filteredJobPostData || passJobPostData}
+                    />
+                ) : (
+                    <p>Không tìm thấy bài đăng</p>
+                )}
             </div>
             <Modal
                 title="Đăng lại bài"
@@ -319,15 +348,17 @@ const TabPostPass = () => {
                         initialValues={{ remember: true }}
                         autoComplete="off"
                     >
-                        <Form.Item
-                            name="selectedOption"
+                        <Form.Item<IJobPost>
                             label="Chọn loại tin đăng"
-                        // rules={[{ required: true, message: 'Vui lòng chọn một tùy chọn!' }]}
+                            name="type_job_post_id"
+                            rules={[{ required: true }]}
                         >
-                            <Select style={{ width: '100%' }} placeholder="--Chọn loại tin--">
-                                <Select.Option value="option1">Vip 1</Select.Option>
-                                <Select.Option value="option2">Vip 2</Select.Option>
-                                <Select.Option value="option3">Vip 3</Select.Option>
+                            <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                {select?.data?.type_job_post.map((options: IJobPost) => (
+                                    <Select.Option key={options.id} value={options.id}>
+                                        {options.name}
+                                    </Select.Option>
+                                ))}
                             </Select>
                         </Form.Item>
                         <Row gutter={16}>
@@ -354,11 +385,17 @@ const TabPostPass = () => {
                                     <DatePicker style={{ width: '100%' }} disabled />
                                 </Form.Item>
                             </Col>
-
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    name="start_date"
+                                    label="Ngày bắt đầu"
+                                    hidden
+                                    initialValue={moment()} // Đặt giá trị mặc định của DatePicker là ngày hiện tại
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
                         </Row>
-
-
-
                     </Form>
                 </div>
             </Modal>
