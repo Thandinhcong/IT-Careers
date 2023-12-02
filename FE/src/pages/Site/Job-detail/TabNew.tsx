@@ -25,7 +25,7 @@ import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
-    const fileInputRef = useRef(null);
+    const fileInputRef: any = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {

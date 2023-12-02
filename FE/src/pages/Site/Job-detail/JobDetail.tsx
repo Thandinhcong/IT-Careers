@@ -35,7 +35,7 @@ import { Skeleton } from "antd";
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
-    const fileInputRef = useRef(null);
+    const fileInputRef: any = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {

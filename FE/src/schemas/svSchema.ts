@@ -1,5 +1,5 @@
 import * as yup from "yup";
-
+const passwordRegex = /^[^\s]{2,}$/;
 export const schemaProfile = yup.object({
   name: yup.string(),
   email: yup
@@ -42,3 +42,11 @@ export const schemaProject = yup.object({
   end_date: yup.date().required("Trường dữ liệu không được để trống"),
 });
 export type FormProject = yup.InferType<typeof schemaProject>;
+
+export const schemaSkills = yup.object({
+  name_skill: yup
+    .string()
+    .matches(passwordRegex, "Tối thiểu 2 ký tự.")
+    .required("Trường dữ không được để trống"),
+});
+export type FormSkill = yup.InferType<typeof schemaSkills>;

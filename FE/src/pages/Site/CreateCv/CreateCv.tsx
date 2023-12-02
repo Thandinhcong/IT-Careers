@@ -11,7 +11,7 @@ import html2pdf from 'html2pdf.js';
 import { GoDownload } from 'react-icons/go';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { FormEdu, FormExp, FormProfile, FormProject, schemaProfile } from '../../../schemas/svSchema';
+import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile, schemaProject, schemaSkills } from '../../../schemas/svSchema';
 
 
 const CreateCvTest = React.memo(() => {
@@ -38,7 +38,6 @@ const CreateCvTest = React.memo(() => {
         resolver: yupResolver(schemaProfile)
     });
     const onHandleSubmit = async (data: any) => {
-        // if (typeof image !== "string") return;
         data.image = image;
         try {
             await updateInfoCv({
@@ -64,8 +63,8 @@ const CreateCvTest = React.memo(() => {
     const [deleteSkill] = useDeleteSkillMutation();
     const listSkill = getCV?.profile?.skill_cv;
     const [updateSkill] = useUpdateSkillMutation();
-    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill } = useForm<any>({
-        defaultValues: listSkill,
+    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill, formState: { errors: errorsSkill } } = useForm<FormSkill>({
+        resolver: yupResolver(schemaSkills),
     });
 
     const onHandleSubmitSkill = async (data: any, skillId?: string) => {
@@ -78,7 +77,6 @@ const CreateCvTest = React.memo(() => {
                 }).unwrap();
                 notyf.success("Cập nhật kỹ năng thành công");
             } else {
-                // Thêm kỹ năng mới
                 await addSkill({
                     profile_id: idPost,
                     ...data,
@@ -87,6 +85,7 @@ const CreateCvTest = React.memo(() => {
             }
             resetSkill();
         } catch (error) {
+            notyf.success("Thêm kỹ năng thất bại");
         }
     };
 
@@ -97,7 +96,7 @@ const CreateCvTest = React.memo(() => {
             notyf.success("Xóa kỹ năng thành công")
 
         } catch (error) {
-
+            notyf.error("Xóa kỹ năng thất bại")
         }
     }
 
@@ -127,8 +126,8 @@ const CreateCvTest = React.memo(() => {
         reset: resetProject,
         getValues: getValuesProject,
         formState: { errors: errorsProject }
-
     } = useForm<FormProject>({
+        resolver: yupResolver(schemaProject),
         defaultValues: listProject
     });
 
@@ -225,10 +224,11 @@ const CreateCvTest = React.memo(() => {
     const handleDeleteEducation = async (id: string | number) => {
         try {
             await deleteEducation(id).unwrap();
-            notyf.success("Xóa học vấn thành công")
+            notyf.success("Xóa học vấn thành công");
 
         } catch (error: any) {
-            notyf.error(error)
+            notyf.error("Xóa học vấn thất bại");
+
         }
     };
     const [education, setEducation] = useState([{ major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
@@ -248,7 +248,6 @@ const CreateCvTest = React.memo(() => {
         updatedEdu[index][field] = value;
         setEducation(updatedEdu);
     };
-    // kinh nghiệm
 
     const [addExp] = useAddExpMutation();
     const listExp = getCV?.profile?.exps;
@@ -259,7 +258,6 @@ const CreateCvTest = React.memo(() => {
     const onHandleSubmitExp = async (data: any, expId?: string) => {
         try {
             if (expId) {
-                // Cập nhật dự án đã tồn tại
                 await updateExp({
                     id: expId,
                     profile_id: idPost,
@@ -267,14 +265,13 @@ const CreateCvTest = React.memo(() => {
                 }).unwrap();
                 notyf.success("Cập nhật dự án thành công");
             } else {
-                // Thêm dự án mới
                 await addExp({
                     profile_id: idPost,
                     ...data,
                 }).unwrap();
                 notyf.success("Thêm dự án thành công");
             }
-            resetExp(); // Đặt lại form sau khi submit
+            resetExp();
         } catch (error: any) {
             notyf.error(error?.data?.message);
         }
@@ -310,7 +307,6 @@ const CreateCvTest = React.memo(() => {
     const handleSaveCv = async () => {
         try {
             const element = document.getElementById('pdf-content');
-            // Create PDF
             const pdfOptions = {
                 margin: [0, 0],
                 filename: `CVbework.pdf`,
@@ -320,8 +316,6 @@ const CreateCvTest = React.memo(() => {
             };
             const pdfBlob = await html2pdf().set(pdfOptions).from(element).output('blob').then((data: any) => { return data });
             const cloudinaryResponse = await uploadToCloudinary(pdfBlob);
-
-
             await saveCv({
                 id,
                 path_cv: cloudinaryResponse.secure_url,
@@ -336,7 +330,6 @@ const CreateCvTest = React.memo(() => {
         const formData = new FormData();
         formData.append('file', new Blob([pdfBlob], { type: 'application/pdf' }), `CV${profile?.title} bework.pdf`);
 
-        // Add other Cloudinary upload options as needed
         formData.append('upload_preset', 'demo-upload');
         const name = "dxzlnojyv";
         const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${name}/upload`, {
@@ -364,11 +357,9 @@ const CreateCvTest = React.memo(() => {
             }
         }
     };
-    // in pdf
 
     const generatePDF = async () => {
         const element = document.getElementById('pdf-content');
-
         if (!element) {
             return;
         }
@@ -817,8 +808,11 @@ const CreateCvTest = React.memo(() => {
                                             name='name_skill'
                                             defaultValue={skill?.name_skill}
                                             onChange={(e) => handleChangeSkill(index, "name_skill", e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border border-gray-200 p-2 w-full outline-none'
                                         />
+                                        <div className='text-red-500 text-sm'>
+                                            {errorsSkill.name_skill && errorsSkill.name_skill.message}
+                                        </div>
                                     </div>
                                 </div>
                                 <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
@@ -856,7 +850,7 @@ const CreateCvTest = React.memo(() => {
                                             name='project_name'
                                             defaultValue={project?.project_name}
                                             onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.project_name && errorsProject?.project_name?.message}
@@ -872,7 +866,7 @@ const CreateCvTest = React.memo(() => {
                                             name='position'
                                             defaultValue={project?.position}
                                             onChange={(e: any) => handleChangeProject(index, 'position', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.position && errorsProject?.position?.message}
@@ -891,14 +885,13 @@ const CreateCvTest = React.memo(() => {
                                         <label className='block font-semibold mb-2 '>
                                             <div>Mô tả dự án</div>
                                         </label>
-                                        <input
+                                        <textarea
                                             {...registerProject('desc')}
-                                            type="text"
                                             name='desc'
                                             defaultValue={project?.desc}
                                             onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
-                                        />
+                                            className='border outline-none border-gray-200 p-2 w-full'
+                                        ></textarea>
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.desc && errorsProject?.desc?.message}
                                         </div>
@@ -913,7 +906,7 @@ const CreateCvTest = React.memo(() => {
                                             name='link_project'
                                             defaultValue={project?.link_project}
                                             onChange={(e) => handleChangeProject(index, 'link_project', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.link_project && errorsProject?.link_project?.message}
@@ -930,7 +923,7 @@ const CreateCvTest = React.memo(() => {
                                             name='start_date'
                                             defaultValue={project?.start_date}
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border border-gray-200 p-2 w-full outline-none'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.start_date && errorsProject?.start_date?.message}
@@ -947,7 +940,7 @@ const CreateCvTest = React.memo(() => {
                                             name='end_date'
                                             defaultValue={project?.end_date}
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border border-gray-200 p-2 w-full outline-none'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsProject?.end_date && errorsProject?.end_date?.message}

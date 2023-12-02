@@ -3,15 +3,13 @@ import { useGetAreaAllQuery } from '../../../api/areaApi'
 const TopArea = () => {
     const { data } = useGetAreaAllQuery();
     const listAreaTop = data?.job_list;
+    const sortedListAreaTop = [...listAreaTop]?.sort((a: any, b: any) => b?.job_count - a?.job_count);
 
-    // const sortedListAreaTop = listAreaTop?.sort((a: any, b: any) => b?.job_count - a?.job_count);
-
-    // console.log("listAreaTop", sortedListAreaTop);
     return (
         <div className='mb-10 rounded-2xl '>
             <h2 className='text-2xl'>Các khu vực <span className='text-blue-500'> hàng đầu</span></h2>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
-                {/* {sortedListAreaTop?.map((item: any) => {
+                {sortedListAreaTop?.map((item: any) => {
                     return (
                         <div key={item?.id} className='shadow-md mt-10'>
                             <img
@@ -24,7 +22,7 @@ const TopArea = () => {
                             } việc làm</p>
                         </div>
                     )
-                })} */}
+                })}
 
             </div>
         </div>
