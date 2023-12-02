@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCvQuery } from '../../../api/cv/listCvApi';
 import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FromUpload, schemaUploadImage } from '../../../schemas/apply';
 
 const ListCV = React.memo(() => {
-
+    const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -28,8 +28,10 @@ const ListCV = React.memo(() => {
     const [CreateCV] = useAddCvMutation();
     const handleAddCV = async (data: any) => {
         try {
-            await CreateCV(data).unwrap();
+            const response = await CreateCV(data).unwrap();
             notyf.success('Tạo thành công');
+            const newID = response?.profile_id;
+            navigate(`/tao-cv/${newID}`)
         } catch (error: any) {
             notyf.error(error?.data?.message)
         }
