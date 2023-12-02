@@ -17,7 +17,7 @@ const isExpired = (endDate: string) => {
     const end = moment(endDate);
     return currentDate.isAfter(end);
 };
-const TabPostStop = () => {
+const TabPostVIP = () => {
     const { data, isLoading } = useGetJobPostByIdCompanyQuery();
     console.log(data);
 
@@ -192,9 +192,10 @@ const TabPostStop = () => {
                     <span>Thao tác</span>
                 </div>
             ),
-            render: ({ key: id, end_date, title, status }: { key: number, end_date: string, title: string, status: number | string }) => {
+            render: ({ key: id, end_date, title }: { key: number, end_date: string, title: string }) => {
                 const isExpiredValue = end_date ? isExpired(end_date) : true;
-                const showExtendButton = isExpiredValue || status === 3; // Include status === 3 condition
+                // Chỉ hiển thị nút đăng lại bài nếu end_date trước ngày hiện tại
+                const showExtendButton = isExpiredValue;
                 return (
                     <div className="flex gap-2">
                         {showExtendButton && (
@@ -278,10 +279,11 @@ const TabPostStop = () => {
             major_id: item.major,
             interest: item.interest,
             views: item.view,
+            type_job_post_id: item.type_job_post_id,
         }
     })
-    const passJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 3);
-    const filteredJobPostData = passJobPostData?.filter((item: IJobPost) => {
+    const vipJobPostData = jobPostData?.filter((item: IJobPost) => item.type_job_post_id === 2);
+    const filteredJobPostData = vipJobPostData?.filter((item: IJobPost) => {
         return item.title?.toLowerCase().includes(searchKeyword.toLowerCase()); // Lọc theo từ khoá trong tiêu đề bài đăng
     });
     // rowSelection object indicates the need for row selection
@@ -322,7 +324,7 @@ const TabPostStop = () => {
                             ...rowSelection,
                         }}
                         columns={columns}
-                        dataSource={filteredJobPostData || passJobPostData}
+                        dataSource={filteredJobPostData || vipJobPostData}
                     />
                 ) : (
                     <p>Không tìm thấy bài đăng</p>
@@ -402,4 +404,4 @@ const TabPostStop = () => {
     )
 }
 
-export default TabPostStop
+export default TabPostVIP

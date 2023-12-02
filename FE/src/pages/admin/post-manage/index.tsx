@@ -1,16 +1,16 @@
-import { Button, Result, Skeleton, Table, Tag, Modal, message } from 'antd';
+import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
 import { AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { IJobPost } from "../../../interfaces";
 import { useEditJobPostStatusMutation, useGetJobPostQuery } from "../../../api/jobPost";
 import React, { useState } from 'react';
-
+import { FilterOutlined } from '@ant-design/icons';
 
 const PostManage = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading, error } = useGetJobPostQuery();
-
+    console.log(data)
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<any | null>(null);
@@ -42,7 +42,6 @@ const PostManage = () => {
             updateStatus(updatedJobPost);
             message.success("Cập nhật trạng thái thành công");
         }
-
         setModalVisible(false);
     };
     if (isLoading) return <Skeleton loading />;
@@ -101,9 +100,143 @@ const PostManage = () => {
             key: 'end_date',
         },
         {
-            title: 'Yêu cầu',
-            dataIndex: 'require',
-            key: 'require',
+            title: 'Gói đăng tin',
+            dataIndex: 'type_job_post_id',
+            key: 'type_job_post_id',
+            render: (type_job_post_id: number | undefined) => {
+                let color;
+                let text
+                if (type_job_post_id === 1) {
+                    color = 'blue';
+                    text = 'Tin Thường';
+
+                } else {
+                    color = '#f50';
+                    text = 'Tin VIP';
+                }
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                )
+            },
+            filters: [
+                { text: 'Tin Thường', value: 1 },
+                { text: 'Tin VIP', value: 2 },
+            ],
+            onFilter: (value, record) => record.type_job_post_id === value,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
+                <div style={{ padding: 8 }}>
+                    {[
+                        { text: 'Tin Thường', value: 1 },
+                        { text: 'Tin VIP', value: 2 },
+                    ].map((item) => (
+                        <div key={item.value} style={{ marginBottom: 8 }}>
+                            <Checkbox
+                                checked={selectedKeys.includes(item.value)}
+                                onChange={(e) => {
+                                    const nextSelectedKeys = e.target.checked
+                                        ? [...selectedKeys, item.value]
+                                        : selectedKeys.filter((key) => key !== item.value);
+                                    setSelectedKeys(nextSelectedKeys);
+                                }}
+                            >
+                                {item.text}
+                            </Checkbox>
+                        </div>
+                    ))}
+                    <div style={{ marginTop: 8 }}>
+                        <Button
+                            type="primary"
+                            onClick={() => confirm()}
+                            size="small"
+                            style={{ marginRight: 8 }}
+                            className='bg-blue-500'
+                        >
+                            Lọc
+                        </Button>
+                        <Button onClick={() => clearFilters()} size="small">
+                            Đặt lại
+                        </Button>
+                    </div>
+                </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+                <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            ),
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            dataIndex: 'status',
+            render: (status: number | undefined) => {
+                let color;
+                let text;
+
+                if (status === 1) {
+                    color = 'green';
+                    text = 'Duyệt';
+
+                } else if (status === 0) {
+                    color = 'geekblue';
+                    text = 'Chưa duyệt';
+                } else if (status === 2) {
+                    color = 'volcano';
+                    text = 'Không duyệt';
+                }
+
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                );
+            },
+            filters: [
+                { text: 'Duyệt', value: 1 },
+                { text: 'Chưa duyệt', value: 0 },
+                { text: 'Không duyệt', value: 2 },
+            ],
+            onFilter: (value, record) => record.status === value,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
+                <div style={{ padding: 8 }}>
+                    {[
+                        { text: 'Duyệt', value: 1 },
+                        { text: 'Chưa duyệt', value: 0 },
+                        { text: 'Không duyệt', value: 2 },
+                    ].map((item) => (
+                        <div key={item.value} style={{ marginBottom: 8 }}>
+                            <Checkbox
+                                checked={selectedKeys.includes(item.value)}
+                                onChange={(e) => {
+                                    const nextSelectedKeys = e.target.checked
+                                        ? [...selectedKeys, item.value]
+                                        : selectedKeys.filter((key) => key !== item.value);
+                                    setSelectedKeys(nextSelectedKeys);
+                                }}
+                            >
+                                {item.text}
+                            </Checkbox>
+                        </div>
+                    ))}
+                    <div style={{ marginTop: 8 }}>
+                        <Button
+                            type="primary"
+                            onClick={() => confirm()}
+                            size="small"
+                            style={{ marginRight: 8 }}
+                            className='bg-blue-500'
+                        >
+                            Lọc
+                        </Button>
+                        <Button onClick={() => clearFilters()} size="small">
+                            Đặt lại
+                        </Button>
+                    </div>
+                </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+                <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            ),
         },
         {
             title: 'Giới tính',
@@ -134,33 +267,6 @@ const PostManage = () => {
             key: 'interest',
         },
         {
-            title: 'Status',
-            key: 'status',
-            dataIndex: 'status',
-            render: (status: number | undefined) => {
-                let color;
-                let text;
-
-                if (status === 1) {
-                    color = 'green';
-                    text = 'Duyệt';
-
-                } else if (status === 0) {
-                    color = 'geekblue';
-                    text = 'Chưa duyệt';
-                } else {
-                    color = 'volcano';
-                    text = 'Không duyệt';
-                }
-
-                return (
-                    <Tag color={color}>
-                        {text}
-                    </Tag>
-                );
-            },
-        },
-        {
             title: 'Action',
             key: 'action',
             fixed: 'right',
@@ -189,7 +295,7 @@ const PostManage = () => {
             <div className="flex justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Quản lý bài đăng</h2>
             </div>
-            <Table columns={columns} dataSource={dataJobPost} scroll={{ x: 1500 }} /> {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataJobPost} scroll={{ x: 1500 }} loading={isLoading} pagination={{ pageSize: 10 }} /> {/* Chỉnh độ rộng của bảng */}
             <Modal
                 title="Xác nhận duyệt bài đăng"
                 visible={modalVisible}
@@ -221,8 +327,8 @@ const PostManage = () => {
 
                                 <div className='flex justify-between items-center'>
                                     <div>
-                                        <h2>{item.title}</h2>
-                                        <h3>{item.company_name}</h3>
+                                        <h2 className='font-semibold text-xl'>{item.title}</h2>
+                                        <h3 className='font-semibold text-lg text-gray-600'>{item.company_name}</h3>
                                         <div className="flex items-center gap-2 my-5">
                                             <button className="text-white border border-blue-600 bg-blue-600 p-3 hover:bg-blue-500 font-medium rounded-lg">
                                                 <AiOutlineCheck className="inline-block text mr-2 text-xl" />Nộp hồ sơ online

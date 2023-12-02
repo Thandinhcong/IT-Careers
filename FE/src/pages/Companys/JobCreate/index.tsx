@@ -151,7 +151,7 @@ const JobCreate = React.memo(() => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Tỉnh/Thành phố"
-                                name="area_id"
+                                name=""
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
@@ -167,7 +167,7 @@ const JobCreate = React.memo(() => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Quận/Huyện"
-                                name="district_id"
+                                name="area_id"
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>

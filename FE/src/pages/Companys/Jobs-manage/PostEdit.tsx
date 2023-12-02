@@ -1,8 +1,7 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
 import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
-import { RuleObject } from 'antd/lib/form';
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -16,7 +15,7 @@ const PostEdit = () => {
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();
     const { data: PostData, isLoading } = useGetJobPostByIdCompanyIdQuery(id || "");
-
+    console.log(PostData);
     const [jobPost] = useEditJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
 
@@ -44,6 +43,7 @@ const PostEdit = () => {
             interest: PostData?.level?.interest,
             requirement: PostData?.level?.requirement,
             desc: PostData?.level?.desc,
+            type_job_post_id: PostData?.level?.type_job_post_id,
             start_date: PostData?.level?.start_date
                 ? moment(PostData?.level?.start_date)
                 : null,
@@ -84,32 +84,11 @@ const PostEdit = () => {
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
-    const validateStartDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
-        if (value) {
-            const currentDate = moment();
-            if (value.isBefore(currentDate, 'day')) {
-                callback('Ngày bắt đầu phải sau hoặc cùng ngày hiện tại');
-            } else {
-                callback();
-            }
-        }
-    };
-    // Hàm kiểm tra ngày kết thúc
-    const validateEndDate = (_rule: RuleObject, value: Moment, callback: (message?: string) => void) => {
-        if (value) {
-            const currentDate = moment();
-            const minEndDate = moment(currentDate).add(10, 'days');
-            if (value.isBefore(minEndDate, 'day')) {
-                callback('Ngày kết thúc phải sau ngày bắt đầu ít nhất 10 ngày');
-            }
-        }
-    };
     if (isLoading) return <Skeleton loading />;
     return (
         <div className='bg-gray-100 py-8 px-4'>
             <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Cập nhật bài đăng tuyển dụng</h2>
-
                 <Form
                     form={form}
                     className='mx-auto'
@@ -172,7 +151,7 @@ const PostEdit = () => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Tỉnh/Thành phố"
-                                name="area_id"
+                                name="district_id"
                                 rules={[{ required: true, message: "Vui lòng chọn" }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
@@ -188,7 +167,7 @@ const PostEdit = () => {
                         <Col span={12}>
                             <Form.Item<IJobPost>
                                 label="Quận/Huyện"
-                                name="district_id"
+                                name="area_id"
                                 rules={[{ required: true }]}
                             >
                                 <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
@@ -273,9 +252,8 @@ const PostEdit = () => {
                             <Form.Item<IJobPost>
                                 label="Loại tin đăng"
                                 name="type_job_post_id"
-                                rules={[{ required: true }]}
                             >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange} disabled>
                                     {data?.data?.type_job_post.map((options: IJobPost) => (
                                         <Select.Option key={options.id} value={options.id}>
                                             {options.name}
@@ -367,12 +345,8 @@ const PostEdit = () => {
                             <Form.Item<IJobPost>
                                 name="start_date"
                                 label="Ngày bắt đầu"
-                                rules={[
-                                    { required: true, message: 'Vui lòng không bỏ trống' },
-                                    { validator: validateStartDate },
-                                ]}
                             >
-                                <DatePicker style={{ width: '100%' }} />
+                                <DatePicker style={{ width: '100%' }} disabled />
                             </Form.Item>
                         </Col>
                         {/* Ngay ket thuc */}
@@ -380,13 +354,8 @@ const PostEdit = () => {
                             <Form.Item<IJobPost>
                                 name="end_date"
                                 label="Ngày kết thúc"
-                                rules={[
-                                    { required: true, message: 'Vui lòng không bỏ trống' },
-                                    { validator: validateEndDate },
-
-                                ]}
                             >
-                                <DatePicker style={{ width: '100%' }} />
+                                <DatePicker style={{ width: '100%' }} disabled />
                             </Form.Item>
                         </Col>
                     </Row>
