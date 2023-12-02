@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { Link, useParams } from "react-router-dom";
 import {
@@ -25,6 +25,7 @@ import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
+    const fileInputRef = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -96,14 +97,27 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
         } catch (error) {
-            notyf.error("Có lỗi xảy ra vui lòng thử lại!")
+            notyf.error("Vui lòng chọn Cv của bạn!")
         }
 
     };
     const { data: listCv } = useListCvQuery();
     const listAllCv = listCv?.data;
+
+    const isPDFFile = (fileName: any) => {
+        const fileExtension = fileName?.split('.').pop()?.toLowerCase();
+        return fileExtension === 'pdf';
+    };
+
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
+        if (!isPDFFile(files?.name)) {
+            alert("Vui lòng chọn một file PDF.");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+            return;
+        }
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -273,6 +287,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                 <div>
                                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <input
+
                                         {...regiterLogin("email")}
                                         type="text"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
@@ -347,6 +362,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             Họ Tên <span className="text-red-500">*</span>
                                         </label>
                                         <input
+                                            defaultValue={user?.name}
                                             type="text"
                                             placeholder="Nhập tên của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
@@ -361,6 +377,8 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             Email<span className="text-red-500">*</span>
                                         </label>
                                         <input
+                                            defaultValue={user?.email}
+
                                             type="text"
                                             placeholder="Nhập tên email của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
@@ -375,6 +393,9 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             Số điện thoại <span className="text-red-500">*</span>
                                         </label>
                                         <input
+
+                                            defaultValue={user?.phone}
+
                                             type="text"
                                             placeholder="Nhập số điện thoại của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
@@ -390,9 +411,10 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
                                         </label>
                                         <input
+                                            {...register("path_cv")}
+                                            ref={fileInputRef}
                                             className="border py-1 w-full "
                                             type="file"
-                                            {...register("path_cv")}
                                             onChange={onChangeFile}
                                             accept=".pdf"
                                         />

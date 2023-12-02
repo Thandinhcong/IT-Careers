@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
@@ -35,6 +35,7 @@ import { Skeleton } from "antd";
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
+    const fileInputRef = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -68,6 +69,7 @@ const JobDetail = React.memo(() => {
     const { data: infoUser } = useGetInfoUserQuery();
 
     const user = infoUser?.candidate;
+
     const idUser: any = user?.id;
 
     const [applyJob] = useApplyJobMutation();
@@ -100,9 +102,8 @@ const JobDetail = React.memo(() => {
             notyf.error(error?.data?.errors)
         }
     };
-    //apply
     const onHandleSubmit = async (job: FromApply) => {
-        // if (typeof image !== "string") return;
+
         job.path_cv = image as any;
         try {
             await applyJob({
@@ -113,12 +114,27 @@ const JobDetail = React.memo(() => {
             notyf.success("Ứng tuyển công việc thành công");
             setShowModal(false)
         } catch (error: any) {
-            notyf.error(error?.message)
+            notyf.error("Vui lòng chọn đầy đủ thông tin!");
         }
-
     };
+
+    const isPDFFile = (fileName: any) => {
+        const fileExtension = fileName?.split('.').pop()?.toLowerCase();
+        return fileExtension === 'pdf';
+    };
+
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
+        if (!isPDFFile(files?.name)) {
+            alert("Vui lòng chọn một file PDF.");
+
+            // Xóa dữ liệu trong input file
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+
+            return;
+        }
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -286,7 +302,7 @@ const JobDetail = React.memo(() => {
                             </button>
                         </TEModalHeader>
                         {/*ứng tuyển */}
-                        <form onSubmit={handleSubmit(onHandleSubmit)}>
+                        <form onSubmit={handleSubmit(onHandleSubmit)} encType="multipart/form-data" >
                             <TEModalBody className="leading-8">
                                 <p className="text-base text-gray-900 my-2">
                                     Tải lên CV từ máy tính
@@ -297,10 +313,11 @@ const JobDetail = React.memo(() => {
                                             Họ Tên <span className="text-red-500">*</span>
                                         </label>
                                         <input
+                                            defaultValue={user?.name}
+                                            {...register("name")}
                                             type="text"
                                             placeholder="Nhập tên của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("name")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.name && errors.name.message}
@@ -311,10 +328,12 @@ const JobDetail = React.memo(() => {
                                             Email<span className="text-red-500">*</span>
                                         </label>
                                         <input
+                                            defaultValue={user?.email}
+                                            {...register("email")}
+
                                             type="text"
                                             placeholder="Nhập tên email của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("email")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.email && errors.email.message}
@@ -325,10 +344,12 @@ const JobDetail = React.memo(() => {
                                             Số điện thoại <span className="text-red-500">*</span>
                                         </label>
                                         <input
+                                            defaultValue={user?.phone}
+                                            {...register("phone")}
+
                                             type="text"
                                             placeholder="Nhập số điện thoại của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("phone")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.phone && errors.phone.message}
@@ -340,9 +361,10 @@ const JobDetail = React.memo(() => {
                                             <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
                                         </label>
                                         <input
+                                            {...register("path_cv")}
+                                            ref={fileInputRef}
                                             className="border py-1 w-full "
                                             type="file"
-                                            {...register("path_cv")}
                                             onChange={onChangeFile}
                                             accept=".pdf"
                                         />

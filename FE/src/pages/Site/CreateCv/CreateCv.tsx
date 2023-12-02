@@ -416,7 +416,7 @@ const CreateCvTest = React.memo(() => {
                     <form onSubmit={handleSubmit(onHandleSubmit)}>
                         <div className='border border-gray-200 p-5 grid grid-cols-3 gap-8'>
                             <div>
-                                <label className='block font-semibold mb-2'>Hinh anh</label>
+                                <label className='block font-semibold mb-2'>Hình ảnh</label>
                                 <input
                                     {...register('image')}
                                     defaultValue={profile?.image}
