@@ -8,8 +8,7 @@ import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebs
 
 
 const Profile = React.memo(() => {
-    const [filterProvince, setFilterProvince] = useState('');
-    const [filterDistrict, setFilterDistrict] = useState('');
+    const [selectedProvince, setSelectedProvince] = useState(null);
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
@@ -22,13 +21,18 @@ const Profile = React.memo(() => {
     const { data: Exp } = useGetExperienceQuery();
     const listExp = Exp?.data;
     //districs
-
+    const handleProvinceChange = (e: any) => {
+        setSelectedProvince(e.target.value);
+    };
     const { data: dataFindJob } = useGetDataFindJobQuery();
     const province = dataFindJob?.data?.province;
-    const district = dataFindJob?.data?.district;
-    console.log("dataFindJob", district);
+    const districts = dataFindJob?.data?.district;
 
-    const { register, handleSubmit, formState } = useForm();
+    const filteredDistricts = districts?.filter((district: any) => district.province === selectedProvince);
+
+    console.log("filteredDistricts", filteredDistricts);
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const onHandleSubmit = async (data: any) => {
         try {
             const results = await SaveInfoFindJob({
@@ -39,7 +43,6 @@ const Profile = React.memo(() => {
 
         } catch (error) {
             console.log(error);
-
         }
     }
 
@@ -92,29 +95,30 @@ const Profile = React.memo(() => {
                             <div className='flex flex-col gap-2  p-2'>
                                 <p >Địa điểm làm việc</p>
                                 <select
-                                    {...register('province_id')}
-                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                    className='border border-blue-500 rounded outline-none px-2 py-1'
+                                    onChange={handleProvinceChange}
+                                    value={selectedProvince}
                                 >
                                     <option value="">Tỉnh/Thành phố</option>
-                                    {province?.map((item: any) => {
-                                        return (
-                                            <option key={item?.id} value={item?.id}>{item?.province}</option>
-                                        )
-                                    })}
+                                    {province?.map((item: any) => (
+                                        <option key={item.id} value={item.id}>
+                                            {item.province}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
-                            <div className='flex flex-col gap-2  p-2'>
-                                <p >Địa điểm làm việc</p>
+                            <div className='flex flex-col gap-2 p-2'>
+                                <p>Quận/Huyện</p>
                                 <select
-                                    {...register('province_id')}
-                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                    {...register('district_id')}
+                                    className='border border-blue-500 rounded outline-none px-2 py-1'
                                 >
                                     <option value="">Quận/ Huyện</option>
-                                    {district?.map((item: any) => {
-                                        return (
-                                            <option key={item?.id} value={item?.id}>{item?.name}</option>
-                                        )
-                                    })}
+                                    {filteredDistricts?.map((item: any) => (
+                                        <option key={item?.id} value={item?.id}>
+                                            {item?.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className='flex flex-col gap-2  p-2'>

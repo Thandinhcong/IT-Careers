@@ -63,8 +63,8 @@ const CreateCvTest = React.memo(() => {
     const [deleteSkill] = useDeleteSkillMutation();
     const listSkill = getCV?.profile?.skill_cv;
     const [updateSkill] = useUpdateSkillMutation();
-    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill, formState: { errors: errorsSkill } } = useForm<FormSkill>({
-        resolver: yupResolver(schemaSkills),
+    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill } = useForm<FormSkill>({
+        // resolver: yupResolver(schemaSkills),
     });
 
     const onHandleSubmitSkill = async (data: any, skillId?: string) => {
@@ -125,9 +125,9 @@ const CreateCvTest = React.memo(() => {
         handleSubmit: handleSubmitProject,
         reset: resetProject,
         getValues: getValuesProject,
-        formState: { errors: errorsProject }
+        // formState: { errors: errorsProject }
     } = useForm<FormProject>({
-        resolver: yupResolver(schemaProject),
+        // resolver: yupResolver(schemaProject),
         defaultValues: listProject
     });
 
@@ -811,9 +811,7 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeSkill(index, "name_skill", e.target.value)}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                         />
-                                        <div className='text-red-500 text-sm'>
-                                            {errorsSkill.name_skill && errorsSkill.name_skill.message}
-                                        </div>
+
                                     </div>
                                 </div>
                                 <button type="submit" className='bg-blue-500 text-white p-1.5 my-2 rounded'>
@@ -853,9 +851,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.project_name && errorsProject?.project_name?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -869,9 +867,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'position', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.position && errorsProject?.position?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <button
@@ -893,9 +891,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         ></textarea>
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.desc && errorsProject?.desc?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -909,9 +907,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'link_project', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.link_project && errorsProject?.link_project?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <div>
@@ -926,9 +924,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.start_date && errorsProject?.start_date?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -943,9 +941,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.end_date && errorsProject?.end_date?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>

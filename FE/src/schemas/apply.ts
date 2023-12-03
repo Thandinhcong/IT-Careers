@@ -5,6 +5,7 @@ export const schemaJobApply = yup.object({
   name: yup
     .string()
     .min(3, "Tối thiểu 3 ký tự!")
+    .max(60, "Tối thiểu 60 kí tự")
     .required("Trường dữ liệu bắt buộc!"),
   email: yup
     .string()
@@ -18,7 +19,7 @@ export const schemaJobApply = yup.object({
       return isValidPhoneNumber;
     })
     .required("Trường dữ liệu bắt buộc"),
-  introduce: yup.string(),
+  introduce: yup.string().max(500, "Tối thiểu 500 ký tự"),
   path_cv: yup.string(),
   curriculum_vitae_id: yup.string(),
 });

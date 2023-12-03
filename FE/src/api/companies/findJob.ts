@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IFindJob } from "../../interfaces";
 const FindJobCompanyApi = createApi({
-  reducerPath: "FindJob",
-  tagTypes: ["FindJob"],
+  reducerPath: "findJobs",
+  tagTypes: ["FindJobs"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8000/api",
     prepareHeaders: (headers) => {
@@ -19,15 +19,15 @@ const FindJobCompanyApi = createApi({
   endpoints: (builder) => ({
     getFindCandidate: builder.query<IFindJob, void>({
       query: () => "/company/find_candidate",
-      providesTags: ["FindJob"],
+      providesTags: ["FindJobs"],
     }),
     getProfileOpen: builder.query<IFindJob, void>({
       query: () => "/company/profile_open",
-      providesTags: ["FindJob"],
+      providesTags: ["FindJobs"],
     }),
     getProfileSave: builder.query<IFindJob, void>({
       query: () => "/company/profile_save",
-      providesTags: ["FindJob"],
+      providesTags: ["FindJobs"],
     }),
 
     openProfile: builder.mutation<void, number | string>({
@@ -35,21 +35,21 @@ const FindJobCompanyApi = createApi({
         url: `/company/open_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ["FindJob"],
+      invalidatesTags: ["FindJobs"],
     }),
     saveProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/save_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ["FindJob"],
+      invalidatesTags: ["FindJobs"],
     }),
     cancelSaveProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/cancel_save_profile/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ["FindJob"],
+      invalidatesTags: ["FindJobs"],
     }),
   }),
 });

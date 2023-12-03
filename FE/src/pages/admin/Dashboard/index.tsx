@@ -2,7 +2,7 @@
 
 const DashBoard = () => {
     return (
-        <div>index</div>
+        <div>sfffffffffffffff</div>
     )
 }
 

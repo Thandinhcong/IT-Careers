@@ -175,6 +175,14 @@ const listCvApi = createApi({
       }),
       invalidatesTags: ["CV"],
     }),
+    UploadCV: buidler.mutation<any, any | number>({
+      query: (data: any) => ({
+        url: `upload_cv`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["CV"],
+    }),
   }),
 });
 export const {
@@ -206,6 +214,7 @@ export const {
 
   // lưu Cv
   useSaveCvMutation,
+  useUploadCVMutation,
 } = listCvApi;
 export const listCvReducer = listCvApi.reducer;
 export default listCvApi;

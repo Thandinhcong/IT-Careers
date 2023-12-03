@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCvQuery } from '../../../api/cv/listCvApi';
+import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCvQuery, useUploadCVMutation } from '../../../api/cv/listCvApi';
 import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
@@ -37,18 +37,24 @@ const ListCV = React.memo(() => {
         }
     }
     //upload
-    const { register, handleSubmit, formState: { errors } } = useForm<FromUpload>({
+    const [UploadCv] = useUploadCVMutation();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FromUpload>({
         resolver: yupResolver(schemaUploadImage)
     });
     const handleUploadCv = async (upload: FromUpload) => {
         upload.path_cv = image;
 
         try {
-            await CreateCV({ ...upload }).unwrap();
+            await UploadCv({ ...upload }).unwrap();
             notyf.success('Tạo thành công');
         } catch (error: any) {
-            notyf.error(error?.data?.message)
+            if (error?.status === 400) {
+                notyf.error(error.data.message)
+                return;
+            }
+            notyf.error(error?.data?.error?.path_cv[0])
         }
+        // reset(upload);
     }
     //delete
     const [deleteCV] = useDelete_cvMutation();
@@ -154,6 +160,7 @@ const ListCV = React.memo(() => {
                             <input
                                 {...register("path_cv")}
                                 onChange={onChangeFile}
+                                accept=".pdf"
                                 id="dropzone-file"
                                 type="file"
                                 className="hidden"

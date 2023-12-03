@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiFillFacebook, AiFillLinkedin, AiFillTwitterSquare, AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineCopy, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai"
 import { Link, useParams } from "react-router-dom";
 import {
@@ -25,6 +25,7 @@ import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
+    const [selectedOption, setSelectedOption] = useState('upload');
     const fileInputRef: any = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
@@ -36,17 +37,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModa2l] = useState(false);
     const [image, setImage] = useState(null);
-    const copyToClipboard = () => {
-        const inputElement = document.querySelector<HTMLInputElement>("#inputElement");
-        if (inputElement) {
-            const textToCopy = inputElement.value;
-            navigator.clipboard.writeText(textToCopy).then(
-                function () {
-                    alert("Sao chép thành công!!")
-                }
-            );
-        }
-    };
+
     const { id }: any = useParams();
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data && data?.job_detail;
@@ -61,7 +52,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
     const [applyJob] = useApplyJobMutation();
-    const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
 
@@ -133,7 +124,9 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             }
         }
     };
-
+    useEffect(() => {
+        reset(user)
+    }, [user])
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
@@ -143,7 +136,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                 <div className="text-gray-700">
                     <div>
                         <h2 className="font-semibold text-lg my-4">Thông tin cơ bản</h2>
-                        <div className="grid grid-cols-2 border text-[15px]">
+                        <div className="grid grid-cols-2 border p-2 text-[15px]">
                             <div className="grid grid-cols-1 gap-2 border-r py-2">
                                 <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                     <AiOutlineEnvironment className="col-span-1" />
@@ -216,7 +209,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         className="w-full text-white border border-blue-600 bg-blue-600 py-3 px-5 hover:bg-blue-500 font-medium rounded-lg"
                                         onClick={() => setShowModa2l(true)}
                                     >
-                                        <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+
                                         Nộp hồ sơ online
                                     </button>
                                 ) : (
@@ -225,7 +218,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         className="w-full text-white border border-blue-600 px-5 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
                                         onClick={() => setShowModal(true)}
                                     >
-                                        <AiOutlineCheck className="inline-block text mr-2 text-xl" />
+
                                         Nộp hồ sơ online
                                     </button>
                                 )}
@@ -254,28 +247,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                     </div>
                 </div>
             </div>
-            <div className="">
-                <div className="border border-gray-100 p-3">
-                    <h2 className="font-semibold text-lg">Chia sẻ tin tuyển dụng</h2>
-                    <div className="my-3">
-                        <p>sao chép đường dẫn</p>
-                        <span>
-                            <input
-                                id="inputElement"
-                                value={'https://123job.vn/viec-lam/tuyen-lai-xe-tainhan-bo-tuc-va-phu-xe-giao-banh-keo-tai-bac-giang-l5DOE8ngrV'}
-                                type="text" disabled className="p-2 w-4/5 rounded" />
-                            <button onClick={copyToClipboard} className="bg-[#4688ff26] text-blue-500 text-xl p-3 rounded ml-2"><AiOutlineCopy /></button>
-                        </span>
-                    </div>
-                    <p>Chia sẻ qua mạng xã hội</p>
-                    <span className="text-5xl flex gap-2 pt-2">
-                        <a href=""><AiFillFacebook className="text-blue-500" /></a>
-                        <a href=""><AiFillTwitterSquare className=" text-blue-500" /></a>
-                        <a href=""><AiFillLinkedin className="text-blue-500" /></a>
-                    </span>
-                </div>
 
-            </div>
             <TEModal show={showModal2} setShow={setShowModa2l}>
                 <TEModalDialog>
                     <TEModalContent>
@@ -340,7 +312,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                 <span className="ml-2 text-blue-600">{listOne?.title}</span>
                             </h5>
 
-                            {/* <!--Close button--> */}
                             <button
                                 type="button"
                                 className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
@@ -353,9 +324,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                         {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)}>
                             <TEModalBody className="leading-8">
-                                <p className="text-base text-gray-900 my-2">
-                                    Tải lên CV từ máy tính
-                                </p>
+
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
@@ -405,44 +374,63 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                    <div className="my-2">
-                                        <label htmlFor="">
-                                            CV của bạn <span className="text-red-500">*</span>
-                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                        </label>
+
+                                </div>
+                                <div className="flex gap-2 ">
+                                    <label className="flex items-center gap-2">
                                         <input
-                                            {...register("path_cv")}
-                                            ref={fileInputRef}
-                                            className="border py-1 w-full "
-                                            type="file"
-                                            onChange={onChangeFile}
-                                            accept=".pdf"
-                                        />
-                                        <div className="text-sm text-red-500">
-                                            {errors.path_cv && errors.path_cv.message}
-                                        </div>
+                                            className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
+                                            type="radio"
+                                            value="upload"
+                                            checked={selectedOption === 'upload'}
+                                            onChange={() => setSelectedOption('upload')}
+                                        /> Tải cv mới lên
+                                    </label>
+
+                                    <label className="flex items-center gap-2">
+                                        <input
+                                            className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
+                                            type="radio"
+                                            value="existing"
+                                            checked={selectedOption === 'existing'}
+                                            onChange={() => setSelectedOption('existing')}
+                                        /> Chọn từ cv đã có
+                                    </label>
+                                </div>
+                                <div className="my-2">
+                                    <label htmlFor="">
+                                        Tải cv mới lên <span className="text-red-500">*</span>
+                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                    </label>
+                                    <input
+                                        {...register("path_cv")}
+                                        className="border py-1 w-full "
+                                        type="file"
+                                        onChange={onChangeFile}
+                                        accept=".pdf"
+                                        disabled={selectedOption === 'existing'}
+                                    />
+                                    <div className="text-sm text-red-500">
+                                        {errors.path_cv && errors.path_cv.message}
                                     </div>
                                 </div>
-                                {!listAllCv ? "" : (
-                                    <div>
-                                        <p>*Cv của bạn</p>
-                                        <select
-                                            {...register('curriculum_vitae_id')}
-                                            className="border px-2 py-2 outline-none rounded"
-                                        >
-                                            <option value="">Vui lòng chọn</option>
-                                            {listAllCv?.map((item: any) => {
-                                                return (
-                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                )}
+                                <div>
+                                    <p>*Cv của bạn</p>
+                                    <select
+                                        {...register('curriculum_vitae_id')}
+                                        className="border px-2 w-full py-2 outline-none rounded"
+                                        disabled={selectedOption === 'upload'}
+                                    >
+                                        <option value="">Cv đã tạo trên website</option>
+                                        {listAllCv?.map((item: any) => (
+                                            <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                        ))}
+                                    </select>
+                                </div>
 
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
-                                        Thư mô tả
+                                        Thư xin việc
                                     </label>
                                     <textarea
                                         {...register("introduce")}

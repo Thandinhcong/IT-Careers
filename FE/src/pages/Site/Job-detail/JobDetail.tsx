@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
+import React, { useEffect, useRef, useState } from "react";
+import { AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
 import SearchJobs from "../Recruit/SearchJobs";
 import {
     TETabs,
@@ -36,6 +36,7 @@ import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } 
 
 const JobDetail = React.memo(() => {
     const fileInputRef: any = useRef(null);
+    const [selectedOption, setSelectedOption] = useState('upload');
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -75,7 +76,7 @@ const JobDetail = React.memo(() => {
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
     // ứng tuyển
-    const { register, handleSubmit, formState: { errors } } = useForm<FromApply>({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
     //login
@@ -127,12 +128,9 @@ const JobDetail = React.memo(() => {
         const files = e.target.files[0];
         if (!isPDFFile(files?.name)) {
             alert("Vui lòng chọn một file PDF.");
-
-            // Xóa dữ liệu trong input file
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
-
             return;
         }
         if (files) {
@@ -184,6 +182,10 @@ const JobDetail = React.memo(() => {
         }
     }
 
+    useEffect(() => {
+        reset(user),
+            window.scrollTo(0, 0)
+    }, [user])
     if (isLoading) return <Skeleton loading />
     return (
         <div>
@@ -209,7 +211,6 @@ const JobDetail = React.memo(() => {
                                             className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
                                             onClick={() => setShowModa2l(true)}
                                         >
-                                            <AiOutlineCheck className="inline-block text mr-2 text-xl" />
                                             Nộp hồ sơ online
                                         </button>
                                     ) : (
@@ -218,7 +219,6 @@ const JobDetail = React.memo(() => {
                                             className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
                                             onClick={() => setShowModal(true)}
                                         >
-                                            <AiOutlineCheck className="inline-block text mr-2 text-xl" />
                                             Nộp hồ sơ online
                                         </button>
                                     )}
@@ -290,8 +290,6 @@ const JobDetail = React.memo(() => {
                                 Ứng Tuyển
                                 <span className="ml-2 text-blue-600">{listOne?.title}</span>
                             </h5>
-
-                            {/* <!--Close button--> */}
                             <button
                                 type="button"
                                 className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
@@ -304,9 +302,7 @@ const JobDetail = React.memo(() => {
                         {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)} encType="multipart/form-data" >
                             <TEModalBody className="leading-8">
-                                <p className="text-base text-gray-900 my-2">
-                                    Tải lên CV từ máy tính
-                                </p>
+
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
@@ -328,9 +324,8 @@ const JobDetail = React.memo(() => {
                                             Email<span className="text-red-500">*</span>
                                         </label>
                                         <input
-                                            defaultValue={user?.email}
-                                            {...register("email")}
-
+                                            {...register('email')}
+                                            defaultValue={user?.email || ''}
                                             type="text"
                                             placeholder="Nhập tên email của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
@@ -355,44 +350,62 @@ const JobDetail = React.memo(() => {
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-                                    <div className="my-2">
-                                        <label htmlFor="">
-                                            CV của bạn <span className="text-red-500">*</span>
-                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                        </label>
+                                </div>
+                                <div className="flex gap-2 ">
+                                    <label className="flex items-center gap-2">
                                         <input
-                                            {...register("path_cv")}
-                                            ref={fileInputRef}
-                                            className="border py-1 w-full "
-                                            type="file"
-                                            onChange={onChangeFile}
-                                            accept=".pdf"
-                                        />
-                                        <div className="text-sm text-red-500">
-                                            {errors.path_cv && errors.path_cv.message}
-                                        </div>
+                                            className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
+                                            type="radio"
+                                            value="upload"
+                                            checked={selectedOption === 'upload'}
+                                            onChange={() => setSelectedOption('upload')}
+                                        /> Tải cv mới lên
+                                    </label>
+
+                                    <label className="flex items-center gap-2">
+                                        <input
+                                            className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
+                                            type="radio"
+                                            value="existing"
+                                            checked={selectedOption === 'existing'}
+                                            onChange={() => setSelectedOption('existing')}
+                                        /> Chọn từ cv đã có
+                                    </label>
+                                </div>
+                                <div className="my-2">
+                                    <label htmlFor="">
+                                        Tải cv mới lên <span className="text-red-500">*</span>
+                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                    </label>
+                                    <input
+                                        {...register("path_cv")}
+                                        className="border py-1 w-full "
+                                        type="file"
+                                        onChange={onChangeFile}
+                                        accept=".pdf"
+                                        disabled={selectedOption === 'existing'} // Disable if 'existing' is selected
+                                    />
+                                    <div className="text-sm text-red-500">
+                                        {errors.path_cv && errors.path_cv.message}
                                     </div>
                                 </div>
-                                {!listAllCv ? "" : (
-                                    <div>
-                                        <p>*Cv của bạn</p>
-                                        <select
-                                            {...register('curriculum_vitae_id')}
-                                            className="border px-2 py-2 outline-none rounded"
-                                        >
-                                            <option value="">Vui lòng chọn</option>
-                                            {listAllCv?.map((item: any) => {
-                                                return (
-                                                    <option key={item?.id} value={item?.id}>{item?.title}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                )}
+                                <div>
+                                    <p>*Cv của bạn</p>
+                                    <select
+                                        {...register('curriculum_vitae_id')}
+                                        className="border px-2 w-full py-2 outline-none rounded"
+                                        disabled={selectedOption === 'upload'} // Disable if 'upload' is selected
+                                    >
+                                        <option value="">Cv đã tạo trên website</option>
+                                        {listAllCv?.map((item: any) => (
+                                            <option key={item?.id} value={item?.id}>{item?.title}</option>
+                                        ))}
+                                    </select>
+                                </div>
 
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
-                                        Thư mô tả
+                                        Thư xin việc
                                     </label>
                                     <textarea
                                         {...register("introduce")}
