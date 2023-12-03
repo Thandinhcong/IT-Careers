@@ -25,8 +25,8 @@ import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
-    const [selectedOption, setSelectedOption] = useState('upload');
     const fileInputRef: any = useRef(null);
+    const [selectedOption, setSelectedOption] = useState('upload');
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -77,8 +77,11 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     };
 
     const onHandleSubmit = async (job: FromApply) => {
-        // if (typeof image !== "string") return;
-        job.path_cv = image as any;
+        if (selectedOption === 'upload' && image) {
+            job.path_cv = image;
+        } else {
+            job.path_cv = null as any;
+        }
         try {
             await applyJob({
                 id: id,
@@ -99,7 +102,10 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         const fileExtension = fileName?.split('.').pop()?.toLowerCase();
         return fileExtension === 'pdf';
     };
-
+    const resetFileInput = () => {
+        // Đặt lại giá trị của trường input file bằng cách gán giá trị null
+        fileInputRef.current.value = null;
+    };
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (!isPDFFile(files?.name)) {
@@ -393,7 +399,10 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             type="radio"
                                             value="existing"
                                             checked={selectedOption === 'existing'}
-                                            onChange={() => setSelectedOption('existing')}
+                                            onChange={() => {
+                                                setSelectedOption('existing');
+                                                resetFileInput();
+                                            }}
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
@@ -408,7 +417,8 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         type="file"
                                         onChange={onChangeFile}
                                         accept=".pdf"
-                                        disabled={selectedOption === 'existing'}
+                                        disabled={selectedOption === 'existing'} // Disable if 'existing' is selected
+                                        ref={fileInputRef}
                                     />
                                     <div className="text-sm text-red-500">
                                         {errors.path_cv && errors.path_cv.message}
@@ -419,7 +429,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                     <select
                                         {...register('curriculum_vitae_id')}
                                         className="border px-2 w-full py-2 outline-none rounded"
-                                        disabled={selectedOption === 'upload'}
+                                        disabled={selectedOption === 'upload'} // Disable if 'upload' is selected
                                     >
                                         <option value="">Cv đã tạo trên website</option>
                                         {listAllCv?.map((item: any) => (

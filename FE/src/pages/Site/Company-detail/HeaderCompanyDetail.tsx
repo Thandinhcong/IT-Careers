@@ -8,6 +8,7 @@ const HeaderCompanyDetail = React.memo(() => {
     const { data, isLoading } = useGetOneCompanysQuery(id || '');
     const isImage = data?.company?.image_paper;
     const listCompanyDetail: any = data && data?.company;
+
     if (isLoading) return <Skeleton loading />
     return (
         <div className="">

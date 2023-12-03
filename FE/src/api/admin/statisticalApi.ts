@@ -9,10 +9,12 @@ const StatisticalApi = createApi({
       return fetch(...arg);
     },
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("admin");
+      const user = JSON.parse(localStorage.getItem("admin") as string);
+      const token = user?.accessToken;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("authorization", `Bearer ${token}`);
       }
+      return headers;
     },
   }),
   endpoints: (builder) => ({
@@ -22,7 +24,7 @@ const StatisticalApi = createApi({
     }),
   }),
 });
-export const { useLazyRev_statisticalQuery } = StatisticalApi;
+export const { useRev_statisticalQuery } = StatisticalApi;
 
 export const StatisticalReducer = StatisticalApi.reducer;
 

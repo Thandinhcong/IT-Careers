@@ -104,8 +104,11 @@ const JobDetail = React.memo(() => {
         }
     };
     const onHandleSubmit = async (job: FromApply) => {
-
-        job.path_cv = image as any;
+        if (selectedOption === 'upload' && image) {
+            job.path_cv = image;
+        } else {
+            job.path_cv = null as any;
+        }
         try {
             await applyJob({
                 id: id,
@@ -181,7 +184,10 @@ const JobDetail = React.memo(() => {
             notyf.error(error?.data?.error);
         }
     }
-
+    const resetFileInput = () => {
+        // Đặt lại giá trị của trường input file bằng cách gán giá trị null
+        fileInputRef.current.value = null;
+    };
     useEffect(() => {
         reset(user),
             window.scrollTo(0, 0)
@@ -368,7 +374,10 @@ const JobDetail = React.memo(() => {
                                             type="radio"
                                             value="existing"
                                             checked={selectedOption === 'existing'}
-                                            onChange={() => setSelectedOption('existing')}
+                                            onChange={() => {
+                                                setSelectedOption('existing');
+                                                resetFileInput();
+                                            }}
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
@@ -384,6 +393,7 @@ const JobDetail = React.memo(() => {
                                         onChange={onChangeFile}
                                         accept=".pdf"
                                         disabled={selectedOption === 'existing'} // Disable if 'existing' is selected
+                                        ref={fileInputRef}
                                     />
                                     <div className="text-sm text-red-500">
                                         {errors.path_cv && errors.path_cv.message}

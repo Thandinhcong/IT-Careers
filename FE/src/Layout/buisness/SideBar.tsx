@@ -3,7 +3,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { AiOutlineHome, AiOutlineUsergroupAdd, AiTwotoneSetting } from 'react-icons/ai'
 import { BsFillBuildingFill } from 'react-icons/bs'
-import { MdHistory, MdOutlineStackedBarChart } from 'react-icons/md'
+import { MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
 import { ImFilesEmpty } from "react-icons/im"
 import { HiSquare3Stack3D } from "react-icons/hi2"
