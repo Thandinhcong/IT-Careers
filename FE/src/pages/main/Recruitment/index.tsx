@@ -117,7 +117,7 @@ const Recruitment = React.memo(() => {
                                     <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
                                         <div className='flex gap-2'>
                                             <img src={item?.logo} className='border rounded-md p-2' width={70} />
-                                            {/* {item?.id_type_job_post === 1 ? <div className='text-yellow-500 text-2xl;'><RiVipCrown2Line /></div> : ""} */}
+                                            {item?.id_type_job_post === 2 ? <div className='text-yellow-500 text-2xl;'><RiVipCrown2Line /></div> : ""}
                                             <div>
                                                 <Link to="/">
                                                     <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
