@@ -1,20 +1,27 @@
-import { FetchArgs, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const searchApi = createApi({
     reducerPath: 'search',
+    tagTypes: ['search'],
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://127.0.0.1:8000/api/', // Thay đổi với URL cụ thể của bạn
+        baseUrl: 'http://127.0.0.1:8000/api/',
         fetchFn: (...args) => fetch(...args),
     }),
-    tagTypes: ['search'],
-    // endpoints: (builder) => ({
-    //     search: builder.query<any, { search: string }>({
-    //         query: ({ search }) => `search?search=${search}`,
-    //     }),
-    // }),
     endpoints: (builder) => ({
-        search: builder.query<any, { search: string; province?: number }>({
-            query: ({ search, province }) => `search?title=${search}${province ? `&province=${province}` : ''}`,
+        search: builder.query<any, { search?: string; province?: number | string }>({
+            query: ({ search, province }) => {
+                let queryParams = '';
+
+                if (search) {
+                    queryParams += `search=${search}`;
+                }
+
+                if (province) {
+                    queryParams += `${queryParams ? '&' : ''}province=${province}`;
+                }
+
+                return `search${queryParams ? `?${queryParams}` : ''}`;
+            },
         }),
         getJobPostSelectById: builder.query<any, void>({
             query: () => "/job_post_select",
@@ -24,6 +31,9 @@ const searchApi = createApi({
 
 });
 
-export const { useSearchQuery, useGetJobPostSelectByIdQuery } = searchApi;
+export const {
+    useSearchQuery,
+    useGetJobPostSelectByIdQuery,
+} = searchApi;
 export const searchReducer = searchApi.reducer;
 export default searchApi;
