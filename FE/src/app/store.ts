@@ -59,6 +59,7 @@ import searchApi, { searchReducer } from "../api/searchApi";
 import StatisticalApi, {
   StatisticalReducer,
 } from "../api/admin/statisticalApi";
+import CandidateApi, { CandidateReducer } from "../api/candidateApi";
 
 const persistConfig = {
   key: "root",
@@ -68,6 +69,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   [AreaApi.reducerPath]: areaApiReducer,
   [MajorApi.reducerPath]: MajorReducer,
+  [CandidateApi.reducerPath]: CandidateReducer,
   [workingFormApi.reducerPath]: workingFormReducer,
   [jobpositionApi.reducerPath]: JoppositionFormReducer,
   [skillApi.reducerPath]: skillReducer,
@@ -103,6 +105,7 @@ const rootReducer = combineReducers({
 const middleware = [
   searchApi.middleware,
   MajorApi.middleware,
+  CandidateApi.middleware,
   workingFormApi.middleware,
   jobpositionApi.middleware,
   skillApi.middleware,

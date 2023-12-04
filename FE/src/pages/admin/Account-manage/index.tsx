@@ -1,8 +1,8 @@
-import { Button, Table, Popconfirm, message, Skeleton, Result, Tag } from 'antd';
+import { Button, Table, Popconfirm, message, Skeleton, Result, Tag, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IAccount } from "../../../interfaces";
-import { useDeleteCandidateMutation, useGetCandidatesQuery } from "../../../api/accountApi";
+import { useDeleteCandidateMutation, useGetCandidatesQuery } from '../../../api/candidateApi';
 
 const cancel = () => {
     message.info('Huỷ xoá');
@@ -36,15 +36,14 @@ const AccountManage = () => {
         }
     }
 
-    const accountData = data?.data?.map(({ id, name, email, password, phone, address, avatar, status, coin }: IAccount) => {
+    const accountData = data?.data?.map(({ id, name, email, phone, address, image, status, coin }: IAccount) => {
         return {
             key: id,
             name,
             email,
-            password,
             address,
             phone,
-            avatar,
+            image,
             status,
             coin,
         }
@@ -78,12 +77,6 @@ const AccountManage = () => {
             width: 50,
         },
         {
-            title: 'Mật khẩu',
-            dataIndex: 'password',
-            key: 'password',
-            width: 50,
-        },
-        {
             title: 'Số điện thoại',
             dataIndex: 'phone',
             key: 'phone',
@@ -91,20 +84,15 @@ const AccountManage = () => {
         },
         {
             title: 'Ảnh đại diện',
-            dataIndex: 'avatar',
-            key: 'avatar',
+            dataIndex: 'image',
+            key: 'image',
             width: 50,
+            render: (image: string) => <Image src={image} alt="Avatar" width={50} />
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
-            width: 50,
-        },
-        {
-            title: 'Remember_token',
-            dataIndex: 'remember_token',
-            key: 'remember_token',
             width: 50,
         },
         {
