@@ -21,9 +21,12 @@ const ListCV = React.memo(() => {
         },
     });
     const [image, setImage] = useState<any>(null)
+    const [titleFile, SetTitleFile] = useState<any>(null)
 
     const { data } = useListCvQuery();
     const listCv = data?.data;
+    console.log(listCv);
+
     //tạo
     const [CreateCV] = useAddCvMutation();
     const handleAddCV = async (data: any) => {
@@ -38,14 +41,16 @@ const ListCV = React.memo(() => {
     }
     //upload
     const [UploadCv] = useUploadCVMutation();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FromUpload>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FromUpload>({
         resolver: yupResolver(schemaUploadImage)
     });
     const handleUploadCv = async (upload: FromUpload) => {
         upload.path_cv = image;
-
+        upload.title = titleFile as any;
         try {
-            await UploadCv({ ...upload }).unwrap();
+            await UploadCv({
+                ...upload
+            }).unwrap();
             notyf.success('Tạo thành công');
         } catch (error: any) {
             if (error?.status === 400) {
@@ -54,7 +59,6 @@ const ListCV = React.memo(() => {
             }
             notyf.error(error?.data?.error?.path_cv[0])
         }
-        // reset(upload);
     }
     //delete
     const [deleteCV] = useDelete_cvMutation();
@@ -81,6 +85,8 @@ const ListCV = React.memo(() => {
     }
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
+        console.log(files);
+
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -89,7 +95,11 @@ const ListCV = React.memo(() => {
                 });
 
                 if (Response) {
-                    setImage(Response.data.url)
+                    console.log(Response);
+                    setImage(Response.data.url);
+                    SetTitleFile(Response.data.original_filename);
+                    console.log(Response.data.original_filename);
+
                 }
             } catch (error) {
                 return error

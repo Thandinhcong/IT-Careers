@@ -37,6 +37,7 @@ import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } 
 const JobDetail = React.memo(() => {
     const fileInputRef: any = useRef(null);
     const [selectedOption, setSelectedOption] = useState('upload');
+    const curriculumVitaeIdRef = useRef(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -187,6 +188,18 @@ const JobDetail = React.memo(() => {
     const resetFileInput = () => {
         // Đặt lại giá trị của trường input file bằng cách gán giá trị null
         fileInputRef.current.value = null;
+    };
+    const handleSelectChange = (event) => {
+        curriculumVitaeIdRef.current = event.target.value;
+    };
+
+    const handleOptionChange = (option) => {
+        setSelectedOption(option);
+
+        // Nếu chọn 'upload', đặt lại giá trị của curriculum_vitae_id
+        if (option === 'upload') {
+            curriculumVitaeIdRef.current = '';
+        }
     };
     useEffect(() => {
         reset(user),
@@ -392,7 +405,7 @@ const JobDetail = React.memo(() => {
                                         type="file"
                                         onChange={onChangeFile}
                                         accept=".pdf"
-                                        disabled={selectedOption === 'existing'} // Disable if 'existing' is selected
+                                        disabled={selectedOption === 'existing'}
                                         ref={fileInputRef}
                                     />
                                     <div className="text-sm text-red-500">
@@ -400,13 +413,16 @@ const JobDetail = React.memo(() => {
                                     </div>
                                 </div>
                                 <div>
-                                    <p>*Cv của bạn</p>
+                                    <p>Cv đã tạo trên website</p>
                                     <select
                                         {...register('curriculum_vitae_id')}
                                         className="border px-2 w-full py-2 outline-none rounded"
-                                        disabled={selectedOption === 'upload'} // Disable if 'upload' is selected
+                                        disabled={selectedOption === 'upload'}
+                                        onChange={handleSelectChange}
+                                        value={curriculumVitaeIdRef.current}
+                                    // onChange={handleSelectChange}
                                     >
-                                        <option value="">Cv đã tạo trên website</option>
+
                                         {listAllCv?.map((item: any) => (
                                             <option key={item?.id} value={item?.id}>{item?.title}</option>
                                         ))}

@@ -5,11 +5,13 @@ import { MdOutlineAttachMoney } from 'react-icons/md';
 import { VND } from '../../../components/upload';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { TbStatusChange } from 'react-icons/tb';
 
 const JobApply = React.memo(() => {
     const { data, isLoading } = useGetJobApplyQuery();
     const listJob = data?.job_list;
     if (isLoading) return <Skeleton />
+
     return (
         <div>
             {listJob ? (
@@ -25,7 +27,8 @@ const JobApply = React.memo(() => {
                                     <p className='flex gap-2 items-center my-1'> <i><i><CiLocationOn /> </i></i>{item?.province} -  {item?.district}</p>
                                     <p className='flex items-center gap-2'><i><MdOutlineAttachMoney /></i> {VND.format(item?.min_salary)} - {VND.format(item?.max_salary
                                     )} </p>
-                                    <p className='flex items-center gap-2'> <i><CiTimer /> </i> Ứng tuyển: {item?.time_apply}</p>
+                                    <p className='flex items-center gap-2 mt-1'> <i><CiTimer /> </i> Ứng tuyển: {item?.time_apply}</p>
+                                    <p className='flex items-center gap-2 mt-1'> <i><TbStatusChange /> </i> Trạng thái: {item?.status === 1 ? <div className='text-blue-500'>Đã xem</div> : <div className='text-red-500'>Chưa xem</div>}</p>
                                 </div>
                             </div>)
                     })}

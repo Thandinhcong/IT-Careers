@@ -9,6 +9,7 @@ import {
     Tooltip,
     Legend
 } from "chart.js"
+import React from "react";
 
 
 ChartJS.register(
@@ -21,7 +22,7 @@ ChartJS.register(
     Legend
 
 )
-const Statistical = ({ data }: any) => {
+const Statistical = React.memo(({ data }: any) => {
     const months = data?.months;
     const totalMoneyMonth = data?.totalMoneyMonth;
     const datas: any = {
@@ -67,6 +68,6 @@ const Statistical = ({ data }: any) => {
             </Line>
         </div>
     )
-}
+});
 
 export default Statistical
