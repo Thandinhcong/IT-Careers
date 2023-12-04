@@ -1,7 +1,7 @@
-import { Button, Form, Input, InputNumber, Steps } from 'antd';
+import { Button, Form, Input, InputNumber, Result, Steps } from 'antd';
 import { useGetAllPackageQuery, useInsertInvoiceMutation, usePayMentMutation, useVnpayIpnQuery, useVnpayReturnQuery } from '../../../api/companies/package';
 import { IPackages } from '../../../interfaces';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 
@@ -17,14 +17,19 @@ const Deposit = () => {
     const { data: vnpayReturnData } = useVnpayReturnQuery(param);
     console.log(vnpayReturnData);
     const { data: vnpayIpnData } = useVnpayIpnQuery(param);
-    console.log(vnpayIpnData);
+    console.log(vnpayIpnData?.status);
 
+    useEffect(() => {
+        // Nếu param tồn tại, thì thực hiện nhảy thẳng đến Step 2
+        if (param) {
+            setCurrentStep(2);
+        }
+    }, [param]);
 
     const [insertInvoice] = useInsertInvoiceMutation(); // Tạo hoá đơn-Xác nhận thanh toán
     const [payMent] = usePayMentMutation(); // Tạo hoá đơn-Xác nhận thanh toán
 
     const [responseData, setResponseData] = useState<any>(null); //Lưu thông tin tạo hoá đơn
-
     const [moneyValue, setMoneyValue] = useState<number | undefined>(undefined);
     const [currentStep, setCurrentStep] = useState(0);
 
@@ -65,6 +70,7 @@ const Deposit = () => {
                 <Steps current={currentStep}>
                     <Step title='Chọn gói' />
                     <Step title='Xác nhận thanh toán' />
+                    <Step title='Kết quả thanh toán' />
                 </Steps>
 
                 {currentStep === 0 && (
@@ -180,8 +186,34 @@ const Deposit = () => {
                         </Form>
                     </div>
                 )}
+                {currentStep === 2 && (
+                    // Kiểm tra điều kiện vnpayIpnData?.status và render phần kết quả tương ứng
+                    vnpayIpnData?.status === true ? (
+                        <Result
+                            status="success"
+                            title="Giao dịch thành công!"
+                            subTitle="Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
+                            extra={[
+                                <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                    Tiếp tục nạp tiền
+                                </Button>,
+                                <Button key="buy">Xem lịch sử giao dịch</Button>,
+                            ]}
+                        />
+                    ) : (
+                        <Result
+                            status="error"
+                            title={vnpayIpnData?.message}
+                            extra={
+                                <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                    Quay lại nạp tiền
+                                </Button>
+                            }
+                        />
+                    )
+                )}
                 <div className='flex justify-between mt-4'>
-                    {currentStep > 0 && (
+                    {currentStep === 1 && (
                         <Button onClick={onPrevStep}>Quay lại</Button>
                     )}
                 </div>

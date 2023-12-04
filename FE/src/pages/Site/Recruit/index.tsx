@@ -21,11 +21,9 @@ const Recruit = () => {
     };
 
     useEffect(() => {
-        // Kiểm tra xem location.state có tồn tại không
         if (!location?.state) {
             console.log("đ tồn tại")
         } else {
-            // Nếu tồn tại, xử lý dữ liệu searchData và thực hiện các công việc cần thiết
             handleSearchDataChange(location?.state?.searchData);
         }
     }, [location?.state]);

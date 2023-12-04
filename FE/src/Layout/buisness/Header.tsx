@@ -47,13 +47,13 @@ const HeaderCompany = () => {
                 </div>
             </Link>
 
-            <Link to="deposit" className='flex items-center relative group  gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
+            <a href="deposit" className='flex items-center relative group  gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <IoCartOutline />
                 <p className='text-sm'>Mua xu</p>
                 <div className='absolute left-0 right-0 mx-auto -bottom-9 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-xs px-3 rounded'>
                     Mua xu, nạp tiền tài khoản
                 </div>
-            </Link>
+            </a>
             <Link to="/business/find-job" className='flex items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <BiSearch />
                 <p className='text-sm'>Tìm CV</p>
