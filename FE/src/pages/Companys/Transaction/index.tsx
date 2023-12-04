@@ -44,7 +44,7 @@ const Transaction = () => {
                     <Menu mode="horizontal" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
                         {items.map(item => (
                             <Menu.Item key={item.key} icon={item.icon}>
-                                <Link to={`/companys/transaction/${item.key}`} className='text-base text-gray-600'>{item.label}</Link>
+                                <Link to={`/business/transaction/${item.key}`} className='text-base text-gray-600'>{item.label}</Link>
                             </Menu.Item>
                         ))}
                     </Menu>

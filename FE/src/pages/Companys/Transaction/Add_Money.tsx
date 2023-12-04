@@ -1,6 +1,7 @@
 import React from 'react';
 import { Divider, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useGetAllPaymentsQuery } from '../../../api/companies/historysPayment';
 
 interface DataType {
     key: React.Key;
@@ -12,50 +13,43 @@ interface DataType {
     status: string,
 }
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Thời gian',
-        dataIndex: 'time',
-        render: (text: string) => <p>{text}</p>,
-    },
-    {
-        title: 'Mã giao dịch',
-        dataIndex: 'id_transaction',
-    },
-    {
-        title: 'Tiền nạp',
-        dataIndex: 'send_money',
-    },
-    {
-        title: 'VAT',
-        dataIndex: 'VAT',
-    },
-    {
-        title: 'Tổng tiền',
-        dataIndex: 'total',
-    },
-    {
-        title: 'Trạng thái',
-        dataIndex: 'status',
-    },
-];
 
-const data: DataType[] = [
-    // {
-    //     key: '1',
-    //     time: '2023-10-01 22:17:26',
-    //     id_transaction: 'Khởi tạo tài khoản NTD',
-    // },
-];
 
 const Add_Money = () => {
+    const { data } = useGetAllPaymentsQuery();
+    console.log(data);
+    const datas: DataType[] = data?.['History Payment All'].map((item: any) => {
+
+        return {
+            key: item?.id,
+            ...item
+        }
+
+    })
+
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'Số tiền',
+            dataIndex: 'coin',
+            render: (text, record: any) => {
+                const exchangeRate = 1;
+                const vndAmount = record.coin * exchangeRate;
+                return <span>{vndAmount} VND</span>;
+            },
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'created_at',
+        }
+    ];
+
 
     return (
         <div>
             <Divider />
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={datas}
                 className='grid col-span-3'
             />
         </div>
