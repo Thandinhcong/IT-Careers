@@ -46,7 +46,7 @@ const ListCV = React.memo(() => {
     });
     const handleUploadCv = async (upload: FromUpload) => {
         upload.path_cv = image;
-        upload.title = titleFile as any;
+        upload.title = titleFile;
         try {
             await UploadCv({
                 ...upload
@@ -85,8 +85,6 @@ const ListCV = React.memo(() => {
     }
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
-        console.log(files);
-
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -95,17 +93,16 @@ const ListCV = React.memo(() => {
                 });
 
                 if (Response) {
-                    console.log(Response);
                     setImage(Response.data.url);
                     SetTitleFile(Response.data.original_filename);
-                    console.log(Response.data.original_filename);
-
                 }
             } catch (error) {
                 return error
             }
         }
     };
+    console.log("listCv", listCv);
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -122,7 +119,9 @@ const ListCV = React.memo(() => {
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
                                         <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
-                                        <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
+                                        {item?.type === 1 ? "" : (
+                                            <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
+                                        )}
                                     </div>
                                     <div className='flex justify-center my-4 pt-2'>
                                         <input
@@ -189,12 +188,50 @@ const ListCV = React.memo(() => {
             ) : (
                 <div className='flex justify-between shadow-sm shadow-blue-300 h-auto py-4'>
                     <div className='mt-10 pt-5 w-3/5 ml-10 mr-16'>
-                        <b className='text-2xl'>Tạo CV đầu tiên trên IT Careers</b>
+                        <b className='text-2xl'>Tạo CV đầu tiên trên BEWORK</b>
                         <p className='text-lg'>
                             Bạn đang muốn tạo ấn tượng tốt với nhà tuyển dụng trước lúc đi phỏng vấn?
                         </p>
-                        <p className='text-lg'>Hãy dùng thử mẫu cv đẹp chuyên nghiệp và hiện đại trên IT Careers.</p>
+                        <p className='text-lg'>Hãy dùng thử mẫu cv đẹp chuyên nghiệp và hiện đại trên BEWORK.</p>
                         <p className='text-lg'>Chúng tôi đồng hành cùng tạo cv toả sáng với nhà tuyển dụng</p>
+                        <label
+                            htmlFor="dropzone-file"
+                            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        >
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg
+                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 20 16"
+                                >
+                                    <path
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                    />
+                                </svg>
+                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="font-semibold">Click tải lên</span> or drag and drop
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    Bạn chỉ có thể upload file PDF
+                                </p>
+                            </div>
+                            <input
+                                {...register("path_cv")}
+                                onChange={onChangeFile}
+                                accept=".pdf"
+                                id="dropzone-file"
+                                type="file"
+                                className="hidden"
+                            />
+                            <div className='text-sm text-red-500'>{errors.path_cv && errors.path_cv.message}</div>
+                            <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
+                        </label>
                         <Button
                             type='primary'
                             className='bg-blue-600 text-white text-lg h-12'

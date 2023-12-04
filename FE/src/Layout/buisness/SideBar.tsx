@@ -123,7 +123,7 @@ const SideBarCompany = () => {
                 </Menu>
 
             </div>
-            <Link to={'/business/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={'/business/transaction/add_money'} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
             </Link>

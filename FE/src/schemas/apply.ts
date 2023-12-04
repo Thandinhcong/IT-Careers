@@ -27,5 +27,6 @@ export type FromApply = yup.InferType<typeof schemaJobApply>;
 
 export const schemaUploadImage = yup.object({
   path_cv: yup.string().required("Trường dữ liệu bắt buộc"),
+  title: yup.string().required("Trường dữ liệu bắt buộc!"),
 });
 export type FromUpload = yup.InferType<typeof schemaUploadImage>;

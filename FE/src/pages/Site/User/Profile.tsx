@@ -8,7 +8,6 @@ import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebs
 
 
 const Profile = React.memo(() => {
-    const [selectedProvince, setSelectedProvince] = useState(null);
 
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
@@ -21,16 +20,11 @@ const Profile = React.memo(() => {
     const { data: Exp } = useGetExperienceQuery();
     const listExp = Exp?.data;
     //districs
-    const handleProvinceChange = (e: any) => {
-        setSelectedProvince(e.target.value);
-    };
     const { data: dataFindJob } = useGetDataFindJobQuery();
     const province = dataFindJob?.data?.province;
     const districts = dataFindJob?.data?.district;
 
-    const filteredDistricts = districts?.filter((district: any) => district.province === selectedProvince);
 
-    console.log("filteredDistricts", filteredDistricts);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onHandleSubmit = async (data: any) => {
@@ -96,8 +90,8 @@ const Profile = React.memo(() => {
                                 <p >Địa điểm làm việc</p>
                                 <select
                                     className='border border-blue-500 rounded outline-none px-2 py-1'
-                                    onChange={handleProvinceChange}
-                                    value={selectedProvince}
+                                // onChange={handleProvinceChange}
+
                                 >
                                     <option value="">Tỉnh/Thành phố</option>
                                     {province?.map((item: any) => (
@@ -114,7 +108,7 @@ const Profile = React.memo(() => {
                                     className='border border-blue-500 rounded outline-none px-2 py-1'
                                 >
                                     <option value="">Quận/ Huyện</option>
-                                    {filteredDistricts?.map((item: any) => (
+                                    {districts?.map((item: any) => (
                                         <option key={item?.id} value={item?.id}>
                                             {item?.name}
                                         </option>

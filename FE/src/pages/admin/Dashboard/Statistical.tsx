@@ -52,7 +52,7 @@ const Statistical = React.memo(({ data }: any) => {
 
                 ticks: {
                     stepSize: 2,
-                    callback: (value: any) => value + "đ"
+                    callback: (value: any) => value + "m"
                 },
                 grid: {
                     borderDash: [10]
