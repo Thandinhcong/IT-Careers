@@ -36,8 +36,9 @@ import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } 
 
 const JobDetail = React.memo(() => {
     const fileInputRef: any = useRef(null);
+    const curriculumVitaeIdRef: any = useRef(null);
     const [selectedOption, setSelectedOption] = useState('upload');
-    const curriculumVitaeIdRef = useRef(null);
+    const [selectedCvId, setSelectedCvId] = useState(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -55,7 +56,7 @@ const JobDetail = React.memo(() => {
     };
     const [showModal2, setShowModa2l] = useState(false);
 
-    const { id }: any = useParams()
+    const { id }: any = useParams();
 
     //lấy thông tin xem đã ứng tuyển chưa
     const { data: ListJobApply } = useGetJobApplyQuery();
@@ -67,11 +68,8 @@ const JobDetail = React.memo(() => {
     //id bài đăng
     const { data, isLoading } = useGetOneJobsQuery(id || "");
     const listOne: any = data?.job_detail;
-
     const { data: infoUser } = useGetInfoUserQuery();
-
     const user = infoUser?.candidate;
-
     const idUser: any = user?.id;
 
     const [applyJob] = useApplyJobMutation();
@@ -105,10 +103,20 @@ const JobDetail = React.memo(() => {
         }
     };
     const onHandleSubmit = async (job: FromApply) => {
+        if (selectedOption === 'existing' && !selectedCvId) {
+            notyf.error("Vui lòng chọn CV từ danh sách!");
+            return;
+        }
+
         if (selectedOption === 'upload' && image) {
             job.path_cv = image;
         } else {
             job.path_cv = null as any;
+        }
+
+        // Nếu người dùng chọn 'existing', sử dụng curriculum_vitae_id đã chọn
+        if (selectedOption === 'existing') {
+            job.curriculum_vitae_id = selectedCvId as any;
         }
         try {
             await applyJob({
@@ -116,7 +124,7 @@ const JobDetail = React.memo(() => {
                 candidate_id: idUser,
                 ...job,
             }).unwrap();
-            notyf.success("Ứng tuyển công việc thành công");
+            notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
             notyf.error("Vui lòng chọn đầy đủ thông tin!");
@@ -186,24 +194,32 @@ const JobDetail = React.memo(() => {
         }
     }
     const resetFileInput = () => {
-        // Đặt lại giá trị của trường input file bằng cách gán giá trị null
         fileInputRef.current.value = null;
     };
-    const handleSelectChange = (event) => {
-        curriculumVitaeIdRef.current = event.target.value;
-    };
-
-    const handleOptionChange = (option) => {
-        setSelectedOption(option);
-
-        // Nếu chọn 'upload', đặt lại giá trị của curriculum_vitae_id
-        if (option === 'upload') {
-            curriculumVitaeIdRef.current = '';
+    const handleSelectChange = () => {
+        curriculumVitaeIdRef.current.value = null;
+        setSelectedCvId(null);
+        const selectElement = document.getElementById('cvSelect');
+        if (selectElement) {
+            selectElement.value = '';
         }
     };
+    const onOptionChange = (option: string) => {
+        setSelectedOption(option);
+        if (option === 'upload') {
+            // Nếu chọn 'upload', disable select và enable input
+            curriculumVitaeIdRef.current.value = null;
+            setSelectedCvId(null);
+        } else {
+            // Nếu chọn 'existing', disable input và enable select
+            fileInputRef.current.value = null;
+        }
+    };
+
+
     useEffect(() => {
-        reset(user),
-            window.scrollTo(0, 0)
+        reset(user);
+        window.scrollTo(0, 0);
     }, [user])
     if (isLoading) return <Skeleton loading />
     return (
@@ -377,7 +393,7 @@ const JobDetail = React.memo(() => {
                                             type="radio"
                                             value="upload"
                                             checked={selectedOption === 'upload'}
-                                            onChange={() => setSelectedOption('upload')}
+                                            onChange={() => onOptionChange('upload')}
                                         /> Tải cv mới lên
                                     </label>
 
@@ -387,10 +403,7 @@ const JobDetail = React.memo(() => {
                                             type="radio"
                                             value="existing"
                                             checked={selectedOption === 'existing'}
-                                            onChange={() => {
-                                                setSelectedOption('existing');
-                                                resetFileInput();
-                                            }}
+                                            onChange={() => onOptionChange('existing')}
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
@@ -415,14 +428,15 @@ const JobDetail = React.memo(() => {
                                 <div>
                                     <p>Cv đã tạo trên website</p>
                                     <select
+                                        id="cvSelect"
                                         {...register('curriculum_vitae_id')}
                                         className="border px-2 w-full py-2 outline-none rounded"
                                         disabled={selectedOption === 'upload'}
-                                        onChange={handleSelectChange}
-                                        value={curriculumVitaeIdRef.current}
-                                    // onChange={handleSelectChange}
+                                        onChange={(e: any) => setSelectedCvId(e.target.value)}
+                                        // defaultValue={handleSelectChange}
+                                        ref={curriculumVitaeIdRef}
                                     >
-
+                                        <option value="">Chọn CV</option>
                                         {listAllCv?.map((item: any) => (
                                             <option key={item?.id} value={item?.id}>{item?.title}</option>
                                         ))}
