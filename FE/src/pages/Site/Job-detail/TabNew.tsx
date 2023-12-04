@@ -26,7 +26,9 @@ import { useListCvQuery } from "../../../api/cv/listCvApi";
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const fileInputRef: any = useRef(null);
+    const curriculumVitaeIdRef: any = useRef(null);
     const [selectedOption, setSelectedOption] = useState('upload');
+    const [selectedCvId, setSelectedCvId] = useState(null);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -77,10 +79,19 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     };
 
     const onHandleSubmit = async (job: FromApply) => {
+        if (selectedOption === 'existing' && !selectedCvId) {
+            notyf.error("Vui lòng chọn CV từ danh sách!");
+            return;
+        }
+
         if (selectedOption === 'upload' && image) {
             job.path_cv = image;
         } else {
             job.path_cv = null as any;
+        }
+
+        if (selectedOption === 'existing') {
+            job.curriculum_vitae_id = selectedCvId as any;
         }
         try {
             await applyJob({
@@ -102,10 +113,8 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         const fileExtension = fileName?.split('.').pop()?.toLowerCase();
         return fileExtension === 'pdf';
     };
-    const resetFileInput = () => {
-        // Đặt lại giá trị của trường input file bằng cách gán giá trị null
-        fileInputRef.current.value = null;
-    };
+
+
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (!isPDFFile(files?.name)) {
@@ -128,6 +137,18 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             } catch (error) {
                 return error
             }
+        }
+    };
+
+    const onOptionChange = (option: string) => {
+        setSelectedOption(option);
+        if (option === 'upload') {
+            // Nếu chọn 'upload', disable select và enable input
+            curriculumVitaeIdRef.current.value = null;
+            setSelectedCvId(null);
+        } else {
+            // Nếu chọn 'existing', disable input và enable select
+            fileInputRef.current.value = null;
         }
     };
     useEffect(() => {
@@ -328,7 +349,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                             </button>
                         </TEModalHeader>
                         {/*ứng tuyển */}
-                        <form onSubmit={handleSubmit(onHandleSubmit)}>
+                        <form onSubmit={handleSubmit(onHandleSubmit)} encType="multipart/form-data" >
                             <TEModalBody className="leading-8">
 
                                 <div className="grid grid-cols-2 gap-2">
@@ -338,10 +359,10 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         </label>
                                         <input
                                             defaultValue={user?.name}
+                                            {...register("name")}
                                             type="text"
                                             placeholder="Nhập tên của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("name")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.name && errors.name.message}
@@ -352,12 +373,11 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             Email<span className="text-red-500">*</span>
                                         </label>
                                         <input
-                                            defaultValue={user?.email}
-
+                                            {...register('email')}
+                                            defaultValue={user?.email || ''}
                                             type="text"
                                             placeholder="Nhập tên email của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("email")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.email && errors.email.message}
@@ -368,19 +388,17 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             Số điện thoại <span className="text-red-500">*</span>
                                         </label>
                                         <input
-
                                             defaultValue={user?.phone}
+                                            {...register("phone")}
 
                                             type="text"
                                             placeholder="Nhập số điện thoại của bạn"
                                             className="border py-1 px-2 outline-none rounded w-full my-2"
-                                            {...register("phone")}
                                         />
                                         <div className="text-sm text-red-500">
                                             {errors.phone && errors.phone.message}
                                         </div>
                                     </div>
-
                                 </div>
                                 <div className="flex gap-2 ">
                                     <label className="flex items-center gap-2">
@@ -389,7 +407,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             type="radio"
                                             value="upload"
                                             checked={selectedOption === 'upload'}
-                                            onChange={() => setSelectedOption('upload')}
+                                            onChange={() => onOptionChange('upload')}
                                         /> Tải cv mới lên
                                     </label>
 
@@ -399,10 +417,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                             type="radio"
                                             value="existing"
                                             checked={selectedOption === 'existing'}
-                                            onChange={() => {
-                                                setSelectedOption('existing');
-                                                resetFileInput();
-                                            }}
+                                            onChange={() => onOptionChange('existing')}
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
@@ -417,7 +432,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         type="file"
                                         onChange={onChangeFile}
                                         accept=".pdf"
-                                        disabled={selectedOption === 'existing'} // Disable if 'existing' is selected
+                                        disabled={selectedOption === 'existing'}
                                         ref={fileInputRef}
                                     />
                                     <div className="text-sm text-red-500">
@@ -425,13 +440,17 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <p>*Cv của bạn</p>
+                                    <p>Cv đã tạo trên website</p>
                                     <select
+                                        id="cvSelect"
                                         {...register('curriculum_vitae_id')}
                                         className="border px-2 w-full py-2 outline-none rounded"
-                                        disabled={selectedOption === 'upload'} // Disable if 'upload' is selected
+                                        disabled={selectedOption === 'upload'}
+                                        onChange={(e: any) => setSelectedCvId(e.target.value)}
+                                        // defaultValue={handleSelectChange}
+                                        ref={curriculumVitaeIdRef}
                                     >
-                                        <option value="">Cv đã tạo trên website</option>
+                                        <option value="">Chọn CV</option>
                                         {listAllCv?.map((item: any) => (
                                             <option key={item?.id} value={item?.id}>{item?.title}</option>
                                         ))}

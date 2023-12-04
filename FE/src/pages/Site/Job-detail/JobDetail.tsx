@@ -114,7 +114,6 @@ const JobDetail = React.memo(() => {
             job.path_cv = null as any;
         }
 
-        // Nếu người dùng chọn 'existing', sử dụng curriculum_vitae_id đã chọn
         if (selectedOption === 'existing') {
             job.curriculum_vitae_id = selectedCvId as any;
         }
@@ -193,17 +192,7 @@ const JobDetail = React.memo(() => {
             notyf.error(error?.data?.error);
         }
     }
-    const resetFileInput = () => {
-        fileInputRef.current.value = null;
-    };
-    const handleSelectChange = () => {
-        curriculumVitaeIdRef.current.value = null;
-        setSelectedCvId(null);
-        const selectElement = document.getElementById('cvSelect');
-        if (selectElement) {
-            selectElement.value = '';
-        }
-    };
+
     const onOptionChange = (option: string) => {
         setSelectedOption(option);
         if (option === 'upload') {
