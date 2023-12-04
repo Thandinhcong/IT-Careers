@@ -8,15 +8,17 @@ export interface IJobList {
 export interface IListJobs {
     id?: string | number,
     title: string,
-    min_salary: number,
-    max_salary: number,
+    min_salary: string | number,
+    max_salary: string | number,
     company_name: string,
     logo: string
     area: string
     status: number,
     province: string,
     district: string,
-    end_date: string
+    end_date: string,
+    desc: string,
+    start_date: string,
 }
 const jobsApi = createApi({
     reducerPath: "jobs",

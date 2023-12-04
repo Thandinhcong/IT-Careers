@@ -415,6 +415,7 @@ const JobCreate = React.memo(() => {
                         label="company_id"
                         name="company_id"
                         initialValue={Infor?.company?.id}
+                        hidden
                     >
                         <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
                     </Form.Item>
