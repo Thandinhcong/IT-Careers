@@ -393,7 +393,7 @@ const CreateCvTest = React.memo(() => {
         reset(listProfile);
         resetExp(experience as any);
         resetEducation(education as any);
-        window.scrollTo(0, 0)
+        // window.scrollTo(0, 0)
 
     }, [listProfile, listExp, listEducation, listProject, listSkill]);
 

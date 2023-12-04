@@ -79,93 +79,6 @@ const PostManage = () => {
 
     const columns: ColumnsType<IJobPost> = [
         {
-            title: 'Tiêu đề',
-            dataIndex: 'title',
-            key: 'title',
-
-        },
-        {
-            title: 'Công ty đăng bài',
-            dataIndex: 'company_name',
-            key: 'company_name',
-        },
-        {
-            title: 'Thời gian đăng',
-            dataIndex: 'start_date',
-            key: 'start_date',
-        },
-        {
-            title: 'Thời gian kết thúc',
-            dataIndex: 'end_date',
-            key: 'end_date',
-        },
-        {
-            title: 'Gói đăng tin',
-            dataIndex: 'type_job_post_id',
-            key: 'type_job_post_id',
-            render: (type_job_post_id: number | undefined) => {
-                let color;
-                let text
-                if (type_job_post_id === 1) {
-                    color = 'blue';
-                    text = 'Tin Thường';
-
-                } else {
-                    color = '#f50';
-                    text = 'Tin VIP';
-                }
-                return (
-                    <Tag color={color}>
-                        {text}
-                    </Tag>
-                )
-            },
-            filters: [
-                { text: 'Tin Thường', value: 1 },
-                { text: 'Tin VIP', value: 2 },
-            ],
-            onFilter: (value, record) => record.type_job_post_id === value,
-            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
-                <div style={{ padding: 8 }}>
-                    {[
-                        { text: 'Tin Thường', value: 1 },
-                        { text: 'Tin VIP', value: 2 },
-                    ].map((item) => (
-                        <div key={item.value} style={{ marginBottom: 8 }}>
-                            <Checkbox
-                                checked={selectedKeys.includes(item.value)}
-                                onChange={(e) => {
-                                    const nextSelectedKeys = e.target.checked
-                                        ? [...selectedKeys, item.value]
-                                        : selectedKeys.filter((key) => key !== item.value);
-                                    setSelectedKeys(nextSelectedKeys);
-                                }}
-                            >
-                                {item.text}
-                            </Checkbox>
-                        </div>
-                    ))}
-                    <div style={{ marginTop: 8 }}>
-                        <Button
-                            type="primary"
-                            onClick={() => confirm()}
-                            size="small"
-                            style={{ marginRight: 8 }}
-                            className='bg-blue-500'
-                        >
-                            Lọc
-                        </Button>
-                        <Button onClick={() => clearFilters()} size="small">
-                            Đặt lại
-                        </Button>
-                    </div>
-                </div>
-            ),
-            filterIcon: (filtered: boolean) => (
-                <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-            ),
-        },
-        {
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
@@ -210,7 +123,7 @@ const PostManage = () => {
                                 onChange={(e) => {
                                     const nextSelectedKeys = e.target.checked
                                         ? [...selectedKeys, item.value]
-                                        : selectedKeys.filter((key) => key !== item.value);
+                                        : selectedKeys.filter((key: any) => key !== item.value);
                                     setSelectedKeys(nextSelectedKeys);
                                 }}
                             >
@@ -239,33 +152,94 @@ const PostManage = () => {
             ),
         },
         {
-            title: 'Giới tính',
-            dataIndex: 'gender',
-            key: 'gender',
-            render: (gender: number | undefined) => {
-                let text;
+            title: 'Tiêu đề',
+            dataIndex: 'title',
+            key: 'title',
 
-                if (gender === 0) {
-                    text = 'Nam';
-
-                } else if (gender === 1) {
-                    text = 'Nữ';
-                } else {
-                    text = 'Không yêu cầu';
-                }
-
-                return (
-                    <p >
-                        {text}
-                    </p>
-                );
-            }
         },
         {
-            title: 'Yêu cầu',
-            dataIndex: 'interest',
-            key: 'interest',
+            title: 'Công ty đăng bài',
+            dataIndex: 'company_name',
+            key: 'company_name',
         },
+        // {
+        //     title: 'Thời gian đăng',
+        //     dataIndex: 'start_date',
+        //     key: 'start_date',
+        // },
+        // {
+        //     title: 'Thời gian kết thúc',
+        //     dataIndex: 'end_date',
+        //     key: 'end_date',
+        // },
+        {
+            title: 'Gói đăng tin',
+            dataIndex: 'type_job_post_id',
+            key: 'type_job_post_id',
+            render: (type_job_post_id: number | undefined) => {
+                let color;
+                let text
+                if (type_job_post_id === 1) {
+                    color = 'blue';
+                    text = 'Tin Thường';
+
+                } else {
+                    color = '#f50';
+                    text = 'Tin VIP';
+                }
+                return (
+                    <Tag color={color}>
+                        {text}
+                    </Tag>
+                )
+            },
+            filters: [
+                { text: 'Tin Thường', value: 1 },
+                { text: 'Tin VIP', value: 2 },
+            ],
+            onFilter: (value, record) => record.type_job_post_id === value,
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }: any) => (
+                <div style={{ padding: 8 }}>
+                    {[
+                        { text: 'Tin Thường', value: 1 },
+                        { text: 'Tin VIP', value: 2 },
+                    ].map((item) => (
+                        <div key={item.value} style={{ marginBottom: 8 }}>
+                            <Checkbox
+                                checked={selectedKeys.includes(item.value)}
+                                onChange={(e) => {
+                                    const nextSelectedKeys = e.target.checked
+                                        ? [...selectedKeys, item.value]
+                                        : selectedKeys.filter((key: any) => key !== item.value);
+                                    setSelectedKeys(nextSelectedKeys);
+                                }}
+                            >
+                                {item.text}
+                            </Checkbox>
+                        </div>
+                    ))}
+                    <div style={{ marginTop: 8 }}>
+                        <Button
+                            type="primary"
+                            onClick={() => confirm()}
+                            size="small"
+                            style={{ marginRight: 8 }}
+                            className='bg-blue-500'
+                        >
+                            Lọc
+                        </Button>
+                        <Button onClick={() => clearFilters()} size="small">
+                            Đặt lại
+                        </Button>
+                    </div>
+                </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+                <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
+            ),
+        },
+
+
         {
             title: 'Action',
             key: 'action',
@@ -396,8 +370,6 @@ const PostManage = () => {
                                         <h2 className="font-semibold text-lg my-4">Quyền lợi</h2>
                                         <p>{item.interest}</p>
                                     </div>
-
-
                                 </div>
                             </div>
                         );
