@@ -14,6 +14,7 @@ import { useLocalStorage } from '../../../useLocalStorage/useLocalStorage'
 import { FormLogin, schemaLogin } from '../../../schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import { RiVipCrown2Line } from 'react-icons/ri'
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -24,6 +25,7 @@ const Recruitment = React.memo(() => {
     });
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
+    console.log("listJobs", listJobs);
 
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 12;
@@ -115,6 +117,7 @@ const Recruitment = React.memo(() => {
                                     <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
                                         <div className='flex gap-2'>
                                             <img src={item?.logo} className='border rounded-md p-2' width={70} />
+                                            {item?.id_type_job_post === 1 ? <div className='text-yellow-500 text-2xl;'><RiVipCrown2Line /></div> : ""}
                                             <div>
                                                 <Link to="/">
                                                     <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>

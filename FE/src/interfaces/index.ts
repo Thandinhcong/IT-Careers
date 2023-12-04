@@ -124,6 +124,7 @@ export interface IFindJob {
   length: string | number;
   address: string;
   title: string;
+  salary: string;
 }
 export interface ICompanyInfor {
   id?: string | number;

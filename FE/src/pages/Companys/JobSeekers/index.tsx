@@ -24,8 +24,10 @@ const JobSeekers = () => {
         infinite: true,
         speed: 500,
         slidesToShow: 2,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
         initialSlide: 0,
+        autoplay: true,
+        autoplaySpeed: 2000,
     }
 
     const formatTimeDifference = (createdAt: string) => {
@@ -56,7 +58,7 @@ const JobSeekers = () => {
                 {data?.data?.map((candidate: IFindJob) => (
                     <div key={candidate.candidate_id} className='border p-5 bg-blue-50/50'>
                         <div className='flex items-center gap-3'>
-                            <img src={candidate.image} className='rounded-full' width={50} alt="" />
+                            <img src={candidate.image} className='rounded-full w-10 h-10' alt="" />
                             <div>
                                 <p className='text-xl font-semibold'>{candidate.name}</p>
                                 <p>{candidate.phone} <span>- Năm sinh : {candidate.birth}</span></p>

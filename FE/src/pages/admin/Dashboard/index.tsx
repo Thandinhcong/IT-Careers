@@ -15,7 +15,7 @@ const DashBoard = React.memo(() => {
 
     return (
         <div>
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid grid-cols-4 gap-5  ">
                 <div className="p-2 bg-green-500">
                     <p className="text-2xl text-white">{listCandidate?.length}</p>
                     <p className="mt-5 text-white">Ứng viên có trong hệ thống</p>
@@ -37,8 +37,8 @@ const DashBoard = React.memo(() => {
                     <Link to='#' className="flex items-center gap-1 text-white mt-5 justify-center">Xem chi tiết <span><IoIosArrowRoundForward /></span></Link>
                 </div>
             </div>
-            <Statistical data={data} />
             <ManageWebsite data={data} />
+            <Statistical data={data} />
         </div>
 
     )

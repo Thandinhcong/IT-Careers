@@ -8,18 +8,18 @@ import { useNavigate } from 'react-router-dom';
 
 const customIcon = <MdRoom size={20} />;
 
-const SearchJobs = ({ onSearchDataChange }) => {
+const SearchJobs = ({ onSearchDataChange }: any) => {
     const navigate = useNavigate()
     const { data } = useGetJobPostSelectByIdQuery();
     const [searchValue, setSearchValue] = useState('');
     const [provinceValue, setProvinceValue] = useState(undefined);
     const searchQuery = useSearchQuery({ search: searchValue, province: provinceValue });
 
-    const handleSearchInputChange = (event) => {
+    const handleSearchInputChange = (event: any) => {
         setSearchValue(event.target.value);
     };
 
-    const handleProvinceSelectChange = (value) => {
+    const handleProvinceSelectChange = (value: any) => {
         setProvinceValue(value);
     };
 

@@ -324,20 +324,7 @@ const PostManage = () => {
                     .map((item: IJobPost) => {
                         return (
                             <div key={item.id}>
-
                                 <div className='flex justify-between items-center'>
-                                    <div>
-                                        <h2 className='font-semibold text-xl'>{item.title}</h2>
-                                        <h3 className='font-semibold text-lg text-gray-600'>{item.company_name}</h3>
-                                        <div className="flex items-center gap-2 my-5">
-                                            <button className="text-white border border-blue-600 bg-blue-600 p-3 hover:bg-blue-500 font-medium rounded-lg">
-                                                <AiOutlineCheck className="inline-block text mr-2 text-xl" />Nộp hồ sơ online
-                                            </button>
-                                            <button className="bg-white border-2 border-blue-600 text-blue-600 p-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg">
-                                                <AiOutlineHeart className="inline-block text mr-2 text-xl" /> Lưu tin
-                                            </button>
-                                        </div>
-                                    </div>
                                     <div className='w-28 h-28 rounded-full border border-gray-200 mb-3 mr-36 relative overflow-hidden'>
                                         <img src="https://cdn1.123job.vn/123job/uploads/2023/10/05/2023_10_05______41fd58339555b8bd8c915ee29ea7badc.jpg" alt="" className='absolute w-full h-full rounded-full object-cover' />
                                     </div>
