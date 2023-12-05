@@ -4,7 +4,7 @@ const AdminLogin = createApi({
   reducerPath: "accountAdmin",
   tagTypes: ["AccountAdmin"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_ADMIN,
+    baseUrl: "http://127.0.0.1:8000/admin",
     fetchFn: async (...arg) => {
       return fetch(...arg);
     },

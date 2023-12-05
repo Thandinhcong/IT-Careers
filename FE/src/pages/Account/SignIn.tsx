@@ -23,6 +23,7 @@ const Login = React.memo(() => {
         resolver: yupResolver(schemaLogin)
     });
     const [user, setUser] = useLocalStorage("user", null);
+    console.log(user);
 
     const [login] = useLoginMutation();
     const loginGoogle = () => {

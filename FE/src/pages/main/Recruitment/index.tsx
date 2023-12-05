@@ -25,7 +25,6 @@ const Recruitment = React.memo(() => {
     });
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
-    console.log("listJobs", listJobs);
 
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 12;

@@ -97,6 +97,7 @@ import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
 import Manage_Website from "./pages/admin/Manage-Website"
 import UpdateManage from "./pages/admin/Manage-Website/Update"
 import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
+import Recharge from "./pages/Site/User/recharge"
 
 
 function App() {
@@ -125,6 +126,8 @@ function App() {
               <Route path='jobapply' element={< JobApply />} />
               <Route path='jobfavor' element={< JobFavor />} />
               <Route path='profile' element={< Profile />} />
+              <Route path='recharge' element={< Recharge />} />
+
             </Route >
             <Route path='account' element={< Account />} />
             <Route path="tao-cv/:id" element={<CreateCvTest />} />

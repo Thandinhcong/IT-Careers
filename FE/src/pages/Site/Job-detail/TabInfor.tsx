@@ -7,7 +7,6 @@ type PropsListOne = {
 }
 const TabInfor = React.memo((listOne: PropsListOne) => {
     const listCompanys = listOne?.listOne;
-    // console.log("listCompanys", listCompanys);
 
     return (
         <div className="p-3 h-[550px] overflow-y-auto">

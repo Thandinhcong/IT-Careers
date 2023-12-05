@@ -31,11 +31,6 @@ const Add_Money = () => {
         {
             title: 'Số tiền',
             dataIndex: 'coin',
-            render: (text, record: any) => {
-                const exchangeRate = 1;
-                const vndAmount = record.coin * exchangeRate;
-                return <span>{vndAmount} VND</span>;
-            },
         },
         {
             title: 'Thời gian',

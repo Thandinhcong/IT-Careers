@@ -70,7 +70,7 @@ const SignUp = React.memo(() => {
                                 <label
                                     className="block text-sm font-medium text-gray-700  mb-2"
                                 >
-                                    Tên đăng nhập
+                                    Họ và tên
                                 </label>
                                 <input
                                     {...register("name")}

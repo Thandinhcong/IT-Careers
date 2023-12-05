@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { TbRecharging } from "react-icons/tb";
 import {
   AiOutlineBars,
   AiFillCaretDown,
@@ -84,6 +85,11 @@ const Header = React.memo((data: any) => {
       name: "Thiết lập tài khoản",
       href: "/account",
       icon: <AiOutlineSetting className="text-xl" />,
+    },
+    {
+      name: "Gói nạp",
+      href: "/user/recharge",
+      icon: <TbRecharging className="text-xl" />,
     },
     {
       name: "Đăng xuất",
