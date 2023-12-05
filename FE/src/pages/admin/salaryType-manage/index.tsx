@@ -17,7 +17,7 @@ const SalaryTypeManage = () => {
     const salaryTypeData = data?.salaryType?.map(({ id, salary_type }: ISalaryType) => {
         return {
             key: id,
-            salary_type: new Intl.NumberFormat('en-US').format(salary_type)
+            salary_type: new Intl.NumberFormat('en-US').format(salary_type as any)
         }
     })
     const confirm = (id: number | string) => {

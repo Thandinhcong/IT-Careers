@@ -11,7 +11,7 @@ const SalaryTypeApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getSalaryType: builder.query<ISalaryType[], void>({
+    getSalaryType: builder.query<ISalaryType[] | any, void>({
       query: () => "/salary_type",
       providesTags: ["salary_type"],
     }),

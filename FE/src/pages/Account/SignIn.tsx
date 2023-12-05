@@ -7,7 +7,6 @@ import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
-import { useLoginGoogleQuery } from "../../api/authGoogle/authGoogle";
 
 
 const Login = React.memo(() => {

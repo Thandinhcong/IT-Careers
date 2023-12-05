@@ -1,6 +1,6 @@
 import { Avatar } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
-import React, { useState } from 'react';
+import React from 'react';
 import { useGetDataFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
 import { useForm } from 'react-hook-form';
 import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
@@ -26,7 +26,7 @@ const Profile = React.memo(() => {
 
 
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const onHandleSubmit = async (data: any) => {
         try {
             const results = await SaveInfoFindJob({

@@ -1,7 +1,7 @@
 import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
-import { AiOutlineCalendar, AiOutlineCheck, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { IJobPost } from "../../../interfaces";
 import { useEditJobPostStatusMutation, useGetJobPostQuery } from "../../../api/jobPost";
 import React, { useState } from 'react';
