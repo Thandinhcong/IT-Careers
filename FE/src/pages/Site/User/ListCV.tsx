@@ -234,7 +234,7 @@ const ListCV = React.memo(() => {
                         </label>
                         <Button
                             type='primary'
-                            className='bg-blue-600 text-white text-lg h-12'
+                            className='bg-blue-600 text-white text-lg h-12 mt-3'
                             onClick={handleAddCV}
                         >
                             Tạo CV đầu tiên

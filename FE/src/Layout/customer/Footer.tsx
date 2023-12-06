@@ -42,11 +42,11 @@ const Footer = React.memo((dataFooter: any) => {
                                     Quy chế hoạt động
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to="help/faq" className="text-gray-900 transition hover:opacity-75">
                                     Câu hỏi thường gặp
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link to="help/dispute-resolution" className="text-gray-900 transition hover:opacity-75">
                                     Giải quyết khiếu nại

@@ -20,7 +20,7 @@ const JobApply = React.memo(() => {
                     {listJob?.map((item: any) => {
                         return (
                             <div key={item?.id} className='mt-5 grid grid-cols-[30%,70%] items-center gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
-                                <img src={item?.logo} alt="Anh logo" width={100} />
+                                <img src={item?.logo} alt="Anh logo" width={210} />
                                 <div>
                                     <Link to={`/job-detail/${item?.title}/${item?.id}`} className='text-xl font-semibold'>{item?.title}</Link>
                                     <div className='flex gap-2 items-center text-lg'> {item?.company_name}</div>

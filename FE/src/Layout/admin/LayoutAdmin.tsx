@@ -17,7 +17,7 @@ const LayoutAdmin = () => {
     } = theme.useToken();
 
     const menuItems = [
-        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashborad', path: 'dashboard' },
+        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashboard', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
         { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'experience-manage' },
         { key: '4', icon: <AiOutlineCalendar />, label: 'Quản lý hình thức', path: 'working-form' },
@@ -27,7 +27,7 @@ const LayoutAdmin = () => {
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
         { key: '9', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
         { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
-        { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
+        // { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
         { key: '12', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
         { key: '13', icon: <FileProtectOutlined />, label: 'Quản lý Website', path: 'manage-website' },
 
