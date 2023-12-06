@@ -10,24 +10,20 @@ const { Step } = Steps;
 const RefillPackage = () => {
     const history = useNavigate();
     const { data: packages, isLoading } = useGetAllPackageQuery();// Lấy ra tất cả gói nạp
-    console.log("package", packages);
 
     const [hasLogged, setHasLogged] = useState(false);
     let queryString = location.search.substring(0); // Loại bỏ dấu '?' ở đầu chuỗi
     let param = queryString.length > 0 ? queryString : null;
-
     const { data: vnpayReturnData } = useVnpayReturnQuery(param);
-    console.log(vnpayReturnData);
     const { data: vnpayIpnData } = useVnpayIpnQuery(param);
 
     useEffect(() => {
         if (param && vnpayIpnData && !hasLogged) {
             setCurrentStep(2);
-            console.log(vnpayIpnData?.status);
             setHasLogged(true);
 
             // Xoá param khỏi URL mà không gây reload trang
-            const newUrl = window.location.pathname; // Lấy path hiện tại
+            const newUrl = window.location.pathname;
             history(newUrl, { replace: true });
         }
     }, [param, vnpayIpnData, hasLogged, history]);
@@ -62,7 +58,6 @@ const RefillPackage = () => {
             .unwrap()
             .then((response) => {
                 const redirectUrl = response[0].data;
-                // Chuyển hướng trình duyệt đến đường dẫn redirectUrl
                 window.location.href = redirectUrl;
 
             })
@@ -201,7 +196,7 @@ const RefillPackage = () => {
                                     <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
                                         Tiếp tục nạp tiền
                                     </Button>,
-                                    <Button key="buy">Xem lịch sử giao dịch</Button>,
+                                    <Button href='/user/historys-payment' key="buy">Xem lịch sử giao dịch</Button>,
                                 ]}
                             />
                         ) : (
@@ -210,7 +205,7 @@ const RefillPackage = () => {
                                     status="error"
                                     title={vnpayIpnData?.message}
                                     extra={
-                                        <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                        <Button type="primary" key="console" className='bg-blue-500' href='/user/recharge'>
                                             Quay lại nạp tiền
                                         </Button>
                                     }
@@ -219,7 +214,7 @@ const RefillPackage = () => {
                                 <Result
                                     title="Giao dịch này đã được thanh toán!!"
                                     extra={[
-                                        <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                        <Button type="primary" key="console" className='bg-blue-500' href='/user/recharge'>
                                             Tiếp tục nạp tiền
                                         </Button>,
                                         <Button key="buy">Xem lịch sử giao dịch</Button>,

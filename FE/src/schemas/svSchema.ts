@@ -20,6 +20,7 @@ export const schemaExp = yup.object({
   company_name: yup.string().required("Trường dữ liệu không được để trống"),
   start_date: yup.date().required("Trường dữ liệu không được để trống"),
   end_date: yup.date().required("Trường dữ liệu không được để trống"),
+  desc: yup.string(),
 });
 export type FormExp = yup.InferType<typeof schemaExp>;
 

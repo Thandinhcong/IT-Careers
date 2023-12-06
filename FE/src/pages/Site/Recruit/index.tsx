@@ -52,7 +52,7 @@ const Recruit = () => {
                     <select
                         name="HeadlineAct"
                         id="HeadlineAct"
-                        className="w-full rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
                     >
                         <option value="date" hidden>Ngày đăng</option>
                         <option value="24hours" className=''>24 giờ qua</option>
@@ -63,7 +63,7 @@ const Recruit = () => {
                     <select
                         name="HeadlineAct"
                         id="HeadlineAct"
-                        className="w-full rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
                     >
                         <option value="date" hidden>Cấp bậc</option>
                         <option value="24hours" className=''>TSS</option>
@@ -76,7 +76,7 @@ const Recruit = () => {
                     <select
                         name="HeadlineAct"
                         id="HeadlineAct"
-                        className="w-full rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
                     >
                         <option value="date" hidden>Kinh nghiệm</option>
                         <option value="24hours" className=''>Dưới 1 năm</option>
@@ -89,7 +89,7 @@ const Recruit = () => {
                     <select
                         name="HeadlineAct"
                         id="HeadlineAct"
-                        className="w-full rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
                     >
                         <option value="date" hidden>Chuyên ngành</option>
                         <option value="24hours" className=''>Front-end</option>
@@ -109,51 +109,8 @@ const Recruit = () => {
                         Có <span className='font-bold'>{searchData ? searchData?.data?.length : 0}</span> việc làm phù hợp với tìm kiếm của bạn
                     </p>
 
-                    {/* <div>
-                        <div className="">
-                            <div className="border w-4/3 border-gray-200 mx-10">
-                                <nav className="flex justify-between gap-6 py-4 mx-8" aria-label="Tabs">
-                                    <p
-                                        className="shrink-0 border-transparent px-1  text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                                    >
-                                        Ưu tiên hiển thị:
-                                    </p>
-                                    <a
-                                        href="#"
-                                        className="shrink-0 border-b-2 border-transparent px-1  text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                                    >
-                                        <AiOutlineCheckCircle className='inline-block base-line' /> Cần tuyển gấp
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        className="shrink-0 border-b-2 border-transparent px-1  text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                                    >
-                                        <AiOutlineCheckCircle className='inline-block base-line' /> Mới đăng tuyển
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        className="shrink-0 border-b-2 border-transparent px-1  text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-                                    >
-                                        <AiOutlineCheckCircle className='inline-block base-line' /> Mới cập nhật
-                                    </a>
-
-                                    <a
-                                        href="#"
-                                        className="shrink-0 border-b-2 border-sky-500 px-1  text-sm font-medium text-sky-600"
-                                        aria-current="page"
-                                    >
-                                        <AiOutlineCheckCircle className='inline-block base-line' /> Phù hợp nhất
-                                    </a>
-                                </nav>
-                            </div>
-                        </div>
-                    </div> */}
-
                     {/* item 1 */}
                     {displayedData && displayedData?.map((item: any) => {
-                        console.log(item);
 
                         const startDate = parse(item.start_date, 'yyyy-MM-dd', new Date());
                         const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });

@@ -5,13 +5,13 @@ import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
 import { CiEdit } from 'react-icons/ci';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FromUpload, schemaUploadImage } from '../../../schemas/apply';
+import { FromUpload } from '../../../schemas/apply';
 
 const ListCV = React.memo(() => {
+    const fileInputRef: any = useRef(null);
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -25,7 +25,6 @@ const ListCV = React.memo(() => {
 
     const { data } = useListCvQuery();
     const listCv = data?.data;
-    console.log(listCv);
 
     //tạo
     const [CreateCV] = useAddCvMutation();
@@ -41,18 +40,17 @@ const ListCV = React.memo(() => {
     }
     //upload
     const [UploadCv] = useUploadCVMutation();
-    const { register, handleSubmit, formState: { errors } } = useForm<FromUpload>({
-        resolver: yupResolver(schemaUploadImage)
-    });
+    const { register, handleSubmit } = useForm<FromUpload>();
+
     const handleUploadCv = async (upload: FromUpload) => {
         upload.path_cv = image;
         upload.title = titleFile;
         try {
-            await UploadCv({
-                ...upload
-            }).unwrap();
+            await UploadCv(upload).unwrap();
             notyf.success('Tạo thành công');
         } catch (error: any) {
+            console.log(error);
+
             if (error?.status === 400) {
                 notyf.error(error.data.message)
                 return;
@@ -83,8 +81,19 @@ const ListCV = React.memo(() => {
             notyf.error('Bạn đã chọn cv này rồi!')
         }
     }
+    const isPDFFile = (fileName: any) => {
+        const fileExtension = fileName?.split('.').pop()?.toLowerCase();
+        return fileExtension === 'pdf';
+    };
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
+        if (!isPDFFile(files?.name)) {
+            alert("Vui lòng chọn một file PDF.");
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+            return;
+        }
         if (files) {
             try {
                 const Response = await UploadImage({
@@ -101,7 +110,6 @@ const ListCV = React.memo(() => {
             }
         }
     };
-    console.log("listCv", listCv);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -119,7 +127,7 @@ const ListCV = React.memo(() => {
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
                                         <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
-                                        {item?.type === 1 ? "" : (
+                                        {item?.type === 0 ? "" : (
                                             <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                         )}
                                     </div>
@@ -173,8 +181,9 @@ const ListCV = React.memo(() => {
                                 id="dropzone-file"
                                 type="file"
                                 className="hidden"
+                                ref={fileInputRef}
                             />
-                            <div className='text-sm text-red-500'>{errors.path_cv && errors.path_cv.message}</div>
+
                             <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
                         </label>
                     </form>
@@ -194,51 +203,51 @@ const ListCV = React.memo(() => {
                         </p>
                         <p className='text-lg'>Hãy dùng thử mẫu cv đẹp chuyên nghiệp và hiện đại trên BEWORK.</p>
                         <p className='text-lg'>Chúng tôi đồng hành cùng tạo cv toả sáng với nhà tuyển dụng</p>
-                        <label
-                            htmlFor="dropzone-file"
-                            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                        <form
+                            onSubmit={handleSubmit(handleUploadCv)}
+                            className="flex items-center justify-center w-full mt-5"
                         >
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6 ">
-                                <svg
-                                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 20 16"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                                    />
-                                </svg>
-                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                    <span className="font-semibold">Click tải lên</span> or drag and drop
-                                </p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">
-                                    Bạn chỉ có thể upload file PDF
-                                </p>
-                            </div>
-                            <input
-                                {...register("path_cv")}
-                                onChange={onChangeFile}
-                                accept=".pdf"
-                                id="dropzone-file"
-                                type="file"
-                                className="hidden"
-                            />
-                            <div className='text-sm text-red-500'>{errors.path_cv && errors.path_cv.message}</div>
-                            <button className='border  bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
-                        </label>
-                        <Button
-                            type='primary'
-                            className='bg-blue-600 text-white text-lg h-12 mt-10'
-                            onClick={handleAddCV}
-                        >
-                            Tạo CV đầu tiên
-                        </Button>
+                            <label
+                                htmlFor="dropzone-file"
+                                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                            >
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg
+                                        className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 20 16"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                        />
+                                    </svg>
+                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span className="font-semibold">Click tải lên</span> or drag and drop
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                        Bạn chỉ có thể upload file PDF
+                                    </p>
+                                </div>
+                                <input
+                                    {...register("path_cv")}
+                                    onChange={onChangeFile}
+                                    accept=".pdf"
+                                    id="dropzone-file"
+                                    type="file"
+                                    className="hidden"
+                                    ref={fileInputRef}
+
+                                />
+
+                                <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
+                            </label>
+                        </form>
                     </div>
                     <div className='w-52 ml-5'>
                         <img src="https://123job.vn/images/banner/create-first-resume-logo.png" alt="" />

@@ -23,7 +23,7 @@ const companyApi = createApi({
       query: (id) => "/list_company/" + id,
       providesTags: ["Companys"],
     }),
-    searchCompanies: buidler.query<IJobPostAll, void>({
+    searchCompanies: buidler.query<any, void>({
       query: () => "list_company",
       providesTags: ["Companys"],
     }),

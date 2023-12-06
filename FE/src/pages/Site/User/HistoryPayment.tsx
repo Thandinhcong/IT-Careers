@@ -1,11 +1,9 @@
 import { Table } from 'antd';
-import React from 'react'
 import { useGetHistoryPaymentQuery } from '../../../api/payment/paymentCandidate';
 
 const HistoryPayment = () => {
     const { data } = useGetHistoryPaymentQuery()
     const listPayment = data?.['History Payment All'];
-    console.log(listPayment);
     const dataSource = listPayment?.map((item: any) => {
         return {
             key: item?.id,
@@ -14,6 +12,11 @@ const HistoryPayment = () => {
     })
 
     const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'key',
+            key: 'key',
+        },
         {
             title: 'Số tiền',
             dataIndex: 'coin',
@@ -38,13 +41,9 @@ const HistoryPayment = () => {
                 <div className="overflow-x-auto rounded-lg border border-gray-200 w-full">
                     <Table dataSource={dataSource} columns={columns} />
                 </div>
-
             ) : (
-
                 <div className='text-blue-500 text-xl'>Bạn chưa thực hiện giao dịch nào!</div>
             )}
-
-
         </div>
     )
 }

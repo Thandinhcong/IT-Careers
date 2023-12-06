@@ -286,8 +286,6 @@ const CreateCvTest = React.memo(() => {
                 notyf.error(error?.data?.error?.end_date[0]);
                 notyf.error(error?.data?.error?.end_date[1]);
                 notyf.error(error?.data?.error?.end_date[2]);
-
-
             } else {
                 notyf.error(error?.data?.message);
             }
@@ -620,6 +618,19 @@ const CreateCvTest = React.memo(() => {
                                         {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.end_date && errorsExp?.end_date?.message}
                                         </div> */}
+                                    </div>
+                                    <div>
+
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả</div>
+                                        </label>
+                                        <textarea
+                                            {...registerExp("desc")}
+                                            name='desc'
+                                            defaultValue={experiences?.desc}
+                                            onChange={(e) => handleChangeExp(index, 'desc', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
@@ -1015,8 +1026,11 @@ const CreateCvTest = React.memo(() => {
                                             <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
                                             <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
                                         </p>
-                                        <p className='font-semibold mt-2'>Mô tả:
+                                        <p className='font-semibold mt-2'>Vị trí:
                                             <span className='font-normal ml-1'>{item?.position}</span>
+                                        </p>
+                                        <p className='font-semibold mt-2'>Mô tả:
+                                            <span className='font-normal ml-1'>{item?.desc}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -1067,9 +1081,7 @@ const CreateCvTest = React.memo(() => {
                                                 <p className='font-semibold'>Link:
                                                     <span className='underline font-normal ml-1'>{item?.link_project}</span>
                                                 </p>
-                                                <p className='font-semibold'>Mô tả:
-                                                    <span className=' font-normal ml-1'>{item?.desc}</span>
-                                                </p>
+
                                             </div>
                                         </div>
                                     )

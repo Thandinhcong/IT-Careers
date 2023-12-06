@@ -9,10 +9,12 @@ const AdminLogin = createApi({
       return fetch(...arg);
     },
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("admin");
+      const user = JSON.parse(localStorage.getItem("admin") as string);
+      const token = user?.accessToken;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("authorization", `Bearer ${token}`);
       }
+      return headers;
     },
   }),
   endpoints: (builder) => ({
@@ -27,9 +29,16 @@ const AdminLogin = createApi({
       }),
       invalidatesTags: ["AccountAdmin"],
     }),
+    logout: builder.mutation<any, any>({
+      query: () => ({
+        url: `/logout`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["AccountAdmin"],
+    }),
   }),
 });
-export const { useAdminLoginMutation } = AdminLogin;
+export const { useAdminLoginMutation, useLogoutMutation } = AdminLogin;
 
 export const adminLoginReducer = AdminLogin.reducer;
 
