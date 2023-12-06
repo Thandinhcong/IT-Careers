@@ -11,7 +11,7 @@ import html2pdf from 'html2pdf.js';
 import { GoDownload } from 'react-icons/go';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile, schemaProject, schemaSkills } from '../../../schemas/svSchema';
+import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile } from '../../../schemas/svSchema';
 
 
 const CreateCvTest = React.memo(() => {
@@ -26,7 +26,7 @@ const CreateCvTest = React.memo(() => {
     const [image, setImage] = useState<any>(null);
     const { data: dataCV } = useListCvQuery();
 
-    const dataMap = dataCV?.data.find((item: any) => item.id == id)
+    const dataMap = dataCV?.data?.find((item: any) => item.id == id)
     const { data: getCV } = useListInfoQuery(id || '');
     const idPost = dataMap?.id;
     const { data } = useListInfoQuery(idPost || '');
@@ -252,7 +252,7 @@ const CreateCvTest = React.memo(() => {
     const [addExp] = useAddExpMutation();
     const listExp = getCV?.profile?.exps;
     const [updateExp] = useUpdateExpMutation();
-    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp, getValues: getValuesExp, formState: { errors: errorsExp } } = useForm<FormExp>({
+    const { register: registerExp, handleSubmit: handleSubmitExp, reset: resetExp, getValues: getValuesExp } = useForm<FormExp>({
         defaultValues: listExp
     });
     const onHandleSubmitExp = async (data: any, expId?: string) => {
@@ -538,9 +538,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.company_name && errorsExp?.company_name?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <div>
@@ -555,9 +555,9 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
                                             className='border border-gray-200 p-2 w-full'
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.position && errorsExp?.position?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     <div>
@@ -582,9 +582,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.start_date && errorsExp?.start_date?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                     {/* ngày kết thúc */}
                                     <div>
@@ -599,9 +599,9 @@ const CreateCvTest = React.memo(() => {
                                             className='border border-gray-200 p-2 w-full'
                                             type="date"
                                         />
-                                        <div className='text-red-500 text-sm'>
+                                        {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.end_date && errorsExp?.end_date?.message}
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
