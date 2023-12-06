@@ -40,6 +40,10 @@ const PackagesCompanyApi = createApi({
       query: (param) => "/vnpay_ipn" + param,
       providesTags: ["Package"],
     }),
+    getAllHistoryPayments: builder.query<any, void>({
+      query: () => "/history_payment",
+      providesTags: ["Payments"],
+    }),
     insertInvoice: builder.mutation<any, any>({
       query: (Package: IPackages) => ({
         url: "/insert_invoice",
@@ -59,6 +63,7 @@ const PackagesCompanyApi = createApi({
   }),
 });
 export const {
+  useGetAllHistoryPaymentsQuery,
   useGetAllPackageQuery,
   useInsertInvoiceMutation,
   usePayMentMutation,
