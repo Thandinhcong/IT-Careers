@@ -37,7 +37,6 @@ import JobsManage from "./pages/Companys/Jobs-manage"
 import JobDetail from "./pages/Site/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
-import Jobs from "./pages/Site/Jobs"
 import CompanyReports from "./pages/Companys/Company_reports"
 import Activity_History from "./pages/Companys/Activity_History"
 import All_History from "./pages/Companys/Activity_History/All"
@@ -97,6 +96,8 @@ import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
 import Manage_Website from "./pages/admin/Manage-Website"
 import UpdateManage from "./pages/admin/Manage-Website/Update"
 import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
+import RefillPackage from "./pages/Site/User/RefillPackage"
+import HistoryPayment from "./pages/Site/User/HistoryPayment"
 
 
 function App() {
@@ -110,11 +111,10 @@ function App() {
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="job-detail/:name/:id" element={<JobDetail />} />
-          <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
-          <Route path="jobs" element={<Jobs />} />
+          <Route path="recruit" element={<Recruit />} />
           <Route element={<IsCheckLogin />} >
             <Route path='account/' element={< Account />} >
               <Route index element={<CandidateInformation />} />
@@ -125,6 +125,10 @@ function App() {
               <Route path='jobapply' element={< JobApply />} />
               <Route path='jobfavor' element={< JobFavor />} />
               <Route path='profile' element={< Profile />} />
+              <Route path='recharge' element={< RefillPackage />} />
+              <Route path='historys-payment' element={< HistoryPayment />} />
+
+
             </Route >
             <Route path='account' element={< Account />} />
             <Route path="tao-cv/:id" element={<CreateCvTest />} />

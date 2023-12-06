@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import { useLogOutMutation } from "../../api/auths";
 import { Notyf } from "notyf";
 import { useGetCandidatesQuery } from "../../api/accountApi";
+import { TbRecharging } from "react-icons/tb";
+import { MdHistory } from "react-icons/md";
 
 const Header = React.memo((data: any) => {
   const listData = data?.data;
@@ -84,6 +86,16 @@ const Header = React.memo((data: any) => {
       name: "Thiết lập tài khoản",
       href: "/account",
       icon: <AiOutlineSetting className="text-xl" />,
+    },
+    {
+      name: "Gói nạp",
+      href: "/user/recharge",
+      icon: <TbRecharging className="text-xl" />,
+    },
+    {
+      name: "Lịch sử thanh toán",
+      href: "/user/historys-payment",
+      icon: <MdHistory className="text-xl" />,
     },
     {
       name: "Đăng xuất",
@@ -165,7 +177,7 @@ const Header = React.memo((data: any) => {
             </Transition>
           </Popover>
           <Link
-            to="/jobs"
+            to="/recruit"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Việc làm
@@ -326,7 +338,7 @@ const Header = React.memo((data: any) => {
                   )}
                 </Disclosure>
                 <Link
-                  to="/jobs"
+                  to="/recruit"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Việc làm

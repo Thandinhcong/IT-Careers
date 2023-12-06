@@ -52,7 +52,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
 
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     const user = infoUser?.candidate;
-    const idUser: any = user?.id;
     const [applyJob] = useApplyJobMutation();
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),

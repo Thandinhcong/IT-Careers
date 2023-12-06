@@ -105,7 +105,7 @@ const JobDetail = React.memo(() => {
         }
     };
     const onHandleSubmit = async (appply: FromApply) => {
-
+        appply.path_cv = image as any;
         if (selectedOption === 'existing' && !selectedCvId) {
             notyf.error("Vui lòng chọn CV từ danh sách!");
             return;
@@ -120,14 +120,10 @@ const JobDetail = React.memo(() => {
         if (selectedOption === 'existing') {
             appply.curriculum_vitae_id = selectedCvId as any;
         }
-        appply.email;
-        appply.introduce;
-        appply.phone;
-        appply.curriculum_vitae_id;
-        appply.path_cv = image as any;
         try {
             await applyJob({
-                id: idJob
+                id: idJob,
+                ...appply
             }).unwrap();
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)

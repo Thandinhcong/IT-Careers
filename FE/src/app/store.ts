@@ -61,6 +61,12 @@ import StatisticalApi, {
 } from "../api/admin/statisticalApi";
 import CandidateApi, { CandidateReducer } from "../api/candidateApi";
 import AccountsApi from "../api/accountApi";
+import StatisicalcompanyApi, {
+  StatisicalcompanyApiReducer,
+} from "../api/companies/statisticalCompanyApi";
+import PackagesCandidateApi, {
+  packageCandidateReducer,
+} from "../api/payment/paymentCandidate";
 
 const persistConfig = {
   key: "root",
@@ -101,6 +107,8 @@ const rootReducer = combineReducers({
   [SavejobsApi.reducerPath]: SaveJobsReducer,
   [PackagesCompanyApi.reducerPath]: packageCompanyReducer,
   [StatisticalApi.reducerPath]: StatisticalReducer,
+  [StatisicalcompanyApi.reducerPath]: StatisicalcompanyApiReducer,
+  [PackagesCandidateApi.reducerPath]: packageCandidateReducer,
 });
 
 const middleware = [
@@ -137,6 +145,8 @@ const middleware = [
   SavejobsApi.middleware,
   AreaApi.middleware,
   StatisticalApi.middleware,
+  StatisicalcompanyApi.middleware,
+  PackagesCandidateApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

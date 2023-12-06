@@ -188,7 +188,6 @@ const CreateCvTest = React.memo(() => {
         register: registerEducation,
         handleSubmit: handleSubmitEducation,
         getValues: getValuesEdu,
-        // setValue: setValueEdu,
         reset: resetEducation,
         formState: { errors: errorsEdu }
     } = useForm<FormEdu>({
@@ -212,8 +211,17 @@ const CreateCvTest = React.memo(() => {
                 notyf.success("Thêm học vấn thành công");
             }
             resetEducation();
-        } catch (error) {
-            notyf.error("Thêm/Cập nhật học vấn thất bại");
+        } catch (error: any) {
+            if (error?.status === 422) {
+                notyf.error(error?.data?.error?.name[0]);
+                notyf.error(error?.data?.error?.gpa[0]);
+                notyf.error(error?.data?.error?.major[0]);
+                notyf.error(error?.data?.error?.end_date[0]);
+                notyf.error(error?.data?.error?.end_date[1]);
+            } else {
+                notyf.error("Thêm/Cập nhật học vấn thất bại");
+            }
+
         }
     };
     // xóa học vấn
@@ -270,7 +278,16 @@ const CreateCvTest = React.memo(() => {
             }
             resetExp();
         } catch (error: any) {
-            notyf.error(error?.data?.message);
+            if (error?.status === 422) {
+                notyf.error(error?.data?.error?.company_name[0]);
+                notyf.error(error?.data?.error?.position[0]);
+                notyf.error(error?.data?.error?.end_date[0]);
+                notyf.error(error?.data?.error?.end_date[1]);
+
+            } else {
+                notyf.error(error?.data?.message);
+            }
+
         }
     };
     const [deleteExp] = useRemoveExpMutation();
@@ -384,7 +401,7 @@ const CreateCvTest = React.memo(() => {
         setExperience(listExp);
         //học vấn
         setEducation(listEducation);
-        //reset
+        //ed
         resetSkill(listSkill);
         resetProject(listProject);
         reset(listProfile);
