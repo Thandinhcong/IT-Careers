@@ -210,7 +210,7 @@ const PostManage = () => {
                                 onChange={(e) => {
                                     const nextSelectedKeys = e.target.checked
                                         ? [...selectedKeys, item.value]
-                                        : selectedKeys.filter((key: any) => key !== item.value);
+                                        : selectedKeys?.filter((key: any) => key !== item.value);
                                     setSelectedKeys(nextSelectedKeys);
                                 }}
                             >
@@ -294,7 +294,7 @@ const PostManage = () => {
                 width={1000}
             >
                 {data?.jobPost
-                    .filter((item: { id: null; }) => item.id === selectedPostId)// Lọc bài đăng với ID tương ứng
+                    ?.filter((item: { id: null; }) => item.id === selectedPostId)// Lọc bài đăng với ID tương ứng
                     .map((item: IJobPost) => {
                         return (
                             <div key={item.id}>
