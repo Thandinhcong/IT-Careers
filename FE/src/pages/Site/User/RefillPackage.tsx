@@ -82,7 +82,7 @@ const RefillPackage = () => {
                 {currentStep === 0 && (
                     <Spin spinning={isLoading}>
                         <h2 className='font-semibold text-lg'>Nạp xu</h2>
-                        <div className='grid grid-cols-5 gap-6 my-5'>
+                        <div className='grid grid-cols-4 gap-6 my-5'>
                             {packages?.package?.map((item: IPackages) => (
                                 <div key={item.id} className='flex-col border border-gray-100 shadow-5xl rounded-2xl text-center leading-8 py-3'>
                                     <h2 className='text-lg'>{item.title}</h2>

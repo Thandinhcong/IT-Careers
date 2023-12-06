@@ -15,7 +15,7 @@ import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile } 
 
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
-        duration: 2000,
+        duration: 3000,
         position: {
             x: 'right',
             y: 'top',
@@ -279,10 +279,14 @@ const CreateCvTest = React.memo(() => {
             resetExp();
         } catch (error: any) {
             if (error?.status === 422) {
+                console.log(error);
+
                 notyf.error(error?.data?.error?.company_name[0]);
                 notyf.error(error?.data?.error?.position[0]);
                 notyf.error(error?.data?.error?.end_date[0]);
                 notyf.error(error?.data?.error?.end_date[1]);
+                notyf.error(error?.data?.error?.end_date[2]);
+
 
             } else {
                 notyf.error(error?.data?.message);
@@ -299,10 +303,10 @@ const CreateCvTest = React.memo(() => {
             notyf.error(error)
         }
     }
-    const [experience, setExperience] = useState([{ position: "", company_name: '', start_date: '', end_date: '' }]);
+    const [experience, setExperience] = useState([{ position: "", desc: "", company_name: '', start_date: '', end_date: '' }]);
 
     const handleAddExp = () => {
-        setExperience([...experience, { position: "", company_name: '', start_date: '', end_date: '' }]);
+        setExperience([...experience, { position: "", desc: "", company_name: '', start_date: '', end_date: '' }]);
     };
 
     const handleRemoveExp = (index: any) => {

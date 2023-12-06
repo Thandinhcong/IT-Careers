@@ -198,7 +198,7 @@ const ListCV = React.memo(() => {
                             htmlFor="dropzone-file"
                             className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                         >
-                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6 ">
                                 <svg
                                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                                     aria-hidden="true"
@@ -230,11 +230,11 @@ const ListCV = React.memo(() => {
                                 className="hidden"
                             />
                             <div className='text-sm text-red-500'>{errors.path_cv && errors.path_cv.message}</div>
-                            <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
+                            <button className='border  bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
                         </label>
                         <Button
                             type='primary'
-                            className='bg-blue-600 text-white text-lg h-12'
+                            className='bg-blue-600 text-white text-lg h-12 mt-10'
                             onClick={handleAddCV}
                         >
                             Tạo CV đầu tiên

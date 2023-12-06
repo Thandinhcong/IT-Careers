@@ -1,21 +1,26 @@
 import { Avatar } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
-import React from 'react';
-import { useGetDataFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
+import React, { useEffect } from 'react';
+import { useGetDataFindJobQuery, useGetInfoFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
 import { useForm } from 'react-hook-form';
-import { useGetExperienceQuery, useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
+import { useGetExperienceQuery } from '../../../api/manageWebsiteApi/manageWebApi';
+import { Notyf } from 'notyf';
 
 
 
 const Profile = React.memo(() => {
-
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
     const { data } = useGetInfoUserQuery();
     const listInfo = data?.candidate;
     const idUser = listInfo?.id;
     const listImage = data?.candidate?.image;
     const [SaveInfoFindJob] = useSaveInfoFindJobMutation();
-    const { data: DataMajor } = useGetMajorQuery();
-    const listMajor = DataMajor?.major;
     // exp
     const { data: Exp } = useGetExperienceQuery();
     const listExp = Exp?.data;
@@ -23,23 +28,26 @@ const Profile = React.memo(() => {
     const { data: dataFindJob } = useGetDataFindJobQuery();
     const province = dataFindJob?.data?.province;
     const districts = dataFindJob?.data?.district;
+    const { data: info } = useGetInfoFindJobQuery();
+    const infoFindJob = info?.info_find_job?.info_find_job;
 
 
-
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset, setValue } = useForm();
     const onHandleSubmit = async (data: any) => {
         try {
-            const results = await SaveInfoFindJob({
+            await SaveInfoFindJob({
                 idUser,
                 ...data
             }).unwrap();
-            console.log("Thêm thành công", results);
+            notyf.success('Cập nhật thành công');
 
         } catch (error) {
-            console.log(error);
+            notyf.error('Cập nhật thất bại');
         }
     }
-
+    useEffect(() => {
+        reset();
+    }, [])
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -117,22 +125,19 @@ const Profile = React.memo(() => {
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <p >Ngành nghề muốn quan tâm</p>
-                                <select
-                                    {...register('major_id')}
+                                <input
+                                    defaultValue={infoFindJob?.major}
+                                    type="text" {...register("major")}
+                                    placeholder='Front end'
                                     className='border border-blue-500 rounded outline-none px-2 py-1 '
-                                >
-                                    <option value="">Vui lòng chọn</option>
-                                    {listMajor?.map((item: any) => {
-                                        return (
-                                            <option key={item?.id} value={item?.id}>{item?.major}</option>
-                                        )
-                                    })}
-                                </select>
+                                />
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <label>Kinh nghiệm ngành nghề</label>
                                 <select
                                     {...register('experience_id')}
+                                    // watch("experience_id")
+                                    defaultValue={infoFindJob?.experience}
                                     className='border border-blue-500 rounded outline-none px-2 py-1 '
                                 >
                                     <option>Vui lòng chọn</option>
@@ -145,7 +150,10 @@ const Profile = React.memo(() => {
                             </div>
                             <div className='flex flex-col gap-2  p-2'>
                                 <label>Mức lương mong muốn</label>
-                                <input type="text" placeholder='20000000' {...register('desired_salary')} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                                <input
+                                    defaultValue={infoFindJob?.desired_salary}
+                                    type="text" placeholder='20000000'
+                                    {...register('desired_salary')} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
                             </div>
                             <div className='flex justify-center mb-2'>
                                 <button className='bg-blue-500 px-5 py-2 text-white  rounded '>Lưu</button>

@@ -22,12 +22,18 @@ const HistoryPayment = () => {
         {
             title: 'Thời gian',
             dataIndex: 'created_at',
-            key: 'age',
+            key: 'created_at',
+        }
+        ,
+        {
+            title: 'Mô tả',
+            dataIndex: 'note',
+            key: 'note',
         }
     ];
     return (
         <div className='w-full'>
-            <h2 className='text-2xl text-blue-500 mb-5'>Lịch sử thanh toán</h2>
+            <h2 className='text-3xl font-medium text-blue-500 mb-5'>Lịch sử thanh toán</h2>
             {listPayment ? (
                 <div className="overflow-x-auto rounded-lg border border-gray-200 w-full">
                     <Table dataSource={dataSource} columns={columns} />
@@ -35,7 +41,7 @@ const HistoryPayment = () => {
 
             ) : (
 
-                <div className='text-blue-500 text-2xl'>Bạn chưa thực hiện giao dịch nào!</div>
+                <div className='text-blue-500 text-xl'>Bạn chưa thực hiện giao dịch nào!</div>
             )}
 
 

@@ -77,7 +77,7 @@ const SignInCompanies = () => {
                                 name="email"
                                 rules={[{ required: true, message: 'Email không được bỏ trống!' }]}
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Username" />
+                                <Input prefix={<UserOutlined className="site-form-item-icon p-3" />} placeholder="Email" />
                             </Form.Item>
                             <Form.Item
 
