@@ -25,11 +25,11 @@ const LayoutAdmin = () => {
         },
     });
     const [logout] = useLogoutMutation();
-    const handleLogout = async () => {
+    const handleLogout = async (data: any) => {
         try {
             const confilm = window.confirm("Bạn có muốn đăng xuất không?")
             if (confilm) {
-                await logout().unwrap();
+                await logout(data).unwrap();
                 localStorage.removeItem("admin");
                 window.location.href = "/admin/login"
             }

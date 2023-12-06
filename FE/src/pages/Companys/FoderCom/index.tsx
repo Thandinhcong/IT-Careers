@@ -22,18 +22,6 @@ const Forder = () => {
                     <p className='text-red-500 text-2xl my-2'>0</p>
                     <p className='flex items-center gap-3 text-gray-400 justify-between'><span className='font-normal text-sm '>Đang tuyển </span>  <Link to='' className='flex items-center gap-1 text-sm'>Xem <BsArrowRightShort /> </Link> </p>
                 </div>
-                <div className='p-2 border shadow mt-3'>
-                    <p className='font-medium'>Tin tuyển dụng chạy vip</p>
-                    <p className='text-red-500 text-2xl my-2'>0</p>
-                    <p className='flex items-center gap-3 text-gray-400 justify-between'><span className='font-normal text-sm'>Đang áp dụng </span>  <Link to='' className='flex items-center gap-1 text-sm'>Xem <BsArrowRightShort /> </Link> </p>
-                </div>
-                <div className='p-2 border shadow mt-3'>
-                    <p className='font-medium'>Lượt đẩy tin tuyển dụng</p>
-                    <p className='text-red-500 text-2xl my-2'>0</p>
-                    <p className='flex items-center gap-3 text-gray-400 justify-between'>
-                        <span className='font-normal text-sm'>Đẩy top tin tìm kiếm</span>
-                    </p>
-                </div>
             </div>
         </div>
     )

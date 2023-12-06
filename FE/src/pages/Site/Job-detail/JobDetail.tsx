@@ -63,8 +63,6 @@ const JobDetail = React.memo(() => {
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-    console.log(idJob);
-
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     //id bài đăng
@@ -86,7 +84,6 @@ const JobDetail = React.memo(() => {
         resolver: yupResolver(schemaLogin),
     });
     const [users, setUser] = useLocalStorage("user", null);
-
 
     const { data: listCv } = useListCvQuery();
     const listAllCv = listCv?.data;
@@ -128,7 +125,6 @@ const JobDetail = React.memo(() => {
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
-
             notyf.error("Vui lòng chọn đầy đủ thông tin!");
         }
     };

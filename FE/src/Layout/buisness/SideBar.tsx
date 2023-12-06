@@ -47,10 +47,6 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <IoDocumentTextOutline /> </p>
                 <p className='mr-3'>Quản lý tuyển dụng</p>
             </Link>
-            <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
-                <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
-                <p className='mr-3'>Chiến dịch tuyển dụng</p>
-            </Link>
             <Link to={"/business/cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>
