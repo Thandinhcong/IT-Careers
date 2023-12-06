@@ -2,18 +2,19 @@ import { AiFillCaretRight, AiOutlineReload } from 'react-icons/ai'
 import { Link, useLocation } from 'react-router-dom';
 import SearchJobs from './SearchJobs';
 import { MdOutlineAttachMoney } from 'react-icons/md';
-// import { useGetAllJobsQuery } from '../../../api/jobApi';
-// import { formatDistanceToNow, parse } from 'date-fns';
-// import { vi } from 'date-fns/locale';
+import { formatDistanceToNow, parse } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import { useSearchQuery } from '../../../api/searchApi';
+import { Spin } from 'antd';
 
 
 const Recruit = () => {
     const location = useLocation();
     const [currentPage, setCurrentPage] = useState(1);
-    const { data } = useSearchQuery({ search: '', province: '' });
-    const [searchData, setDataSearch] = useState(location?.state?.searchData || data);
+    const { data, isLoading } = useSearchQuery({ search: '', province: '' });
+    console.log(data?.data)
+    const [searchData, setDataSearch] = useState(data?.data);
     console.log(searchData)
 
     const handleSearchDataChange = (searchData: any) => {
@@ -23,10 +24,15 @@ const Recruit = () => {
     useEffect(() => {
         if (!location?.state) {
             console.log("đ tồn tại")
-        } else {
+            handleSearchDataChange(data);
+
+        } else if (location?.state) {
             handleSearchDataChange(location?.state?.searchData);
         }
-    }, [location?.state]);
+        else {
+            handleSearchDataChange(location?.state?.searchData);
+        }
+    }, [location?.state, data]);
 
     const itemsPerPage = 10;
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -150,58 +156,60 @@ const Recruit = () => {
 
                     {/* item 1 */}
                     {displayedData && displayedData?.map((item: any) => {
-                        // const startDate = parse(item.start_date, 'yyyy-MM-dd', new Date());
-                        // const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
+                        const startDate = parse(item.start_date, 'yyyy-MM-dd', new Date());
+                        const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
                         return (
-                            < ul key={item.id}>
-                                <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' key={item.id}>
-                                    <Link to={""}>
-                                        <img src="data:image/jpeg;base64,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" className='col-span-1 w-32 mx-auto' alt="" />
-                                    </Link>
+                            <Spin spinning={isLoading}>
+                                < ul key={item.id}>
+                                    <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' key={item.id}>
+                                        <Link to={`/job-detail/${item?.title}/${item?.id}`}>
+                                            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEABsbGxscGx4hIR4qLSgtKj04MzM4PV1CR0JHQl2NWGdYWGdYjX2Xe3N7l33gsJycsOD/2c7Z//////////////8BGxsbGxwbHiEhHiotKC0qPTgzMzg9XUJHQkdCXY1YZ1hYZ1iNfZd7c3uXfeCwnJyw4P/Zztn////////////////CABEIALsBTQMBIgACEQEDEQH/xAAZAAADAQEBAAAAAAAAAAAAAAAAAQIDBAX/2gAIAQEAAAAA8Qp3QodXjNPQveiQnOWm2xClMwL1qhJtZIve0tVLSlJSiiRA3lTd0NRd4unpc1aJQQgGClIZjQ7dTDrQSObM9HViTSSimJKAFIU1jzW97VTvrz30UAkgASkIkRLHEYXo3trQ+TDo66Bw55+i2KIRIpllZzrdWOmJZ3oGOPHmtT0d3FZ4qglKhrS6uhIEqEuPzjMet9nfpMznGViSqrsB3bCYh45PzszSurfTYmUgSSSq9aSdaaCU58WkdU4ydGgm0iQSEkBV626vWiM4VCSToQotkoiZFKd0FU9NdboBQKZSaYoiJCJURM561rDsq9a0rVR5efqNsGBMkxmKIzifPV3D12ze72l1XhZer2721NCSzgiZmYU87pZIlj10m+rTknbVZdahyxRgMTSlZFHKtZzdXUbeo+LDt0CYAbFEyCmZWtUg0ijV0b9GXh4en2sAAJmM5QRMqnQ6b001ulTy8TP2KhJgJTMzKBJJN1VN6aMmEEgkDQkAkkJCIpgN2wSzllqRUwAEgQIRLYA6aCVJFGSVu7YyRAgQSDbKAFIAPHMY3T0oSSQASIpjABCYwzmQKrUEJIABJMbYMEpdUJShp2xCQAL/xAAYAQEBAQEBAAAAAAAAAAAAAAABAAIDBP/aAAoCAhADEAAAAOxs2UWrFPXG86HMc+taw5cuJy+b2atCZdFRSUbbWKzsapyWNTWKtKJC1VNJI5Ec7eUibqZGUuZkLWupGy1iKeNSaI0dLUUYJ3siqiEjBImsxmbQmrQs51VohIg5yxs3nWSCg7ZkSa1pEc2dcKyDUzdMdbN0pLCUkNFlzQmrVENEd6hy5aEiHLhqmqNCaGppykQ0RVlimrWWoQKlmkqiqslLVVUKVFVKkSVX/8QAIRAAAgIDAQEBAQEBAQAAAAAAARECEgADExAEIBQFMED/2gAIAQEAAQIAxCNBDnQxQABiYoRpHUdcBEeJKpx4SC22/wBVqIgAYjGiqQcrkchGpiIrBiIRhSphSgikR6kvRgHpJMSjqEOcdQBwEBJEvCCF6lUwrWla1ASAxYZE4JjLXGwylhMM1kYkY0rWtTEAQrVIhJeJIDDOe4mM7wizEaTCAW3Xq1CKxfpJL04QvyBhlIqo0nRyhCiqBu3W1RH5Jwme4H1HxfghYsnIQjqGnmkkkQjpGoBZt3bfpP1dzv8A6ICGsDBFSwkSf5QCoABgytKJeJe/R9BkScQhDWRqMMRLJOEcvwsERCixgiQNmjFGd57+pnP0GMdWmPznUDYk/lYkvBISZjz5iMYgVqqyPCOo/Fr+efz/AMh+OPxQ1Vql+EklWlUqoYMicqIiIjWpiYmI1861WLKUqkM5jUYVOMyMsrWqwYncG14zGwTbxIxrXDhw+JWOwzJMViIJdjIyMmJiY3Dcdo3Y7CQIIkJifWf0b/8AY1f7I3PFjB8ZKw4cMrEnDhw+XEgTsMhkdh+g7ux3f1Q+qf1/1x+qW36o8v8AOP8AWNvS52f0j6ju7dzun9PY7TtO07uh29DO9aiJiJ36jb269dclLAIaaTyUNWmMNkXyOridQ1ceJ0nQdUI8uQ186VrVICQ5jXy586UjAQMNUIxOT1T1fNA6ePDidXLnzGrjyOk6jrpSlKGFapVMaQhUa+XLidP88tH84huh9G7r8Jx2s3azZlYyMiW2ST62xg8QAiAQzK/TbP6NGr5tUTIyta97O1jIkkltv8NsF2sJCQn06HZ069ehla97Wve1r3ve1m2223g8drWEhK973tKXS/UTM+nTqJ2s222222223Z+ttt2JRwgE47MSuJXs3422222223jbbfj/ABIeNsSsJAv8Nv8Abbbbb9bfhwhLweDxtt/s+H/wD0/kYcH/AG//xAA5EAACAgAEAwUFBgQHAAAAAAAAAQIRAxAhURIxQQQgUlNhIjBAVKITMlBxkaFCYoGCIzNgY3KS4f/aAAgBAQADPwD3DHla7tjQ18ehCyoWdlZIafeeSFmxj+DsssaLKKEhPuoXfQhCELNe6j1YnyEuZARFERMlWiMZ7mIlTkySdouPcTI92i/gUsmxociOVl9SUWSLMPcikJfEtlZcSNS+gjYlsPqhdxp1EnNk0Pu1lQ01wiaT+B6WXkhbe5jIjHuRw0iKh7HNmJw0T3JulxPQm4tN2OXNnsxWxWUr5jyeUdxd1ZIjsLuLJ+64XwxG3rmxjbo6E4KKbbsk7b0QhZIiIXcXvPQWwhjIrnJEau9CCWjJvSLsmo3Jot5xrlqLm4shiK9UKP8AEQbQl0GMfvVlJjyQjZHoPYkMl0JTjJu1K9CTjFPnuO9JoWGtKsc+orItsgudsjBUooWwhCyXfYx5IXdecRC7kiQ9n3WPbKxbkSAq0iN6KLG+huJEOrMNET8s5bDyjuLOugiyuuSI7i3EIQhESBhmGQ2I5PcXVmH4WyK5YZLpAxPCYr6MxNh5oWT3Y8nlF8mVznX9RrlIb2MNN3iJGG2kp3n6WLcXiJbkvELrIWUYQlKm6XJCwpuH2EiE51PC4Y7ojNJwaa3ReS3EPYew/Q/mR/MXueghbMXhI7G0R+FZIQsnnSqhvJx0TZiKuSMR85MxejJRitFZK3oqLirpCpVDWxVpAg0rTMPgk+PozExsV4kcKdcMehLThw53w27Q8OGIpKSXFZG0oxkyJHcjuJGEubMN8mhbI/IvlOJXOaEl/mfoRlymV/ELxi8Qt87Q6yj4iPiI+IVN8XI/Iat6C2/YlfLqarQ1NP8Aw+0vWv6Fpe3+x/udV0G5RX2i1a6Eai+NcthyupR5O3RGDhF4lOah1ZJYkqm3TnVPmPh++npHnexXJxTMWEbgozd8uR2ryK/uRPxIl1lE2cSaXsqLf50YrXtOKe12T6TRLxIl4kPxI7TpX2aHNay1XPRj3PUl1aPU9T1PU9cmMqDGSdakqJNaMna1MS+Zi+JmN4jEr7zMXxGKsXDblpxD4EnscKdpVTMKUovhWn2d6GC5zcU1rKqIxw6jxdOpO7WNNGP81P8ARHafm3/1O1/Nfsdt+YO3eedv89Hb/PR235hHbPmvpO1fM/Sdq+Z+k7T5/wBJ2nz/AKTtHnfSY/nfSY/n/Sdo879kY/nfSY/mr9DH81foY3md1FCFQm0e0jRFJi9kXFBbsSp7FJfkf4c/+LHh4mLC/CNP+1/uOUJN7/gCtCFTIi4o+liEXBpDxMWc92XNWRw40hC7iF8ax5WJiQ/wbQrv3+Ctdx5P/U2r/Cv/xAAkEQADAAEEAQMFAAAAAAAAAAAAARESAhAhUSADMGETIkBBcf/aAAgBAgEBPwCC00WhD0GDMTEWkXpqCWJTIyHm2XV2LW+j6hluxC8EyImkzS/TFrpSsWpiZUcEIR9nPZfkm1G2z7hE2bW1LtdqXajZnsybZFRTIpSj1GbKUo2y6isu1KUpTgnTP6VIzRkUTRUVFKXwpSlGymTM2ZFKUpSlKUyKUhCGLHoZizHV0Y6utmhprbno5OTk5OTk53pWZMyZkzJmTKWD1fJX2ivtFfaMn2jJ9oyZkylL4whCEGiEIYkIQhPCe1CEJ7F3vu0v4K8//8QAKREAAgIBAgQGAgMAAAAAAAAAAAECERIQUQMhQWETICIxQlIwgUBxgv/aAAgBAwEBPwAsyLLRZZY5MuyrRgjBEYwSMYbD4KfszwR8OinolpRRWjRzOZTMShKPUcI9GODEpCtGXYyWxcdkVF/FGK+petFFa0UYmJiUcznqo2YmGqZcTHZmMihQMDEbr2LbKe5TEjEUV1HGJihpaUzn5FJoU9xy+qHn0RhKu54MiPCkeFQ4tFMp7FeX9HLYxRiOBTF/RnXQUzPsxSMjIuWx6uxT3MTExRRRkZIz7CnEXFQ5x3HjuhKD+ROKS9LOG25UxJP2ZixxoxbMSq6oruikekbiWtK0oooohFDToirZT9sWJtdJDk38JDb+sj/MhpP4sxWzKX1ZXZldmfp+XkctESshd2yyzIcjIyMjIyLLLLLLLLE2ZGRkZIzMhyLLLL/Fej1ssv8Ak35P/9k=" className='col-span-1 w-32 mx-auto' alt="" />
+                                        </Link>
 
-                                    <div className='col-span-4 '>
+                                        <div className='col-span-4 '>
 
-                                        <li className=''>
-                                            <h1 className='text-xl'><b>{item.title}</b></h1>
-                                            <h2 className='text-gray-500'>{item.company_name}</h2>
-                                            <p className='flex items-center'>
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                                    />
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                                    />
-                                                </svg>
-                                                {item.province},
-                                                {item.district}
-                                            </p>
-                                            <p className='flex items-center gap-2'>
-                                                <MdOutlineAttachMoney className="text-lg" />
-                                                <span className='font-semibold'>
-                                                    {parseInt(item.min_salary).toLocaleString()} đ - {parseInt(item.max_salary).toLocaleString()} đ
-                                                </span>
-                                            </p>
-                                            <p className="line-clamp-2">Mô tả: {item.desc}</p>
-                                            <p className='my-2 text-gray-500 text-sm'>
-                                                Đăng: {item.start_date}
-                                                {/* Đăng: {timeDiff} */}
-                                            </p>
-                                        </li>
+                                            <li className=''>
+                                                <h1 className='text-xl'><b>{item.title}</b></h1>
+                                                <h2 className='text-gray-500'>{item.company_name}</h2>
+                                                <p className='flex items-center'>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-5 w-5 mr-2 shrink-0 text-gray-900 inline-block base-line"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                                        />
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                                        />
+                                                    </svg>
+                                                    {item.province},
+                                                    {item.district}
+                                                </p>
+                                                <p className='flex items-center gap-2'>
+                                                    <MdOutlineAttachMoney className="text-lg" />
+                                                    <span className='font-semibold'>
+                                                        {parseInt(item.min_salary).toLocaleString()} đ - {parseInt(item.max_salary).toLocaleString()} đ
+                                                    </span>
+                                                </p>
+                                                <p className="line-clamp-2">Mô tả: {item.desc}</p>
+                                                <p className='my-2 text-gray-500 text-sm'>
+                                                    {/* Đăng: {item.start_date} */}
+                                                    Đăng: {timeDiff}
+                                                </p>
+                                            </li>
+                                        </div>
                                     </div>
-                                </div>
-                            </ul>
+                                </ul>
+                            </Spin>
                         )
                     })}
 

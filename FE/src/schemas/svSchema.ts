@@ -24,7 +24,7 @@ export const schemaExp = yup.object({
 export type FormExp = yup.InferType<typeof schemaExp>;
 
 export const schemaEdu = yup.object({
-  major_id: yup.string().required("Trường dữ không được để trống"),
+  major: yup.string().required("Trường dữ không được để trống"),
   name: yup.string().required("Trường dữ liệu không được để trống"),
   gpa: yup.string().required("Trường dữ liệu không được để trống"),
   start_date: yup.date().required("Trường dữ liệu không được để trống"),

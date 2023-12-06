@@ -63,7 +63,7 @@ const JobDetail = React.memo(() => {
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-    console.log("idJob", idJob);
+    console.log(idJob);
 
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
@@ -105,7 +105,6 @@ const JobDetail = React.memo(() => {
         }
     };
     const onHandleSubmit = async (appply: FromApply) => {
-        console.log(appply);
 
         if (selectedOption === 'existing' && !selectedCvId) {
             notyf.error("Vui lòng chọn CV từ danh sách!");
@@ -126,9 +125,10 @@ const JobDetail = React.memo(() => {
         appply.phone;
         appply.curriculum_vitae_id;
         appply.path_cv = image as any;
-        appply.id = idJob;
         try {
-            const results = await applyJob(appply).unwrap();
+            await applyJob({
+                id: idJob
+            }).unwrap();
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
@@ -170,7 +170,7 @@ const JobDetail = React.memo(() => {
 
     const { data: JobSave } = useGetAllSaveJobsQuery();
     const idSaveJob: any = parseInt(id, 10);
-    const isJobSaved = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
+    const isJobSaved: any = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
 
     //lưu việc làm
     const [saveJob] = useAddSaveJobsMutation();
@@ -203,18 +203,16 @@ const JobDetail = React.memo(() => {
     const onOptionChange = (option: string) => {
         setSelectedOption(option);
         if (option === 'upload') {
-            // Nếu chọn 'upload', disable select và enable input
             curriculumVitaeIdRef.current.value = null;
             setSelectedCvId(null);
         } else {
-            // Nếu chọn 'existing', disable input và enable select
             fileInputRef.current.value = null;
         }
     };
 
 
     useEffect(() => {
-        reset()
+        reset();
         window.scrollTo(0, 0);
     }, [])
     if (isLoading) return <Skeleton loading />

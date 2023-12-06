@@ -5,7 +5,6 @@ import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkil
 import { useForm } from 'react-hook-form';
 import { Notyf } from 'notyf';
 import { IoTrashOutline } from 'react-icons/io5';
-import { useGetMajorQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 import { UploadImage } from '../../../components/upload';
 import html2pdf from 'html2pdf.js';
 import { GoDownload } from 'react-icons/go';
@@ -181,8 +180,6 @@ const CreateCvTest = React.memo(() => {
         setProjects(updatedProjects);
     };
     //học vấn
-    const { data: dataMajor } = useGetMajorQuery();
-    const listMajor = dataMajor?.major;
     const listEducation = getCV?.profile?.educations;
 
     const [addEducation] = useAddEduMutation();
@@ -231,10 +228,10 @@ const CreateCvTest = React.memo(() => {
 
         }
     };
-    const [education, setEducation] = useState([{ major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
+    const [education, setEducation] = useState([{ major: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
 
     const handleAddEdu = () => {
-        setEducation([...education, { major_id: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
+        setEducation([...education, { major: "", name: '', gpa: '', start_date: '', end_date: '', type_degree: "" }]);
     };
 
     const handleRemoveEdu = (index: any) => {
@@ -420,16 +417,7 @@ const CreateCvTest = React.memo(() => {
                                     {errors?.image && errors?.image?.message}
                                 </div>
                             </div>
-                            <div>
-                                <label className='block font-semibold mb-2'>Mục tiêu nghề nghiệp</label>
-                                <textarea
-                                    {...register('careers_goal')}
-                                    onChange={handleInputChange}
-                                    defaultValue={profile?.careers_goal}
-                                    className='border border-gray-200 p-2 w-full outline-none'
-                                ></textarea>
 
-                            </div>
                             <div>
                                 <label className='block font-semibold mb-2'>Vị trí ứng tuyển:</label>
                                 <input
@@ -505,7 +493,16 @@ const CreateCvTest = React.memo(() => {
                                     {errors?.birth && errors?.birth?.message}
                                 </div>
                             </div>
+                            <div>
+                                <label className='block font-semibold mb-2'>Mục tiêu nghề nghiệp</label>
+                                <textarea
+                                    {...register('careers_goal')}
+                                    onChange={handleInputChange}
+                                    defaultValue={profile?.careers_goal}
+                                    className='border border-gray-200 p-2 w-full outline-none'
+                                ></textarea>
 
+                            </div>
                         </div>
                         <button className='mt-5 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
                     </form>
@@ -669,24 +666,17 @@ const CreateCvTest = React.memo(() => {
                                         <label className='block font-semibold mb-2 '>
                                             <div>Chuyên ngành</div>
                                         </label>
-                                        <select
-                                            {...registerEducation('major_id')}
-                                            defaultValue={educations?.major_id}
-                                            className='border border-gray-200 p-2 w-full outline-none'
-                                            onChange={(e: any) => handleChangeEdu(index, 'major_id', e.target.value)}
-                                        >
-                                            {listMajor?.map((item: any) => {
-                                                return (<option
-                                                    key={item?.id}
-                                                    value={item?.id}
-                                                >
-                                                    {item?.major}
-                                                </option>)
-                                            })}
+                                        <input
+                                            {...registerEducation('major')}
+                                            name='major'
+                                            defaultValue={educations?.major}
+                                            onChange={(e) => handleChangeEdu(index, 'major', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                            type="text"
+                                        />
 
-                                        </select>
                                         <div className='text-red-500 text-sm'>
-                                            {errorsEdu?.major_id && errorsEdu?.major_id?.message}
+                                            {errorsEdu?.major && errorsEdu?.major?.message}
                                         </div>
                                     </div>
                                     <div>
@@ -880,21 +870,7 @@ const CreateCvTest = React.memo(() => {
                                             <AiOutlineClose />
                                         </button>
                                     </div>
-                                    <div>
-                                        <label className='block font-semibold mb-2 '>
-                                            <div>Mô tả dự án</div>
-                                        </label>
-                                        <textarea
-                                            {...registerProject('desc')}
-                                            name='desc'
-                                            defaultValue={project?.desc}
-                                            onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
-                                            className='border outline-none border-gray-200 p-2 w-full'
-                                        ></textarea>
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.desc && errorsProject?.desc?.message}
-                                        </div> */}
-                                    </div>
+
                                     <div>
                                         <label className='block font-semibold mb-2 '>
                                             <div>Link dự án</div>
@@ -943,6 +919,21 @@ const CreateCvTest = React.memo(() => {
                                         />
                                         {/* <div className='text-red-500 text-sm'>
                                             {errorsProject?.end_date && errorsProject?.end_date?.message}
+                                        </div> */}
+                                    </div>
+                                    <div>
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả dự án</div>
+                                        </label>
+                                        <textarea
+                                            {...registerProject('desc')}
+                                            name='desc'
+                                            defaultValue={project?.desc}
+                                            onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
+                                            className='border outline-none border-gray-200 p-2 w-full'
+                                        ></textarea>
+                                        {/* <div className='text-red-500 text-sm'>
+                                            {errorsProject?.desc && errorsProject?.desc?.message}
                                         </div> */}
                                     </div>
                                 </div>

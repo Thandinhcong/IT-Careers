@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
-import SearchJobs from "../Recruit/SearchJobs";
-import {
-    TETabs,
-    TETabsContent,
-    TETabsItem,
-    TETabsPane,
-} from "tw-elements-react";
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai"
+import { Link, useParams } from "react-router-dom";
 import {
     TERipple,
     TEModal,
@@ -16,25 +10,21 @@ import {
     TEModalBody,
     TEModalFooter,
 } from "tw-elements-react";
-import TabNew from "./TabNew";
-import TabInfor from "./TabInfor";
-import { Link, useParams } from "react-router-dom";
 import { useGetOneJobsQuery } from "../../../api/jobApi";
+import { UploadImage, VND } from "../../../components/upload";
+import { Notyf } from "notyf";
+import { FromApply, schemaJobApply } from "../../../schemas/apply";
 import { useGetInfoUserQuery, useLoginMutation } from "../../../api/auths";
 import { useForm } from "react-hook-form";
-import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
-import { FromApply, schemaJobApply } from "../../../schemas/apply";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { UploadImage } from "../../../components/upload";
-import { FcGoogle } from "react-icons/fc";
 import { FormLogin, schemaLogin } from "../../../schemas";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
-import { Notyf } from "notyf";
+import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
+import { FcGoogle } from "react-icons/fc";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
-import { Skeleton } from "antd";
-import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
-const JobDetail = React.memo(() => {
+
+const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const fileInputRef: any = useRef(null);
     const curriculumVitaeIdRef: any = useRef(null);
     const [selectedOption, setSelectedOption] = useState('upload');
@@ -46,50 +36,33 @@ const JobDetail = React.memo(() => {
             y: 'top',
         },
     });
-    const [basicActive, setBasicActive] = useState("tab1");
     const [showModal, setShowModal] = useState(false);
-    const handleBasicClick = (value: string) => {
-        if (value === basicActive) {
-            return;
-        }
-        setBasicActive(value);
-    };
     const [showModal2, setShowModa2l] = useState(false);
+    const [image, setImage] = useState(null);
 
     const { id }: any = useParams();
+    const { data } = useGetOneJobsQuery(id || "");
+    const listOne: any = data && data?.job_detail;
 
-    //lấy thông tin xem đã ứng tuyển chưa
+    const { data: infoUser } = useGetInfoUserQuery();
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-    console.log("idJob", idJob);
 
-    //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
-    //id bài đăng
-    const { data, isLoading } = useGetOneJobsQuery(id || "");
-    const listOne: any = data?.job_detail;
-    const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
-
     const [applyJob] = useApplyJobMutation();
-    const [image, setImage] = useState(null);
-    // ứng tuyển
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
-    //login
+
     const [login] = useLoginMutation();
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
         resolver: yupResolver(schemaLogin),
     });
     const [users, setUser] = useLocalStorage("user", null);
-
-
-    const { data: listCv } = useListCvQuery();
-    const listAllCv = listCv?.data;
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {
@@ -101,11 +74,11 @@ const JobDetail = React.memo(() => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.data?.errors)
+            notyf.error(error?.message)
         }
     };
+
     const onHandleSubmit = async (appply: FromApply) => {
-        console.log(appply);
 
         if (selectedOption === 'existing' && !selectedCvId) {
             notyf.error("Vui lòng chọn CV từ danh sách!");
@@ -126,24 +99,25 @@ const JobDetail = React.memo(() => {
         appply.phone;
         appply.curriculum_vitae_id;
         appply.path_cv = image as any;
-        appply.id = idJob;
         try {
-            const results = await applyJob(appply).unwrap();
-            console.log("results", results);
-
+            await applyJob({
+                id: idJob
+            }).unwrap();
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
-            console.log(error);
 
             notyf.error("Vui lòng chọn đầy đủ thông tin!");
         }
     };
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
 
     const isPDFFile = (fileName: any) => {
         const fileExtension = fileName?.split('.').pop()?.toLowerCase();
         return fileExtension === 'pdf';
     };
+
 
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
@@ -170,39 +144,6 @@ const JobDetail = React.memo(() => {
         }
     };
 
-
-    const { data: JobSave } = useGetAllSaveJobsQuery();
-    const idSaveJob: any = parseInt(id, 10);
-    const isJobSaved = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
-
-    //lưu việc làm
-    const [saveJob] = useAddSaveJobsMutation();
-    const [cancelSaveJob] = useUnsaveJobMutation();
-    const handleSaveJob = async () => {
-        try {
-            await saveJob({
-                idUser,
-                id,
-            }).unwrap();
-            notyf.success("Lưu việc làm thành công!")
-
-        } catch (error: any) {
-            notyf.error(error?.data?.error)
-        }
-    }
-    //hủy lưu
-    const handleCancelSaveJob = async () => {
-        try {
-            await cancelSaveJob({
-                idUser,
-                id
-            }).unwrap();
-            notyf.success("Hủy Lưu việc làm thành công!")
-        } catch (error: any) {
-            notyf.error(error?.data?.error);
-        }
-    }
-
     const onOptionChange = (option: string) => {
         setSelectedOption(option);
         if (option === 'upload') {
@@ -214,107 +155,184 @@ const JobDetail = React.memo(() => {
             fileInputRef.current.value = null;
         }
     };
-
-
     useEffect(() => {
         reset()
-        window.scrollTo(0, 0);
     }, [])
-    if (isLoading) return <Skeleton loading />
     return (
-        <div>
-            <div className="max-w-screen-xl mx-auto">
-                <SearchJobs />
-            </div>
-            <div className="bg-gray-50 py-6 ">
-                <div className="max-w-screen-lg mx-auto bg-white p-4">
-                    <div className="grid grid-cols-4 my-2 gap-10">
-                        <div className="col-span-3">
-                            <p className="font-bold text-2xl">{listOne?.title}</p>
-                            <p className="uppercase my-3">{listOne?.company_name}</p>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            {isAlreadyApplied ? (
-                                <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
-                            ) : (
+        <div className='grid grid-cols-3 gap-4'>
+            <div className='col-span-2'>
+                <div className='bg-gray-100 text-green-600 p-4'>
 
-                                <TERipple rippleColor="white" className="">
-                                    {!infoUser ? (
-                                        <button
-                                            type="button"
-                                            className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
-                                            onClick={() => setShowModa2l(true)}
-                                        >
-                                            Nộp hồ sơ online
-                                        </button>
-                                    ) : (
-                                        <button
-                                            type="button"
-                                            className="w-full text-white border border-blue-600 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
-                                            onClick={() => setShowModal(true)}
-                                        >
-                                            Nộp hồ sơ online
-                                        </button>
-                                    )}
-                                </TERipple>
-                            )}
-                            {!infoUser ? (
-                                <button
-                                    onClick={() => setShowModa2l(true)}
-                                    className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
-                                >
-                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                    Lưu tin
-                                </button>
-
-                            ) : (
-                                <button
-                                    className={`bg-white border-2 py-3 font-medium rounded-lg ${isJobSaved
-                                        ? 'text-blue-500  border-blue-600'
-                                        : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
-                                        }`}
-                                    onClick={isJobSaved ? handleCancelSaveJob : handleSaveJob}
-                                >
-                                    {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
-                                </button>
-                            )}
+                </div>
+                <div className="text-gray-700">
+                    <div>
+                        <h2 className="font-semibold text-lg my-4">Thông tin cơ bản</h2>
+                        <div className="grid grid-cols-2 border p-2 text-[15px]">
+                            <div className="grid grid-cols-1 gap-2 border-r py-2">
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineEnvironment className="col-span-1" />
+                                    <p className="col-span-4">Địa điểm:</p>
+                                    <p className="col-span-7">{listOne?.address}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineClockCircle className="col-span-1" />
+                                    <p className="col-span-4">Hạn nộp hồ sơ:</p>
+                                    <p className="col-span-7">{listOne?.end_date}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineCalendar className="col-span-1" />
+                                    <p className="col-span-4">Hình thức:</p>
+                                    <p className="col-span-7">{listOne?.working_form}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2">
+                                    <AiOutlineUsergroupAdd className="col-span-1" />
+                                    <p className="col-span-4">Số lượng:</p>
+                                    <p className="col-span-7">{listOne?.quantity}</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 gap-2 py-2">
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineMoneyCollect className="col-span-1" />
+                                    <p className="col-span-4">Mức lương:</p>
+                                    <p className="col-span-7 text-red-500 font-medium">{VND.format(listOne?.min_salary)} - {VND.format(listOne?.max_salary)}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineUser className="col-span-1" />
+                                    <p className="col-span-4">Chức vụ:</p>
+                                    <p className="col-span-7">{listOne?.job_position}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                    <AiOutlineFileDone className="col-span-1" />
+                                    <p className="col-span-4">Kinh nghiệm</p>
+                                    <p className="col-span-7">{listOne?.experience}</p>
+                                </div>
+                                <div className="grid grid-cols-12 items-center gap-2">
+                                    <AiOutlineStar className="col-span-1" />
+                                    <p className="col-span-4">Trình độ:</p>
+                                    <p className="col-span-7">{listOne?.academic_level}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="mb-3">
-                        <TETabs className="border-b">
-                            <TETabsItem
-                                onClick={() => handleBasicClick("tab1")}
-                                active={basicActive === "tab1"}
-                            >
-                                <AiOutlineContainer className="inline-block mr-1" /> Tin tuyển
-                                dụng
-                            </TETabsItem>
-                            <TETabsItem
-                                onClick={() => handleBasicClick("tab2")}
-                                active={basicActive === "tab2"}
-                            >
-                                <AiOutlineHdd className="inline-block mr-1" /> Thông tin công ty
-                            </TETabsItem>
-                        </TETabs>
+                    <div>
+                        <h2 className="font-semibold text-lg my-4">Mô tả công việc:</h2>
+                        <p>{listOne?.desc}</p>
+                    </div>
+                    <div>
+                        <h2 className="font-semibold text-lg my-4"> Quyền lợi:</h2>
+                        <p>{listOne?.interest}</p>
+                    </div>
 
-                        <TETabsContent className="mt-4">
-                            <TETabsPane show={basicActive === "tab1"}>
-                                <TabNew
-                                    isJobSaved={isJobSaved}
-                                    onSaveJob={handleSaveJob}
-                                    onCancelSaveJob={handleCancelSaveJob}
-                                />
-                            </TETabsPane>
-                            <TETabsPane show={basicActive === "tab2"}>
-                                <TabInfor listOne={listOne} />
-                            </TETabsPane>
-                        </TETabsContent>
+                    <div>
+                        <h2 className="font-semibold text-lg my-4">Yêu cầu</h2>
+                        <p>{listOne?.require
+                        }
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2 my-5">
+                        {isAlreadyApplied ? (
+                            <p className="px-6 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
+                        ) : (
+                            <TERipple rippleColor="white" className="">
+                                {!infoUser ? (
+                                    <button
+                                        type="button"
+                                        className="w-full text-white border border-blue-600 bg-blue-600 py-3 px-5 hover:bg-blue-500 font-medium rounded-lg"
+                                        onClick={() => setShowModa2l(true)}
+                                    >
+
+                                        Nộp hồ sơ online
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="w-full text-white border border-blue-600 px-5 bg-blue-600 py-3 hover:bg-blue-500 font-medium rounded-lg"
+                                        onClick={() => setShowModal(true)}
+                                    >
+
+                                        Nộp hồ sơ online
+                                    </button>
+                                )}
+                            </TERipple>
+                        )}
+                        {!infoUser ? (
+                            <button
+                                onClick={() => setShowModa2l(true)}
+                                className="bg-white border-2 border-blue-600 text-blue-600 py-3 px-5 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
+                            >
+                                <AiOutlineHeart className="inline-block text mr-2 text-xl " />{" "}
+                                Lưu tin
+                            </button>
+
+                        ) : (
+                            <button
+                                className={`bg-white border-2 py-3 font-medium rounded-lg px-4 ${isJobSaved
+                                    ? 'text-blue-500  border-blue-600'
+                                    : 'text-blue-600 hover:text-white hover:bg-blue-600 border-blue-600 hover:border-blue-700'
+                                    }`}
+                                onClick={isJobSaved ? onCancelSaveJob : onSaveJob}
+                            >
+                                {isJobSaved ? 'Bỏ lưu' : 'Lưu việc làm'}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
 
-            {/* ModalMain */}
+            <TEModal show={showModal2} setShow={setShowModa2l}>
+                <TEModalDialog>
+                    <TEModalContent>
+                        <TEModalHeader>
+                            Đăng nhập
+                        </TEModalHeader>
+                        <TEModalBody>
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)}>
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input
 
+                                        {...regiterLogin("email")}
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
+                                        placeholder="name@company.com" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.email && ErrorLogin.email.message}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                                    <input
+                                        {...regiterLogin('password')}
+                                        type="password"
+                                        name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.password && ErrorLogin.password.message}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
+
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+                                        <span> Google</span>
+                                    </button>
+
+                                </div>
+                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
+                                </p>
+                            </form>
+                        </TEModalBody>
+
+                    </TEModalContent>
+                </TEModalDialog>
+            </TEModal>
             <TEModal show={showModal} setShow={setShowModal}>
                 <TEModalDialog size="lg">
                     <TEModalContent>
@@ -324,6 +342,7 @@ const JobDetail = React.memo(() => {
                                 Ứng Tuyển
                                 <span className="ml-2 text-blue-600">{listOne?.title}</span>
                             </h5>
+
                             <button
                                 type="button"
                                 className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
@@ -479,61 +498,8 @@ const JobDetail = React.memo(() => {
                     </TEModalContent>
                 </TEModalDialog>
             </TEModal>
-            <TEModal show={showModal2} setShow={setShowModa2l}>
-                <TEModalDialog>
-                    <TEModalContent>
-                        <TEModalHeader>
-                            Đăng nhập
-                        </TEModalHeader>
-                        <TEModalBody>
-                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)}>
-                                <div>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                    <input
-                                        {...regiterLogin("email")}
-                                        type="text"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
-                                        placeholder="name@company.com" />
-                                    <div className="text-red-500 my-2">
-                                        {ErrorLogin.email && ErrorLogin.email.message}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
-                                    <input
-                                        {...regiterLogin('password')}
-                                        type="password"
-                                        name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" />
-                                    <div className="text-red-500 my-2">
-                                        {ErrorLogin.password && ErrorLogin.password.message}
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between">
-
-                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
-
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
-                                <div className="flex justify-center">
-                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
-                                        <span className="w-10"><FcGoogle /></span>
-                                        <span> Google</span>
-                                    </button>
-
-                                </div>
-                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
-                                </p>
-                            </form>
-                        </TEModalBody>
-
-                    </TEModalContent>
-                </TEModalDialog>
-            </TEModal>
         </div >
-    );
+    )
 });
 
-export default JobDetail;
+export default TabNew
