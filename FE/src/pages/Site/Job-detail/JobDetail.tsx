@@ -128,7 +128,7 @@ const JobDetail = React.memo(() => {
         appply.path_cv = image as any;
         appply.id = idJob;
         try {
-            const results = await applyJob(appply).unwrap();
+            await applyJob(appply).unwrap();
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
@@ -170,7 +170,7 @@ const JobDetail = React.memo(() => {
 
     const { data: JobSave } = useGetAllSaveJobsQuery();
     const idSaveJob: any = parseInt(id, 10);
-    const isJobSaved = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
+    const isJobSaved: any = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
 
     //lưu việc làm
     const [saveJob] = useAddSaveJobsMutation();
