@@ -25,10 +25,10 @@ const SearchJobs = ({ onSearchDataChange }: any) => {
 
     const handleSearchButtonClick = async () => {
         if (searchQuery.data) {
-            // Gọi hàm callback để thông báo về dữ liệu tìm kiếm cho component cha
-            onSearchDataChange(searchQuery.data);
             // Thực hiện chuyển hướng sang trang recruit và truyền dữ liệu tìm kiếm
             navigate("/recruit", { state: { searchData: searchQuery.data } });
+            // Gọi hàm callback để thông báo về dữ liệu tìm kiếm cho component cha
+            onSearchDataChange(searchQuery.data);
         }
     };
 

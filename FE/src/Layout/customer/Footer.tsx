@@ -20,9 +20,9 @@ const Footer = React.memo((dataFooter: any) => {
                             </li>
 
                             <li>
-                                <Link to="recruit" className="text-gray-900 transition hover:opacity-75">
+                                <a href="recruit" className="text-gray-900 transition hover:opacity-75">
                                     Tuyển dụng
-                                </Link>
+                                </a>
                             </li>
 
                             <li>
