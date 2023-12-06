@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select, message, } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
 import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
-
-    const { data: Infor } = useGetInforQuery();
+    const { data: Infor, isLoading } = useGetInforQuery();
+    console.log(Infor)
     const [form] = Form.useForm();
     const [jobPost] = useAddJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
@@ -23,7 +23,7 @@ const JobCreate = React.memo(() => {
             id: Infor?.company?.id,
         });
     }, [Infor]);
-
+    console.log(Infor?.company?.id)
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
         console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
@@ -88,349 +88,351 @@ const JobCreate = React.memo(() => {
         <div className='bg-gray-100 py-8 px-4'>
             <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Đăng bài tuyển dụng</h2>
-                <Form
-                    form={form}
-                    className='mx-auto'
-                    name="basic"
-                    labelCol={{ span: 24 }}
-                    wrapperCol={{ span: 24 }}
-                    style={{ maxWidth: 700 }}
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                    autoComplete="off"
-                >
-                    <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Thông tin cơ bản</h2>
-
-                    {/* Tiêu đề */}
-                    <Form.Item<IJobPost>
-                        label="Tiêu đề tuyển dụng"
-                        name="title"
-
-                        rules={[
-                            { required: true, message: 'Trường này không được bỏ trống !' },
-                            { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Tiêu đề phải trên 5 kí tự !" }
-                        ]}
+                <Spin spinning={isLoading}>
+                    <Form
+                        form={form}
+                        className='mx-auto'
+                        name="basic"
+                        labelCol={{ span: 24 }}
+                        wrapperCol={{ span: 24 }}
+                        style={{ maxWidth: 700 }}
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        autoComplete="off"
                     >
-                        <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item>
-                    {/* Select*/}
-                    <Row gutter={16}>
-                        {/* Hình thức làm việc */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Hình thức làm việc"
-                                name="working_form_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.working_form.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.working_form}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Cấp bậc */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Cấp bậc"
-                                name="job_position_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.job_position.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.job_position}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Tỉnh/Thành phố */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Tỉnh/Thành phố"
+                        <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Thông tin cơ bản</h2>
 
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
-                                    {data?.data?.province_id.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} rovinceId={options.id}>
-                                            {options.province}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Quận/Huyện*/}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Quận/Huyện"
-                                name="area_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.district_id
-                                        ?.filter((options: {
-                                            province_id: string | number | null; id: string | number;
-                                        }) => options.province_id == selectedProvinceId)
-                                        .map((options: IJobPost) => (
+                        {/* Tiêu đề */}
+                        <Form.Item<IJobPost>
+                            label="Tiêu đề tuyển dụng"
+                            name="title"
+
+                            rules={[
+                                { required: true, message: 'Trường này không được bỏ trống !' },
+                                { pattern: /^(?=\S)(\S\s?){5,}$/u, message: "Tiêu đề phải trên 5 kí tự !" }
+                            ]}
+                        >
+                            <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
+                        </Form.Item>
+                        {/* Select*/}
+                        <Row gutter={16}>
+                            {/* Hình thức làm việc */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Hình thức làm việc"
+                                    name="working_form_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.working_form.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.working_form}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Cấp bậc */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Cấp bậc"
+                                    name="job_position_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.job_position.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.job_position}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Tỉnh/Thành phố */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Tỉnh/Thành phố"
+
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
+                                        {data?.data?.province_id.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} rovinceId={options.id}>
+                                                {options.province}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Quận/Huyện*/}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Quận/Huyện"
+                                    name="area_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.district_id
+                                            ?.filter((options: {
+                                                province_id: string | number | null; id: string | number;
+                                            }) => options.province_id == selectedProvinceId)
+                                            .map((options: IJobPost) => (
+                                                <Select.Option key={options.id} value={options.id}>
+                                                    {options.name}
+                                                </Select.Option>
+                                            ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Trình độ  học vấn*/}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Trình độ học vấn"
+                                    name="academic_level_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.academic_level.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.academic_level}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Kinh nghiệm */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Kinh nghiệm"
+                                    name="exp_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.exp.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.experience}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Giới tính */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Giới tính"
+                                    name="gender"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select
+                                        placeholder="--Chọn--"
+                                        style={{ width: '100%' }}
+                                        onChange={handleChange}
+                                        options={[
+                                            { value: '0', label: 'Nam' },
+                                            { value: '1', label: 'Nữ' },
+                                            { value: '2', label: 'Không yêu cầu' },
+                                        ]}
+
+                                    />
+                                </Form.Item>
+                            </Col>
+                            {/* Chuyên ngành hẹp */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Chuyên ngành hẹp"
+                                    name="major_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.major_id.map((options: IJobPost) => (
+                                            <Select.Option key={options.id} value={options.id}>
+                                                {options.major}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Gói bài đăng */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Loại tin"
+                                    name="type_job_post_id"
+                                    rules={[{ required: true }]}
+                                >
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
+                                        {data?.data?.type_job_post.map((options: IJobPost) => (
                                             <Select.Option key={options.id} value={options.id}>
                                                 {options.name}
                                             </Select.Option>
                                         ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Trình độ  học vấn*/}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Trình độ học vấn"
-                                name="academic_level_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.academic_level.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.academic_level}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Kinh nghiệm */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Kinh nghiệm"
-                                name="exp_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.exp.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.experience}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Giới tính */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Giới tính"
-                                name="gender"
-                                rules={[{ required: true }]}
-                            >
-                                <Select
-                                    placeholder="--Chọn--"
-                                    style={{ width: '100%' }}
-                                    onChange={handleChange}
-                                    options={[
-                                        { value: '0', label: 'Nam' },
-                                        { value: '1', label: 'Nữ' },
-                                        { value: '2', label: 'Không yêu cầu' },
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Số lượng */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Số lượng tuyển"
+                                    name="quantity"
+                                    rules={[
+                                        { required: true, message: 'Trường này không được bỏ trống !' },
+                                        { pattern: /^(0|[1-9]\d{0,1}|100)$/, message: "Số phải là số không âm và nhỏ hơn hoặc bằng 100." }
                                     ]}
+                                >
+                                    <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+                            {/* Mức lương tối thiểu*/}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Mức lương tối thiểu"
+                                    name="min_salary"
+                                    rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
+                                    style={{ display: 'inline-block', width: '100%', marginRight: '16px' }}
+                                >
+                                    <Input placeholder="Mức lương tối thiểu" />
+                                </Form.Item>
+                            </Col>
+                            {/* Mức lương tối đa*/}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    label="Mức lương tối đa"
+                                    name="max_salary"
+                                    rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
+                                    style={{ display: 'inline-block', width: '100%' }}
+                                >
+                                    <Input placeholder="Mức lương tối đa" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        {/*Quyền lợi */}
+                        <Form.Item<IJobPost>
+                            name="interest"
+                            label="Quyền lợi"
+                            rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
-                                />
-                            </Form.Item>
-                        </Col>
-                        {/* Chuyên ngành hẹp */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Chuyên ngành hẹp"
-                                name="major_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.major_id.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.major}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Gói bài đăng */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Loại tin"
-                                name="type_job_post_id"
-                                rules={[{ required: true }]}
-                            >
-                                <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                    {data?.data?.type_job_post.map((options: IJobPost) => (
-                                        <Select.Option key={options.id} value={options.id}>
-                                            {options.name}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        {/* Số lượng */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Số lượng tuyển"
-                                name="quantity"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { pattern: /^(0|[1-9]\d{0,1}|100)$/, message: "Số phải là số không âm và nhỏ hơn hoặc bằng 100." }
-                                ]}
-                            >
-                                <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' style={{ width: '100%' }} />
-                            </Form.Item>
-                        </Col>
-                        {/* Mức lương tối thiểu*/}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Mức lương tối thiểu"
-                                name="min_salary"
-                                rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
-                                style={{ display: 'inline-block', width: '100%', marginRight: '16px' }}
-                            >
-                                <Input placeholder="Mức lương tối thiểu" />
-                            </Form.Item>
-                        </Col>
-                        {/* Mức lương tối đa*/}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                label="Mức lương tối đa"
-                                name="max_salary"
-                                rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
-                                style={{ display: 'inline-block', width: '100%' }}
-                            >
-                                <Input placeholder="Mức lương tối đa" />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    {/*Quyền lợi */}
-                    <Form.Item<IJobPost>
-                        name="interest"
-                        label="Quyền lợi"
-                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
-                    >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
-                    </Form.Item>
-                    {/* Mô tả công việc */}
-                    <Form.Item
-                        name="desc"
-                        label="Mô tả công việc"
-                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
-                    >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
-                    </Form.Item>
-
-                    {/* Yêu cầu*/}
-                    <Form.Item<IJobPost>
-                        name="requirement"
-                        label="Yêu cầu"
-                        rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
-                    >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
-                    </Form.Item>
-                    {/* Date */}
-                    <Row gutter={16}>
-                        {/* Ngay bat dau */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                name="start_date"
-                                label="Ngày bắt đầu"
-                                rules={[
-                                    { required: true, message: 'Vui lòng không bỏ trống' },
-                                    { validator: validateStartDate },
-                                ]}
-                            >
-                                <DatePicker style={{ width: '100%' }} />
-                            </Form.Item>
-                        </Col>
-                        {/* Ngay ket thuc */}
-                        <Col span={12}>
-                            <Form.Item<IJobPost>
-                                name="end_date"
-                                label="Ngày kết thúc"
-                                rules={[
-                                    { required: true, message: 'Vui lòng không bỏ trống' },
-                                    { validator: validateEndDate },
-
-                                ]}
-                            >
-                                <DatePicker style={{ width: '100%' }} />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-
-                    <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Thông tin liên hệ</h2>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Họ và tên"
-                                name="name"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Email liên hệ"
-                                name="email"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { type: 'email', message: "Email không đúng định dạng!" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Số điện thoại"
-                                name="phone"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                    { pattern: /^(0[0-9]{9,10})$/, message: "Số điện thoại không đúng định dạng" }
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Địa chỉ"
-                                name="address"
-                                rules={[
-                                    { required: true, message: 'Trường này không được bỏ trống !' },
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Form.Item<IJobPost>
-                        label="company_id"
-                        name="company_id"
-                        initialValue={Infor?.company?.id}
-                        hidden
-                    >
-                        <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
-                    </Form.Item>
-                    <div className='flex justify-between mt-4'>
-                        <Button className='bg-gray-100 h-10 flex items-center gap-1'>
-                            <AiOutlineEye /> <span>Xem trước bài đăng</span>
-                        </Button>
-                        <Form.Item labelAlign="right">
-                            <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
-                                <span>Đăng bài</span> <AiOutlineSend />
-                            </Button>
+                        >
+                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
                         </Form.Item>
-                    </div>
+                        {/* Mô tả công việc */}
+                        <Form.Item
+                            name="desc"
+                            label="Mô tả công việc"
+                            rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
 
-                </Form>
+                        >
+                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                        </Form.Item>
+
+                        {/* Yêu cầu*/}
+                        <Form.Item<IJobPost>
+                            name="requirement"
+                            label="Yêu cầu"
+                            rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
+
+                        >
+                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                        </Form.Item>
+                        {/* Date */}
+                        <Row gutter={16}>
+                            {/* Ngay bat dau */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    name="start_date"
+                                    label="Ngày bắt đầu"
+                                    rules={[
+                                        { required: true, message: 'Vui lòng không bỏ trống' },
+                                        { validator: validateStartDate },
+                                    ]}
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+                            {/* Ngay ket thuc */}
+                            <Col span={12}>
+                                <Form.Item<IJobPost>
+                                    name="end_date"
+                                    label="Ngày kết thúc"
+                                    rules={[
+                                        { required: true, message: 'Vui lòng không bỏ trống' },
+                                        { validator: validateEndDate },
+
+                                    ]}
+                                >
+                                    <DatePicker style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Thông tin liên hệ</h2>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Form.Item
+                                    label="Họ và tên"
+                                    name="name"
+                                    rules={[
+                                        { required: true, message: 'Trường này không được bỏ trống !' },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label="Email liên hệ"
+                                    name="email"
+                                    rules={[
+                                        { required: true, message: 'Trường này không được bỏ trống !' },
+                                        { type: 'email', message: "Email không đúng định dạng!" }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label="Số điện thoại"
+                                    name="phone"
+                                    rules={[
+                                        { required: true, message: 'Trường này không được bỏ trống !' },
+                                        { pattern: /^(0[0-9]{9,10})$/, message: "Số điện thoại không đúng định dạng" }
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item
+                                    label="Địa chỉ"
+                                    name="address"
+                                    rules={[
+                                        { required: true, message: 'Trường này không được bỏ trống !' },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Form.Item<IJobPost>
+                            label="company_id"
+                            name="company_id"
+                            initialValue={Infor?.company?.id}
+
+
+                        >
+                            <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
+                        </Form.Item>
+                        <div className='flex justify-between mt-4'>
+                            <Button className='bg-gray-100 h-10 flex items-center gap-1'>
+                                <AiOutlineEye /> <span>Xem trước bài đăng</span>
+                            </Button>
+                            <Form.Item labelAlign="right">
+                                <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
+                                    <span>Đăng bài</span> <AiOutlineSend />
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    </Form>
+                </Spin>
             </div >
         </div >
 

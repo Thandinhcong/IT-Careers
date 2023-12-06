@@ -1,30 +1,34 @@
-import { Button, Form, Input, InputNumber, Result, Steps } from 'antd';
+import { Button, Form, Input, InputNumber, Result, Spin, Steps } from 'antd';
 import { useGetAllPackageQuery, useInsertInvoiceMutation, usePayMentMutation, useVnpayIpnQuery, useVnpayReturnQuery } from '../../../api/companies/package';
 import { IPackages } from '../../../interfaces';
 import { useEffect, useState } from 'react';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-
+import { useNavigate } from 'react-router-dom';
 
 const { Step } = Steps;
 
 const Deposit = () => {
-
-    const { data: packages } = useGetAllPackageQuery();// Lấy ra tất cả gói nạp
-
+    const history = useNavigate();
+    const { data: packages, isLoading } = useGetAllPackageQuery();// Lấy ra tất cả gói nạp
+    const [hasLogged, setHasLogged] = useState(false);
     let queryString = location.search.substring(0); // Loại bỏ dấu '?' ở đầu chuỗi
     let param = queryString.length > 0 ? queryString : null;
 
     const { data: vnpayReturnData } = useVnpayReturnQuery(param);
     console.log(vnpayReturnData);
     const { data: vnpayIpnData } = useVnpayIpnQuery(param);
-    console.log(vnpayIpnData?.status);
 
     useEffect(() => {
-        // Nếu param tồn tại, thì thực hiện nhảy thẳng đến Step 2
-        if (param) {
+        if (param && vnpayIpnData && !hasLogged) {
             setCurrentStep(2);
+            console.log(vnpayIpnData?.status);
+            setHasLogged(true);
+
+            // Xoá param khỏi URL mà không gây reload trang
+            const newUrl = window.location.pathname; // Lấy path hiện tại
+            history(newUrl, { replace: true });
         }
-    }, [param]);
+    }, [param, vnpayIpnData, hasLogged, history]);
 
     const [insertInvoice] = useInsertInvoiceMutation(); // Tạo hoá đơn-Xác nhận thanh toán
     const [payMent] = usePayMentMutation(); // Tạo hoá đơn-Xác nhận thanh toán
@@ -74,7 +78,7 @@ const Deposit = () => {
                 </Steps>
 
                 {currentStep === 0 && (
-                    <div>
+                    <Spin spinning={isLoading}>
                         <h2 className='font-semibold text-lg'>Nạp xu</h2>
                         <div className='grid grid-cols-4 gap-6 my-5 mx-14'>
                             {packages?.package?.map((item: IPackages) => (
@@ -105,7 +109,7 @@ const Deposit = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </Spin>
                 )}
                 {currentStep === 1 && (
                     <div className='bg-white p-8'>
@@ -132,21 +136,19 @@ const Deposit = () => {
                             </Form.Item>
 
                             <Form.Item
-                                label=""
+                                label="Mã hoá đơn"
                                 name='invoice_id'
                                 initialValue={responseData.invoice.invoice_id}
                             >
                                 <Input
                                     style={{ width: '100%' }}
                                     disabled
-                                    hidden
                                 />
                             </Form.Item>
 
                             <Form.Item
                                 label='Số tiền nạp'
                                 name='amount'
-                                className='-mt-12'
                                 initialValue={responseData?.invoice?.amount}
                             >
                                 <InputNumber
@@ -187,30 +189,43 @@ const Deposit = () => {
                     </div>
                 )}
                 {currentStep === 2 && (
-                    // Kiểm tra điều kiện vnpayIpnData?.status và render phần kết quả tương ứng
-                    vnpayIpnData?.status === true ? (
-                        <Result
-                            status="success"
-                            title="Giao dịch thành công!"
-                            subTitle="Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
-                            extra={[
-                                <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
-                                    Tiếp tục nạp tiền
-                                </Button>,
-                                <Button href='/business/transaction/add_money' key="buy">Xem lịch sử giao dịch</Button>,
-                            ]}
-                        />
-                    ) : (
-                        <Result
-                            status="error"
-                            title={vnpayIpnData?.message}
-                            extra={
-                                <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
-                                    Quay lại nạp tiền
-                                </Button>
-                            }
-                        />
-                    )
+                    <Spin spinning={isLoading}>
+                        {vnpayIpnData?.status === true ? (
+                            <Result
+                                status="success"
+                                title="Giao dịch thành công!"
+                                subTitle="Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
+                                extra={[
+                                    <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                        Tiếp tục nạp tiền
+                                    </Button>,
+                                    <Button key="buy">Xem lịch sử giao dịch</Button>,
+                                ]}
+                            />
+                        ) : (
+                            vnpayIpnData?.status === false ? (
+                                <Result
+                                    status="error"
+                                    title={vnpayIpnData?.message}
+                                    extra={
+                                        <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                            Quay lại nạp tiền
+                                        </Button>
+                                    }
+                                />
+                            ) : (
+                                <Result
+                                    title="Giao dịch này đã được thanh toán!!"
+                                    extra={[
+                                        <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                            Tiếp tục nạp tiền
+                                        </Button>,
+                                        <Button key="buy">Xem lịch sử giao dịch</Button>,
+                                    ]}
+                                />
+                            )
+                        )}
+                    </Spin>
                 )}
                 <div className='flex justify-between mt-4'>
                     {currentStep === 1 && (

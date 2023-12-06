@@ -1,7 +1,8 @@
 import React from 'react';
-import { Divider, Table } from 'antd';
+import { Divider, Spin, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useGetAllPaymentsQuery } from '../../../api/companies/historysPayment';
+import { useGetAllHistoryPaymentsQuery } from '../../../api/companies/package';
+import moment from 'moment';
 
 interface DataType {
     key: React.Key;
@@ -13,15 +14,14 @@ interface DataType {
     status: string,
 }
 
-
-
 const Add_Money = () => {
-    const { data } = useGetAllPaymentsQuery();
+    const { data, isLoading } = useGetAllHistoryPaymentsQuery();
     console.log(data);
-    const datas: DataType[] = data?.['History Payment All'].map((item: any) => {
+    const datas: DataType[] = data?.['History Payment All'].map((item: any, index: number) => {
 
         return {
             key: item?.id,
+            index: index + 1,
             ...item
         }
 
@@ -29,29 +29,47 @@ const Add_Money = () => {
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Số tiền',
+            title: 'STT',
+            dataIndex: 'index',
+        },
+        {
+            title: 'Số tiền nạp',
             dataIndex: 'coin',
             render: (text, record: any) => {
                 const exchangeRate = 1;
                 const vndAmount = record.coin * exchangeRate;
-                return <span>{vndAmount} VND</span>;
+                const formattedAmount = formatCurrency(vndAmount, 'VND');
+                return <span className='text-green-500'>+ {formattedAmount}</span>;
             },
         },
         {
             title: 'Thời gian',
             dataIndex: 'created_at',
-        }
+            render: (text, record: any) => {
+                return moment(record.created_at).format('YYYY-MM-DD HH:mm:ss');
+            },
+        },
     ];
 
+    const formatCurrency = (amount: number, currency: string) => {
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: currency,
+        }).format(amount);
+
+        return formattedAmount;
+    };
 
     return (
         <div>
             <Divider />
-            <Table
-                columns={columns}
-                dataSource={datas}
-                className='grid col-span-3'
-            />
+            <Spin spinning={isLoading}>
+                <Table
+                    columns={columns}
+                    dataSource={datas}
+                    className='grid col-span-3'
+                />
+            </Spin>
         </div>
     );
 };
