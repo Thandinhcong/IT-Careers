@@ -108,6 +108,7 @@ export interface ICvApply {
   created_at: string;
 }
 export interface IFindJob {
+  id: string | number;
   candidate_id: number | string;
   image: string;
   cv_id: string;
@@ -125,6 +126,8 @@ export interface IFindJob {
   address: string;
   title: string;
   salary: string;
+  find_job: number;
+  open_profile: string;
 }
 export interface ICompanyInfor {
   id?: string | number;

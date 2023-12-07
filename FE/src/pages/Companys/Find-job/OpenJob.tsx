@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
-import { useCancelSaveProfileMutation, useGetProfileOpenQuery, useOpenProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
+import { useCancelSaveProfileMutation, useGetProfileOpenQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
-import { Modal, Select, Spin, message } from "antd";
+import { Form, Input, Modal, Rate, Select, Spin, message } from "antd";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostCompany";
 import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
+import { MdOutlineRateReview } from "react-icons/md";
 
 const OpenJob = () => {
+    const [form] = Form.useForm();
     const { data, isLoading } = useGetProfileOpenQuery();
-
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [ratingModalVisible, setRatingModalVisible] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
     const [openProfile] = useOpenProfileMutation();
     const [saveProfile] = useSaveProfileMutation();
+    const [rateProfile] = useRateProfileMutation();
     const [cancelSaveProfile] = useCancelSaveProfileMutation();
 
     const [filterName, setFilterName] = useState('');
@@ -31,17 +34,17 @@ const OpenJob = () => {
     useEffect(() => {// Lưu trữ data vào filteredData khi data thay đổi
         setFilteredData((data?.data || []) as IFindJob[]);
     }, [data]);
-
+    //hàm mở chi tiết ứng viên
     const handleOpenModal = (candidateId: number | string) => {
         setSelectedCandidateId(candidateId); // lưu id của ứng viên được chọn vào state
         setShowModal(true);
     };
-
+    //hàm mở modal mở khoá
     const handleOpenModalUnlock = (candidateId: number | string | null) => {
         setModalVisible(true);
         setSelectedCandidateId(candidateId);
     }
-
+    //Hàm đếm thời gian
     const formatTimeDifference = (createdAt: string) => {
         if (!createdAt || typeof createdAt !== 'string') {
             return "Ngày không xác định";
@@ -55,7 +58,7 @@ const OpenJob = () => {
 
         return formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
     };
-
+    //Hàm mở khoá hồ sơ
     const handleModalConfirm = () => {
         if (selectedCandidateId) {
             console.log(selectedCandidateId);
@@ -73,7 +76,7 @@ const OpenJob = () => {
 
         setModalVisible(false);
     };
-
+    //Hàm lưu hồ sơ
     const handleSaveProfile = (id: number | string) => {
         saveProfile(id)
             .unwrap()
@@ -86,6 +89,38 @@ const OpenJob = () => {
                 message.info("Huỷ lưu");
             });
     }
+    //Hàm mở modal đánh giá
+    const hadleOpenModalRateProfile = (id: number | string | null) => {
+        setRatingModalVisible(true)
+        console.log(id);
+    }
+    //hàm đánh giá ứng viên
+    const handleRateProfile = () => {
+        // Validate the form before submitting
+        form.validateFields()
+            .then((values) => {
+                if (selectedCandidateId !== null) {
+                    rateProfile({ ...values, id: selectedCandidateId })
+                        .unwrap()
+                        .then(() => {
+                            message.success(`Đánh giá thành công`);
+                            form.resetFields();
+                        })
+                        .catch((error) => {
+                            message.error(error.data.errors);
+                        });
+                } else {
+                    message.error("Không có ID hồ sơ ứng tuyển được chọn.");
+                }
+                setRatingModalVisible(false);
+                setShowModal(false)
+                console.log(values);
+            })
+            .catch(error => {
+                console.error("Form validation error:", error);
+            });
+    };
+
 
     const handleSelectProvinceId = (key: number | string, rovinceName: BaseOptionType | DefaultOptionType) => {
         setSelectedProvincetId(key); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
@@ -123,10 +158,12 @@ const OpenJob = () => {
         }
         setFilteredData(result);
     };
+
     const handleFilterButtonClick = () => {
         // Gọi hàm lọc dữ liệu
         handleFilter();
     };
+
     const handleClearFilterButtonClick = () => {
         // Xóa tất cả các giá trị lọc và cập nhật state
         setFilterName('');
@@ -136,6 +173,7 @@ const OpenJob = () => {
         setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
         setFilterProvince(''); // Reset giá trị của quận/huyện
     };
+
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
@@ -401,13 +439,23 @@ const OpenJob = () => {
                                             </button>
                                         </TERipple>
                                         <TERipple rippleColor="right">
-                                            <button
-                                                type="button"
-                                                className="ml-3 flex items-center gap-1 bg-blue-500 text-white rounded-md p-2"
-                                                onClick={() => handleOpenModalUnlock(selectedCandidateId)} // Chuyển thêm tham số vào hàm
-                                            >
-                                                <AiOutlineSwap /> <span>Đánh giá CV</span>
-                                            </button>
+                                            {item.open_profile === "chưa mua" ? (
+                                                <button
+                                                    type="button"
+                                                    className="ml-3 flex items-center gap-1 bg-blue-500 text-white rounded-md p-2"
+                                                    onClick={() => handleOpenModalUnlock(selectedCandidateId)}
+                                                >
+                                                    <AiOutlineSwap /> <span>Mở liên hệ</span>
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    type="button"
+                                                    className="ml-3 flex items-center gap-1 bg-blue-500 text-white rounded-md p-2"
+                                                    onClick={() => hadleOpenModalRateProfile(selectedCandidateId)}
+                                                >
+                                                    <MdOutlineRateReview /> <span>Đánh giá</span>
+                                                </button>
+                                            )}
                                         </TERipple>
                                     </TEModalFooter>
                                     {/* Modal xác nhận mở khoá */}
@@ -423,7 +471,32 @@ const OpenJob = () => {
                                     >
                                         Bạn có muốn mở khoá ứng viên này không không?
                                     </Modal>
-
+                                    {/* Modal đánh giá ứng viên */}
+                                    <Modal
+                                        title="Đánh giá ứng viên"
+                                        visible={ratingModalVisible}
+                                        onOk={() => handleRateProfile()}
+                                        onCancel={() => setRatingModalVisible(false)}
+                                        okType="default"
+                                        okText="Đánh giá"
+                                        zIndex={1200}
+                                    >
+                                        <Form
+                                            form={form}
+                                            name="repostJobForm"
+                                            labelCol={{ span: 24 }}
+                                            wrapperCol={{ span: 24 }}
+                                            initialValues={{ remember: true }}
+                                            autoComplete="off"
+                                        >
+                                            <Form.Item label="Mức độ hài lòng:" name="start" rules={[{ required: true, message: 'Vui lòng chọn đánh giá' }]}>
+                                                <Rate />
+                                            </Form.Item>
+                                            <Form.Item label="Bình luận:" name="comment" rules={[{ required: true, message: 'Vui lòng viết bình luận' }]}>
+                                                <Input.TextArea rows={6} />
+                                            </Form.Item>
+                                        </Form>
+                                    </Modal>
                                 </TEModalContent>
                             )
                         })
