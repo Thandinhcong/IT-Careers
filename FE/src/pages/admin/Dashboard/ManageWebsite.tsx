@@ -2,7 +2,6 @@ import React from 'react'
 import { CiSettings } from 'react-icons/ci';
 
 const ManageWebsite = React.memo(({ data }: any) => {
-    console.log(data);
     const listMajor = data?.countMajor;
     const listSkill = data?.countSkill;
     return (

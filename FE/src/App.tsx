@@ -37,7 +37,6 @@ import JobsManage from "./pages/Companys/Jobs-manage"
 import JobDetail from "./pages/Site/Job-detail/JobDetail"
 import Helpcompanys from "./pages/Help-Company"
 import HelpText1 from "./pages/Help-Company/HelpText1"
-import Jobs from "./pages/Site/Jobs"
 import CompanyReports from "./pages/Companys/Company_reports"
 import Activity_History from "./pages/Companys/Activity_History"
 import All_History from "./pages/Companys/Activity_History/All"
@@ -97,6 +96,9 @@ import IsCheckLoginCompany from "./pages/auths/isCheckLoginCompany"
 import Manage_Website from "./pages/admin/Manage-Website"
 import UpdateManage from "./pages/admin/Manage-Website/Update"
 import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
+import RefillPackage from "./pages/Site/User/RefillPackage"
+import HistoryPayment from "./pages/Site/User/HistoryPayment"
+import IsCheckLoginAdmin from "./pages/auths/isCheckAdmin"
 
 
 function App() {
@@ -110,11 +112,10 @@ function App() {
         <Route path='/' element={< Layout />}>
           <Route index element={<Main />} />
           <Route path="job-detail/:name/:id" element={<JobDetail />} />
-          <Route path="recruit" element={<Recruit />} />
           <Route path="company" element={<Company />} />
           <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
-          <Route path="jobs" element={<Jobs />} />
+          <Route path="recruit" element={<Recruit />} />
           <Route element={<IsCheckLogin />} >
             <Route path='account/' element={< Account />} >
               <Route index element={<CandidateInformation />} />
@@ -125,6 +126,10 @@ function App() {
               <Route path='jobapply' element={< JobApply />} />
               <Route path='jobfavor' element={< JobFavor />} />
               <Route path='profile' element={< Profile />} />
+              <Route path='recharge' element={< RefillPackage />} />
+              <Route path='historys-payment' element={< HistoryPayment />} />
+
+
             </Route >
             <Route path='account' element={< Account />} />
             <Route path="tao-cv/:id" element={<CreateCvTest />} />
@@ -195,43 +200,45 @@ function App() {
 
         {/* admin */}
         <Route path="/admin/login" element={<LoginAdmin />} />
-        <Route path="/admin" element={<LayoutAdmin />}>
-          <Route index path="dashboard" element={<DashBoard />} />
-          <Route path="level-manage" element={<LevelManage />} />
-          {/* <Route path="level-manage/create-level" element={<CreateLevel />} /> */}
-          {/* <Route path="level-manage/update-level" element={<UpdateLevel />} /> */}
-          <Route path="account-manage" element={<AccountManage />} />
-          <Route path="account-manage/create-account" element={<CreateAccount />} />
-          <Route path="account-manage/update-account" element={<UpdateAccount />} />
-          <Route path="post-manage" element={<PostManage />} />
-          <Route path="working-form" element={<ListWorkingForm />} />
-          <Route path="add/working-form" element={<AddWorkingForm />} />
-          <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
-          <Route path="company-manage" element={<Companymanage />} />
-          <Route path="jobposition-manage" element={<JobpositionManage />} />
-          <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
-          <Route path="jobposition-manage/edit-jobposition/:id" element={<EditJobposition />} />
-          <Route path="experience-manage" element={<ExperienceManage />} />
-          <Route path="experience-manage/add" element={<AddExperience />} />
-          <Route path="experience-manage/edit/:id" element={<EditExperience />} />
-          <Route path="level-manage" element={<LevelManage />} />
-          <Route path="level-manage/add" element={<AddLevel />} />
-          <Route path="level-manage/edit/:id" element={<EditLevel />} />
-          <Route path="skill-manage" element={<SkillManage />} />
-          <Route path="skill-manage/add" element={<AddSkill />} />
-          <Route path="skill-manage/edit/:id" element={<EditSkill />} />
-          <Route path="salary-type-manage" element={<SalaryTypeManage />} />
-          <Route path="salary-type-manage/add" element={<AddSalary />} />
-          <Route path="salary-type-manage/edit/:id" element={<EditSalary />} />
-          <Route path="package-manage" element={<PackageManage />} />
-          <Route path="package-manage/add" element={<AddPackage />} />
-          <Route path="package-manage/edit/:id" element={<EditPackage />} />
-          <Route path="major-manage" element={<MajorManage />} />
-          <Route path="major-manage/create-major" element={<AddMajors />} />
-          <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
-          <Route path="manage-website" element={<Manage_Website />} />
-          <Route path="manage-website/update/:id" element={<UpdateManage />} />
+        <Route element={<IsCheckLoginAdmin />}>
+          <Route path="/admin" element={<LayoutAdmin />}>
+            <Route index path="dashboard" element={<DashBoard />} />
+            <Route path="level-manage" element={<LevelManage />} />
+            {/* <Route path="level-manage/create-level" element={<CreateLevel />} /> */}
+            {/* <Route path="level-manage/update-level" element={<UpdateLevel />} /> */}
+            <Route path="account-manage" element={<AccountManage />} />
+            <Route path="account-manage/create-account" element={<CreateAccount />} />
+            <Route path="account-manage/update-account" element={<UpdateAccount />} />
+            <Route path="post-manage" element={<PostManage />} />
+            <Route path="working-form" element={<ListWorkingForm />} />
+            <Route path="add/working-form" element={<AddWorkingForm />} />
+            <Route path="update/working-form/:id" element={<UpdateWorkingForm />} />
+            <Route path="company-manage" element={<Companymanage />} />
+            <Route path="jobposition-manage" element={<JobpositionManage />} />
+            <Route path="jobposition-manage/create-jobposition" element={<AddJobposition />} />
+            <Route path="jobposition-manage/edit-jobposition/:id" element={<EditJobposition />} />
+            <Route path="experience-manage" element={<ExperienceManage />} />
+            <Route path="experience-manage/add" element={<AddExperience />} />
+            <Route path="experience-manage/edit/:id" element={<EditExperience />} />
+            <Route path="level-manage" element={<LevelManage />} />
+            <Route path="level-manage/add" element={<AddLevel />} />
+            <Route path="level-manage/edit/:id" element={<EditLevel />} />
+            <Route path="skill-manage" element={<SkillManage />} />
+            <Route path="skill-manage/add" element={<AddSkill />} />
+            <Route path="skill-manage/edit/:id" element={<EditSkill />} />
+            <Route path="salary-type-manage" element={<SalaryTypeManage />} />
+            <Route path="salary-type-manage/add" element={<AddSalary />} />
+            <Route path="salary-type-manage/edit/:id" element={<EditSalary />} />
+            <Route path="package-manage" element={<PackageManage />} />
+            <Route path="package-manage/add" element={<AddPackage />} />
+            <Route path="package-manage/edit/:id" element={<EditPackage />} />
+            <Route path="major-manage" element={<MajorManage />} />
+            <Route path="major-manage/create-major" element={<AddMajors />} />
+            <Route path="major-manage/edit-major/:id" element={<EditMajors />} />
+            <Route path="manage-website" element={<Manage_Website />} />
+            <Route path="manage-website/update/:id" element={<UpdateManage />} />
 
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes >

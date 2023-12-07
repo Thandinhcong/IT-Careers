@@ -15,6 +15,7 @@ import {
 import { HiArrowTrendingUp, HiCircleStack } from 'react-icons/hi2'
 import { PiMoneyLight } from 'react-icons/pi'
 import { RiVipCrown2Line } from 'react-icons/ri'
+import { useGetSatisicalJobQuery } from '../../../api/companies/statisticalCompanyApi'
 
 ChartJS.register(
     LineElement,
@@ -27,6 +28,11 @@ ChartJS.register(
 
 )
 const CompanyReports = () => {
+    const { data: datastati } = useGetSatisicalJobQuery();
+    console.log("data", datastati);
+    const Applied = datastati?.Applied;
+    const countSuitable = datastati?.countSuitable;
+    const countNotSuitable = datastati?.countNotSuitable;
     const datas: any = {
         labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [
@@ -155,91 +161,28 @@ const CompanyReports = () => {
                         <div>
                             <div className='flex text-sm text-gray-500 my-3 justify-between'>
                                 <p>Hồ sơ mới</p>
-                                <p>5</p>
+                                <p>{Applied}</p>
                             </div>
                             <p></p>
                         </div>
                         <div>
                             <div className='flex text-sm text-gray-500 my-3 justify-between'>
                                 <p>Phù hợp</p>
-                                <p>5</p>
+                                <p>{countSuitable?.length}</p>
                             </div>
                             <p></p>
                         </div>
-                        <div>
-                            <div className='flex text-sm text-gray-500 my-3 justify-between'>
-                                <p>Hẹn phỏng vấn</p>
-                                <p>5</p>
-                            </div>
-                            <p></p>
-                        </div>
-                        <div>
-                            <div className='flex text-sm text-gray-500 my-3 justify-between'>
-                                <p>Nhận việc</p>
-                                <p>5</p>
-                            </div>
-                            <p></p>
-                        </div>
+
                         <div>
                             <div className='flex text-sm text-gray-500 my-3 justify-between'>
                                 <p>Từ chối</p>
-                                <p>5</p>
+                                <p>{countNotSuitable?.length}</p>
                             </div>
                             <p></p>
                         </div>
-                        <div>
-                            <div className='flex text-sm text-gray-500 my-3 justify-between'>
-                                <p>Khác</p>
-                                <p>5</p>
-                            </div>
-                            <p></p>
-                        </div>
+
                     </div>
-                    <div className='mt-5 border shadow p-3'>
-                        <h4 className='font-semibold '>Chi phí chuyển đổi</h4>
-                        <div className='flex justify-between text-sm items-center my-2'>
-                            <p>
-                                <span className='text-blue-500 text-xl'>.</span>
-                                <span>Hồ sơ mới</span>
-                            </p>
-                            <p className='text-blue-500'>8.571 đ</p>
-                        </div>
-                        <div className='flex justify-between text-sm items-center my-2'>
-                            <p>
-                                <span className='text-violet-500 text-xl'>.</span>
-                                <span>Phù hợp</span>
-                            </p>
-                            <p className='text-violet-500'>1.714 đ</p>
-                        </div>
-                        <div className='flex justify-between text-sm items-center my-2'>
-                            <p>
-                                <span className='text-yellow-500 text-xl'>.</span>
-                                <span>Hẹn phỏng vấn</span>
-                            </p>
-                            <p className='text-yellow-500'>8.571 đ</p>
-                        </div>
-                        <div className='flex justify-between text-sm items-center my-2'>
-                            <p>
-                                <span className='text-green-500 text-xl'>.</span>
-                                <span>Nhận việc</span>
-                            </p>
-                            <p className='text-green-500'>8.571 đ</p>
-                        </div>
-                        <div className='flex justify-between text-sm items-center my-3'>
-                            <p>
-                                <span className='text-red-500 text-xl'>.</span>
-                                <span>Từ chối</span>
-                            </p>
-                            <p className='text-red-500'>8.571 đ</p>
-                        </div>
-                        <div className='flex justify-between text-sm items-center my-3'>
-                            <p>
-                                <span className='text-blue-500 text-xl'>.</span>
-                                <span>Khác</span>
-                            </p>
-                            <p className='text-blue-500'>8.571 đ</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div className=" shadow border p-5 mt-5" id='hieu-xuat-tin'>

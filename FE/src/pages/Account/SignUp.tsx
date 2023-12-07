@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
+import { Skeleton } from "antd";
 
 const SignUp = React.memo(() => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const SignUp = React.memo(() => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })
-    const [signup] = useSignupMutation();
+    const [signup, { isLoading }] = useSignupMutation();
     const onHandleSubmit = async (user: FormSignup) => {
         try {
             const result = await signup(user as any).unwrap();
@@ -46,6 +47,7 @@ const SignUp = React.memo(() => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
+    if (isLoading) return <Skeleton />
     return (
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -70,7 +72,7 @@ const SignUp = React.memo(() => {
                                 <label
                                     className="block text-sm font-medium text-gray-700  mb-2"
                                 >
-                                    Tên đăng nhập
+                                    Họ và tên
                                 </label>
                                 <input
                                     {...register("name")}
@@ -147,7 +149,7 @@ const SignUp = React.memo(() => {
 
                             <div className="col-span-6 ">
                                 <button className="inline-block shrink-0 w-full rounded-md border border-blue-600 bg-blue-600 px-12 py-2 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                                    Đăng nhập
+                                    Đăng ký
                                 </button>
                             </div>
                             <p className="col-span-6  text-sm w-full text-gray-500 sm:mt-0">

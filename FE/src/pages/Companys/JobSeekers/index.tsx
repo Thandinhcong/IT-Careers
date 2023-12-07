@@ -16,7 +16,6 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const JobSeekers = () => {
     const { data } = useGetFindCandidateQuery();
-    console.log(data?.data);
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
     const [showModal, setShowModal] = useState(false);
     const settings: any = {
@@ -99,7 +98,7 @@ const JobSeekers = () => {
             <TEModal show={showModal} setShow={setShowModal}>
                 <TEModalDialog style={{ maxWidth: '700px' }}>
                     {data?.data
-                        .filter((item: { candidate_id: null; }) => item.candidate_id === selectedCandidateId)// Lọc ứng viên với ID tương ứng
+                        ?.filter((item: { candidate_id: null; }) => item.candidate_id === selectedCandidateId)// Lọc ứng viên với ID tương ứng
                         .map((item: IFindJob) => {
                             return (
                                 <TEModalContent >

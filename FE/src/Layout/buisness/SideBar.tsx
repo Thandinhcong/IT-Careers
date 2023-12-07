@@ -3,11 +3,10 @@ import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { AiOutlineHome, AiOutlineUsergroupAdd, AiTwotoneSetting } from 'react-icons/ai'
 import { BsFillBuildingFill } from 'react-icons/bs'
-import { MdHistory, MdOutlineStackedBarChart } from 'react-icons/md'
+import { MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
 import { ImFilesEmpty } from "react-icons/im"
 import { HiSquare3Stack3D } from "react-icons/hi2"
-import { TbBrandCampaignmonitor } from "react-icons/tb"
 import { IoDocumentTextOutline } from "react-icons/io5"
 import { Link } from 'react-router-dom'
 import { useGetInforQuery } from '../../api/companies/jobPostCompany'
@@ -47,10 +46,6 @@ const SideBarCompany = () => {
                 <p className='text-xl'> <IoDocumentTextOutline /> </p>
                 <p className='mr-3'>Quản lý tuyển dụng</p>
             </Link>
-            {/* <Link to="" className='flex items-center gap-3 mt-6 ml-4'>
-                <p className='text-xl'> <TbBrandCampaignmonitor /> </p>
-                <p className='mr-3'>Chiến dịch tuyển dụng</p>
-            </Link> */}
             <Link to={"/business/cv-apply"} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <ImFilesEmpty /> </p>
                 <p className='mr-3'>Hồ sơ ứng tuyển</p>

@@ -103,7 +103,7 @@ const Recruitment = React.memo(() => {
                         Tuyển dụng, việc làm
                         <span className='text-blue-500'> tốt nhất</span>
                     </h2>
-                    <Link to="/jobs" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
+                    <Link to="/recruit" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {

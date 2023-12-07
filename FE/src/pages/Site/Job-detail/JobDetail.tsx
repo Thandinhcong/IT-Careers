@@ -63,8 +63,6 @@ const JobDetail = React.memo(() => {
     const listJob = ListJobApply?.job_list;
 
     const idJob: any = parseInt(id, 10);
-    console.log(idJob);
-
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     //id bài đăng
@@ -87,7 +85,6 @@ const JobDetail = React.memo(() => {
     });
     const [users, setUser] = useLocalStorage("user", null);
 
-
     const { data: listCv } = useListCvQuery();
     const listAllCv = listCv?.data;
 
@@ -105,7 +102,7 @@ const JobDetail = React.memo(() => {
         }
     };
     const onHandleSubmit = async (appply: FromApply) => {
-
+        appply.path_cv = image as any;
         if (selectedOption === 'existing' && !selectedCvId) {
             notyf.error("Vui lòng chọn CV từ danh sách!");
             return;
@@ -120,19 +117,14 @@ const JobDetail = React.memo(() => {
         if (selectedOption === 'existing') {
             appply.curriculum_vitae_id = selectedCvId as any;
         }
-        appply.email;
-        appply.introduce;
-        appply.phone;
-        appply.curriculum_vitae_id;
-        appply.path_cv = image as any;
         try {
             await applyJob({
-                id: idJob
+                id: idJob,
+                ...appply
             }).unwrap();
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
-
             notyf.error("Vui lòng chọn đầy đủ thông tin!");
         }
     };

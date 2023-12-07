@@ -20,19 +20,19 @@ const Footer = React.memo((dataFooter: any) => {
                             </li>
 
                             <li>
-                                <a href="recruit" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="/recruit" className="text-gray-900 transition hover:opacity-75">
                                     Tuyển dụng
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <Link to="help/contact" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="/help/contact" className="text-gray-900 transition hover:opacity-75">
                                     Liên hệ
                                 </Link>
                             </li>
 
                             <li>
-                                <Link to="help/policy" className="text-gray-900 transition hover:opacity-75">
+                                <Link to="/help/policy" className="text-gray-900 transition hover:opacity-75">
                                     Điều khoản sử dụng
                                 </Link>
                             </li>
@@ -62,23 +62,6 @@ const Footer = React.memo((dataFooter: any) => {
                             <li>
                                 <Link to="/user/profile" className="text-gray-900 transition hover:opacity-75">
                                     Profile cá nhân
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
-                                    Mẫu CV xin việc
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
-                                    Mẫu Cover Letter
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="#" className="text-gray-900 transition hover:opacity-75">
-                                    Mẫu CV file word
                                 </Link>
                             </li>
                             <li>
@@ -284,7 +267,7 @@ const Footer = React.memo((dataFooter: any) => {
                 <div className="pt-6">
                     <div className="text-center">
                         <p className="mt-4 text-md text-gray-900 sm:order-first sm:mt-0">
-                            Copyright © 2023 {listINfo?.company_name} - Nền tảng tìm kiếm việc làm và review công ty hàng đầu tại Việt Nam
+                            Copyright © 2023 {listINfo?.company_name} - Nền tảng tìm kiếm việc làm  hàng đầu tại Việt Nam
                         </p>
                     </div>
                 </div>

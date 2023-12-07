@@ -10,9 +10,10 @@ const JobPostApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_ADMIN,
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("accessToken");
+      const user = JSON.parse(localStorage.getItem("admin") as string);
+      const token = user?.accessToken;
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("authorization", `Bearer ${token}`);
       }
       return headers;
     },

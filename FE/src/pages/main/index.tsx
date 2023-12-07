@@ -1,7 +1,6 @@
 import Recruitment from './Recruitment'
 import TopArea from './TopArea'
 import DreamJob from './DreamJob'
-import Connect from './connect'
 import Reviews from './Review'
 import ToRecruitment from './ToRecruitment'
 import Banner from './Banner'
@@ -16,7 +15,6 @@ const Main = () => {
                 <Recruitment />
                 <TopArea />
                 <DreamJob />
-                <Connect />
                 <Reviews />
                 <ToRecruitment />
             </div>

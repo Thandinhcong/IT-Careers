@@ -42,6 +42,10 @@ const findJobApi = createApi({
       query: () => "/get_data_find_job",
       providesTags: ["FindJob"],
     }),
+    getInfoFindJob: buidler.query<any, void>({
+      query: () => "/get_info_find_job",
+      providesTags: ["FindJob"],
+    }),
   }),
 });
 export const {
@@ -49,6 +53,7 @@ export const {
   useGetInfoUserQuery,
   useSaveInfoFindJobMutation,
   useGetDataFindJobQuery,
+  useGetInfoFindJobQuery,
 } = findJobApi;
 export const findJobReducer = findJobApi.reducer;
 export default findJobApi;

@@ -7,6 +7,8 @@ import {
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineCalendar } from 'react-icons/ai';
+import { useLogoutMutation } from '../../api/admin/loginAdminApi';
+import { Notyf } from 'notyf';
 const { Header, Sider, Content } = Layout;
 
 const LayoutAdmin = () => {
@@ -15,7 +17,30 @@ const LayoutAdmin = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const notyf = new Notyf({
+        duration: 2000,
+        position: {
+            x: 'right',
+            y: 'top',
+        },
+    });
+    const [logout] = useLogoutMutation();
+    const handleLogout = async (data: any) => {
+        try {
+            const confilm = window.confirm("Bạn có muốn đăng xuất không?")
+            if (confilm) {
+                await logout(data).unwrap();
+                localStorage.removeItem("admin");
+                window.location.href = "/admin/login"
+            }
+            notyf.success("Đăng xuất thành công!")
 
+        } catch (error) {
+
+            notyf.error("Đăng xuất thất bại !")
+
+        }
+    }
     const menuItems = [
         { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashboard', path: 'dashboard' },
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
@@ -38,7 +63,7 @@ const LayoutAdmin = () => {
         { key: '0', label: <a href="#" className='mx-4'><UserOutlined className='mr-2' />My profile</a>, },
         { label: <a href="#" className='mx-4'><SettingFilled className='mr-2' />Setting</a>, key: '1', },
         { type: 'divider' },
-        { label: <a href="#" className='mx-4'><LoginOutlined className='mr-2' />Logout</a>, key: '3', },
+        { label: <button onClick={handleLogout} className='mx-4'><LoginOutlined className='mr-2' />Logout</button>, key: '3', },
     ];
     const handleBreadcrumbClick = (key: string) => {
         const selectedMenuItem = menuItems.find(item => item.key === key);

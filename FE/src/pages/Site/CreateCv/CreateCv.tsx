@@ -15,7 +15,7 @@ import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile } 
 
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
-        duration: 2000,
+        duration: 3000,
         position: {
             x: 'right',
             y: 'top',
@@ -188,7 +188,6 @@ const CreateCvTest = React.memo(() => {
         register: registerEducation,
         handleSubmit: handleSubmitEducation,
         getValues: getValuesEdu,
-        // setValue: setValueEdu,
         reset: resetEducation,
         formState: { errors: errorsEdu }
     } = useForm<FormEdu>({
@@ -212,8 +211,17 @@ const CreateCvTest = React.memo(() => {
                 notyf.success("Thêm học vấn thành công");
             }
             resetEducation();
-        } catch (error) {
-            notyf.error("Thêm/Cập nhật học vấn thất bại");
+        } catch (error: any) {
+            if (error?.status === 422) {
+                notyf.error(error?.data?.error?.name[0]);
+                notyf.error(error?.data?.error?.gpa[0]);
+                notyf.error(error?.data?.error?.major[0]);
+                notyf.error(error?.data?.error?.end_date[0]);
+                notyf.error(error?.data?.error?.end_date[1]);
+            } else {
+                notyf.error("Thêm/Cập nhật học vấn thất bại");
+            }
+
         }
     };
     // xóa học vấn
@@ -270,7 +278,18 @@ const CreateCvTest = React.memo(() => {
             }
             resetExp();
         } catch (error: any) {
-            notyf.error(error?.data?.message);
+            if (error?.status === 422) {
+                console.log(error);
+
+                notyf.error(error?.data?.error?.company_name[0]);
+                notyf.error(error?.data?.error?.position[0]);
+                notyf.error(error?.data?.error?.end_date[0]);
+                notyf.error(error?.data?.error?.end_date[1]);
+                notyf.error(error?.data?.error?.end_date[2]);
+            } else {
+                notyf.error(error?.data?.message);
+            }
+
         }
     };
     const [deleteExp] = useRemoveExpMutation();
@@ -282,10 +301,10 @@ const CreateCvTest = React.memo(() => {
             notyf.error(error)
         }
     }
-    const [experience, setExperience] = useState([{ position: "", company_name: '', start_date: '', end_date: '' }]);
+    const [experience, setExperience] = useState([{ position: "", desc: "", company_name: '', start_date: '', end_date: '' }]);
 
     const handleAddExp = () => {
-        setExperience([...experience, { position: "", company_name: '', start_date: '', end_date: '' }]);
+        setExperience([...experience, { position: "", desc: "", company_name: '', start_date: '', end_date: '' }]);
     };
 
     const handleRemoveExp = (index: any) => {
@@ -384,7 +403,7 @@ const CreateCvTest = React.memo(() => {
         setExperience(listExp);
         //học vấn
         setEducation(listEducation);
-        //reset
+        //ed
         resetSkill(listSkill);
         resetProject(listProject);
         reset(listProfile);
@@ -599,6 +618,19 @@ const CreateCvTest = React.memo(() => {
                                         {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.end_date && errorsExp?.end_date?.message}
                                         </div> */}
+                                    </div>
+                                    <div>
+
+                                        <label className='block font-semibold mb-2 '>
+                                            <div>Mô tả</div>
+                                        </label>
+                                        <textarea
+                                            {...registerExp("desc")}
+                                            name='desc'
+                                            defaultValue={experiences?.desc}
+                                            onChange={(e) => handleChangeExp(index, 'desc', e.target.value)}
+                                            className='border border-gray-200 p-2 w-full'
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>
@@ -994,8 +1026,11 @@ const CreateCvTest = React.memo(() => {
                                             <span className=' py-1 px-2 rounded-lg mx-1'>{item?.start_date}</span>-
                                             <span className=' py-1 px-2 rounded-lg ml-1'>{item?.end_date}</span>
                                         </p>
-                                        <p className='font-semibold mt-2'>Mô tả:
+                                        <p className='font-semibold mt-2'>Vị trí:
                                             <span className='font-normal ml-1'>{item?.position}</span>
+                                        </p>
+                                        <p className='font-semibold mt-2'>Mô tả:
+                                            <span className='font-normal ml-1'>{item?.desc}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -1046,9 +1081,7 @@ const CreateCvTest = React.memo(() => {
                                                 <p className='font-semibold'>Link:
                                                     <span className='underline font-normal ml-1'>{item?.link_project}</span>
                                                 </p>
-                                                <p className='font-semibold'>Mô tả:
-                                                    <span className=' font-normal ml-1'>{item?.desc}</span>
-                                                </p>
+
                                             </div>
                                         </div>
                                     )
