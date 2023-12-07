@@ -7,6 +7,7 @@ import { useFindJobsMutation, useGetInfoUserQuery } from '../../../api/find-Job/
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { FaCoins } from 'react-icons/fa';
+import { useGetInfoUsersQuery } from '../../../api/payment/paymentCandidate';
 
 const LayoutUser = React.memo(() => {
     const notyf = new Notyf({
@@ -21,8 +22,8 @@ const LayoutUser = React.memo(() => {
     const listInfo = data?.candidate;
     const listImage = data?.candidate?.image;
     const isCheckFindJob = listInfo?.find_job;
-    console.log(listInfo);
-
+    const { data: dataCoin } = useGetInfoUsersQuery();
+    const listCoin = dataCoin?.candidate?.coin;
     const onChange = async (checked: boolean) => {
         if (checked) {
             await findJob().unwrap();
@@ -52,7 +53,7 @@ const LayoutUser = React.memo(() => {
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
                                 <div><p className='text-lg font-semibold'>{listInfo?.name}</p></div>
-                                <div><p className='text-sm  flex item-center gap-2 text-black my-1'> <i><FaCoins /></i>: <span className='text-blue-700'>{listInfo?.coin}</span> </p></div>
+                                <div><p className='text-sm  flex item-center gap-2 text-black my-1'> <i><FaCoins /></i>: <span className='text-blue-700'>{listCoin} xu</span> </p></div>
 
                                 <p className="mb-0 ">
                                     <Link to="/account" className='text-blue-500'>

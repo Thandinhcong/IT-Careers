@@ -10,6 +10,7 @@ import { TbStatusChange } from 'react-icons/tb';
 const JobApply = React.memo(() => {
     const { data, isLoading } = useGetJobApplyQuery();
     const listJob = data?.job_list;
+
     if (isLoading) return <Skeleton />
 
     return (

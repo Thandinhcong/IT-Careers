@@ -22,7 +22,6 @@ const Profile = React.memo(() => {
         setSelectedProvincetId(rovinceId);
     }
     const listInfo = data?.candidate;
-    const idUser = listInfo?.id;
     const listImage = data?.candidate?.image;
     const [SaveInfoFindJob] = useSaveInfoFindJobMutation();
     // exp
@@ -49,8 +48,8 @@ const Profile = React.memo(() => {
         notyf.success("Cập nhật thành công")
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+    const onFinishFailed = () => {
+        notyf.error("Cập nhật thất bại")
     };
 
     type FieldType = {
@@ -60,7 +59,6 @@ const Profile = React.memo(() => {
         district_id?: string;
 
     };
-
 
     return (
         <div className='h-[1240px]'>

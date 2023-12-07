@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useSaveCvMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
@@ -419,6 +419,7 @@ const CreateCvTest = React.memo(() => {
             {/* nhập */}
             <div className='mx-24'>
                 {/* thông tin cá nhân */}
+                <Link to={'/user/listcv'}>Quay lại</Link>
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Thông tin cá nhân</h2>
                     <form onSubmit={handleSubmit(onHandleSubmit)}>

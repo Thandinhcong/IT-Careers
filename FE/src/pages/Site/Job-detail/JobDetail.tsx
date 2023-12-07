@@ -66,11 +66,11 @@ const JobDetail = React.memo(() => {
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     //id bài đăng
-    const { data, isLoading } = useGetOneJobsQuery(id || "");
-    const listOne: any = data?.job_detail;
-    const { data: infoUser } = useGetInfoUserQuery();
+    const { data: infoUser, isLoading } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
+    const { data } = useGetOneJobsQuery(id || "");
+    const listOne: any = data?.job_detail;
 
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);

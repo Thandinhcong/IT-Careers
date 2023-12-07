@@ -64,6 +64,10 @@ const PackagesCandidateApi = createApi({
       }),
       invalidatesTags: ["PackageCandidate"],
     }),
+    getInfoUsers: builder.query<any, void>({
+      query: () => "/candidate_information",
+      providesTags: ["PackageCandidate"],
+    }),
   }),
 });
 export const {
@@ -74,6 +78,7 @@ export const {
   useVnpayReturnQuery,
   useVnpayIpnQuery,
   useGetHistoryPaymentQuery,
+  useGetInfoUsersQuery,
 } = PackagesCandidateApi;
 
 export const packageCandidateReducer = PackagesCandidateApi.reducer;

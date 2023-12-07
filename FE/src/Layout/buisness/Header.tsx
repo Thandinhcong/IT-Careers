@@ -58,13 +58,7 @@ const HeaderCompany = () => {
                 <BiSearch />
                 <p className='text-sm'>Tìm CV</p>
             </Link>
-            <Link to="find-job" className='flex relative group items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
-                <BiMessageRounded />
-                <p className='text-sm'>Kết nối ứng viên</p>
-                <div className='absolute left-0 right-0 mx-auto -bottom-14 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-xs px-3 rounded'>
-                    Kết nối nhanh với ứng viên có nhu cầu trong ngày
-                </div>
-            </Link>
+
 
 
             <Popover.Group className="hidden lg:flex outline-none lg:gap-x-5">

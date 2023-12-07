@@ -49,8 +49,6 @@ const ListCV = React.memo(() => {
             await UploadCv(upload).unwrap();
             notyf.success('Tạo thành công');
         } catch (error: any) {
-            console.log(error);
-
             if (error?.status === 400) {
                 notyf.error(error.data.message)
                 return;

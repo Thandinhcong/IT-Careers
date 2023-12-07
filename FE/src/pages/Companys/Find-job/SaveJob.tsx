@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { useCancelSaveProfileMutation, useGetProfileSaveQuery, useSaveProfileMutation } from "../../../api/companies/findJob";
@@ -10,7 +10,7 @@ import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostComp
 import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
 
-const MainFindJob = () => {
+const MainFindJob = React.memo(() => {
     const { data } = useGetProfileSaveQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [showModal, setShowModal] = useState(false);
@@ -374,6 +374,6 @@ const MainFindJob = () => {
             </TEModal>
         </div>
     )
-};
+});
 
 export default MainFindJob

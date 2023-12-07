@@ -16,6 +16,7 @@ import { HiArrowTrendingUp, HiCircleStack } from 'react-icons/hi2'
 import { PiMoneyLight } from 'react-icons/pi'
 import { RiVipCrown2Line } from 'react-icons/ri'
 import { useGetSatisicalJobQuery } from '../../../api/companies/statisticalCompanyApi'
+import { VND } from '../../../components/upload'
 
 ChartJS.register(
     LineElement,
@@ -33,6 +34,8 @@ const CompanyReports = () => {
     const Applied = datastati?.Applied;
     const countSuitable = datastati?.countSuitable;
     const countNotSuitable = datastati?.countNotSuitable;
+    const JobPost = datastati?.JobPost;
+    const countAddCoin = datastati?.countAddCoin?.coin;
     const datas: any = {
         labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [
@@ -112,47 +115,24 @@ const CompanyReports = () => {
                 <div className='pt-3 grid grid-cols-4 gap-5'>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'> Số tin đăng</p>
-                        <p className='text-xl my-2'>1</p>
-                        <span className='text-sm flex gap-2 items-center font-sans'>
-                            <span className='flex items-center text-green-500 gap-1'>
-                                <BsArrowUp />
-                                <span>100%</span>
-                            </span>
-                            <span>so với 7 ngày qua</span>
-                        </span>
+                        <p className='text-xl my-2'>{JobPost?.length}</p>
+
                     </div>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'> Số lượt ứng tuyển</p>
-                        <p className='text-xl my-2'>1</p>
-                        <span className='text-sm flex gap-2 items-center font-sans'>
-                            <span className='flex items-center text-green-500 gap-1'>
-                                <BsArrowUp />
-                                <span>100%</span>
-                            </span>
-                            <span>so với 7 ngày qua</span>
-                        </span>
+                        <p className='text-xl my-2'>{Applied}</p>
+
                     </div>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'>Số tiền đã nạp</p>
-                        <p className='text-xl my-2'>1</p>
-                        <span className='text-sm flex gap-2 items-center font-sans'>
-                            <span className='flex items-center text-green-500 gap-1'>
-                                <BsArrowUp />
-                                <span>100%</span>
-                            </span>
-                            <span>so với 7 ngày qua</span>
-                        </span>
+                        <p className='text-xl my-2'>{VND.format(countAddCoin
+                        )}</p>
+
                     </div>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'>Số tiền đã tiêu</p>
-                        <p className='text-xl my-2'>1</p>
-                        <span className='text-sm flex gap-2 items-center font-sans'>
-                            <span className='flex items-center text-green-500 gap-1'>
-                                <BsArrowUp />
-                                <span>100%</span>
-                            </span>
-                            <span>so với 7 ngày qua</span>
-                        </span>
+                        <p className='text-xl my-2'>200.000 đ</p>
+
                     </div>
                 </div>
                 <div className=' grid grid-cols-[65%,35%] gap-5'>

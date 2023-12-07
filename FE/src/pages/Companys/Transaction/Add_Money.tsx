@@ -16,7 +16,6 @@ interface DataType {
 
 const Add_Money = () => {
     const { data, isLoading } = useGetAllHistoryPaymentsQuery();
-    console.log(data);
     const datas: DataType[] = data?.['History Payment All'].map((item: any, index: number) => {
 
         return {
