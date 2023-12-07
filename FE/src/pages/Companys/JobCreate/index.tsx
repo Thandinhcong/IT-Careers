@@ -1,15 +1,15 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
-import { IJobPost, IPackages } from '../../../interfaces';
+import { IJobPost } from '../../../interfaces';
 import { AiOutlineCheck, AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import React, { useEffect, useState } from 'react';
+import { MdOutlineAttachMoney } from 'react-icons/md';
 
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
     const { data: Infor, isLoading } = useGetInforQuery();
-    // const { data: packagesData, isLoading: isPackagesLoading } = useGetJobPostSelect();
     console.log(Infor)
     const [form] = Form.useForm();
     const [jobPost] = useAddJobPostMutation();
@@ -87,9 +87,18 @@ const JobCreate = React.memo(() => {
             }
         }
     };
+
+    const formatCurrency = (amount: number, currency: string) => {
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: currency,
+        }).format(amount);
+
+        return formattedAmount;
+    };
     return (
-        <div className='bg-gray-100 py-8 px-4 flex'>
-            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
+        <div className='bg-gray-100 py-8 px-4 flex justify-between'>
+            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484] w-3/5'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Đăng bài tuyển dụng</h2>
                 <Spin spinning={isLoading}>
                     <Form
@@ -419,8 +428,7 @@ const JobCreate = React.memo(() => {
                             label="company_id"
                             name="company_id"
                             initialValue={Infor?.company?.id}
-
-
+                            hidden
                         >
                             <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
                         </Form.Item>
@@ -437,26 +445,21 @@ const JobCreate = React.memo(() => {
                     </Form>
                 </Spin>
             </div >
-            <div className='py-5 w-80 h-1/2 mx-auto sticky top-20 bg-white text-[#526484]'>
-                <div className='pl-5'>
-                    <h1 className='font-bold text-xl'>Khuyến mãi khi mua xu</h1>
-                    <span className='text-sm text-gray-400'>Danh sách các gói khuyến mãi hiện có khi bạn nạp xu thành công cho tài khoản</span>
-                    <h2 className='font-bold text-base'>1. Gói nạp cố định</h2>
-
-                    <ul className='text-center'>
+            <div className='p-5 h-1/2 sticky top-20 bg-white text-[#526484] w-1/3'>
+                <h1 className='text-xl font-semibold text-gray-700 '>Thông tin các gói đăng</h1>
+                <div className=''>
+                    <ul className='mx-3'>
                         {data?.data?.type_job_post.map((packageItem: any) => (
-                            <li key={packageItem.id} className='my-6'>
+                            <li key={packageItem.id} className='my-4 leading-7'>
                                 <span className='text-xl font-bold'>{packageItem.name}</span>
-                                <p>Các tính năng cơ bản cho NTD</p>
-                                <p className='font-bold text-xl'>{packageItem.salary}$</p>
-                                <p>Mỗi tháng</p>
-                                <p className='flex items-center'><AiOutlineCheck className='text-green-500' />{packageItem.desc}</p>
-                                <p className='flex items-center'><AiOutlineCheck className='text-green-500' />
-                                    Hẹn giờ lên tin
-                                </p>
-                                <p className='flex items-center'><AiOutlineCheck className='text-green-500' />
-                                    Xuất bản nhanh
-                                </p>
+                                <div className="mx-3">
+                                    <p className='flex items-center text-red-400 font-semibold'>
+                                        <MdOutlineAttachMoney />
+                                        <span className=''>Giá gói đăng: {formatCurrency(packageItem.salary, 'VND')}/ngày</span>
+                                    </p>
+                                    <p>Các tính năng của gói: </p>
+                                    <p className='flex items-center'><AiOutlineCheck className='text-green-500' />{packageItem.desc}</p>
+                                </div>
                             </li>
                         ))}
                     </ul>
