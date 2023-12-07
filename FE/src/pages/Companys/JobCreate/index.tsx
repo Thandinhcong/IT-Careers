@@ -1,10 +1,12 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineCheck, AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import React, { useEffect, useState } from 'react';
+import { MdOutlineAttachMoney } from 'react-icons/md';
+import DescPackage from './DescPackage';
 
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
@@ -23,6 +25,9 @@ const JobCreate = React.memo(() => {
             id: Infor?.company?.id,
         });
     }, [Infor]);
+    // console.log(data?.data?.type_job_post);
+
+    // console.log(Infor?.company?.id)
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
         console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
@@ -83,9 +88,18 @@ const JobCreate = React.memo(() => {
             }
         }
     };
+
+    const formatCurrency = (amount: number, currency: string) => {
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: currency,
+        }).format(amount);
+
+        return formattedAmount;
+    };
     return (
-        <div className='bg-gray-100 py-8 px-4'>
-            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
+        <div className='bg-gray-100 py-8 px-4 flex justify-between'>
+            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484] w-3/5'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Đăng bài tuyển dụng</h2>
                 <Spin spinning={isLoading}>
                     <Form
@@ -415,8 +429,7 @@ const JobCreate = React.memo(() => {
                             label="company_id"
                             name="company_id"
                             initialValue={Infor?.company?.id}
-
-
+                            hidden
                         >
                             <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
                         </Form.Item>
@@ -432,11 +445,13 @@ const JobCreate = React.memo(() => {
                         </div>
                     </Form>
                 </Spin>
+
             </div >
+            <DescPackage />
+
         </div >
 
     )
 });
-
 
 export default JobCreate

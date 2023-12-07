@@ -7,7 +7,6 @@ import { MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
 import { ImFilesEmpty } from "react-icons/im"
 import { HiSquare3Stack3D } from "react-icons/hi2"
-import { TbBrandCampaignmonitor } from "react-icons/tb"
 import { IoDocumentTextOutline } from "react-icons/io5"
 import { Link } from 'react-router-dom'
 import { useGetInforQuery } from '../../api/companies/jobPostCompany'
@@ -119,7 +118,7 @@ const SideBarCompany = () => {
                 </Menu>
 
             </div>
-            <Link to={'/business/transaction/add_money'} className='flex items-center gap-3 mt-6 ml-4'>
+            <Link to={'/business/transaction'} className='flex items-center gap-3 mt-6 ml-4'>
                 <p className='text-xl'> <HiSquare3Stack3D /> </p>
                 <p className='mr-3'>Lịch sử giao dịch</p>
             </Link>

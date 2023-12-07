@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload } from "react-icons/ai"
-=======
 import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
->>>>>>> origin/fix-create-post
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
-import { useCancelSaveProfileMutation, useGetProfileSaveQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
+import { useCancelSaveProfileMutation, useGetProfileOpenQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
 import { Form, Input, Modal, Rate, Select, Spin, message } from "antd";
 import { formatDistanceToNow, parse } from 'date-fns';
@@ -15,9 +11,9 @@ import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
 import { MdOutlineRateReview } from "react-icons/md";
 
-const SaveJob = () => {
+const OpenJob = () => {
     const [form] = Form.useForm();
-    const { data, isLoading } = useGetProfileSaveQuery();
+    const { data, isLoading } = useGetProfileOpenQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [ratingModalVisible, setRatingModalVisible] = useState(false);
@@ -509,6 +505,6 @@ const SaveJob = () => {
             </TEModal>
         </div>
     )
-});
+};
 
-export default SaveJob
+export default OpenJob

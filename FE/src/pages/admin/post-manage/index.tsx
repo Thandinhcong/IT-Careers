@@ -19,6 +19,12 @@ const PostManage = () => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
         const newStatus = currentStatus === 1 ? 2 : 1;
 
+        // if (currentStatus === 1 || currentStatus === 2) {
+        //     // Nếu trạng thái là 1 (Duyệt) hoặc 2 (Không duyệt)
+        //     message.warning("Bài đăng đã được kiểm duyệt trước đó.");
+        //     return;
+        // }
+
         if (currentStatus === 0) {
             // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
@@ -285,11 +291,14 @@ const PostManage = () => {
                 title="Xem chi tiết bài đăng"
                 centered
                 open={open}
+                onOk={() => {
+                    handleUpdateStatus(selectedPostId, selectedJobPost?.status || 0);
+                    setOpen(false);
+                }}
                 onCancel={() => setOpen(false)}
-                onOk={() => setOpen(false)}
-                okType='text'
+                okType='default'
                 cancelText="Đóng"
-                okText={<p hidden></p>}
+                okText="Kiểm duyệt"
                 width={1000}
             >
                 {data?.jobPost

@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCvQuery, useUploadCVMutation } from '../../../api/cv/listCvApi';
 import { Notyf } from 'notyf';

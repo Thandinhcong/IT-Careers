@@ -44,6 +44,14 @@ const FindJobCompanyApi = createApi({
       }),
       invalidatesTags: ["FindJobs"],
     }),
+    rateProfile: builder.mutation<any, any>({
+      query: (findJob) => ({
+        url: `/company/feeback_profile/${findJob.id}`,
+        method: "POST",
+        body: findJob,
+      }),
+      invalidatesTags: ["FindJobs"],
+    }),
     cancelSaveProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/cancel_save_profile/${id}`,
@@ -57,7 +65,7 @@ export const {
   useGetFindCandidateQuery, //Hiển thị ứng viên bật tìm việc
   useGetProfileOpenQuery, //Hiển thị ứng viên đã mở khoá
   useGetProfileSaveQuery,
-  // useGetCandidateDetailQuery,
+  useRateProfileMutation,
   useOpenProfileMutation,
   useSaveProfileMutation,
   useCancelSaveProfileMutation,
