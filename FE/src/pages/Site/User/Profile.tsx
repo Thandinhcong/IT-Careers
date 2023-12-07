@@ -1,11 +1,10 @@
-import { Avatar } from 'antd'
+import { Avatar, Col } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetDataFindJobQuery, useGetInfoFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
-import { useForm } from 'react-hook-form';
 import { useGetExperienceQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 import { Notyf } from 'notyf';
-
+import { Button, Select, Form, Input } from 'antd';
 
 
 const Profile = React.memo(() => {
@@ -17,6 +16,11 @@ const Profile = React.memo(() => {
         },
     });
     const { data } = useGetInfoUserQuery();
+    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
+    const handleSelectProvinceId = (rovinceId: number | string) => {
+        console.log(rovinceId);
+        setSelectedProvincetId(rovinceId);
+    }
     const listInfo = data?.candidate;
     const idUser = listInfo?.id;
     const listImage = data?.candidate?.image;
@@ -24,30 +28,40 @@ const Profile = React.memo(() => {
     // exp
     const { data: Exp } = useGetExperienceQuery();
     const listExp = Exp?.data;
+    const [form] = Form.useForm();
     //districs
     const { data: dataFindJob } = useGetDataFindJobQuery();
     const province = dataFindJob?.data?.province;
     const districts = dataFindJob?.data?.district;
     const { data: info } = useGetInfoFindJobQuery();
     const infoFindJob = info?.info_find_job?.info_find_job;
-
-
-    const { register, handleSubmit, reset, setValue } = useForm();
-    const onHandleSubmit = async (data: any) => {
-        try {
-            await SaveInfoFindJob({
-                idUser,
-                ...data
-            }).unwrap();
-            notyf.success('Cập nhật thành công');
-
-        } catch (error) {
-            notyf.error('Cập nhật thất bại');
-        }
-    }
     useEffect(() => {
-        reset();
-    }, [])
+        form.setFieldsValue({
+            major: infoFindJob?.major,
+            desired_salary: infoFindJob?.desired_salary,
+            experience_id: infoFindJob?.experience,
+            district_id: infoFindJob?.work_location
+        })
+    }, [form, infoFindJob])
+
+    const onFinish = (values: any) => {
+        SaveInfoFindJob(values).unwrap();
+        notyf.success("Cập nhật thành công")
+    };
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
+    };
+
+    type FieldType = {
+        experience_id?: string;
+        major?: string;
+        desired_salary?: string;
+        district_id?: string;
+
+    };
+
+
     return (
         <div className='h-[1240px]'>
             <div className='shadow-sm shadow-blue-300 h-[450px]'>
@@ -81,90 +95,110 @@ const Profile = React.memo(() => {
                             </p>
 
                         </div>
-                        <div className='flex flex-col gap-2  p-2'>
+                        <div className='flex flex-col gap-2  '>
                             <p >Họ tên</p>
-                            <input type="text" value={listInfo?.name} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            <input type="text" value={listInfo?.name} className='border rounded-lg outline-none px-2 py-1 ' />
                         </div>
-                        <div className='flex flex-col gap-2  p-2'>
+                        <div className='flex flex-col gap-2  '>
                             <p >Số điện thoại</p>
-                            <input type="text" disabled value={listInfo?.phone} placeholder='Số điện thoại' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            <input type="text" disabled value={listInfo?.phone} placeholder='Số điện thoại' className='border rounded-lg outline-none px-2 py-1 ' />
                         </div>
-                        <div className='flex flex-col gap-2  p-2'>
+                        <div className='flex flex-col gap-2  '>
                             <p >Email</p>
-                            <input type="text" disabled value={listInfo?.email} placeholder='' className='border border-blue-500 rounded outline-none px-2 py-1 ' />
+                            <input type="text" disabled value={listInfo?.email} placeholder='' className='border rounded-lg outline-none px-2 py-1 ' />
                         </div>
-                        <form onSubmit={handleSubmit(onHandleSubmit)}>
-                            <div className='flex flex-col gap-2  p-2'>
-                                <p >Địa điểm làm việc</p>
-                                <select
-                                    className='border border-blue-500 rounded outline-none px-2 py-1'
-                                // onChange={handleProvinceChange}
+                        <Form
+                            form={form}
+                            name="basic"
+                            labelCol={{ span: 24 }}
+                            wrapperCol={{ span: 24 }}
+                            initialValues={{
+                                major: infoFindJob?.major,
+                                desired_salary: infoFindJob?.desired_salary
+                            }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                        >
+                            <Form.Item<FieldType>
 
+                                label="Ngành nghề muốn quan tâm"
+                                name="major"
+                                rules={[{ required: true, message: 'Không được để trống!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="Mức lương"
+                                name="desired_salary"
+                                rules={[{ required: true, message: 'Please input your password!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                            <Col >
+                                <Form.Item<any>
+                                    label="Tỉnh/Thành phố"
+                                    rules={[{ required: true }]}
                                 >
-                                    <option value="">Tỉnh/Thành phố</option>
-                                    {province?.map((item: any) => (
-                                        <option key={item.id} value={item.id}>
-                                            {item.province}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className='flex flex-col gap-2 p-2'>
-                                <p>Quận/Huyện</p>
-                                <select
-                                    {...register('district_id')}
-                                    className='border border-blue-500 rounded outline-none px-2 py-1'
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
+                                        {province?.map((options: any) => (
+                                            <Select.Option key={options.id} rovinceId={options.id}>
+                                                {options.province}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            {/* Quận/Huyện*/}
+                            <Col >
+                                <Form.Item<any>
+                                    label="Quận/Huyện"
+                                    name="district_id"
+                                    rules={[{ required: true, message: "Vui lòng chọn địa chỉ làm việc" }]}
                                 >
-                                    <option value="">Quận/ Huyện</option>
-                                    {districts?.map((item: any) => (
-                                        <option key={item?.id} value={item?.id}>
-                                            {item?.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className='flex flex-col gap-2  p-2'>
-                                <p >Ngành nghề muốn quan tâm</p>
-                                <input
-                                    defaultValue={infoFindJob?.major}
-                                    type="text" {...register("major")}
-                                    placeholder='Front end'
-                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
-                                />
-                            </div>
-                            <div className='flex flex-col gap-2  p-2'>
-                                <label>Kinh nghiệm ngành nghề</label>
-                                <select
-                                    {...register('experience_id')}
-                                    // watch("experience_id")
-                                    defaultValue={infoFindJob?.experience}
-                                    className='border border-blue-500 rounded outline-none px-2 py-1 '
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} >
+                                        {districts?.filter((options: {
+                                            province_id: string | number | null; id: string | number;
+                                        }) => options.province_id == selectedProvinceId)
+                                            .map((options: any) => (
+                                                <Select.Option key={options.id} value={options.id}>
+                                                    {options.name}
+                                                </Select.Option>
+                                            ))}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+
+                            <Col >
+                                <Form.Item<any>
+                                    label="Số năm kinh nghiệm"
+                                    name="experience_id"
+                                    rules={[{ required: true, message: "Vui lòng chọn số năm kinh nghiệm" }]}
                                 >
-                                    <option>Vui lòng chọn</option>
-                                    {listExp?.map((item: any) => {
-                                        return (
-                                            <option key={item?.id} value={item?.id}>{item?.experience}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-                            <div className='flex flex-col gap-2  p-2'>
-                                <label>Mức lương mong muốn</label>
-                                <input
-                                    defaultValue={infoFindJob?.desired_salary}
-                                    type="text" placeholder='20000000'
-                                    {...register('desired_salary')} className='border border-blue-500 rounded outline-none px-2 py-1 ' />
-                            </div>
-                            <div className='flex justify-center mb-2'>
-                                <button className='bg-blue-500 px-5 py-2 text-white  rounded '>Lưu</button>
-                            </div>
-                        </form>
+                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} >
+                                        {
+                                            listExp?.map((options: any) => (
+                                                <Select.Option key={options.id} value={options.id}>
+                                                    {options?.experience}
+                                                </Select.Option>
+                                            ))
+                                        }
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                <Button type="primary" className='bg-blue-500 mb-10 mx-auto' htmlType="submit">
+                                    Submit
+                                </Button>
+                            </Form.Item>
+                        </Form>
                     </div>
                 </div>
 
 
-            </div>
-        </div>
+            </div >
+        </div >
     )
 });
 

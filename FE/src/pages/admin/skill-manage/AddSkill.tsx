@@ -34,6 +34,7 @@ const AddSkill = () => {
             >
                 <Form.Item<ISkill>
                     label="Tên kĩ năng"
+
                     name="skill"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },

@@ -23,7 +23,6 @@ const JobCreate = React.memo(() => {
             id: Infor?.company?.id,
         });
     }, [Infor]);
-    console.log(Infor?.company?.id)
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
         console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
