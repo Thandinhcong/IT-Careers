@@ -6,6 +6,7 @@ import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import React, { useEffect, useState } from 'react';
 import { MdOutlineAttachMoney } from 'react-icons/md';
+import DescPackage from './DescPackage';
 
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
@@ -444,31 +445,13 @@ const JobCreate = React.memo(() => {
                         </div>
                     </Form>
                 </Spin>
+
             </div >
-            <div className='p-5 h-1/2 sticky top-20 bg-white text-[#526484] w-1/3'>
-                <h1 className='text-xl font-semibold text-gray-700 '>Thông tin các gói đăng</h1>
-                <div className=''>
-                    <ul className='mx-3'>
-                        {data?.data?.type_job_post.map((packageItem: any) => (
-                            <li key={packageItem.id} className='my-4 leading-7'>
-                                <span className='text-xl font-bold'>{packageItem.name}</span>
-                                <div className="mx-3">
-                                    <p className='flex items-center text-red-400 font-semibold'>
-                                        <MdOutlineAttachMoney />
-                                        <span className=''>Giá gói đăng: {formatCurrency(packageItem.salary, 'VND')}/ngày</span>
-                                    </p>
-                                    <p>Các tính năng của gói: </p>
-                                    <p className='flex items-center'><AiOutlineCheck className='text-green-500' />{packageItem.desc}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            <DescPackage />
+
         </div >
 
     )
 });
-
 
 export default JobCreate

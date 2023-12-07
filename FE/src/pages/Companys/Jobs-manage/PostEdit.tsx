@@ -5,6 +5,7 @@ import moment from 'moment';
 import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import DescPackage from '../JobCreate/DescPackage';
 
 
 const PostEdit = () => {
@@ -86,8 +87,8 @@ const PostEdit = () => {
     };
     if (isLoading) return <Skeleton loading />;
     return (
-        <div className='bg-gray-100 py-8 px-4'>
-            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484]'>
+        <div className='bg-gray-100 py-8 px-4 flex justify-between'>
+            <div className='max-w-[800px] p-5 mx-auto bg-white text-[#526484] w-3/5'>
                 <h2 className="font-bold text-xl text-gray-700 my-3 pb-3">Cập nhật bài đăng tuyển dụng</h2>
                 <Form
                     form={form}
@@ -422,6 +423,7 @@ const PostEdit = () => {
 
                 </Form>
             </div >
+            <DescPackage />
         </div >
 
     )
