@@ -11,7 +11,7 @@ import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
 import { MdOutlineRateReview } from "react-icons/md";
 
-const SaveJob = () => {
+const SaveJob = React.memo(() => {
     const [form] = Form.useForm();
     const { data, isLoading } = useGetProfileSaveQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
