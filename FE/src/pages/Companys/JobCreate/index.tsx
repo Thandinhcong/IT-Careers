@@ -1,11 +1,10 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineCheck, AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
+import {  AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import React, { useEffect, useState } from 'react';
-import { MdOutlineAttachMoney } from 'react-icons/md';
 import DescPackage from './DescPackage';
 
 const JobCreate = React.memo(() => {
