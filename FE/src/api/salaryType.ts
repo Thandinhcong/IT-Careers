@@ -5,7 +5,7 @@ const SalaryTypeApi = createApi({
   reducerPath: "salary_type",
   tagTypes: ["salary_type"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api",
+    baseUrl: import.meta.env.VITE_API_URL,
     fetchFn: (...arg) => {
       return fetch(...arg);
     },

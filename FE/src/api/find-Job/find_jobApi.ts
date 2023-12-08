@@ -4,7 +4,7 @@ const findJobApi = createApi({
   reducerPath: "findJob",
   tagTypes: ["FindJob"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api/candidate",
+    baseUrl: import.meta.env.VITE_API_CANDIDATE,
     fetchFn: (...arg) => {
       return fetch(...arg);
     },

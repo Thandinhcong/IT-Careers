@@ -9,8 +9,7 @@ const AccountsApi = createApi({
   reducerPath: "candidate_information",
   tagTypes: ["Candidates"],
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8000/api/candidate",
-
+    baseUrl: import.meta.env.VITE_API_CANDIDATE,
     prepareHeaders: (headers) => {
       const user = JSON.parse(localStorage.getItem("user") as string);
       const token = user?.accessToken;
