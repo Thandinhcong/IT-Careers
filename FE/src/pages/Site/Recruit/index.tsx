@@ -120,7 +120,7 @@ const Recruit = () => {
                                     <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' key={item.id}>
                                         <Link to={`/job-detail/${item?.title}/${item?.id}`}>
                                             {item?.logo == null ? (
-                                                <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700241139/essxedc0cwpivyfztsog.png" alt="" className='w-28 h-28' />
+                                                <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700359570/glf34tttyauwoqpkbggt.png" alt="" className='w-28 h-28' />
                                             ) : (
 
                                                 <img src={`${item?.logo}`} className='h-28 w-28' alt="" />
