@@ -99,6 +99,7 @@ import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
 import RefillPackage from "./pages/Site/User/RefillPackage"
 import HistoryPayment from "./pages/Site/User/HistoryPayment"
 import IsCheckLoginAdmin from "./pages/auths/isCheckAdmin"
+import FindJobFast from "./pages/Site/FindJobFast"
 
 
 function App() {
@@ -116,6 +117,8 @@ function App() {
           <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="recruit" element={<Recruit />} />
+          <Route path="find-job-fast" element={<FindJobFast />} />
+
           <Route element={<IsCheckLogin />} >
             <Route path='account/' element={< Account />} >
               <Route index element={<CandidateInformation />} />
@@ -128,8 +131,6 @@ function App() {
               <Route path='profile' element={< Profile />} />
               <Route path='recharge' element={< RefillPackage />} />
               <Route path='historys-payment' element={< HistoryPayment />} />
-
-
             </Route >
             <Route path='account' element={< Account />} />
             <Route path="tao-cv/:id" element={<CreateCvTest />} />

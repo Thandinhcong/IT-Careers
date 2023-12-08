@@ -183,12 +183,17 @@ const Header = React.memo((data: any) => {
             Việc làm
           </Link>
           <Link
-            to="company"
+            to="/company"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Công ty
           </Link>
-
+          <Link
+            to="/find-job-fast"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Tìm việc nhanh
+          </Link>
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center">
