@@ -1,6 +1,6 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import {  AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
@@ -24,9 +24,7 @@ const JobCreate = React.memo(() => {
             id: Infor?.company?.id,
         });
     }, [Infor]);
-    // console.log(data?.data?.type_job_post);
 
-    // console.log(Infor?.company?.id)
     const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
         console.log(rovinceId);
         setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId

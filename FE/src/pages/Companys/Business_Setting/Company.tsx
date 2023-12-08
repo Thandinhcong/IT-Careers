@@ -69,13 +69,10 @@ const CompanySetting = React.memo(() => {
     };
 
     const onFinish = (values: ICompanyInfor | any) => {
-        console.log('Form values:', values);
 
         const logo = values.logo && values.logo.fileList && values.logo.fileList[0]?.originFileObj;
         const imagePaper = values.image_paper && values.image_paper.fileList && values.image_paper.fileList[0]?.originFileObj;
 
-        console.log(imagePaper);
-        console.log('Logo File:', logo);
 
         const uploadLogo = logo
             ? UploadImage({

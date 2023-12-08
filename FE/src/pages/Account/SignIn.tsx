@@ -97,6 +97,7 @@ const Login = React.memo(() => {
                                     </label>
                                     <input
                                         {...register("email")}
+                                        placeholder="bework@gmail.com"
                                         type="text"
                                         className="px-5 py-3 w-full rounded-md outline-none border border-blue-500  bg-white text-sm text-gray-700 shadow-sm"
                                     />
@@ -113,6 +114,7 @@ const Login = React.memo(() => {
                                     </label>
                                     <input
                                         {...register("password")}
+                                        placeholder="***************"
                                         type="password"
                                         className="w-full outline-none border border-blue-500 px-5 py-3  rounded-md  bg-white text-sm text-gray-700 shadow-sm"
                                     />

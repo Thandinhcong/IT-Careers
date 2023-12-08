@@ -10,6 +10,8 @@ const Company = React.memo(() => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const { data, isLoading } = useSearchCompaniesQuery();
+
+
     const listCompanys = data?.list_company;
     const Filters = (e: any) => {
         setSearchTerm(e.target.value);

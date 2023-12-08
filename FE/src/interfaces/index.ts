@@ -247,6 +247,7 @@ export interface IListJobs {
   end_date: string;
   description: string;
   address: string;
+  company_id: string;
 }
 export interface IListDataJobs {
   status: IJobPost;

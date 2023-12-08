@@ -5,9 +5,10 @@ import { useGetDataFindJobQuery, useGetInfoFindJobQuery, useSaveInfoFindJobMutat
 import { useGetExperienceQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 import { Notyf } from 'notyf';
 import { Button, Select, Form, Input } from 'antd';
-
+import { VND } from '../../../components/upload';
 
 const Profile = React.memo(() => {
+
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -18,7 +19,6 @@ const Profile = React.memo(() => {
     const { data } = useGetInfoUserQuery();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
     const handleSelectProvinceId = (rovinceId: number | string) => {
-        console.log(rovinceId);
         setSelectedProvincetId(rovinceId);
     }
     const listInfo = data?.candidate;
@@ -110,10 +110,7 @@ const Profile = React.memo(() => {
                             name="basic"
                             labelCol={{ span: 24 }}
                             wrapperCol={{ span: 24 }}
-                            initialValues={{
-                                major: infoFindJob?.major,
-                                desired_salary: infoFindJob?.desired_salary
-                            }}
+
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"

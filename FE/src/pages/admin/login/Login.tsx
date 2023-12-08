@@ -66,7 +66,7 @@ const LoginAdmin = () => {
                                     <input
                                         type="email"
                                         id="Email"
-
+                                        placeholder='bework@gmail.com'
                                         className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700
                                         border outline-none py-2 px-2
                                          shadow-sm"
@@ -85,6 +85,7 @@ const LoginAdmin = () => {
                                     </label>
                                     <input
                                         type="password"
+                                        placeholder='**************'
                                         id="Email"
                                         className="mt-1 w-full rounded-md
                                         border outline-none py-2 px-2
