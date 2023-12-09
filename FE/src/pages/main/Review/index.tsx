@@ -43,11 +43,11 @@ const Reviews = () => {
                         className='mx-auto'
                     />
                     <div className='mb-10'>
-                        <h5 className='font-medium text-xl mt-6 mb-3 text-center'>Mẫu Cover letters</h5>
-                        <p className='text-center'>Cho dù bạn ứng tuyển vào một ngành bảo thủ như ngân hàng hay một công ty khởi nghiệp cường điệu, bạn có thể điều chỉnh các mẫu thư xin việc của chúng tôi để phù hợp với nhu cầu chính xác của bạn.</p>
+                        <h5 className='font-medium text-xl mt-6 mb-3 text-center'>Tìm kiếm việc làm nhanh</h5>
+                        <p className='text-center'>Bạn cần tìm kiếm việc làm gấp. Bework chúng tôi sẽ giúp bạn tìm kiếm công việc phù hợp với bạn thật nhanh. Chỉ mất có hồ sơ trên website của chúng tôi, bạn sẽ được ứng tuyển các công việc vafbanj mong muốn nhất, chúng tôi sẽ tự động ứng tuyển cho bạn.</p>
                     </div>
                     <div className='flex justify-center'>
-                        <Link to="" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tạo cover letter</Link>
+                        <Link to="" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tìm việc nhanh</Link>
                     </div>
                 </div>
             </div>

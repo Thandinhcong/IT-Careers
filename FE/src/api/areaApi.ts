@@ -11,7 +11,7 @@ const AreaApi = createApi({
   }),
   endpoints: (builder) => ({
     getAreaAll: builder.query<any, void>({
-      query: () => "/api/location_work",
+      query: () => "/location_work",
       providesTags: ["AreaApi"],
     }),
   }),
