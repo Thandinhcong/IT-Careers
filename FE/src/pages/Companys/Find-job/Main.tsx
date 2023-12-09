@@ -138,7 +138,6 @@ const MainFindJob = () => {
     // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
     const handleSalarySelectChange = (value: string) => {
         setFilterSalary(value);
-        console.log(value);
     };
 
     const handleFilter = () => {
@@ -207,7 +206,7 @@ const MainFindJob = () => {
         // Xóa tất cả các giá trị lọc và cập nhật state
         setFilterName('');
         setFilterDistrict('');
-        // setFilterSalary('');
+        setFilterSalary('');
         setFilteredData((data?.data || []) as IFindJob[]);
         setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
         setFilterProvince(''); // Reset giá trị của quận/huyện
