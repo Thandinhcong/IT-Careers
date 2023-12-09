@@ -129,6 +129,16 @@ export interface IFindJob {
   salary: string;
   find_job: number;
   open_profile: string;
+  total_exp: number;
+  desired_salary: string | number;
+  major: string;
+  coin: number;
+  province: string;
+  district: string;
+  path_cv: string;
+  start: number;
+  experience: string | number;
+  comment: string;
 }
 export interface ICompanyInfor {
   id?: string | number;

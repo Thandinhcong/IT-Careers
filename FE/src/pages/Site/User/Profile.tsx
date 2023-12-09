@@ -169,7 +169,7 @@ const Profile = React.memo(() => {
                                 <Form.Item<any>
                                     label="Số năm kinh nghiệm"
                                     name="experience_id"
-                                    rules={[{ required: true, message: "Vui lòng chọn số năm kinh nghiệm" }]}
+
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} >
                                         {

@@ -67,7 +67,7 @@ const CVApply = React.memo(() => {
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
             <div className="max-w-screen-lg mx-auto py-4">
-                <div className="flex items-center gap-5">
+                {/* <div className="flex items-center gap-5">
                     <select
                         className="appearance-none border border-gray-300 rounded px-4 py-1.5 w-1/4 focus:outline-none focus:border-blue-500 focus:shadow my-6"
                     >
@@ -79,8 +79,8 @@ const CVApply = React.memo(() => {
                         <button className="bg-blue-600 text-white flex items-center rounded py-1.5 px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
                         <button className="bg-[#eaebee] text-gray-500 flex items-center rounded py-1.5 px-5"><AiOutlineReload /><p>Xóa lọc</p></button>
                     </div>
-                </div>
-                <div className="flex justify-between items-center">
+                </div> */}
+                <div className="flex justify-between items-center mt-10">
                     <p>
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"

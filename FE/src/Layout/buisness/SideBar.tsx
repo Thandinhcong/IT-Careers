@@ -14,6 +14,7 @@ import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 
 const SideBarCompany = () => {
     const { data: Infor } = useGetInforQuery();
+    console.log(Infor);
     const listIcon = Infor?.company?.logo;
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
