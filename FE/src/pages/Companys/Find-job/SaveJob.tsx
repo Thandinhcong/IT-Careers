@@ -11,7 +11,7 @@ import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
 import { MdOutlineRateReview } from "react-icons/md";
 
-const SaveJob = () => {
+const SaveJob = React.memo(() => {
     const [form] = Form.useForm();
     const { data, isLoading } = useGetProfileSaveQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
@@ -76,7 +76,7 @@ const SaveJob = () => {
 
         setModalVisible(false);
     };
-    //Hàm lưu hồ sơ
+    //Hàm lưu hồ
     const handleSaveProfile = (id: number | string) => {
         saveProfile(id)
             .unwrap()
@@ -505,6 +505,6 @@ const SaveJob = () => {
             </TEModal>
         </div>
     )
-};
+});
 
 export default SaveJob

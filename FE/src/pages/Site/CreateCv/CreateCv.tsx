@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
 import { useAddEduMutation, useAddExpMutation, useAddProjectMutation, useAddSkillMutation, useDeleteEduMutation, useDeleteProjectMutation, useDeleteSkillMutation, useListCvQuery, useListInfoQuery, useRemoveExpMutation, useSaveCvMutation, useUpdateEduMutation, useUpdateExpMutation, useUpdateInfoProfileMutation, useUpdateProjectMutation, useUpdateSkillMutation } from '../../../api/cv/listCvApi';
 import { useForm } from 'react-hook-form';
@@ -11,11 +11,12 @@ import { GoDownload } from 'react-icons/go';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { FormEdu, FormExp, FormProfile, FormProject, FormSkill, schemaProfile } from '../../../schemas/svSchema';
+import { IoIosArrowBack } from 'react-icons/io';
 
 
 const CreateCvTest = React.memo(() => {
     const notyf = new Notyf({
-        duration: 3000,
+        duration: 4000,
         position: {
             x: 'right',
             y: 'top',
@@ -62,9 +63,7 @@ const CreateCvTest = React.memo(() => {
     const [deleteSkill] = useDeleteSkillMutation();
     const listSkill = getCV?.profile?.skill_cv;
     const [updateSkill] = useUpdateSkillMutation();
-    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill } = useForm<FormSkill>({
-        // resolver: yupResolver(schemaSkills),
-    });
+    const { register: registerSkill, handleSubmit: handleSubmitSkill, getValues, reset: resetSkill } = useForm<FormSkill>();
 
     const onHandleSubmitSkill = async (data: any, skillId?: string) => {
         try {
@@ -83,8 +82,20 @@ const CreateCvTest = React.memo(() => {
                 notyf.success("Thêm kỹ năng thành công");
             }
             resetSkill();
-        } catch (error) {
-            notyf.success("Thêm kỹ năng thất bại");
+        } catch (error: any) {
+            if (error?.status === 422) {
+                const errorFields = ['name_skill'];
+                errorFields.forEach(field => {
+                    const fieldErrors = error?.data?.error?.[field];
+                    if (fieldErrors && fieldErrors.length > 0) {
+                        fieldErrors.forEach((errorMessage: any) => {
+                            notyf.error(errorMessage);
+                        });
+                    }
+                });
+            } else {
+                notyf.error("Thêm kỹ năng thất bại");
+            }
         }
     };
 
@@ -124,9 +135,7 @@ const CreateCvTest = React.memo(() => {
         handleSubmit: handleSubmitProject,
         reset: resetProject,
         getValues: getValuesProject,
-        // formState: { errors: errorsProject }
     } = useForm<FormProject>({
-        // resolver: yupResolver(schemaProject),
         defaultValues: listProject
     });
 
@@ -147,8 +156,20 @@ const CreateCvTest = React.memo(() => {
                 notyf.success("Thêm Dự án thành công");
             }
             resetProject();
-        } catch (error) {
-            notyf.error("Thêm/Cập nhật thất bại");
+        } catch (error: any) {
+            if (error?.status === 422) {
+                const errorFields = ["project_name", "link_project", "position", 'desc', 'end_date', 'start_date'];
+                errorFields.forEach(field => {
+                    const fieldErrors = error?.data?.error?.[field];
+                    if (fieldErrors && fieldErrors.length > 0) {
+                        fieldErrors.forEach((errorMessage: any) => {
+                            notyf.error(errorMessage);
+                        });
+                    }
+                });
+            } else {
+                notyf.error("Thêm/Cập nhật thất bại");
+            }
         }
     };
     //xóa dự án
@@ -213,15 +234,18 @@ const CreateCvTest = React.memo(() => {
             resetEducation();
         } catch (error: any) {
             if (error?.status === 422) {
-                notyf.error(error?.data?.error?.name[0]);
-                notyf.error(error?.data?.error?.gpa[0]);
-                notyf.error(error?.data?.error?.major[0]);
-                notyf.error(error?.data?.error?.end_date[0]);
-                notyf.error(error?.data?.error?.end_date[1]);
+                const educationErrorFields = ["name", 'gpa', 'major', "end_date", "start_date"];
+                educationErrorFields.forEach(field => {
+                    const fieldErrors = error?.data?.error?.[field];
+                    if (fieldErrors && fieldErrors.length > 0) {
+                        fieldErrors.forEach((errorMessage: any) => {
+                            notyf.error(errorMessage);
+                        });
+                    }
+                });
             } else {
                 notyf.error("Thêm/Cập nhật học vấn thất bại");
             }
-
         }
     };
     // xóa học vấn
@@ -279,13 +303,15 @@ const CreateCvTest = React.memo(() => {
             resetExp();
         } catch (error: any) {
             if (error?.status === 422) {
-                console.log(error);
-
-                notyf.error(error?.data?.error?.company_name[0]);
-                notyf.error(error?.data?.error?.position[0]);
-                notyf.error(error?.data?.error?.end_date[0]);
-                notyf.error(error?.data?.error?.end_date[1]);
-                notyf.error(error?.data?.error?.end_date[2]);
+                const errorFields = ['company_name', 'position', 'end_date'];
+                errorFields.forEach(field => {
+                    const fieldErrors = error?.data?.error?.[field];
+                    if (fieldErrors && fieldErrors.length > 0) {
+                        fieldErrors.forEach((errorMessage: any) => {
+                            notyf.error(errorMessage);
+                        });
+                    }
+                });
             } else {
                 notyf.error(error?.data?.message);
             }
@@ -419,6 +445,7 @@ const CreateCvTest = React.memo(() => {
             {/* nhập */}
             <div className='mx-24'>
                 {/* thông tin cá nhân */}
+                <Link to={'/user/listcv'} className='flex items-center gap-1'> <span><IoIosArrowBack /></span>  Quay lại</Link>
                 <div>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Thông tin cá nhân</h2>
                     <form onSubmit={handleSubmit(onHandleSubmit)}>
@@ -552,7 +579,7 @@ const CreateCvTest = React.memo(() => {
                                             name='company_name'
                                             defaultValue={experiences?.company_name}
                                             onChange={(e) => handleChangeExp(index, 'company_name', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.company_name && errorsExp?.company_name?.message}
@@ -569,7 +596,7 @@ const CreateCvTest = React.memo(() => {
                                             name='position'
                                             defaultValue={experiences.position}
                                             onChange={(e) => handleChangeExp(index, 'position', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         {/* <div className='text-red-500 text-sm'>
                                             {errorsExp?.position && errorsExp?.position?.message}
@@ -595,7 +622,7 @@ const CreateCvTest = React.memo(() => {
                                             name='start_date'
                                             defaultValue={experiences?.start_date}
                                             onChange={(e) => handleChangeExp(index, 'start_date', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="date"
                                         />
                                         {/* <div className='text-red-500 text-sm'>
@@ -612,7 +639,7 @@ const CreateCvTest = React.memo(() => {
                                             name='end_date'
                                             defaultValue={experiences?.end_date}
                                             onChange={(e) => handleChangeExp(index, 'end_date', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="date"
                                         />
                                         {/* <div className='text-red-500 text-sm'>
@@ -629,7 +656,7 @@ const CreateCvTest = React.memo(() => {
                                             name='desc'
                                             defaultValue={experiences?.desc}
                                             onChange={(e) => handleChangeExp(index, 'desc', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         ></textarea>
                                     </div>
                                 </div>
@@ -663,7 +690,7 @@ const CreateCvTest = React.memo(() => {
                                             name='name'
                                             defaultValue={educations?.name}
                                             onChange={(e: any) => handleChangeEdu(index, 'name', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                         />
                                         <div className='text-red-500 text-sm'>
                                             {errorsEdu?.name && errorsEdu?.name?.message}
@@ -678,7 +705,7 @@ const CreateCvTest = React.memo(() => {
                                             name='gpa'
                                             defaultValue={educations?.gpa}
                                             onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="text"
                                         />
                                         <div className='text-red-500 text-sm'>
@@ -689,7 +716,7 @@ const CreateCvTest = React.memo(() => {
                                         <button
                                             type="button"
                                             onClick={() => handleRemoveEdu(index)}
-                                            className='bg-red-500 text-white p-1.5 float-right'
+                                            className='bg-red-500 outline-none text-white p-1.5 float-right'
                                         >
                                             <AiOutlineClose />
                                         </button>
@@ -703,7 +730,7 @@ const CreateCvTest = React.memo(() => {
                                             name='major'
                                             defaultValue={educations?.major}
                                             onChange={(e) => handleChangeEdu(index, 'major', e.target.value)}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="text"
                                         />
 
@@ -718,7 +745,7 @@ const CreateCvTest = React.memo(() => {
                                         <select
                                             {...registerEducation('type_degree')}
                                             defaultValue={educations?.type_degree}
-                                            className='border border-gray-200 p-2 w-full outline-none'
+                                            className='border  border-gray-200 p-2 w-full outline-none'
                                             onChange={(e: any) => handleChangeEdu(index, 'type_degree', e.target.value)}
                                         >
                                             <option value="1">
@@ -764,7 +791,7 @@ const CreateCvTest = React.memo(() => {
                                             name="start_date"
                                             onChange={(e) => handleChangeEdu(index, 'start_date', e.target.value)}
                                             defaultValue={educations?.start_date}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="date"
                                         />
                                         <div className='text-red-500 text-sm'>
@@ -780,7 +807,7 @@ const CreateCvTest = React.memo(() => {
                                             name="end_date"
                                             onChange={(e) => handleChangeEdu(index, 'end_date', e.target.value)}
                                             defaultValue={educations?.end_date}
-                                            className='border border-gray-200 p-2 w-full'
+                                            className='border outline-none border-gray-200 p-2 w-full'
                                             type="date"
                                         />
                                         <div className='text-red-500 text-sm'>

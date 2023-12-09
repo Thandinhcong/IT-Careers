@@ -248,6 +248,9 @@ export interface IListJobs {
   end_date: string;
   description: string;
   address: string;
+  company_id: string;
+  company_size_min: string;
+  company_size_max: string;
 }
 export interface IListDataJobs {
   status: IJobPost;

@@ -76,6 +76,7 @@ const SignUp = React.memo(() => {
                                 </label>
                                 <input
                                     {...register("name")}
+                                    placeholder="NGUYEN VAN A"
                                     type="text"
                                     className="px-5 py-2 w-full rounded-md outline-none border border-blue-500  bg-white text-sm text-gray-700 shadow-sm"
                                 />
@@ -91,6 +92,7 @@ const SignUp = React.memo(() => {
                                 </label>
                                 <input
                                     {...register("email")}
+                                    placeholder="bework@gmail.com"
                                     type="text"
                                     className="px-5 py-2 w-full rounded-md outline-none border border-blue-500  bg-white text-sm text-gray-700 shadow-sm"
                                 />
@@ -106,6 +108,7 @@ const SignUp = React.memo(() => {
                                 </label>
                                 <input
                                     {...register("phone")}
+                                    placeholder="052738495"
                                     type="text"
                                     className="px-5 py-2 w-full rounded-md outline-none border border-blue-500  bg-white text-sm text-gray-700 shadow-sm"
                                 />
@@ -123,6 +126,7 @@ const SignUp = React.memo(() => {
                                 </label>
                                 <input
                                     {...register("password")}
+                                    placeholder="********"
                                     type="password"
                                     className="w-full outline-none border border-blue-500 px-5 py-2  rounded-md  bg-white text-sm text-gray-700 shadow-sm"
                                 />
@@ -139,6 +143,8 @@ const SignUp = React.memo(() => {
                                 </label>
                                 <input
                                     {...register("password_confirmation")}
+                                    placeholder="********"
+
                                     type="password"
                                     className="w-full outline-none border border-blue-500 px-5 py-2  rounded-md  bg-white text-sm text-gray-700 shadow-sm"
                                 />

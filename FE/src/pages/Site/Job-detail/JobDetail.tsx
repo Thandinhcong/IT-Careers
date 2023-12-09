@@ -31,7 +31,7 @@ import { FormLogin, schemaLogin } from "../../../schemas";
 import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
-import { Skeleton } from "antd";
+import { Skeleton, Spin } from "antd";
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from "../../../api/savejobpostapi";
 
 const JobDetail = React.memo(() => {
@@ -39,6 +39,7 @@ const JobDetail = React.memo(() => {
     const curriculumVitaeIdRef: any = useRef(null);
     const [selectedOption, setSelectedOption] = useState('upload');
     const [selectedCvId, setSelectedCvId] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -66,11 +67,11 @@ const JobDetail = React.memo(() => {
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     //id bài đăng
-    const { data, isLoading } = useGetOneJobsQuery(id || "");
-    const listOne: any = data?.job_detail;
-    const { data: infoUser } = useGetInfoUserQuery();
+    const { data: infoUser, isLoading } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
+    const { data } = useGetOneJobsQuery(id || "");
+    const listOne: any = data?.job_detail;
 
     const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
@@ -134,27 +135,38 @@ const JobDetail = React.memo(() => {
         return fileExtension === 'pdf';
     };
 
+
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
+
         if (!isPDFFile(files?.name)) {
             alert("Vui lòng chọn một file PDF.");
+
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
+
             return;
         }
+
         if (files) {
             try {
+                // Bắt đầu tải ảnh lên, thiết lập trạng thái loading thành true
+                setUploading(true);
+
                 const Response = await UploadImage({
                     file: files,
                     upload_preset: "demo-upload",
                 });
 
                 if (Response) {
-                    setImage(Response.data.url)
+                    setImage(Response.data.url);
                 }
             } catch (error) {
-                return error
+                console.error(error);
+            } finally {
+                // Kết thúc quá trình tải ảnh lên, thiết lập trạng thái loading thành false
+                setUploading(false);
             }
         }
     };
@@ -374,6 +386,7 @@ const JobDetail = React.memo(() => {
                                 </div>
                                 <div className="flex gap-2 ">
                                     <label className="flex items-center gap-2">
+
                                         <input
                                             className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
                                             type="radio"
@@ -393,20 +406,25 @@ const JobDetail = React.memo(() => {
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
-                                <div className="my-2">
+                                <div className="my-2 ">
                                     <label htmlFor="">
                                         Tải cv mới lên <span className="text-red-500">*</span>
                                         <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
                                     </label>
+
                                     <input
                                         {...register("path_cv")}
-                                        className="border py-1 w-full "
+                                        className={`border  py-1 w-full ${uploading ? 'loading' : ''}`}
                                         type="file"
                                         onChange={onChangeFile}
                                         accept=".pdf"
-                                        disabled={selectedOption === 'existing'}
+                                        disabled={uploading || selectedOption === 'existing'}
                                         ref={fileInputRef}
+
                                     />
+                                    {uploading && <span className="loading-text">  <Spin tip="Đang tải ảnh lên...">
+                                    </Spin></span>}
+
                                     <div className="text-sm text-red-500">
                                         {errors.path_cv && errors.path_cv.message}
                                     </div>
@@ -455,6 +473,7 @@ const JobDetail = React.memo(() => {
                                 </TERipple>
                                 <TERipple rippleColor="light">
                                     <button
+
                                         type="submit"
                                         className="ml-1 inline-block rounded bg-blue-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                                     >

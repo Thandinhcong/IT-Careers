@@ -2,7 +2,7 @@ import { Layout, Menu, theme } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import { Content } from 'antd/es/layout/layout'
 import React from 'react'
-import { AiOutlineUser, AiOutlineLock, AiOutlineFile } from 'react-icons/ai'
+import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai'
 import { LuActivitySquare } from 'react-icons/lu'
 import { Link, Outlet } from 'react-router-dom'
 

@@ -48,8 +48,6 @@ const ListCV = React.memo(() => {
             await UploadCv(upload).unwrap();
             notyf.success('Tạo thành công');
         } catch (error: any) {
-            console.log(error);
-
             if (error?.status === 400) {
                 notyf.error(error.data.message)
                 return;
@@ -247,10 +245,14 @@ const ListCV = React.memo(() => {
                                 <button className='border bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
                             </label>
                         </form>
+                        <div className='text-center m-5'>
+                            <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV đầu tiên</button>
+                        </div>
                     </div>
                     <div className='w-52 ml-5'>
                         <img src="https://123job.vn/images/banner/create-first-resume-logo.png" alt="" />
                     </div>
+
                 </div>
             )}
         </div>
