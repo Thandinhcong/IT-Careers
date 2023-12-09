@@ -8,10 +8,10 @@ const FindJobFast = () => {
     };
     const options: SelectProps['options'] = [
         {
-            label: 'China',
+            label: 'Việt Nam',
             value: 'china',
             emoji: '🇨🇳',
-            desc: 'China (中国)',
+            desc: 'Việt Nam',
         },
         {
             label: 'USA',

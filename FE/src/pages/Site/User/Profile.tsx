@@ -5,7 +5,6 @@ import { useGetDataFindJobQuery, useGetInfoFindJobQuery, useSaveInfoFindJobMutat
 import { useGetExperienceQuery } from '../../../api/manageWebsiteApi/manageWebApi';
 import { Notyf } from 'notyf';
 import { Button, Select, Form, Input } from 'antd';
-import { VND } from '../../../components/upload';
 
 const Profile = React.memo(() => {
 
@@ -34,6 +33,8 @@ const Profile = React.memo(() => {
     const districts = dataFindJob?.data?.district;
     const { data: info } = useGetInfoFindJobQuery();
     const infoFindJob = info?.info_find_job?.info_find_job;
+    console.log("infoFindJob", infoFindJob);
+
     useEffect(() => {
         form.setFieldsValue({
             major: infoFindJob?.major,
@@ -44,7 +45,8 @@ const Profile = React.memo(() => {
     }, [form, infoFindJob])
 
     const onFinish = (values: any) => {
-        SaveInfoFindJob(values).unwrap();
+        const results = SaveInfoFindJob(values).unwrap();
+        console.log("results", results);
         notyf.success("Cập nhật thành công")
     };
 
@@ -57,7 +59,6 @@ const Profile = React.memo(() => {
         major?: string;
         desired_salary?: string;
         district_id?: string;
-
     };
 
     return (
@@ -110,7 +111,6 @@ const Profile = React.memo(() => {
                             name="basic"
                             labelCol={{ span: 24 }}
                             wrapperCol={{ span: 24 }}
-
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
@@ -119,7 +119,7 @@ const Profile = React.memo(() => {
 
                                 label="Ngành nghề muốn quan tâm"
                                 name="major"
-                                rules={[{ required: true, message: 'Không được để trống!' }]}
+                                rules={[{ required: true, message: 'Vui lòng nhập ngành nghề muốn tìm việc!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -127,7 +127,7 @@ const Profile = React.memo(() => {
                             <Form.Item<FieldType>
                                 label="Mức lương"
                                 name="desired_salary"
-                                rules={[{ required: true, message: 'Please input your password!' }]}
+                                rules={[{ required: true, message: 'Vui lòng nhập mức lương!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -173,11 +173,11 @@ const Profile = React.memo(() => {
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} >
                                         {
-                                            listExp?.map((options: any) => (
-                                                <Select.Option key={options.id} value={options.id}>
+                                            listExp?.map((options: any) => {
+                                                return <Select.Option key={options.id} value={options.id}>
                                                     {options?.experience}
                                                 </Select.Option>
-                                            ))
+                                            })
                                         }
                                     </Select>
                                 </Form.Item>
