@@ -180,10 +180,10 @@ const TabPostVIP = () => {
         },
         {
             title: 'Hồ sơ',
-            dataIndex: 'profile',
+            dataIndex: 'quantity_apply',
             width: 70,
-            render: (profile: string) => (
-                <p className="text-center">{profile}</p>
+            render: (quantity_apply: number) => (
+                <p className="text-center">{quantity_apply}</p>
             )
         },
         {
@@ -280,6 +280,7 @@ const TabPostVIP = () => {
             interest: item.interest,
             views: item.view,
             type_job_post_id: item.type_job_post_id,
+            quantity_apply: item.quantity_apply,
         }
     })
     const vipJobPostData = jobPostData?.filter((item: IJobPost) => item.type_job_post_id === 2);

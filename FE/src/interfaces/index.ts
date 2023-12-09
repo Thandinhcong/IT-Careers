@@ -82,6 +82,7 @@ export interface IJobPost {
   type_job_post_id: number;
   type_job_post: string;
   require: string;
+  quantity_apply: number;
 }
 export interface ICvApply {
   id?: number;

@@ -180,10 +180,10 @@ const TabPostFail = () => {
         },
         {
             title: 'Hồ sơ',
-            dataIndex: 'profile',
+            dataIndex: 'quantity_apply',
             width: 70,
-            render: (profile: string) => (
-                <p className="text-center">{profile}</p>
+            render: (quantity_apply: number) => (
+                <p className="text-center">{quantity_apply}</p>
             )
         },
         {
@@ -279,6 +279,7 @@ const TabPostFail = () => {
             major_id: item.major,
             interest: item.interest,
             views: item.view,
+            quantity_apply: item.quantity_apply,
         }
     })
     const passJobPostData = jobPostData?.filter((item: IJobPost) => item.status === 2);
