@@ -34,7 +34,7 @@ const Recruit = () => {
     const itemsPerPage = 10;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = searchData && searchData.data && searchData.data.slice(startIndex, endIndex);
+    const displayedData = searchData && searchData?.data && searchData?.data?.slice(startIndex, endIndex);
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -49,7 +49,7 @@ const Recruit = () => {
             <SearchJobs onSearchDataChange={handleSearchDataChange} />
             <div>
                 <div className='grid grid-cols-8 my-4 gap-8'>
-                    <select
+                    {/* <select
                         name="HeadlineAct"
                         id="HeadlineAct"
                         className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
@@ -59,8 +59,8 @@ const Recruit = () => {
                         <option value="3days">3 ngày qua</option>
                         <option value="7days">7 ngày qua</option>
                         <option value="30days">30 ngày qua</option>
-                    </select>
-                    <select
+                    </select> */}
+                    {/* <select
                         name="HeadlineAct"
                         id="HeadlineAct"
                         className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
@@ -96,7 +96,7 @@ const Recruit = () => {
                         <option value="3days">Back-end(Website)</option>
                         <option value="7days">Desiger</option>
                         <option value="30days">Designer UX UI</option>
-                    </select>
+                    </select> */}
                     <button className='rounded-lg bg-gray-200' onClick={resetSearch} ><AiOutlineReload className="inline-block base-line mr-1" />Đặt lại</button>
                 </div>
             </div>

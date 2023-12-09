@@ -1,15 +1,28 @@
 import { Link } from 'react-router-dom'
 import { ICompanys } from '../../../interfaces';
-import React from 'react';
+import React, { useState } from 'react';
+import { Pagination } from 'antd';
 const ContentCompany = React.memo(({ data }: any) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+    // Tính toán chỉ mục bắt đầu và kết thúc của danh sách công việc hiển thị trên trang hiện tại
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = currentPage * pageSize;
 
+    const filteredJobs = data?.filter((item: any) => {
+        return item
+    });
+    const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
     return (
         <div className='bg-gray-100'>
             <div className='max-w-screen-xl mx-auto px-8 grid grid-cols-3 gap-8 py-6'>
                 <div className='grid grid-cols-1 gap-7 col-span-2'>
-                    {data?.map((item: ICompanys) => {
+                    {displayedJobs?.map((item: ICompanys) => {
 
-                        return <Link to={`/company/detail/${item.id}`} key={item.id} className='bg-white p-6 shadow-md hover:shadow-xl h-[320px]'>
+                        return <Link to={`/company/detail/${item?.id}`} key={item.id} className='bg-white p-6 shadow-md hover:shadow-xl h-[320px]'>
                             <div className='flex justify-between gap-8'>
                                 <div className='flex justify-normal gap-4'>
                                     <div className='w-1/6'>
@@ -58,8 +71,15 @@ const ContentCompany = React.memo(({ data }: any) => {
 
                     }
                     )}
+                    <div className="pagination-container flex justify-center items-center">
+                        <Pagination
+                            current={currentPage}
+                            pageSize={pageSize}
+                            total={filteredJobs?.length}
+                            onChange={handlePageChange}
+                        />
+                    </div>
                 </div>
-
             </div>
         </div>
     )

@@ -703,6 +703,8 @@ const CreateCvTest = React.memo(() => {
                                         <input
                                             {...registerEducation('gpa')}
                                             name='gpa'
+                                            min={0}
+                                            max={10}
                                             defaultValue={educations?.gpa}
                                             onChange={(e) => handleChangeEdu(index, 'gpa', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'

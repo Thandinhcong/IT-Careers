@@ -5,7 +5,7 @@ const CompnayInfoApi = createApi({
   reducerPath: "company_information",
   tagTypes: ["company"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
+    baseUrl: import.meta.env.VITE_API_COMPANYS,
     fetchFn: async (...arg) => {
       return fetch(...arg);
     },

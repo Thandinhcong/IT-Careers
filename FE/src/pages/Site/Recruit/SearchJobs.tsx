@@ -28,7 +28,7 @@ const SearchJobs = ({ onSearchDataChange }: any) => {
             // Thực hiện chuyển hướng sang trang recruit và truyền dữ liệu tìm kiếm
             navigate("/recruit", { state: { searchData: searchQuery.data } });
             // Gọi hàm callback để thông báo về dữ liệu tìm kiếm cho component cha
-            onSearchDataChange(searchQuery.data);
+            onSearchDataChange(searchQuery?.data);
         }
     };
 
