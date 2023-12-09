@@ -10,7 +10,7 @@ import DescPackage from './DescPackage';
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
     const { data: Infor, isLoading } = useGetInforQuery();
-    console.log(Infor)
+
     const [form] = Form.useForm();
     const [jobPost] = useAddJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
@@ -25,9 +25,8 @@ const JobCreate = React.memo(() => {
         });
     }, [Infor]);
 
-    const handleSelectProvinceId = (rovinceId: number | string) => { // Hàm lưu ID của tỉnh thành phố vào state
-        console.log(rovinceId);
-        setSelectedProvincetId(rovinceId); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+    const handleSelectProvinceId = (rovinceId: number | string) => {
+        setSelectedProvincetId(rovinceId);
     }
 
     const onFinish = (values: IJobPost) => {

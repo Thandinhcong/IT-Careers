@@ -8,7 +8,6 @@ const ContentCompany = React.memo(({ data }: any) => {
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
-    // Tính toán chỉ mục bắt đầu và kết thúc của danh sách công việc hiển thị trên trang hiện tại
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = currentPage * pageSize;
 

@@ -67,6 +67,9 @@ import StatisicalcompanyApi, {
 import PackagesCandidateApi, {
   packageCandidateReducer,
 } from "../api/payment/paymentCandidate";
+import PostingPackageApi, {
+  PostingPackageApiReducer,
+} from "../api/admin/postingPackage";
 
 const persistConfig = {
   key: "root",
@@ -109,6 +112,7 @@ const rootReducer = combineReducers({
   [StatisticalApi.reducerPath]: StatisticalReducer,
   [StatisicalcompanyApi.reducerPath]: StatisicalcompanyApiReducer,
   [PackagesCandidateApi.reducerPath]: packageCandidateReducer,
+  [PostingPackageApi.reducerPath]: PostingPackageApiReducer,
 });
 
 const middleware = [
@@ -147,6 +151,7 @@ const middleware = [
   StatisticalApi.middleware,
   StatisicalcompanyApi.middleware,
   PackagesCandidateApi.middleware,
+  PostingPackageApi.middleware,
 ];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -99,6 +99,9 @@ import CreateCvTest from "./pages/Site/CreateCv/CreateCv"
 import RefillPackage from "./pages/Site/User/RefillPackage"
 import HistoryPayment from "./pages/Site/User/HistoryPayment"
 import IsCheckLoginAdmin from "./pages/auths/isCheckAdmin"
+import PostingPackages from "./pages/admin/PostingPackages"
+import UpdatePostingPackages from "./pages/admin/PostingPackages/update"
+import AddPostingPackages from "./pages/admin/PostingPackages/add"
 
 
 function App() {
@@ -207,6 +210,10 @@ function App() {
             {/* <Route path="level-manage/create-level" element={<CreateLevel />} /> */}
             {/* <Route path="level-manage/update-level" element={<UpdateLevel />} /> */}
             <Route path="account-manage" element={<AccountManage />} />
+            <Route path="posting-packages" element={<PostingPackages />} />
+            <Route path="posting-packages/add" element={<AddPostingPackages />} />
+            <Route path="posting-packages/update/:id" element={<UpdatePostingPackages />} />
+
             <Route path="account-manage/create-account" element={<CreateAccount />} />
             <Route path="account-manage/update-account" element={<UpdateAccount />} />
             <Route path="post-manage" element={<PostManage />} />
