@@ -3,6 +3,8 @@ import { ICompanys } from '../../../interfaces';
 import React, { useState } from 'react';
 import { Pagination } from 'antd';
 const ContentCompany = React.memo(({ data }: any) => {
+    console.log(data);
+
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
     const handlePageChange = (page: number) => {
@@ -36,7 +38,7 @@ const ContentCompany = React.memo(({ data }: any) => {
                                 <div className='grid grid-cols-2 gap-6 mx-4'>
 
                                     <div className='flex-col text-center'>
-                                        <p className='py-3 font-semibold text-xl'>787</p>
+                                        <p className='py-3 font-semibold text-xl'>{item?.job_post_company}</p>
                                         <p className='text-gray-600'>Việc làm</p>
                                     </div>
                                 </div>

@@ -35,7 +35,7 @@ const SignUp = React.memo(() => {
                 return;
             } else {
                 notyf.success("Đăng ký thành công!")
-                navigate("/dang-nhap");
+                navigate("/login");
             }
         } catch (error: any) {
             notyf.error("Có lỗi xảy ra vui lòng thử lại!")
@@ -160,7 +160,7 @@ const SignUp = React.memo(() => {
                             </div>
                             <p className="col-span-6  text-sm w-full text-gray-500 sm:mt-0">
                                 Bạn đã có tài khoản?
-                                <Link to="/dang-nhap" className="text-blue-500 underline">
+                                <Link to="/login" className="text-blue-500 underline">
                                     Đăng nhập
                                 </Link>
                                 .

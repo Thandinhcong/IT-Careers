@@ -196,7 +196,7 @@ const Deposit = () => {
                                 title="Giao dịch thành công!"
                                 subTitle="Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
                                 extra={[
-                                    <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                    <Button type="primary" key="console" className='bg-blue-500' href='/business/transaction/add_money'>
                                         Tiếp tục nạp tiền
                                     </Button>,
                                     <Button key="buy">Xem lịch sử giao dịch</Button>,
@@ -217,7 +217,7 @@ const Deposit = () => {
                                 <Result
                                     title="Giao dịch này đã được thanh toán!!"
                                     extra={[
-                                        <Button type="primary" key="console" className='bg-blue-500' href='deposit'>
+                                        <Button type="primary" key="console" className='bg-blue-500' href='/business/transaction/add_money'>
                                             Tiếp tục nạp tiền
                                         </Button>,
                                         <Button key="buy">Xem lịch sử giao dịch</Button>,

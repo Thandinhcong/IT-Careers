@@ -35,7 +35,10 @@ const CompanyReports = () => {
     const countSuitable = datastati?.countSuitable;
     const countNotSuitable = datastati?.countNotSuitable;
     const JobPost = datastati?.JobPost;
-    const countAddCoin = datastati?.countAddCoin?.coin;
+    const countAddCoin = datastati?.countAddCoin?.vnp_Amount;
+    const countSpendCoin = datastati?.countSpendCoin?.coin;
+    const arrayDate = datastati?.arrayDate;
+    const totalApplied = datastati?.totalApplied
     const datas: any = {
         labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [
@@ -59,9 +62,9 @@ const CompanyReports = () => {
         ],
     }
     const data: any = {
-        labels: ['01/10/2023', '02/10/2023', '03/10/2023', '04/10/2023', '05/10/2023', '06/10/2023', '07/10/2023', '08/10/2023', '09/10/2023', '10/10/2023', '11/10/2023', '12/10/2023', '13/10/2023', '14/10/2023', '15/10/2023'],
+        labels: arrayDate,
         datasets: [{
-            data: [1, 3, 4, 6, 6, 8, 22, 5, 32, 56, 44, 22],
+            data: totalApplied,
             backgroundColor: 'transparent',
             borderColor: '#f26c6d',
             pointBorderColor: 'transparent',
@@ -83,7 +86,7 @@ const CompanyReports = () => {
 
                 ticks: {
                     stepSize: 2,
-                    callback: (value: any) => value + "K"
+                    callback: (value: any) => value
                 },
                 grid: {
                     borderDash: [10]
@@ -131,7 +134,7 @@ const CompanyReports = () => {
                     </div>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'>Số tiền đã tiêu</p>
-                        <p className='text-xl my-2'>200.000 đ</p>
+                        <p className='text-xl my-2'>{VND.format(countSpendCoin)}</p>
 
                     </div>
                 </div>
@@ -183,15 +186,7 @@ const CompanyReports = () => {
                     </select>
                 </div>
                 <div className='grid grid-cols-4 gap-5'>
-                    <div className='border shadow p-3'>
-                        <p className='text-gray-600 flex justify-between items-center'>
-                            <span>
-                                Lượt hiển thị
-                            </span>
-                            <i><FiAlertCircle /></i>
-                        </p>
-                        <p className='text-xl mt-4 '>235</p>
-                    </div>
+
                     <div className='border shadow p-3'>
                         <p className='text-gray-600 flex justify-between items-center'>
                             <span>
@@ -213,27 +208,12 @@ const CompanyReports = () => {
                 </div>
             </div>
             <div className='mt-5 '>
+                <p className='text-2xl my-5'>Thống kê lượt ứng tuyển</p>
                 <Line data={data} options={options}>
 
                 </Line>
             </div>
-            <div className='grid grid-cols-2 gap-10 my-10'>
-
-                <div className='shadow border p-5 mt-5' >
-                    <div className='flex justify-between items-center'>
-                        <h4 className='text-base font-semibold'>Báo cáo mua xu</h4>
-                        <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
-                            <option className='outline-none ' value="">7 ngày qua</option>
-                            <option className='outline-none ' value="">14 ngày qua</option>
-                            <option className='outline-none ' value="">30 ngày qua</option>
-                        </select>
-                    </div>
-                    <div className='my-5'>
-                        <Doughnut data={datas} />
-
-
-                    </div>
-                </div>
+            <div className=' gap-10 my-10'>
                 <div className='shadow border p-5 mt-5' id='bao-cao-tai-chinh' >
                     <div className='flex justify-between items-center'>
                         <h4 className='text-base font-semibold'>Báo cáo tài chính</h4>
@@ -247,7 +227,7 @@ const CompanyReports = () => {
                         <div className='flex justify-between items-center my-4'>
                             <div className=''>
                                 <p className='text-sm text-gray-500'>Số tiền đã nạp</p>
-                                <p className='text-2xl'>0 đ</p>
+                                <p className='text-2xl'>{VND.format(countAddCoin)}</p>
                             </div>
                             <i className='text-3xl text-blue-500'>
                                 <HiCircleStack />
@@ -255,31 +235,14 @@ const CompanyReports = () => {
                         </div>
                         <div className='flex justify-between items-center my-4'>
                             <div className=''>
-                                <p className='text-sm text-gray-500'>Số tiên đã tiêu</p>
-                                <p className='text-2xl'>0 đ</p>
+                                <p className='text-sm text-gray-500'>Số tiền đã chi tiêu</p>
+                                <p className='text-2xl'>{VND.format(countSpendCoin)}</p>
                             </div>
                             <i className='text-3xl text-blue-500'>
                                 <PiMoneyLight />
                             </i>
                         </div>
-                        <div className='flex justify-between items-center my-4'>
-                            <div className=''>
-                                <p className='text-sm text-gray-500'>Số tiền chi tiêu cho tin vip</p>
-                                <p className='text-2xl'>0 đ</p>
-                            </div>
-                            <i className='text-3xl text-blue-500'>
-                                <RiVipCrown2Line />
-                            </i>
-                        </div>
-                        <div className='flex justify-between items-center my-4'>
-                            <div className=''>
-                                <p className='text-sm text-gray-500'>Số tiền chi tiêu đẩy tin</p>
-                                <p className='text-2xl'>0 đ</p>
-                            </div>
-                            <i className='text-3xl text-blue-500'>
-                                <HiArrowTrendingUp />
-                            </i>
-                        </div>
+
                     </div>
                 </div>
             </div>

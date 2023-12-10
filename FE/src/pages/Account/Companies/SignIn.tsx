@@ -92,9 +92,9 @@ const SignInCompanies = () => {
                                 />
                             </Form.Item>
                             <Form.Item>
-                                <a className="login-form-forgot float-right text-blue-500 hover:text-blue-800 hover:underline" href="#">
+                                <Link className="login-form-forgot float-right text-blue-500 hover:text-blue-800 hover:underline" to="/business/forgot">
                                     Quên mật khẩu ??
-                                </a>
+                                </Link>
                             </Form.Item>
 
                             <Form.Item className='text-center'>
