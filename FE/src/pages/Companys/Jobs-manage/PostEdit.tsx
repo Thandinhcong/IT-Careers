@@ -1,6 +1,6 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
 import moment from 'moment';
 import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { useEffect, useState } from 'react';
@@ -17,7 +17,7 @@ const PostEdit = () => {
     const { data: Infor } = useGetInforQuery();
     const { data: PostData, isLoading } = useGetJobPostByIdCompanyIdQuery(id || "");
     console.log(PostData);
-    const [jobPost] = useEditJobPostMutation();
+    const [jobPost, { isLoading: isUpdatePost }] = useEditJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
 
     useEffect(() => {
@@ -416,7 +416,13 @@ const PostEdit = () => {
                         </Button>
                         <Form.Item labelAlign="right">
                             <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
-                                <span>Đăng bài</span> <AiOutlineSend />
+                                {isUpdatePost ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+                                ) : (
+                                    <div className='flex items-center gap-1'>
+                                        <span>Đăng bài</span> <AiOutlineSend />
+                                    </div>
+                                )}
                             </Button>
                         </Form.Item>
                     </div>

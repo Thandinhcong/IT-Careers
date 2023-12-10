@@ -1,6 +1,6 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineEye, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
@@ -10,9 +10,8 @@ import DescPackage from './DescPackage';
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
     const { data: Infor, isLoading } = useGetInforQuery();
-
     const [form] = Form.useForm();
-    const [jobPost] = useAddJobPostMutation();
+    const [jobPost, { isLoading: isCreatePost }] = useAddJobPostMutation();
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
 
     useEffect(() => {
@@ -83,15 +82,6 @@ const JobCreate = React.memo(() => {
                 callback();
             }
         }
-    };
-
-    const formatCurrency = (amount: number, currency: string) => {
-        const formattedAmount = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: currency,
-        }).format(amount);
-
-        return formattedAmount;
     };
     return (
         <div className='bg-gray-100 py-8 px-4 flex justify-between'>
@@ -331,7 +321,6 @@ const JobCreate = React.memo(() => {
                         >
                             <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
                         </Form.Item>
-
                         {/* Yêu cầu*/}
                         <Form.Item<IJobPost>
                             name="requirement"
@@ -435,16 +424,20 @@ const JobCreate = React.memo(() => {
                             </Button>
                             <Form.Item labelAlign="right">
                                 <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
-                                    <span>Đăng bài</span> <AiOutlineSend />
+                                    {isCreatePost ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <div className='flex items-center gap-1'>
+                                            <span>Đăng bài</span> <AiOutlineSend />
+                                        </div>
+                                    )}
                                 </Button>
                             </Form.Item>
                         </div>
                     </Form>
                 </Spin>
-
             </div >
             <DescPackage />
-
         </div >
 
     )
