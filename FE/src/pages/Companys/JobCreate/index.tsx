@@ -41,7 +41,7 @@ const JobCreate = React.memo(() => {
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
         if (values.min_salary !== undefined && values.max_salary !== undefined) {
-            if (values.min_salary >= values.max_salary) {
+            if (values.min_salary <= values.max_salary) {
                 message.error('Mức lương tối đa phải lớn hơn mức lương tối thiểu');
                 return; // Dừng việc đăng bài nếu kiểm tra không thành công
             }
@@ -288,7 +288,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Mức lương tối thiểu"
                                     name="min_salary"
-                                    rules={[{ required: true }, { message: "Nhập mức lương tối thiểu" }]}
+                                    rules={[{ required: true, message: "Nhập mức lương tối thiểu" }]}
                                     style={{ display: 'inline-block', width: '100%', marginRight: '16px' }}
                                 >
                                     <Input placeholder="Mức lương tối thiểu" />
@@ -299,7 +299,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Mức lương tối đa"
                                     name="max_salary"
-                                    rules={[{ required: true }, { message: "Nhập mức lương tối đa" }]}
+                                    rules={[{ required: true, message: "Nhập mức lương tối đa" }]}
                                     style={{ display: 'inline-block', width: '100%' }}
                                 >
                                     <Input placeholder="Mức lương tối đa" />
