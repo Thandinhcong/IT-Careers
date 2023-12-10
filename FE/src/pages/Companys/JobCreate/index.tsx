@@ -40,8 +40,19 @@ const JobCreate = React.memo(() => {
             values.start_date = moment(startDate).format('YYYY-MM-DD');
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
-        if (values.min_salary !== undefined && values.max_salary !== undefined) {
-            if (values.min_salary <= values.max_salary) {
+        console.log(values);
+
+        if (values.min_salary !== undefined) {
+            values.min_salary = parseFloat(values.min_salary);
+        }
+
+        if (values.max_salary !== undefined) {
+            values.max_salary = parseFloat(values.max_salary);
+        }
+
+        if (!isNaN(values.min_salary) && !isNaN(values.max_salary)) {
+            // Kiểm tra nếu giá trị min_salary và max_salary là số và thực hiện so sánh
+            if (values.min_salary >= values.max_salary || values.min_salary === values.max_salary) {
                 message.error('Mức lương tối đa phải lớn hơn mức lương tối thiểu');
                 return; // Dừng việc đăng bài nếu kiểm tra không thành công
             }
