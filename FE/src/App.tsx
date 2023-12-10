@@ -102,6 +102,7 @@ import IsCheckLoginAdmin from "./pages/auths/isCheckAdmin"
 import PostingPackages from "./pages/admin/PostingPackages"
 import UpdatePostingPackages from "./pages/admin/PostingPackages/update"
 import AddPostingPackages from "./pages/admin/PostingPackages/add"
+import ForgotPassCompany from "./pages/Account/Companies/ForgotPassword"
 
 
 function App() {
@@ -149,14 +150,15 @@ function App() {
 
         {/* Account */}
         < Route element={< IsLogin />}>
-          <Route path='/dang-nhap' element={< SignIn />} />
-          <Route path='/dang-ky-tai-khoan' element={<SignUp />} />
+          <Route path='/login' element={< SignIn />} />
+          <Route path='/register' element={<SignUp />} />
           <Route path='/forgot' element={<ForgotPass />} />
           <Route path='/change' element={<ChangePass />} />
 
         </Route >
         <Route path='/business/signin' element={< SignInCompanies />} />
         <Route path='/business/signup' element={<SignupCompanies />} />
+        <Route path='/business/forgot' element={<ForgotPassCompany />} />
 
         {/* Buisness */}
         <Route element={<IsCheckLoginCompany />} >

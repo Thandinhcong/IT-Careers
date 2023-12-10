@@ -60,6 +60,14 @@ const authApi = createApi({
       }),
       invalidatesTags: ["Auths"],
     }),
+    forgotPassword: builder.mutation<void, void>({
+      query: (data) => ({
+        url: "/forget_password",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Auths"],
+    }),
   }),
 });
 export const {
@@ -67,6 +75,7 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useLogOutMutation,
+  useForgotPasswordMutation,
 } = authApi;
 export const authsReducer = authApi.reducer;
 export default authApi;

@@ -36,8 +36,7 @@ const Login = React.memo(() => {
             // Lưu token vào localStorage
             localStorage.setItem('token', token);
             navigate("/")
-            // Chuyển hướng hoặc thực hiện các hành động khác
-            // ...
+
         } else {
 
         }
@@ -122,7 +121,7 @@ const Login = React.memo(() => {
                                         {errors?.password && errors?.password?.message}
                                     </div>
                                 </div>
-                                <Link to="" className="text-blue-500 col-span-6">Quên mật khẩu?</Link>
+                                <Link to="/forgot" className="text-blue-500 col-span-6">Quên mật khẩu?</Link>
 
                                 <div className="col-span-6 ">
                                     <button className="inline-block shrink-0 w-full rounded-md border border-blue-600 bg-blue-600 px-12 py-2 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
@@ -131,7 +130,7 @@ const Login = React.memo(() => {
                                 </div>
                                 <p className="col-span-6  text-sm w-full text-gray-500 sm:mt-0">
                                     Bạn chưa có tài khoản?
-                                    <Link to="/dang-ky-tai-khoan" className="text-blue-500 underline">
+                                    <Link to="/register" className="text-blue-500 underline">
                                         Đăng ký
                                     </Link>
                                     .

@@ -239,6 +239,7 @@ export interface ICompanys {
   status?: any;
   company_size_min: number;
   company_size_max: number;
+  job_post_company: string;
 }
 export interface IListOneCompany {
   status: string;

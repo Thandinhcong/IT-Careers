@@ -258,7 +258,7 @@ const Header = React.memo((data: any) => {
             <div className="flex items-center">
               <div className="flex">
                 <Link
-                  to="/dang-nhap"
+                  to="/login"
                   className="text-sm font-semibold leading-6  border px-2 rounded py-1 bg-blue-500 text-white"
                 >
                   Đăng nhập <span aria-hidden="true"></span>

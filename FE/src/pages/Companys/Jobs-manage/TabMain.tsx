@@ -19,8 +19,6 @@ const isExpired = (endDate: string) => {
 };
 const TabMain = () => {
     const { data, isLoading } = useGetJobPostByIdCompanyQuery();
-    console.log(data);
-
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -33,7 +31,6 @@ const TabMain = () => {
 
     const [searchKeyword, setSearchKeyword] = useState(""); // Trạng thái lưu từ khoá tìm kiếm
     const [originalJobPostData, setOriginalJobPostData] = useState([]); // Trạng thái lưu mảng bài đăng ban đầu
-    console.log(originalJobPostData);
 
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);

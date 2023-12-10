@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-import { useForgotPasswordMutation } from "../../api/auths"
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ForgotPassword, FormForgot } from "../../schemas";
 import { Notyf } from "notyf";
+import { ForgotPassword, FormForgot } from "../../../schemas";
+import { useForgotPasswordMutation } from "../../../api/auth/Companies";
 
 
-const ForgotPass = () => {
+const ForgotPassCompany = () => {
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -76,7 +76,7 @@ const ForgotPass = () => {
                             </div>
                             <p className="col-span-6  text-sm w-full text-gray-500 sm:mt-0">
                                 Bạn chưa có tài khoản?
-                                <Link to="/register" className="text-blue-500 underline">
+                                <Link to="/business/signup" className="text-blue-500 underline">
                                     Đăng ký
                                 </Link>
                                 .
@@ -91,4 +91,4 @@ const ForgotPass = () => {
     )
 }
 
-export default ForgotPass
+export default ForgotPassCompany

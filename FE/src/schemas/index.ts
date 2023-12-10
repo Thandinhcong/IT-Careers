@@ -52,3 +52,11 @@ export const schemaLoginAdmin = yup.object({
     .required("Trường dữ liệu bắt buộc!"),
 });
 export type FormLoginAdmin = yup.InferType<typeof schemaLoginAdmin>;
+
+export const ForgotPassword = yup.object({
+  email: yup
+    .string()
+    .email("Email không đúng định dạng")
+    .required("Trường dữ liệu bắt buộc!"),
+});
+export type FormForgot = yup.InferType<typeof ForgotPassword>;

@@ -26,16 +26,16 @@ const TabsOverview = React.memo(({ onTabChange }: any) => {
     };
     if (isLoading) return <Skeleton loading />
 
-    const post = [
-        { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract1', location: 'Tây Hồ Hà Nội1', salary: '8-15', date: '4 tuần trước' },
-        { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract2', location: 'Tây Hồ Hà Nội2', salary: '8-15', date: '3 tuần trước' },
-        { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract3', location: 'Tây Hồ Hà Nội3', salary: '8-15', date: '2 tuần trước' },
-        { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract4', location: 'Tây Hồ Hà Nội4', salary: '8-15', date: '1 tuần trước' },
-        { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract5', location: 'Tây Hồ Hà Nội5', salary: '8-15', date: '5 tuần trước' },
-        { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract6', location: 'Tây Hồ Hà Nội6', salary: '8-15', date: '6 tuần trước' },
-        { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract7', location: 'Tây Hồ Hà Nội7', salary: '8-15', date: '7 tuần trước' },
-        { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract8', location: 'Tây Hồ Hà Nội8', salary: '8-15', date: '8 tuần trước' },
-    ]
+    // const post = [
+    //     { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract1', location: 'Tây Hồ Hà Nội1', salary: '8-15', date: '4 tuần trước' },
+    //     { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract2', location: 'Tây Hồ Hà Nội2', salary: '8-15', date: '3 tuần trước' },
+    //     { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract3', location: 'Tây Hồ Hà Nội3', salary: '8-15', date: '2 tuần trước' },
+    //     { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract4', location: 'Tây Hồ Hà Nội4', salary: '8-15', date: '1 tuần trước' },
+    //     { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract5', location: 'Tây Hồ Hà Nội5', salary: '8-15', date: '5 tuần trước' },
+    //     { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract6', location: 'Tây Hồ Hà Nội6', salary: '8-15', date: '6 tuần trước' },
+    //     { jobType: 'Nhân viên toàn thời gian', title: 'Thực tập sinh Ract7', location: 'Tây Hồ Hà Nội7', salary: '8-15', date: '7 tuần trước' },
+    //     { jobType: 'Nhân viên bán thời gian', title: 'Thực tập sinh Ract8', location: 'Tây Hồ Hà Nội8', salary: '8-15', date: '8 tuần trước' },
+    // ]
     return (
         <div>
             <div className='grid grid-cols-2 gap-8 text-gray-700'>
@@ -84,8 +84,8 @@ const TabsOverview = React.memo(({ onTabChange }: any) => {
                 </div>
             </div>
             <div className='px-8'>
-                <p className='font-bold text-2xl my-8'>Việc làm đang tuyển dụng</p>
-                <Swiper
+                {/* <p className='font-bold text-2xl my-8'>Việc làm đang tuyển dụng</p> */}
+                {/* <Swiper
 
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={25}
@@ -115,7 +115,7 @@ const TabsOverview = React.memo(({ onTabChange }: any) => {
                         </SwiperSlide >
                     ))}
 
-                </Swiper>
+                </Swiper> */}
             </div>
         </div>
 

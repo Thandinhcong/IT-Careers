@@ -67,13 +67,13 @@ const JobDetail = React.memo(() => {
     //so sánh id có trùng khớp không
     const isAlreadyApplied = listJob?.some((appliedJob: any) => appliedJob.id === idJob);
     //id bài đăng
-    const { data: infoUser, isLoading } = useGetInfoUserQuery();
+    const [applyJob] = useApplyJobMutation();
+    const { data, isLoading } = useGetOneJobsQuery(id || "");
+    const { data: infoUser, isLoading: isLoadingInfo } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
-    const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data?.job_detail;
 
-    const [applyJob] = useApplyJobMutation();
     const [image, setImage] = useState(null);
     // ứng tuyển
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
@@ -214,12 +214,14 @@ const JobDetail = React.memo(() => {
         }
     };
 
-
     useEffect(() => {
         reset();
         window.scrollTo(0, 0);
     }, [])
+
+
     if (isLoading) return <Skeleton loading />
+    if (isLoadingInfo) return <Skeleton loading />
     return (
         <div>
             <div className="max-w-screen-xl mx-auto">

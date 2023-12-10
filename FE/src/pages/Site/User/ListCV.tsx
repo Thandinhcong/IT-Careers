@@ -8,9 +8,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
 import { FromUpload } from '../../../schemas/apply';
+import { Spin } from 'antd';
 
 const ListCV = React.memo(() => {
     const fileInputRef: any = useRef(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const notyf = new Notyf({
         duration: 2000,
@@ -93,6 +95,7 @@ const ListCV = React.memo(() => {
         }
         if (files) {
             try {
+                setLoading(true);
                 const Response = await UploadImage({
                     file: files,
                     upload_preset: "demo-upload",
@@ -104,6 +107,8 @@ const ListCV = React.memo(() => {
                 }
             } catch (error) {
                 return error
+            } finally {
+                setLoading(false)
             }
         }
     };
@@ -116,18 +121,21 @@ const ListCV = React.memo(() => {
             {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
                     <h2 className='text-2xl text-center my-10'>Quản lý CV</h2>
+                    <i className='text-sm my-2 text-yellow-500'>Lưu ý: CV của bạn tải lên thì sẽ không được chỉnh sửa thông tin</i>
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
                             return (
-                                <div key={item?.id} className=' shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
+                                <div key={item?.id} className='shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
                                     <p className='text-center'>Tiêu đề: {item?.title}</p>
                                     <div className='flex justify-center items-center gap-2 my-2'>
                                         <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
                                         <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
+
                                         {item?.type === 0 ? "" : (
                                             <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
                                         )}
                                     </div>
+
                                     <div className='flex justify-center my-4 pt-2'>
                                         <input
                                             type='radio'
@@ -137,7 +145,7 @@ const ListCV = React.memo(() => {
                                         ></input>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
                     </div>
                     <form
@@ -146,7 +154,7 @@ const ListCV = React.memo(() => {
                     >
                         <div className='flex justify-center  my-5 px-5 py-5'>
 
-                            <label className="block border">
+                            <label className="block ">
                                 <span className="sr-only">Choose profile photo</span>
                                 <input
                                     type="file"
@@ -154,20 +162,13 @@ const ListCV = React.memo(() => {
                                     onChange={onChangeFile}
                                     accept=".pdf"
                                     id="dropzone-file"
-
+                                    disabled={loading}
                                     ref={fileInputRef}
-                                    className="block w-full  text-sm text-gray-500
-file:me-4 file:py-2 file:px-4
-file:rounded-lg file:border-0
-file:text-sm file:font-semibold
-file:bg-blue-600 file:text-white
-hover:file:bg-blue-700
-file:disabled:opacity-50 file:disabled:pointer-events-none
-dark:file:bg-blue-500
-dark:hover:file:bg-blue-400
-    "
+                                    className="block w-full  text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
                                 />
                             </label>
+                            {loading && <span className="loading-text">  <Spin tip="Đang tải ảnh lên...">
+                            </Spin></span>}
                         </div>
                         <div className='flex justify-center mb-5'>
                             <button className='border flex bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
@@ -195,7 +196,7 @@ dark:hover:file:bg-blue-400
                         >
                             <div className='flex justify-center  my-5 px-5 py-5'>
 
-                                <label className="block border">
+                                <label className="block ">
                                     <span className="sr-only">Choose profile photo</span>
                                     <input
                                         type="file"
@@ -204,18 +205,12 @@ dark:hover:file:bg-blue-400
                                         accept=".pdf"
                                         id="dropzone-file"
                                         ref={fileInputRef}
-                                        className="block w-full  text-sm text-gray-500
-file:me-4 file:py-2 file:px-4
-file:rounded-lg file:border-0
-file:text-sm file:font-semibold
-file:bg-blue-600 file:text-white
-hover:file:bg-blue-700
-file:disabled:opacity-50 file:disabled:pointer-events-none
-dark:file:bg-blue-500
-dark:hover:file:bg-blue-400
-    "
+                                        disabled={loading}
+                                        className="block w-full  text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
                                     />
                                 </label>
+                                {loading && <span className="loading-text">  <Spin tip="Đang tải ảnh lên...">
+                                </Spin></span>}
                             </div>
                             <div className='flex justify-center mb-5'>
                                 <button className='border flex bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
