@@ -151,7 +151,6 @@ const JobDetail = React.memo(() => {
 
         if (files) {
             try {
-                // Bắt đầu tải ảnh lên, thiết lập trạng thái loading thành true
                 setUploading(true);
 
                 const Response = await UploadImage({
@@ -163,9 +162,7 @@ const JobDetail = React.memo(() => {
                     setImage(Response.data.url);
                 }
             } catch (error) {
-                console.error(error);
             } finally {
-                // Kết thúc quá trình tải ảnh lên, thiết lập trạng thái loading thành false
                 setUploading(false);
             }
         }

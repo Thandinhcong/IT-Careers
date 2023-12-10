@@ -8,6 +8,7 @@ import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
 import { Skeleton } from "antd";
+import { useGoogleLoginMutation } from "../../api/authGoogle/authGoogle";
 
 
 const Login = React.memo(() => {
@@ -24,24 +25,8 @@ const Login = React.memo(() => {
         resolver: yupResolver(schemaLogin)
     });
     const [user, setUser] = useLocalStorage("user", null);
-
-    const [login, { isLoading }] = useLoginMutation();
-    const loginGoogle = () => {
-        window.location.href = 'http://127.0.0.1:8000/api/auth/google';
-        const urlParams = new URLSearchParams(window.location.search);
-
-        const token = urlParams.get('token');
-
-        if (token) {
-            // Lưu token vào localStorage
-            localStorage.setItem('token', token);
-            navigate("/")
-            // Chuyển hướng hoặc thực hiện các hành động khác
-            // ...
-        } else {
-
-        }
-    }
+    const [loginGoogle] = useGoogleLoginMutation();
+    const [login] = useLoginMutation();
 
     const onHandleSubmit = async (data: FormLogin) => {
         try {
@@ -59,11 +44,17 @@ const Login = React.memo(() => {
             notyf.error(error.data.message)
         }
     };
+    const handleGoogleLogin = () => {
 
+        window.location.href = 'http://127.0.1:8000/api/auth/google'
+    };
     useEffect(() => {
-        window.scrollTo(0, 0)
+        // Kiểm tra xem URL có chứa thông tin token hay không
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        localStorage.setItem('user', JSON.stringify(token));
+        console.log("token", token);
     }, []);
-    if (isLoading) return <Skeleton />
     return (
         <>
             <section className="bg-white">
@@ -139,7 +130,7 @@ const Login = React.memo(() => {
                             </form>
                             <div className="col-span-6 ">
                                 <button
-                                    onClick={loginGoogle}
+                                    onClick={handleGoogleLogin}
                                     className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2"
                                 >
                                     <div className="text-xl">

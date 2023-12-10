@@ -45,7 +45,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const { data } = useGetOneJobsQuery(id || "");
     const listOne: any = data && data?.job_detail;
 
-    const { data: infoUser, isLoading } = useGetInfoUserQuery();
+    const { data: infoUser } = useGetInfoUserQuery();
     const { data: ListJobApply } = useGetJobApplyQuery();
     const listJob = ListJobApply?.job_list;
 
@@ -152,7 +152,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     useEffect(() => {
         reset();
     }, [])
-    if (isLoading) return <Skeleton />
+    // if (isLoading) return <Skeleton />
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
