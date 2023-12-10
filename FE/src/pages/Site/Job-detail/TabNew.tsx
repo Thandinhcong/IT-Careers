@@ -211,7 +211,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                     </div>
                     <div>
                         <h2 className="font-semibold text-lg my-4">Mô tả công việc:</h2>
-                        <p dangerouslySetInnerHTML={{ __html: listOne.listOne }}></p>
+                        <p dangerouslySetInnerHTML={{ __html: listOne.desc }}></p>
                     </div>
                     <div>
                         <h2 className="font-semibold text-lg my-4"> Quyền lợi:</h2>
