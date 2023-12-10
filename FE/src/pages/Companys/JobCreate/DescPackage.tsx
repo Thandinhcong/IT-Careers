@@ -28,8 +28,8 @@ const DescPackage = React.memo(() => {
                                     <MdOutlineAttachMoney />
                                     <span className=''>Giá gói đăng: {formatCurrency(packageItem.salary, 'VND')}/ngày</span>
                                 </p>
-                                <p>Các tính năng của gói: </p>
-                                <p className='flex items-center'><AiOutlineCheck className='text-green-500' />{packageItem.desc}</p>
+                                <p className='flex items-center gap-1'><AiOutlineCheck className='text-green-500' />Các tính năng của gói:</p>
+                                <p dangerouslySetInnerHTML={{ __html: packageItem.desc }} />
                             </div>
                         </li>
                     ))}

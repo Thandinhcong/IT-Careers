@@ -3,7 +3,7 @@ import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, A
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { useCancelSaveProfileMutation, useGetProfileOpenQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
-import { Form, Input, Modal, Rate, Select, Spin, message } from "antd";
+import { Form, Input, Modal, Pagination, Rate, Select, Spin, message } from "antd";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostCompany";
@@ -27,7 +27,10 @@ const OpenJob = () => {
     const [saveProfile] = useSaveProfileMutation();
     const [rateProfile] = useRateProfileMutation();
     const [cancelSaveProfile] = useCancelSaveProfileMutation();
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 8; // Số lượng ứng viên mỗi trang
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
     const [filterName, setFilterName] = useState('');
     const [filterProvince, setFilterProvince] = useState('');
     const [filterDistrict, setFilterDistrict] = useState('');
@@ -217,7 +220,6 @@ const OpenJob = () => {
             style: 'currency',
             currency: currency,
         }).format(amount);
-
         return formattedAmount;
     };
 
@@ -289,7 +291,7 @@ const OpenJob = () => {
                         </select> */}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                        {filteredData?.map((item: IFindJob) => (
+                        {filteredData?.slice(startIndex, endIndex).map((item: IFindJob) => (
                             <div className="p-4 bg-white text-base" key={item.id}>
                                 <div className="flex justify-between items-center">
                                     <div className="flex gap-4 leading-7">
@@ -371,6 +373,14 @@ const OpenJob = () => {
                             </div>
                         ))}
 
+                    </div>
+                    <div className="pt-4 bg-gray-100">
+                        <Pagination
+                            current={currentPage}
+                            onChange={(page) => setCurrentPage(page)}
+                            total={Math.ceil(filteredData?.length / pageSize)}
+                            pageSize={pageSize}
+                        />
                     </div>
                 </div>
             </Spin>
@@ -524,8 +534,14 @@ const OpenJob = () => {
                                         <div>
                                             <h2 className="text-gray-700 font-semibold my-4 text-lg">Những công ty đã đánh giá</h2>
                                             <div className="pl-4">
-                                                <Rate allowHalf defaultValue={item.start} disabled />
-                                                <span className="text-red-500 ml-1">{item.start}/5 (71 đánh giá)</span>
+                                                {item.start !== null ? (
+                                                    <>
+                                                        <Rate allowHalf defaultValue={item.start} disabled />
+                                                        <span className="text-red-500 ml-1">{item.start}/5 (71 đánh giá)</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-red-500 font-medium">Hồ sơ này chưa có đánh giá từ công ty nào.</span>
+                                                )}
 
                                                 <div className="grid-cols-1">
                                                     <div className="border-t my-3 pt-3">

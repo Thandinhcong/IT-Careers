@@ -4,9 +4,11 @@ import { Button, Form, Input, message } from 'antd';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect } from "react";
 import { useGetOneTypeJobPostQuery, useUpdateTypeJobPostMutation } from "../../../api/admin/postingPackage";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const UpdatePostingPackages = () => {
-    const { id }: any = useParams();
+    const { id } = useParams();
     const [updatePostingPackages] = useUpdateTypeJobPostMutation();
     const navigate = useNavigate();
     const { data, isLoading } = useGetOneTypeJobPostQuery(id || "");
@@ -29,7 +31,10 @@ const UpdatePostingPackages = () => {
                 message.success(`Thêm thành công`);
                 navigate("/admin/posting-packages");
             });
+        console.log("Dữ loeuej gửi lên", values)
     };
+
+
 
     return (
         <div>
@@ -46,7 +51,7 @@ const UpdatePostingPackages = () => {
                 labelWrap={true}
                 autoComplete="off"
             >
-                <Form.Item<any>
+                <Form.Item
                     label="name"
                     name="name"
                     rules={[
@@ -55,7 +60,7 @@ const UpdatePostingPackages = () => {
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<any>
+                <Form.Item
                     label="Giá"
                     name="salary"
                     rules={[
@@ -65,15 +70,24 @@ const UpdatePostingPackages = () => {
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<any>
+                <Form.Item
                     label="Mô tả"
                     name="desc"
                     rules={[
                         { required: true, message: 'Trường này không được bỏ trống !' },
-
                     ]}
+                    className="w-[800px]"
                 >
-                    <Input />
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={listOne?.desc}
+                        onChange={(_event, editor) => {
+                            const data = editor.getData();
+                            form.setFieldsValue({
+                                desc: data
+                            });
+                        }}
+                    />
                 </Form.Item>
                 <Form.Item labelAlign="left">
                     <Button type="primary" htmlType="submit" className="bg-blue-500">

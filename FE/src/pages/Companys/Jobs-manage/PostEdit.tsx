@@ -1,11 +1,14 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Skeleton, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineEye, AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
 import moment from 'moment';
 import { useEditJobPostMutation, useGetInforQuery, useGetJobPostByIdCompanyIdQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DescPackage from '../JobCreate/DescPackage';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '../JobCreate/style.css';
 
 
 const PostEdit = () => {
@@ -317,27 +320,51 @@ const PostEdit = () => {
                         name="interest"
                         label="Quyền lợi"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                     >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                        <CKEditor
+                            data={PostData?.level?.interest}
+                            editor={ClassicEditor}
+                            onChange={(_event, editor) => {
+                                const data = editor.getData();
+                                form.setFieldsValue({
+                                    interest: data
+                                });
+                            }}
+                        />
                     </Form.Item>
-                    {/* Mô tả công việc */}
-                    <Form.Item
+                    {/* Mô tả */}
+                    <Form.Item<IJobPost>
                         name="desc"
                         label="Mô tả công việc"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                     >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                        <CKEditor
+                            data={PostData?.level?.desc}
+                            editor={ClassicEditor}
+                            onChange={(_event, editor) => {
+                                const data = editor.getData();
+                                form.setFieldsValue({
+                                    desc: data
+                                });
+                            }}
+                        />
                     </Form.Item>
-                    {/* Yêu cầu*/}
+                    {/* Yêu cầu */}
                     <Form.Item<IJobPost>
                         name="requirement"
                         label="Yêu cầu"
                         rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                     >
-                        <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={PostData?.level?.requirement}
+                            onChange={(_event, editor) => {
+                                const data = editor.getData();
+                                form.setFieldsValue({
+                                    requirement: data
+                                });
+                            }}
+                        />
                     </Form.Item>
                     {/* Date */}
                     <Row gutter={16}>
@@ -411,9 +438,6 @@ const PostEdit = () => {
                         </Col>
                     </Row>
                     <div className='flex justify-between mt-4'>
-                        <Button className='bg-gray-100 h-10 flex items-center gap-1'>
-                            <AiOutlineEye /> <span>Xem trước bài đăng</span>
-                        </Button>
                         <Form.Item labelAlign="right">
                             <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
                                 {isUpdatePost ? (

@@ -1,11 +1,14 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Spin, message, } from 'antd';
 import { IJobPost } from '../../../interfaces';
-import { AiOutlineEye, AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineLoading3Quarters, AiOutlineSend } from 'react-icons/ai';
 import { RuleObject } from 'antd/lib/form';
 import moment, { Moment } from 'moment';
 import { useAddJobPostMutation, useGetInforQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import React, { useEffect, useState } from 'react';
 import DescPackage from './DescPackage';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import './style.css';
 
 const JobCreate = React.memo(() => {
     const { data } = useGetJobPostSelectByIdQuery();
@@ -308,27 +311,48 @@ const JobCreate = React.memo(() => {
                             name="interest"
                             label="Quyền lợi"
                             rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                         >
-                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                            <CKEditor
+                                editor={ClassicEditor}
+                                onChange={(_event, editor) => {
+                                    const data = editor.getData();
+                                    form.setFieldsValue({
+                                        interest: data
+                                    });
+                                }}
+                            />
                         </Form.Item>
-                        {/* Mô tả công việc */}
-                        <Form.Item
+                        {/* Mô tả */}
+                        <Form.Item<IJobPost>
                             name="desc"
                             label="Mô tả công việc"
                             rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                         >
-                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                            <CKEditor
+                                editor={ClassicEditor}
+                                onChange={(_event, editor) => {
+                                    const data = editor.getData();
+                                    form.setFieldsValue({
+                                        desc: data
+                                    });
+                                }}
+                            />
                         </Form.Item>
-                        {/* Yêu cầu*/}
+                        {/* Yêu cầu */}
                         <Form.Item<IJobPost>
                             name="requirement"
                             label="Yêu cầu"
                             rules={[{ required: true, message: 'Vui lòng không bỏ trống' }]}
-
                         >
-                            <Input.TextArea showCount maxLength={1000} style={{ width: '100%' }} rows={5} />
+                            <CKEditor
+                                editor={ClassicEditor}
+                                onChange={(_event, editor) => {
+                                    const data = editor.getData();
+                                    form.setFieldsValue({
+                                        requirement: data
+                                    });
+                                }}
+                            />
                         </Form.Item>
                         {/* Date */}
                         <Row gutter={16}>
@@ -419,9 +443,6 @@ const JobCreate = React.memo(() => {
                             <Input placeholder='Ví dụ: Tuyển gấp vị trí kinh doanh' />
                         </Form.Item>
                         <div className='flex justify-between mt-4'>
-                            <Button className='bg-gray-100 h-10 flex items-center gap-1'>
-                                <AiOutlineEye /> <span>Xem trước bài đăng</span>
-                            </Button>
                             <Form.Item labelAlign="right">
                                 <Button type="primary" htmlType="submit" className='bg-blue-500 h-10 flex items-center gap-1'>
                                     {isCreatePost ? (

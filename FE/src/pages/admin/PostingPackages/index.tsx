@@ -28,6 +28,12 @@ const PostingPackages = () => {
             title: 'Mô tả',
             dataIndex: 'desc',
             key: 'key',
+            width: '700px', // Hoặc có thể sử dụng lớp Tailwind: w-[400px]
+            render: (text: string) => (
+                <div className="max-h-[120px] max-w-[700px] overflow-y-auto">
+                    <span dangerouslySetInnerHTML={{ __html: text }} />
+                </div>
+            ),
         },
         {
             key: "actions",
@@ -37,7 +43,7 @@ const PostingPackages = () => {
                     <>
                         <Popconfirm
                             placement='topLeft'
-                            title={"Có muốn xóa không em?"}
+                            title={"Bạn có muốn xoá không?"}
                             onConfirm={() => remove(id)}
                             okText="yes"
                             cancelText="no"

@@ -367,16 +367,17 @@ const PostManage = () => {
                                     </div>
                                     <div>
                                         <h2 className="font-semibold text-lg my-4">Mô tả công việc </h2>
-                                        <p>{item?.desc}</p>
+                                        <div className="" dangerouslySetInnerHTML={{ __html: item?.desc }}></div>
                                     </div>
                                     <div>
                                         <h2 className="font-semibold text-lg my-4"> Yêu cầu</h2>
-                                        <p>{item?.require}</p>
+                                        <div className="" dangerouslySetInnerHTML={{ __html: item?.require }}></div>
+
                                     </div>
 
                                     <div>
                                         <h2 className="font-semibold text-lg my-4">Quyền lợi</h2>
-                                        <p>{item.interest}</p>
+                                        <div className="" dangerouslySetInnerHTML={{ __html: item?.interest }}></div>
                                     </div>
                                 </div>
                             </div>

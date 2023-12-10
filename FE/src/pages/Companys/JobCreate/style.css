@@ -1,0 +1,4 @@
+.ck.ck-editor__editable_inline>:last-child {
+    margin-bottom: var(--ck-spacing-large);
+    height: 150px !important;
+}
