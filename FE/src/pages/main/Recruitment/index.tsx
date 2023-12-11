@@ -15,6 +15,7 @@ import { FormLogin, schemaLogin } from '../../../schemas'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { RiVipCrown2Line } from 'react-icons/ri'
+import slugify from 'slugify';
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -108,11 +109,11 @@ const Recruitment = React.memo(() => {
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {
                         const isCheckJobSave = listJobSave?.some((data: any) => data?.id === item?.id)
-
+                        const slug = slugify(item?.title, { lower: true });
                         return (
                             <div key={item?.id}>
                                 <div className='shadow-lg p-2 rounded'>
-                                    <Link to={`/job-detail/${item?.title}/${item?.id}`} key={item?.id}>
+                                    <Link to={`/job-detail/${slug}/${item?.id}`} key={item?.id}>
                                         <div className='flex gap-2'>
                                             <img src={item?.logo} className='border rounded-md p-2' width={70} />
                                             {item?.id_type_job_post === 2 ? <div className='text-yellow-500 text-2xl;'><RiVipCrown2Line /></div> : ""}

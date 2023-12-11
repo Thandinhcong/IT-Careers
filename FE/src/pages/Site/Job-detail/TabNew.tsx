@@ -22,14 +22,15 @@ import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
 import { useApplyJobMutation, useGetJobApplyQuery } from "../../../api/jobPostApply";
 import { FcGoogle } from "react-icons/fc";
 import { useListCvQuery } from "../../../api/cv/listCvApi";
-import { Skeleton } from "antd";
+import { Spin } from "antd";
 
 
 const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     const fileInputRef: any = useRef(null);
     const curriculumVitaeIdRef: any = useRef(null);
-    const [selectedOption, setSelectedOption] = useState('upload');
+    const [selectedOption, setSelectedOption] = useState<any>('upload');
     const [selectedCvId, setSelectedCvId] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const notyf = new Notyf({
         duration: 2000,
         position: {
@@ -117,11 +118,12 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         return fileExtension === 'pdf';
     };
 
-
+    const savedJob = listJob?.find((job: any) => job?.id === idJob);
     const onChangeFile = async (e: any) => {
         const files = e.target.files[0];
         if (!isPDFFile(files?.name)) {
             alert("Vui lòng chọn một file PDF.");
+
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
@@ -129,16 +131,22 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
         }
         if (files) {
             try {
+                // Bắt đầu tải ảnh lên, thiết lập trạng thái loading thành true
+                setUploading(true);
+
                 const Response = await UploadImage({
                     file: files,
                     upload_preset: "demo-upload",
                 });
 
                 if (Response) {
-                    setImage(Response.data.url)
+                    setImage(Response.data.url);
                 }
             } catch (error) {
-                return error
+                console.error(error);
+            } finally {
+                // Kết thúc quá trình tải ảnh lên, thiết lập trạng thái loading thành false
+                setUploading(false);
             }
         }
     };
@@ -159,9 +167,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
     return (
         <div className='grid grid-cols-3 gap-4'>
             <div className='col-span-2'>
-                <div className='bg-gray-100 text-green-600 p-4'>
-
-                </div>
                 <div className="text-gray-700">
                     <div>
                         <h2 className="font-semibold text-lg my-4">Thông tin cơ bản</h2>
@@ -227,7 +232,11 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                     </div>
                     <div className="flex items-center gap-2 my-5">
                         {isAlreadyApplied ? (
-                            <p className="px-6 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
+                            <div
+                                className="px-6 text-sm bg-blue-500 rounded-lg py-2 text-white text-center"
+                            >Đã ứng tuyển!
+                                <p>{savedJob?.time_apply}</p>
+                            </div>
                         ) : (
                             <TERipple rippleColor="white" className="">
                                 {!infoUser ? (
@@ -256,8 +265,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                 onClick={() => setShowModa2l(true)}
                                 className="bg-white border-2 border-blue-600 text-blue-600 py-3 px-5 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
                             >
-                                <AiOutlineHeart className="inline-block text mr-2 text-xl " />{" "}
-                                Lưu tin
+                                Lưu việc làm
                             </button>
 
                         ) : (
@@ -351,7 +359,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                         {/*ứng tuyển */}
                         <form onSubmit={handleSubmit(onHandleSubmit)} encType="multipart/form-data" >
                             <TEModalBody className="leading-8">
-
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className="">
                                         <label htmlFor="">
@@ -421,41 +428,55 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
-                                <div className="my-2">
-                                    <label htmlFor="">
-                                        Tải cv mới lên <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
-                                    <input
-                                        {...register("path_cv")}
-                                        className="border py-1 w-full "
-                                        type="file"
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                        disabled={selectedOption === 'existing'}
-                                        ref={fileInputRef}
-                                    />
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+
+                                {selectedOption === 'upload' && (
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            Tải cv mới lên <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
+
+                                        <input
+                                            {...register("path_cv")}
+                                            className={`border  py-1 w-full ${uploading ? 'loading' : ''}`}
+                                            type="file"
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                            disabled={uploading || selectedOption === 'existing'}
+                                            ref={fileInputRef}
+                                        />
+
+                                        {uploading && (
+                                            <span className="loading-text">
+                                                <Spin tip="Đang tải ảnh lên..."></Spin>
+                                            </span>
+                                        )}
+
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <p>Cv đã tạo trên website</p>
-                                    <select
-                                        id="cvSelect"
-                                        {...register('curriculum_vitae_id')}
-                                        className="border px-2 w-full py-2 outline-none rounded"
-                                        disabled={selectedOption === 'upload'}
-                                        onChange={(e: any) => setSelectedCvId(e.target.value)}
-                                        // defaultValue={handleSelectChange}
-                                        ref={curriculumVitaeIdRef}
-                                    >
-                                        <option value="">Chọn CV</option>
-                                        {listAllCv?.map((item: any) => (
-                                            <option key={item?.id} value={item?.id}>{item?.title}</option>
-                                        ))}
-                                    </select>
-                                </div>
+                                )}
+                                {selectedOption === 'existing' && (
+                                    <div>
+                                        <p>Cv đã tạo trên website</p>
+                                        <select
+                                            id="cvSelect"
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 w-full py-2 outline-none rounded"
+                                            disabled={selectedOption === 'upload'}
+                                            onChange={(e: any) => setSelectedCvId(e.target.value)}
+                                            ref={curriculumVitaeIdRef}
+                                        >
+                                            <option value="">Chọn CV</option>
+                                            {listAllCv?.map((item: any) => (
+                                                <option key={item?.id} value={item?.id}>
+                                                    {item?.title}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
 
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">

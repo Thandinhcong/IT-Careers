@@ -37,7 +37,7 @@ import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } 
 const JobDetail = React.memo(() => {
     const fileInputRef: any = useRef(null);
     const curriculumVitaeIdRef: any = useRef(null);
-    const [selectedOption, setSelectedOption] = useState('upload');
+    const [selectedOption, setSelectedOption] = useState<any>('upload');
     const [selectedCvId, setSelectedCvId] = useState(null);
     const [uploading, setUploading] = useState(false);
     const notyf = new Notyf({
@@ -73,9 +73,8 @@ const JobDetail = React.memo(() => {
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
     const listOne: any = data?.job_detail;
-    console.log('isAlreadyApplied', isAlreadyApplied);
 
-    console.log(ListJobApply);
+
 
     const [image, setImage] = useState(null);
     // ứng tuyển
@@ -184,6 +183,7 @@ const JobDetail = React.memo(() => {
     const idSaveJob: any = parseInt(id, 10);
     const isJobSaved: any = JobSave?.data?.some((savedJob: any) => savedJob?.id === idSaveJob);
 
+    const savedJob = listJob?.find((job: any) => job?.id === idSaveJob);
     //lưu việc làm
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
@@ -222,20 +222,18 @@ const JobDetail = React.memo(() => {
         }
     };
 
+
     useEffect(() => {
         reset();
         window.scrollTo(0, 0);
     }, [])
 
-    // console.log("listOne", listOne);
 
     if (isLoading) return <Skeleton loading />
     // if (isLoadingInfo) return <Skeleton />
     return (
         <div>
-            <div className="max-w-screen-xl mx-auto">
-                <SearchJobs />
-            </div>
+
             <div className="bg-gray-50 py-6 ">
                 <div className="max-w-screen-lg mx-auto bg-white p-4">
                     <div className="grid grid-cols-4 my-2 gap-10">
@@ -246,8 +244,12 @@ const JobDetail = React.memo(() => {
                         <div className="flex flex-col gap-2">
                             {isAlreadyApplied ? (
                                 <div>
-                                    <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
-                                    <p>{ }</p>
+                                    <div
+                                        className="px-2 text-sm bg-blue-500 rounded-lg py-3 text-white text-center"
+                                    >
+                                        Đã ứng tuyển!
+                                        <p>{savedJob?.time_apply}</p>
+                                    </div>
                                 </div>
 
                             ) : (
@@ -277,8 +279,8 @@ const JobDetail = React.memo(() => {
                                     onClick={() => setShowModa2l(true)}
                                     className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
                                 >
-                                    <AiOutlineHeart className="inline-block text mr-2 text-xl" />{" "}
-                                    Lưu tin
+
+                                    Lưu việc làm
                                 </button>
 
                             ) : (
@@ -401,7 +403,6 @@ const JobDetail = React.memo(() => {
                                 </div>
                                 <div className="flex gap-2 ">
                                     <label className="flex items-center gap-2">
-
                                         <input
                                             className="h-4 w-4 text-blue-500 border-gray-300 focus:ring-blue-200"
                                             type="radio"
@@ -421,47 +422,54 @@ const JobDetail = React.memo(() => {
                                         /> Chọn từ cv đã có
                                     </label>
                                 </div>
-                                <div className="my-2 ">
-                                    <label htmlFor="">
-                                        Tải cv mới lên <span className="text-red-500">*</span>
-                                        <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
-                                    </label>
+                                {selectedOption === 'upload' && (
+                                    <div className="my-2">
+                                        <label htmlFor="">
+                                            Tải cv mới lên <span className="text-red-500">*</span>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                        </label>
 
-                                    <input
-                                        {...register("path_cv")}
-                                        className={`border  py-1 w-full ${uploading ? 'loading' : ''}`}
-                                        type="file"
-                                        onChange={onChangeFile}
-                                        accept=".pdf"
-                                        disabled={uploading || selectedOption === 'existing'}
-                                        ref={fileInputRef}
+                                        <input
+                                            {...register("path_cv")}
+                                            className={`border  py-1 w-full ${uploading ? 'loading' : ''}`}
+                                            type="file"
+                                            onChange={onChangeFile}
+                                            accept=".pdf"
+                                            disabled={uploading || selectedOption === 'existing'}
+                                            ref={fileInputRef}
+                                        />
 
-                                    />
-                                    {uploading && <span className="loading-text">  <Spin tip="Đang tải ảnh lên...">
-                                    </Spin></span>}
+                                        {uploading && (
+                                            <span className="loading-text">
+                                                <Spin tip="Đang tải ảnh lên..."></Spin>
+                                            </span>
+                                        )}
 
-                                    <div className="text-sm text-red-500">
-                                        {errors.path_cv && errors.path_cv.message}
+                                        <div className="text-sm text-red-500">
+                                            {errors.path_cv && errors.path_cv.message}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <p>Cv đã tạo trên website</p>
-                                    <select
-                                        id="cvSelect"
-                                        {...register('curriculum_vitae_id')}
-                                        className="border px-2 w-full py-2 outline-none rounded"
-                                        disabled={selectedOption === 'upload'}
-                                        onChange={(e: any) => setSelectedCvId(e.target.value)}
-                                        // defaultValue={handleSelectChange}
-                                        ref={curriculumVitaeIdRef}
-                                    >
-                                        <option value="">Chọn CV</option>
-                                        {listAllCv?.map((item: any) => (
-                                            <option key={item?.id} value={item?.id}>{item?.title}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
+                                )}
+                                {selectedOption === 'existing' && (
+                                    <div>
+                                        <p>Cv đã tạo trên website</p>
+                                        <select
+                                            id="cvSelect"
+                                            {...register('curriculum_vitae_id')}
+                                            className="border px-2 w-full py-2 outline-none rounded"
+                                            disabled={selectedOption === 'upload'}
+                                            onChange={(e: any) => setSelectedCvId(e.target.value)}
+                                            ref={curriculumVitaeIdRef}
+                                        >
+                                            <option value="">Chọn CV</option>
+                                            {listAllCv?.map((item: any) => (
+                                                <option key={item?.id} value={item?.id}>
+                                                    {item?.title}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
                                 <div>
                                     <label className="text-gray-700" htmlFor="message">
                                         Thư xin việc

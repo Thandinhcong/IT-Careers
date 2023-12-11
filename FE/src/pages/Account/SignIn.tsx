@@ -31,6 +31,7 @@ const Login = React.memo(() => {
         const urlParams = new URLSearchParams(window.location.search);
 
         const token = urlParams.get('token');
+        console.log("token", token);
 
         if (token) {
             // Lưu token vào localStorage
