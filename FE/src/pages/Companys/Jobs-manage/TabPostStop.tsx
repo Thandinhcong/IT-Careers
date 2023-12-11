@@ -7,6 +7,8 @@ import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import moment from "moment";
+import slugify from "slugify";
+import { Link } from "react-router-dom";
 
 
 const cancel = () => {
@@ -19,7 +21,6 @@ const isExpired = (endDate: string) => {
 };
 const TabPostStop = () => {
     const { data, isLoading } = useGetJobPostByIdCompanyQuery();
-    console.log(data);
 
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -114,18 +115,20 @@ const TabPostStop = () => {
                 if (record.start_date) {
                     const startDate = parse(record.start_date, 'yyyy-MM-dd', new Date());
                     const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
+
+
                     return (
                         <div className="text-gray-600 w-auto">
                             <p>Mã tin: <span className="font-medium"># {id + 1}</span></p>
                             <a className="font-bold text-[15px] text-gray-700">{title}</a>
-                            <p className="flex items-center">
+                            <div className="flex items-center">
                                 <p className="flex items-center gap-1"><AiOutlineClockCircle /><span>{timeDiff}</span> </p>
                                 <p className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
                                     <AiOutlineEnvironment />
                                     <span>{record.province}</span>
                                 </p>
                                 <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{record.major_id}</span></p>
-                            </p>
+                            </div>
                         </div>
                     )
                 }
@@ -194,7 +197,8 @@ const TabPostStop = () => {
             ),
             render: ({ key: id, end_date, title, status }: { key: number, end_date: string, title: string, status: number | string }) => {
                 const isExpiredValue = end_date ? isExpired(end_date) : true;
-                const showExtendButton = isExpiredValue || status === 3; // Include status === 3 condition
+                const showExtendButton = isExpiredValue || status === 3;
+                const slug = slugify(title, { lower: true });
                 return (
                     <div className="flex gap-2">
                         {showExtendButton && (
@@ -211,10 +215,10 @@ const TabPostStop = () => {
                             <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key="1">
-                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${title}/${id}`}>
+                                        <Link target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" to={`/job-detail/${slug}/${id}`}>
                                             <AiOutlineTag />
                                             Xem tin đăng trên web
-                                        </a>
+                                        </Link>
                                     </Menu.Item>
                                     <Menu.Item key="2">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">

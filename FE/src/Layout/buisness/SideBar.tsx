@@ -1,7 +1,4 @@
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { AiOutlineHome, AiOutlineUsergroupAdd, AiTwotoneSetting } from 'react-icons/ai'
+import { AiOutlineHome, AiTwotoneSetting } from 'react-icons/ai'
 import { BsFillBuildingFill } from 'react-icons/bs'
 import { MdOutlineStackedBarChart } from 'react-icons/md'
 import { PiMoneyThin } from "react-icons/pi"
@@ -14,7 +11,6 @@ import { useGetInforQuery } from '../../api/companies/jobPostCompany'
 
 const SideBarCompany = () => {
     const { data: Infor } = useGetInforQuery();
-    console.log(Infor);
     const listIcon = Infor?.company?.logo;
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ')
