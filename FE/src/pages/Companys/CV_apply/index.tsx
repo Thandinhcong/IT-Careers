@@ -1,4 +1,4 @@
-import { Form, Radio, Modal, message, Skeleton } from "antd"
+import { Form, Radio, Modal, message, Skeleton, Pagination } from "antd"
 import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
@@ -16,7 +16,19 @@ const CVApply = React.memo(() => {
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const filteredCandidates = filterOption === "newest"
+        ? data?.list_candidate_apply_job
+        : filterOption === "notViewed"
+            ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0)
+            : filterOption === "suitable"
+                ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 1)
+                : filterOption === "unsuitable"
+                    ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 0)
+                    : null;
 
     const showModal = (id: number) => {
         setSlectedCvApplyId(id);
@@ -56,50 +68,43 @@ const CVApply = React.memo(() => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const filteredCandidates =
-        filterOption === "newest"
-            ? data?.list_candidate_apply_job
-            : data?.list_candidate_apply_job?.filter(
-                (item: ICvApply) => item.status === 0
-            );
     if (isLoading) return <Skeleton />
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
             <div className="max-w-screen-lg mx-auto py-4">
-                {/* <div className="flex items-center gap-5">
-                    <select
-                        className="appearance-none border border-gray-300 rounded px-4 py-1.5 w-1/4 focus:outline-none focus:border-blue-500 focus:shadow my-6"
-                    >
-                        <option value="">Trạng thái</option>
-                        <option value="SRV">Phù hợp</option>
-                        <option value="AK">Không phù hợp</option>
-                    </select>
-                    <div className="flex items-center gap-2">
-                        <button className="bg-blue-600 text-white flex items-center rounded py-1.5 px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
-                        <button className="bg-[#eaebee] text-gray-500 flex items-center rounded py-1.5 px-5"><AiOutlineReload /><p>Xóa lọc</p></button>
-                    </div>
-                </div> */}
+                <div className="flex items-center gap-5">
+                    <p className="font-semibold text-base mt-2 -mb-2 bg-blue-100 w-full p-3">Hồ sơ ứng tuyển của ứng viên</p>
+                </div>
                 <div className="flex justify-between items-center mt-10">
                     <p>
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"
                                 ? data?.list_candidate_apply_job?.length || 0
-                                : data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0}
+                                : filterOption === "notViewed"
+                                    ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0
+                                    : filterOption === "suitable"
+                                        ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 1).length || 0
+                                        : filterOption === "unsuitable"
+                                            ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 0).length || 0
+                                            : 0
+                            }
                         </span> ứng viên
                     </p>
                     <div className="flex items-center gap-3">
-                        <p>Ưu tiên</p>
+                        <p>Hiển thị: </p>
                         <Radio.Group
                             name="radiogroup"
-                            defaultValue={1}
-                            onChange={(e) => setFilterOption(e.target.value === 1 ? "newest" : "notViewed")}
+                            defaultValue="newest"
+                            onChange={(e) => setFilterOption(e.target.value)}
                         >
-                            <Radio value={1}>Hiển thị CV mới nhất</Radio>
-                            <Radio value={2}>Hiển thị CV chưa xem</Radio>
+                            <Radio value="newest">Tất cả</Radio>
+                            <Radio value="notViewed">CV chưa xem</Radio>
+                            <Radio value="suitable">CV phù hợp</Radio>
+                            <Radio value="unsuitable">CV không phù hợp</Radio>
                         </Radio.Group>
                     </div>
                 </div>
-                {filteredCandidates?.map((item: ICvApply) => (
+                {filteredCandidates?.slice(startIndex, endIndex).map((item: ICvApply) => (
                     <div key={item?.id} className="bg-white my-4 p-4 grid-cols-1">
                         <div>
                             <div className="flex justify-between my-4 p-2 items-center border-b-2">
@@ -251,7 +256,12 @@ const CVApply = React.memo(() => {
                 }
 
             </div >
-
+            <Pagination
+                current={currentPage}
+                total={filteredCandidates?.length}
+                pageSize={pageSize}
+                onChange={(page) => setCurrentPage(page)}
+            />
         </div >
     )
 });

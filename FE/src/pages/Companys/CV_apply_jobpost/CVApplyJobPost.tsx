@@ -1,5 +1,4 @@
-import { Form, Radio, Modal, message } from "antd"
-import { AiOutlineFilter, AiOutlineReload } from "react-icons/ai"
+import { Form, Radio, Modal, message, Pagination, Skeleton } from "antd"
 import React, { useState } from "react";
 import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
@@ -10,16 +9,26 @@ import TextArea from "antd/es/input/TextArea";
 
 const CVApplyJobPost = React.memo(() => {
     const { id } = useParams();
-    const { data } = useGetCvApllyByIdJobPostIdQuery(id || "");
-
+    const { data, isLoading } = useGetCvApllyByIdJobPostIdQuery(id || "");
     const [form] = Form.useForm();
     const [assse] = useAssseCandidateMutation();
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const filteredCandidates = filterOption === "newest"
+        ? data?.list_candidate_apply_job
+        : filterOption === "notViewed"
+            ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0)
+            : filterOption === "suitable"
+                ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 1)
+                : filterOption === "unsuitable"
+                    ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 0)
+                    : null;
 
     const showModal = (id: number) => {
         setSlectedCvApplyId(id);
@@ -48,8 +57,6 @@ const CVApplyJobPost = React.memo(() => {
                 } else {
                     message.error("Không có ID hồ sơ ứng tuyển được chọn.");
                 }
-                console.log('Received values:', values);
-                // Đóng Modal
                 setIsModalOpen(false);
             })
             .catch((errorInfo) => {
@@ -61,93 +68,91 @@ const CVApplyJobPost = React.memo(() => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const filteredCandidates =
-        filterOption === "newest"
-            ? data?.list_candidate_apply_job
-            : data?.list_candidate_apply_job?.filter(
-                (item: ICvApply) => item.status === 0
-            );
-
+    if (isLoading) return <Skeleton />
     return (
         <div className="bg-gray-50 text-sm text-gray-500">
             <div className="max-w-screen-lg mx-auto py-4">
                 <div className="flex items-center gap-5">
-                    <select
-                        className="appearance-none border border-gray-300 rounded px-4 py-1.5 w-1/4 focus:outline-none focus:border-blue-500 focus:shadow my-6"
-                    >
-                        <option value="">Trạng thái</option>
-                        <option value="SRV">Phù hợp</option>
-                        <option value="AK">Không phù hợp</option>
-                    </select>
-                    <div className="flex items-center gap-2">
-                        <button className="bg-blue-600 text-white flex items-center rounded py-1.5 px-5"><AiOutlineFilter className="text-lg" /><p>Lọc</p></button>
-                        <button className="bg-[#eaebee] text-gray-500 flex items-center rounded py-1.5 px-5"><AiOutlineReload /><p>Xóa lọc</p></button>
-                    </div>
+                    <p className="font-semibold text-base mt-2 -mb-2 bg-blue-100 w-full p-3">Hồ sơ ứng tuyển của ứng viên</p>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mt-10">
                     <p>
                         Tìm thấy <span className="font-semibold">
                             {filterOption === "newest"
                                 ? data?.list_candidate_apply_job?.length || 0
-                                : data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0}
+                                : filterOption === "notViewed"
+                                    ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.status === 0).length || 0
+                                    : filterOption === "suitable"
+                                        ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 1).length || 0
+                                        : filterOption === "unsuitable"
+                                            ? data?.list_candidate_apply_job?.filter((item: ICvApply) => item.qualifying_round_id === 0).length || 0
+                                            : 0
+                            }
                         </span> ứng viên
                     </p>
                     <div className="flex items-center gap-3">
-                        <p>Ưu tiên</p>
+                        <p>Hiển thị: </p>
                         <Radio.Group
                             name="radiogroup"
-                            defaultValue={1}
-                            onChange={(e) => setFilterOption(e.target.value === 1 ? "newest" : "notViewed")}
+                            defaultValue="newest"
+                            onChange={(e) => setFilterOption(e.target.value)}
                         >
-                            <Radio value={1}>Hiển thị CV mới nhất</Radio>
-                            <Radio value={2}>Hiển thị CV chưa xem</Radio>
+                            <Radio value="newest">Tất cả</Radio>
+                            <Radio value="notViewed">CV chưa xem</Radio>
+                            <Radio value="suitable">CV phù hợp</Radio>
+                            <Radio value="unsuitable">CV không phù hợp</Radio>
                         </Radio.Group>
                     </div>
                 </div>
-                {filteredCandidates?.map((item: ICvApply) => (
+                {filteredCandidates?.slice(startIndex, endIndex).map((item: ICvApply) => (
                     <div key={item?.id} className="bg-white my-4 p-4 grid-cols-1">
                         <div>
                             <div className="flex justify-between my-4 p-2 items-center border-b-2">
                                 <div>
-                                    {!item?.image ? (
-                                        <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="" />
+                                    {item?.image ? (
+                                        <img
+                                            className="w-20 h-20 rounded-full border border-gray-400 p-1"
+                                            src={item?.image} alt=""
+                                        />
                                     ) : (
                                         <img
                                             className="w-20 rounded-full border border-gray-400 p-1"
-                                            src={item.image} alt="" />
-                                    )}
+                                            src='https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg' alt=""
+                                        />
+                                    )
+                                    }
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 w-7/12">
-                                    <p className="font-semibold text-base">{item.name}</p>
-                                    <div className="flex items-center">
-                                        <div className="flex items-center gap-1"><AiOutlinePhone /><span>{item.phone}</span> </div>
-                                        <div className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
+                                    <p className="font-semibold text-base">{item?.name}</p>
+                                    <p className="flex items-center">
+                                        <p className="flex items-center gap-1"><AiOutlinePhone /><span>{item?.phone}</span> </p>
+                                        <p className="border-gray-500 border-x-2 mx-1 px-2 flex items-center gap-1">
                                             <AiOutlineMail />
                                             <span>{item?.email}</span>
-                                        </div>
-                                        <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{item.job_post_name}</span></p>
-                                    </div>
+                                        </p>
+                                        <p className="flex items-center gap-1"><AiOutlineCalendar /> <span>{item?.job_post_name}</span></p>
+                                    </p>
                                     <div className="flex justify-between items-center mb-3">
-                                        <div className="grid grid-cols-1 gap-3">
+                                        <p className="grid grid-cols-1 gap-3">
                                             <p>Mã ứng viên</p>
                                             <p>{item?.candidate_code}</p>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-3">
+                                        </p>
+                                        <p className="grid grid-cols-1 gap-3">
                                             <p>Ngày ứng tuyển</p>
-                                            <p>{item?.time_apply}</p>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-3">
+                                            <p>{item.time_apply}</p>
+                                        </p>
+                                        <p className="grid grid-cols-1 gap-3">
                                             <p>Trạng thái</p>
-                                            <div className={`${item?.status === 1
+                                            <p className={`${item?.status === 1
                                                 ? 'bg-[#e9ebee] text-[#364a63] text-center p-1 text-xs rounded'
                                                 : item?.status === 0
                                                     ? 'bg-[#fceceb] text-[#e85347] text-center p-1 text-xs rounded'
                                                     : ''
                                                 }`}>
                                                 {item?.status === 0 ? 'chưa xem' : item?.status === 1 ? 'đã xem' : ''}
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-3">
+                                            </p>
+                                        </p>
+                                        <p className="grid grid-cols-1 gap-3">
                                             <p>Vòng hồ sơ</p>
                                             <p className={`${item?.qualifying_round_id === 0
                                                 ? 'p-1 rounded text-xs text-center bg-yellow-200 text-yellow-500'
@@ -157,7 +162,8 @@ const CVApplyJobPost = React.memo(() => {
                                                 }`}>
                                                 {item.qualifying_round_id === 0 ? 'không phù hợp' : item.qualifying_round_id === 1 ? 'phù hợp' : 'chưa đánh giá'}
                                             </p>
-                                        </div>
+
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex gap-1 text-gray-700">
@@ -185,11 +191,11 @@ const CVApplyJobPost = React.memo(() => {
                                             <div className="absolute end-0 z-10 mt-2 w-48 rounded-md border border-gray-100 bg-white shadow-lg">
                                                 <ul className="p-1">
                                                     <li>
-                                                        <Link
-                                                            to="#"
+                                                        <a
+                                                            href="#"
                                                             className="block rounded-lg px-4 py-2 text-[13px] text-gray-500 hover:bg-gray-50 hover:text-blue-500"                                    >
                                                             <AiOutlineDownload className="inline-block mr-1" />Tải xuống cv
-                                                        </Link>
+                                                        </a>
                                                     </li>
                                                     <li>
                                                         <a
@@ -250,7 +256,12 @@ const CVApplyJobPost = React.memo(() => {
                 }
 
             </div >
-
+            <Pagination
+                current={currentPage}
+                total={filteredCandidates?.length}
+                pageSize={pageSize}
+                onChange={(page) => setCurrentPage(page)}
+            />
         </div >
     )
 });
