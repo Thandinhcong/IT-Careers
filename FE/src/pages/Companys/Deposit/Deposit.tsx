@@ -199,7 +199,7 @@ const Deposit = () => {
                                     <Button type="primary" key="console" className='bg-blue-500' href='/business/transaction/add_money'>
                                         Tiếp tục nạp tiền
                                     </Button>,
-                                    <Button key="buy">Xem lịch sử giao dịch</Button>,
+                                    <Button href='/business/transaction/add_money' key="buy">Xem lịch sử giao dịch</Button>,
                                 ]}
                             />
                         ) : (

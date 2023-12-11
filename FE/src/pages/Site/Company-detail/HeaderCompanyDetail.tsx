@@ -13,11 +13,11 @@ const HeaderCompanyDetail = React.memo(() => {
     return (
         <div className="">
             <div className="relative">
-                {!isImage ? (
-                    <img className="w-full h-56 object-cover rounded-md" src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700832295/tech_r7rqqf.jpg" alt="ảnh banner" />
-                ) : (
+                {/* {!isImage ? ( */}
+                <img className="w-full h-56 object-cover rounded-md" src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700832295/tech_r7rqqf.jpg" alt="ảnh banner" />
+                {/* ) : (
                     <img className="w-full h-56 object-cover rounded-md" src={listCompanyDetail?.image_paper} alt="ảnh banner" />
-                )}
+                )} */}
             </div>
             <div className="flex justify-between items-center px-8">
 

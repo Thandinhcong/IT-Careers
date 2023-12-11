@@ -29,16 +29,18 @@ ChartJS.register(
 
 )
 const CompanyReports = () => {
-    const { data: datastati } = useGetSatisicalJobQuery();
+    const { data: datastati }: any = useGetSatisicalJobQuery();
     console.log("data", datastati);
     const Applied = datastati?.Applied;
     const countSuitable = datastati?.countSuitable;
     const countNotSuitable = datastati?.countNotSuitable;
     const JobPost = datastati?.JobPost;
-    const countAddCoin = datastati?.countAddCoin?.vnp_Amount;
-    const countSpendCoin = datastati?.countSpendCoin?.coin;
+    const countAddCoin = datastati?.finalAddCoin;
+
+    const countSpendCoin = datastati?.finalSpendCoin;
     const arrayDate = datastati?.arrayDate;
     const totalApplied = datastati?.totalApplied
+    const countView = datastati?.countView?.view;
     const datas: any = {
         labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [
@@ -110,11 +112,11 @@ const CompanyReports = () => {
                 </nav>
                 <hr className='w-full my-5 ' />
 
-                <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
+                {/* <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
                     <option className='outline-none ' value="">7 ngày qua</option>
                     <option className='outline-none ' value="">14 ngày qua</option>
                     <option className='outline-none ' value="">30 ngày qua</option>
-                </select>
+                </select> */}
                 <div className='pt-3 grid grid-cols-4 gap-5'>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'> Số tin đăng</p>
@@ -171,20 +173,13 @@ const CompanyReports = () => {
             <div className=" shadow border p-5 mt-5" id='hieu-xuat-tin'>
                 <div className='flex justify-between items-center'>
                     <h4 className='text-lg font-semibold'>Hiệu xuất tin đăng</h4>
-                    <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
+                    {/* <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
                         <option className='outline-none ' value="">7 ngày qua</option>
                         <option className='outline-none ' value="">14 ngày qua</option>
                         <option className='outline-none ' value="">30 ngày qua</option>
-                    </select>
+                    </select> */}
                 </div>
-                <div className='grid grid-cols-[30%,70%] my-5  items-center '>
-                    <p>Kết quả tin đăng :</p>
-                    <select name="" id="" className='border mr-3 px-2 py-2 outline-none text-sm w-full  select-all '>
-                        <option className='outline-none ' value="">7 ngày qua</option>
-                        <option className='outline-none ' value="">14 ngày qua</option>
-                        <option className='outline-none ' value="">30 ngày qua</option>
-                    </select>
-                </div>
+
                 <div className='grid grid-cols-4 gap-5'>
 
                     <div className='border shadow p-3'>
@@ -194,7 +189,7 @@ const CompanyReports = () => {
                             </span>
                             <i><FiAlertCircle /></i>
                         </p>
-                        <p className='text-xl mt-4 '>235</p>
+                        <p className='text-xl mt-4 '>{countView}</p>
                     </div>
                     <div className='border shadow p-3'>
                         <p className='text-gray-600 flex justify-between items-center'>
@@ -203,7 +198,7 @@ const CompanyReports = () => {
                             </span>
                             <i><FiAlertCircle /></i>
                         </p>
-                        <p className='text-xl mt-4 '>235</p>
+                        <p className='text-xl mt-4 '>{Applied}</p>
                     </div>
                 </div>
             </div>
@@ -217,11 +212,11 @@ const CompanyReports = () => {
                 <div className='shadow border p-5 mt-5' id='bao-cao-tai-chinh' >
                     <div className='flex justify-between items-center'>
                         <h4 className='text-base font-semibold'>Báo cáo tài chính</h4>
-                        <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
+                        {/* <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
                             <option className='outline-none ' value="">7 ngày qua</option>
                             <option className='outline-none ' value="">14 ngày qua</option>
                             <option className='outline-none ' value="">30 ngày qua</option>
-                        </select>
+                        </select> */}
                     </div>
                     <div>
                         <div className='flex justify-between items-center my-4'>

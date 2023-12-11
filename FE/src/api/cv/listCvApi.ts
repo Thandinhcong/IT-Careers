@@ -83,6 +83,7 @@ const listCvApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["CV"],
     }),
     // xóa cv
     delete_cv: buidler.mutation<any, string | number>({

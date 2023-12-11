@@ -384,6 +384,7 @@ const MainFindJob = () => {
                     {data?.data
                         .filter((item: { id: null; }) => item.id === selectedCandidateId)// Lọc ứng viên với ID tương ứng
                         .map((item: IFindJob) => {
+
                             return (
                                 <TEModalContent >
                                     <TEModalHeader>
@@ -530,7 +531,7 @@ const MainFindJob = () => {
                                                 {item.start !== null ? (
                                                     <>
                                                         <Rate allowHalf defaultValue={item.start} disabled />
-                                                        <span className="text-red-500 ml-1">{item.start}/5 (71 đánh giá)</span>
+                                                        <span className="text-red-500 ml-1">{item.start}/5 </span>
                                                     </>
                                                 ) : (
                                                     <span className="text-red-500 font-medium">Hồ sơ này chưa có đánh giá từ công ty nào.</span>

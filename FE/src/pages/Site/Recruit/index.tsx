@@ -161,7 +161,10 @@ const Recruit = () => {
                                                         {parseInt(item.min_salary).toLocaleString()} đ - {parseInt(item.max_salary).toLocaleString()} đ
                                                     </span>
                                                 </p>
-                                                <p className="line-clamp-2">Mô tả: {item.desc}</p>
+                                                <p
+                                                    className="line-clamp-2"
+                                                // dangerouslySetInnerHTML={{ __html: item?.desc }}
+                                                >Mô tả: {item.desc}</p>
                                                 <p className='my-2 text-gray-500 text-sm'>
                                                     {/* Đăng: {item.start_date} */}
                                                     Đăng: {timeDiff}

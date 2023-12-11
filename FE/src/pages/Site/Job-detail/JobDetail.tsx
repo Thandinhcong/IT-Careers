@@ -73,6 +73,9 @@ const JobDetail = React.memo(() => {
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
     const listOne: any = data?.job_detail;
+    console.log('isAlreadyApplied', isAlreadyApplied);
+
+    console.log(ListJobApply);
 
     const [image, setImage] = useState(null);
     // ứng tuyển
@@ -126,6 +129,11 @@ const JobDetail = React.memo(() => {
             notyf.success("Ứng tuyển thành công");
             setShowModal(false)
         } catch (error: any) {
+
+            if (error?.data?.status === "fail") {
+                notyf.error("Bài đăng đã bị khóa!");
+                return;
+            }
             notyf.error("Vui lòng chọn đầy đủ thông tin!");
         }
     };
@@ -219,9 +227,10 @@ const JobDetail = React.memo(() => {
         window.scrollTo(0, 0);
     }, [])
 
+    // console.log("listOne", listOne);
 
     if (isLoading) return <Skeleton loading />
-    if (isLoadingInfo) return <Skeleton loading />
+    // if (isLoadingInfo) return <Skeleton />
     return (
         <div>
             <div className="max-w-screen-xl mx-auto">
@@ -236,7 +245,11 @@ const JobDetail = React.memo(() => {
                         </div>
                         <div className="flex flex-col gap-2">
                             {isAlreadyApplied ? (
-                                <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
+                                <div>
+                                    <p className="px-2 text-base bg-blue-500 rounded-lg py-3 text-white text-center">Đã ứng tuyển!</p>
+                                    <p>{ }</p>
+                                </div>
+
                             ) : (
 
                                 <TERipple rippleColor="white" className="">

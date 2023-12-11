@@ -3,12 +3,13 @@ import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCv
 import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
-import { CiEdit } from 'react-icons/ci';
+import { CiEdit, CiStar } from 'react-icons/ci';
 import React, { useEffect, useRef, useState } from 'react';
 import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
 import { FromUpload } from '../../../schemas/apply';
 import { Spin } from 'antd';
+import { IoMdStar, IoMdStarOutline } from 'react-icons/io';
 
 const ListCV = React.memo(() => {
     const fileInputRef: any = useRef(null);
@@ -118,34 +119,95 @@ const ListCV = React.memo(() => {
     }, [])
     return (
         <div className=''>
+            <h2 className='text-2xl text-center my-10'>Quản lý CV</h2>
             {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
-                    <h2 className='text-2xl text-center my-10'>Quản lý CV</h2>
                     <i className='text-sm my-2 text-yellow-500'>Lưu ý: CV của bạn tải lên thì sẽ không được chỉnh sửa thông tin</i>
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
-                            return (
-                                <div key={item?.id} className='shadow-sm shadow-blue-300 border h-auto py-4 px-3'>
-                                    <p className='text-center'>Tiêu đề: {item?.title}</p>
-                                    <div className='flex justify-center items-center gap-2 my-2'>
-                                        <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
-                                        <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
+                            if (item?.type === 1) {
+                                return (
+                                    <div className='Cv tải lên'>
+                                        <p className='text-xl text-blue-500 my-5'>CV đã tạo trên Bework</p>
+                                        <div key={item?.id} className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
+                                            <p className='text-center'>Tiêu đề: {item?.title}</p>
+                                            <div className='flex justify-center items-center gap-2 my-2'>
+                                                <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
+                                                <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
 
-                                        {item?.type === 0 ? "" : (
-                                            <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
-                                        )}
-                                    </div>
+                                                {item?.type === 0 ? "" : (
+                                                    <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
+                                                )}
+                                            </div>
 
-                                    <div className='flex justify-center my-4 pt-2'>
-                                        <input
-                                            type='radio'
-                                            name='active'
-                                            className='text-white  text-2xl bg-blue-500 px-3 py-2 rounded '
-                                            onClick={() => handleActive(item)}
-                                        ></input>
+                                            <div className='flex justify-center my-4 pt-2'>
+                                                {item?.is_active === 1 ? (
+                                                    <button
+                                                        name='active'
+                                                        className='text-yellow-500  text-2xl  px-3 py-2 rounded '
+                                                        onClick={() => handleActive(item)}
+                                                    ><IoMdStar /></button>
+                                                ) : (
+                                                    <button
+                                                        name='active'
+                                                        className='  text-2xl  px-3 py-2 rounded '
+                                                        onClick={() => handleActive(item)}
+                                                    ><IoMdStarOutline /></button>
+                                                )}
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-                            );
+                                );
+
+                            }
+
+                        })}
+
+                    </div>
+                    <div className='text-center m-5'>
+                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV</button>
+                    </div>
+                    <hr className='border border-blue-500' />
+                    <p className='my-2 text-xl text-blue-500'>CV đã tải lên Bework</p>
+                    <div className='grid grid-cols-3 gap-5 my-10 '>
+                        {listCv?.map((item: any) => {
+                            if (item?.type === 0) {
+                                return (
+                                    <div className='Cv tải lên'>
+                                        <div key={item?.id} className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
+                                            <p className='text-center'>Tiêu đề: {item?.title}</p>
+                                            <div className='flex justify-center items-center gap-2 my-2'>
+                                                <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
+                                                <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
+
+                                                {item?.type === 0 ? "" : (
+                                                    <Link to={`/tao-cv/${item?.id}`}><CiEdit /></Link>
+                                                )}
+                                            </div>
+
+                                            <div className='flex justify-center my-4 pt-2'>
+                                                {item?.is_active === 1 ? (
+                                                    <button
+                                                        name='active'
+                                                        className='text-yellow-500  text-2xl  px-3 py-2 rounded '
+                                                        onClick={() => handleActive(item)}
+                                                    ><IoMdStar /></button>
+                                                ) : (
+                                                    <button
+                                                        name='active'
+                                                        className='  text-2xl  px-3 py-2 rounded '
+                                                        onClick={() => handleActive(item)}
+                                                    ><IoMdStarOutline /></button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                );
+
+                            }
+
                         })}
                     </div>
                     <form
@@ -174,11 +236,6 @@ const ListCV = React.memo(() => {
                             <button className='border flex bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
                         </div>
                     </form>
-
-                    <div className='text-center m-5'>
-                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV</button>
-                    </div>
-                    <i className='text-yellow-600 text-sm'>*Lưu ý: sau khi tạo cv bạn cần cập nhật CV của mình</i>
                 </div>
 
             ) : (
@@ -217,7 +274,7 @@ const ListCV = React.memo(() => {
                             </div>
                         </form>
                         <div className='text-center m-5'>
-                            <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV đầu tiên</button>
+                            <button disabled={loading} onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV đầu tiên</button>
                         </div>
                     </div>
                     <div className='w-52 ml-5'>
