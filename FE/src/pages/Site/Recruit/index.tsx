@@ -253,12 +253,6 @@ const Recruit = () => {
                         Trang {currentPage} / {Math.ceil(searchData?.data?.length / itemsPerPage)}
                     </p>
                 </div>
-
-                {/* <div className='col-span-1 w-2/3'>
-                    <FilterBySalary />
-                    <FilterByLocation />
-                </div> */}
-
             </div>
         </div >
     )
