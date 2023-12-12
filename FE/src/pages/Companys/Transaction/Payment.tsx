@@ -24,7 +24,7 @@ const columns: ColumnsType<DataType> = [
     {
         title: 'Số xu',
         dataIndex: 'coin',
-        render: (text: string) => <p>{text}</p>,
+        render: (text: string) => <p className='text-red-500'>{text}</p>,
     },
     {
         title: 'Số dư cuối',
@@ -37,8 +37,22 @@ const data: DataType[] = [
     {
         key: '1',
         time: '2023-10-01 22:17:26',
-        desc: 'Khuyến mại tài khoản mới',
-        coin: '+30,000 xu',
+        desc: 'Mở khoá liên hệ người tìm việc',
+        coin: '-3,000 xu',
+        last_coin: '30,000 xu',
+    },
+    {
+        key: '2',
+        time: '2023-10-01 22:17:26',
+        desc: 'Thanh toán dịch vụ, mã tin đăng 54657',
+        coin: '-12,000 xu',
+        last_coin: '30,000 xu',
+    },
+    {
+        key: '3',
+        time: '2023-10-01 22:17:26',
+        desc: 'Đánh giá hồ sơ tìm việc',
+        coin: '+2000 xu',
         last_coin: '30,000 xu',
     },
 ];

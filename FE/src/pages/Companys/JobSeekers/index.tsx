@@ -20,6 +20,7 @@ import { MdOutlineRateReview } from "react-icons/md";
 const JobSeekers = () => {
     const [form] = Form.useForm();
     const { data } = useGetFindCandidateQuery();
+    console.log(data)
     const { data: Infor } = useGetInforQuery();
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
     const [showModal, setShowModal] = useState(false);
@@ -129,7 +130,11 @@ const JobSeekers = () => {
                             <img src={candidate.image} className='rounded-full w-10 h-10' alt="" />
                             <div>
                                 <p className='text-xl font-semibold'>{candidate.name}</p>
-                                <p>{candidate.phone} <span>- Năm sinh : {candidate.birth}</span></p>
+                                <p>{candidate.phone} <span>- Năm sinh : {candidate.birth === null ? (
+                                    "Chưa cập nhật"
+                                ) : (
+                                    <span>{candidate.birth}</span>
+                                )}</span></p>
                             </div>
                         </div>
                         <div className='font-sans'>
@@ -138,19 +143,27 @@ const JobSeekers = () => {
                                     <CgWorkAlt />
                                     <span>Vị trí</span>
                                 </span>
-                                <span>{candidate.title}</span>
+                                <span>{candidate.major === null ? (
+                                    <p>Chưa cập nhật</p>
+                                ) : (
+                                    <p>{candidate.major}</p>
+                                )}</span>
                             </p>
                             <p className='flex items-center justify-between font-normal gap-3'>
                                 <span className='flex items-center gap-2'>
                                     <CiLocationOn />Địa điểm
                                 </span>
-                                <span>{candidate.address}</span>
+                                <span>{candidate.province} {candidate.district === null ? 'Chưa cập nhật' : candidate.district}</span>
                             </p>
                             <p className='flex items-center justify-between font-normal gap-3'>
                                 <span className='flex items-center gap-2'>
                                     <CiMoneyBill /> Mức lương
                                 </span>
-                                <span>{candidate.salary}</span>
+                                <span>{candidate.desired_salary === null ? (
+                                    <p>Chưa cập nhật</p>
+                                ) : (
+                                    <p className="text-red-500">{formatCurrency(candidate.desired_salary, 'VND')}</p>
+                                )}</span>
                             </p>
                             <hr className='mt-3' />
                             <div className='flex justify-between items-center my-5 font-normal gap-3'>
