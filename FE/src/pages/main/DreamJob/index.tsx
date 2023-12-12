@@ -17,7 +17,7 @@ const DreamJob = () => {
                         <img
                             src="https://www.123job.vn/images/icon/icon1.png"
                             alt=""
-                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-50 bg-white top-5 -left-5 lg:-left-10'
+                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-20 bg-white top-5 -left-5 lg:-left-10'
                         />
                         <div className='rounded-xl bg-blue-200 p-5 shadow-xl'>
                             <p className='text-6xl text-blue-400 flex justify-end '>01</p>
@@ -31,7 +31,7 @@ const DreamJob = () => {
                         <img
                             src="https://www.123job.vn/images/icon/icon4.png"
                             alt=""
-                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-50 bg-white top-5 -left-5 lg:-left-10'
+                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-20 bg-white top-5 -left-5 lg:-left-10'
                         />
                         <div className='rounded-xl bg-orange-200 p-5 shadow-xl'>
                             <p className='text-6xl text-orange-500 flex justify-end '>02</p>
@@ -45,7 +45,7 @@ const DreamJob = () => {
                         <img
                             src="https://www.123job.vn/images/icon/icon3.png"
                             alt=""
-                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-50 bg-white top-5 -left-5 lg:-left-10'
+                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-20 bg-white top-5 -left-5 lg:-left-10'
                         />
                         <div className='rounded-xl bg-violet-200 p-5 shadow-xl'>
                             <p className='text-6xl text-violet-400 flex justify-end '>03</p>
@@ -59,7 +59,7 @@ const DreamJob = () => {
                         <img
                             src="https://www.123job.vn/images/icon/icon3.png"
                             alt=""
-                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-50 bg-white top-5 -left-5 lg:-left-10'
+                            className='p-2 w-[80px]  shadow-xl flex justify-center items-center rounded-xl absolute z-20 bg-white top-5 -left-5 lg:-left-10'
                         />
                         <div className='rounded-xl bg-blue-200 p-5 shadow-xl'>
                             <p className='text-6xl text-blue-400 flex justify-end '>04</p>
