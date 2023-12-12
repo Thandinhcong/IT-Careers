@@ -10,11 +10,16 @@ const Layout = React.memo(() => {
     const listInfoWeb = data?.data[0];
     if (isLoading) return <Skeleton className='w-full h-full  col-span-2' />
     return (
-        <>
-            <Header data={listInfoWeb} />
-            <Outlet />
+        <div>
+            <div className='fixed top-0 left-0 right-0 mb-10 bg-white  z-50'>
+                <Header data={listInfoWeb} />
+            </div>
+            <div className='mt-28'>
+                <Outlet />
+
+            </div>
             <Footer dataFooter={listInfoWeb} />
-        </>
+        </div>
     )
 });
 

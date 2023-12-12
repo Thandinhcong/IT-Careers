@@ -1,6 +1,8 @@
 import React from 'react';
 import { Divider, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useGetAllHistoryPaymentsQuery } from '../../../api/companies/package';
+import moment from 'moment';
 
 interface DataType {
     key: React.Key;
@@ -10,47 +12,51 @@ interface DataType {
     last_coin: string;
 }
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: 'Ngày giao dịch',
-        dataIndex: 'time',
-        render: (text: string) => <p>{text}</p>,
-    },
-    {
-        title: 'Mô tả',
-        dataIndex: 'desc',
-        render: (text: string) => <p>{text}</p>,
-    },
-    {
-        title: 'Số xu',
-        dataIndex: 'coin',
-        render: (text: string) => <p>{text}</p>,
-    },
-    {
-        title: 'Số dư cuối',
-        dataIndex: 'last_coin',
-        render: (text: string) => <p>{text}</p>,
-    },
-];
-
-const data: DataType[] = [
-    {
-        key: '1',
-        time: '2023-10-01 22:17:26',
-        desc: 'Khuyến mại tài khoản mới',
-        coin: '+30,000 xu',
-        last_coin: '30,000 xu',
-    },
-];
 
 const Payment = () => {
+    const { data, isLoading } = useGetAllHistoryPaymentsQuery();
+    console.log(data);
+    const datas: DataType[] = data?.data?.history_profile?.map((item: any, index: number) => {
+        console.log("datas", item);
 
+        return {
+            key: item?.id,
+            index: index + 1,
+            ...item
+        }
+
+    })
+
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            render: (text: string) => <p>{text}</p>,
+        },
+        {
+            title: 'Mô tả',
+            dataIndex: 'desc',
+            render: (text: string) => <p>{text}</p>,
+        },
+        {
+            title: 'Số xu',
+            dataIndex: 'coin',
+            render: (text: string) => <p>{text}</p>,
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'created_at',
+            render: (text, record: any) => {
+                return moment(record.created_at).format('YYYY-MM-DD HH:mm:ss');
+            },
+        },
+    ];
     return (
         <div>
             <Divider />
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={datas}
                 className='grid col-span-3'
             />
         </div>

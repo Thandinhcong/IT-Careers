@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Spin, Table } from 'antd';
+import { Divider, Skeleton, Spin, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useGetAllHistoryPaymentsQuery } from '../../../api/companies/package';
 import moment from 'moment';
@@ -14,10 +14,10 @@ interface DataType {
     status: string,
 }
 
-const Add_Money = () => {
+const Add_Money = React.memo(() => {
     const { data, isLoading } = useGetAllHistoryPaymentsQuery();
-    const datas: DataType[] = data?.['History Payment All'].map((item: any, index: number) => {
-
+    console.log(data);
+    const datas: DataType[] = data?.data?.history?.map((item: any, index: number) => {
         return {
             key: item?.id,
             index: index + 1,
@@ -58,7 +58,7 @@ const Add_Money = () => {
 
         return formattedAmount;
     };
-
+    if (isLoading) return <Skeleton />
     return (
         <div>
             <Divider />
@@ -71,6 +71,6 @@ const Add_Money = () => {
             </Spin>
         </div>
     );
-};
+});
 
 export default Add_Money;

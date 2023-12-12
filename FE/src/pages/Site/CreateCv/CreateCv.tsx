@@ -443,10 +443,29 @@ const CreateCvTest = React.memo(() => {
         <div className='max-w-screen-xl mx-auto'>
 
             {/* nhập */}
-            <div className='mx-24'>
+            <div className='mx-24 relative'>
                 {/* thông tin cá nhân */}
-                <Link to={'/user/listcv'} className='flex items-center gap-1'> <span><IoIosArrowBack /></span>  Quay lại</Link>
-                <div>
+                <div className='flex fixed top-16 mt-5    z-50 bg-white w-full '>
+                    <Link to={'/user/listcv'} className='flex items-center gap-1'> <span><IoIosArrowBack /></span>  Quay lại</Link>
+                    <div
+                        className='flex justify-center rounded m-8'
+                    >
+                        <button
+                            className='px-3 bg-blue-500 py-2 rounded text-white flex gap-2 items-center'
+                            onClick={generatePDF}
+                        >Tải CV
+                            <GoDownload />
+                        </button>
+                        <button
+                            className='px-3 mx-2 bg-blue-500 py-2 rounded text-white flex gap-2 items-center'
+                            onClick={handleSaveCv}
+                        >Lưu cv
+
+                        </button>
+                    </div>
+                </div>
+
+                <div className='mt-48'>
                     <h2 className='bg-[#304340] text-white text-lg font-semibold p-2 my-6'>Thông tin cá nhân</h2>
                     <form onSubmit={handleSubmit(onHandleSubmit)}>
                         <div className='border border-gray-200 p-5 grid grid-cols-3 gap-8'>
@@ -902,9 +921,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'project_name', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.project_name && errorsProject?.project_name?.message}
-                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -918,9 +934,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e: any) => handleChangeProject(index, 'position', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.position && errorsProject?.position?.message}
-                                        </div> */}
                                     </div>
                                     <div>
                                         <button
@@ -944,9 +957,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'link_project', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         />
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.link_project && errorsProject?.link_project?.message}
-                                        </div> */}
                                     </div>
 
                                     <div>
@@ -961,9 +971,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'start_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                         />
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.start_date && errorsProject?.start_date?.message}
-                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -978,9 +985,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'end_date', e.target.value)}
                                             className='border border-gray-200 p-2 w-full outline-none'
                                         />
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.end_date && errorsProject?.end_date?.message}
-                                        </div> */}
                                     </div>
                                     <div>
                                         <label className='block font-semibold mb-2 '>
@@ -993,9 +997,6 @@ const CreateCvTest = React.memo(() => {
                                             onChange={(e) => handleChangeProject(index, 'desc', e.target.value)}
                                             className='border outline-none border-gray-200 p-2 w-full'
                                         ></textarea>
-                                        {/* <div className='text-red-500 text-sm'>
-                                            {errorsProject?.desc && errorsProject?.desc?.message}
-                                        </div> */}
                                     </div>
                                 </div>
                                 <button className='mt-3 mb-2 bg-blue-500 text-white rounded px-5 py-2'>Lưu</button>

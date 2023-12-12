@@ -104,6 +104,7 @@ import UpdatePostingPackages from "./pages/admin/PostingPackages/update"
 import AddPostingPackages from "./pages/admin/PostingPackages/add"
 import ForgotPassCompany from "./pages/Account/Companies/ForgotPassword"
 import FindJobFast from "./pages/Site/FindJobFast"
+import UploadCV from "./pages/Site/User/UploadCV"
 
 
 function App() {
@@ -129,6 +130,8 @@ function App() {
               <Route path="change_pass" element={<ChangePassCandidate />} />
             </Route>
             <Route path='user/' element={<LayoutUser />}>
+              <Route path='upload-cv' element={< UploadCV />} />
+
               <Route path='listcv' element={< ListCV />} />
               <Route path='jobapply' element={< JobApply />} />
               <Route path='jobfavor' element={< JobFavor />} />

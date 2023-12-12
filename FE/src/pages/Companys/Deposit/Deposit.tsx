@@ -15,13 +15,11 @@ const Deposit = () => {
     let param = queryString.length > 0 ? queryString : null;
 
     const { data: vnpayReturnData } = useVnpayReturnQuery(param);
-    console.log(vnpayReturnData);
     const { data: vnpayIpnData } = useVnpayIpnQuery(param);
 
     useEffect(() => {
         if (param && vnpayIpnData && !hasLogged) {
             setCurrentStep(2);
-            console.log(vnpayIpnData?.status);
             setHasLogged(true);
 
             // Xoá param khỏi URL mà không gây reload trang

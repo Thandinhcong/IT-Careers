@@ -104,13 +104,12 @@ const LayoutUser = React.memo(() => {
                                     <p>Lượt</p>
                                 </div>
                             </div>
-                            <div>
+                            <div className=''>
                                 <p className='w-60'>Mỗi lượt Nhà tuyển dụng xem CV mang đến một cơ hội để bạn gần hơn với việc làm phù hợp.</p>
                                 <Button
                                     type='primary'
-                                    className=' mt-3 bg-blue-500 border rounded-full h-12 ml-10'
+                                    className=' mt-3 hidden bg-blue-500 border rounded-full h-12 ml-10'
                                 >
-                                    Khám phá ngay<AiOutlineArrowRight className='inline-block items-center' />
                                 </Button>
                             </div>
                         </div>
