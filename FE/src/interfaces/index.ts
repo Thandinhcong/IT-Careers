@@ -139,6 +139,7 @@ export interface IFindJob {
   start: number;
   experience: string | number;
   comment: string;
+  count: string;
 }
 export interface ICompanyInfor {
   id?: string | number;

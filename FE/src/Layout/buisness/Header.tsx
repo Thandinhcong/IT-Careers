@@ -34,7 +34,16 @@ const HeaderCompany = () => {
     const CV = [
         { name: 'Thông tin liên hệ', href: '/business/business_setting', icon: <CiUser className="text-blue-500 text-xl" /> },
         { name: 'Thiết lập công ty', href: '/business/business_setting/company', icon: <IoSettingsOutline className="text-blue-500 text-xl" /> },
-        { name: 'Đăng xuất', href: '#', onclick: handleLogout, icon: <PiSignOutLight className="text-blue-500 text-xl" /> }
+        {
+            name: 'Đăng xuất',
+            href: '#',
+            onclick: () => {
+                if (window.confirm('Bạn có chắc chắn muốn đăng xuất không?')) {
+                    handleLogout();
+                }
+            },
+            icon: <PiSignOutLight className="text-blue-500 text-xl" />,
+        },
     ]
     return (
         <div className='border flex fixed top-0 w-[82%] z-50 right-0 max-w-screen-2xl items-center gap-2 p-2 font-medium justify-end bg-white shadow'>
@@ -53,11 +62,11 @@ const HeaderCompany = () => {
                     Mua xu, nạp tiền tài khoản
                 </div>
             </Link>
-            <Link to="/business/find-job" className='flex items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
+            <Link to="/business/find-profile" className='flex items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <BiSearch />
                 <p className='text-sm'>Tìm CV</p>
             </Link>
-            {/* <Link to="find-job" className='flex relative group items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
+            {/* <Link to="find-profile" className='flex relative group items-center gap-2 px-5 py-2 rounded text-white  bg-blue-500'>
                 <BiMessageRounded />
                 <p className='text-sm'>Kết nối ứng viên</p>
                 <div className='absolute left-0 right-0 mx-auto -bottom-14 text-center bg-black text-white opacity-0 group-hover:opacity-100 text-xs px-3 rounded'>

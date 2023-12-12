@@ -190,7 +190,7 @@ function App() {
               <Route path="changepass" element={<ChangePassCompany />} />
             </Route>
             <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
-            <Route path="find-job" element={<FindJob />} />
+            <Route path="find-profile" element={<FindJob />} />
             <Route path="deposit" element={<Deposit />} />
             <Route path="cv-apply" element={<CVApply />} />
             <Route path="cv-apply/job-post/:id" element={<CVApplyJobPost />} />
