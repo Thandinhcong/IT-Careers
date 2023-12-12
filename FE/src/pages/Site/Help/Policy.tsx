@@ -13,7 +13,7 @@ const Policy = () => {
                     <span className="bg-gray-600 text-white font-bold px-4 py-2 text-center">1</span>
                     <p className="border-b border-gray-900 w-full pl-4 font-bold pt-1 text-lg">ĐIỀU KHOẢN SỬ DỤNG DỊCH VỤ VỚI ỨNG VIÊN</p>
                 </div>
-                <p className='font-bold text-lg my-4'>1. QUYỀN TRUY CẬP VÀ THU THẬP THÔNG TIN</p>
+                <p className='font-bold text-lg my-4'>1. Quyền truy cập và thu thập thông tin</p>
                 <div className='grid grid-cols-1 gap-4 text-gray-600 pb-4'>
                     <p>
                         <span className="w-10 inline-block base-line"></span>

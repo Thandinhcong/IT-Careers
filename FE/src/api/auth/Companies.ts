@@ -9,6 +9,7 @@ export interface AuthSignup {
   company_name?: string;
   phone?: string;
   address?: string;
+  agreement?: string;
 }
 export interface AuthSignin {
   email: string;

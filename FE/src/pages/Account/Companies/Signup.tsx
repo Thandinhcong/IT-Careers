@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined, PhoneOutlined, EnvironmentOutlined, DatabaseOutlined, LinkOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
 import { AuthSignup, useSignupCompaniesMutation } from '../../../api/auth/Companies';
 import { Link, useNavigate } from 'react-router-dom';
 import { Notyf } from 'notyf';
@@ -16,6 +16,10 @@ const SignUpCompanies = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const onFinish = async (values: AuthSignup) => {
+        if (!values.agreement) {
+            notyf.error("Bạn cần chấp nhận điều khoản!");
+            return;
+        }
         signup(values)
             .unwrap()
             .then((response) => {
@@ -35,16 +39,16 @@ const SignUpCompanies = () => {
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
                 <aside
-                    className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-4"
+                    className="block lg:order-last lg:col-span-5 lg:h-screen xl:col-span-5 sticky top-0"
                 >
                     <img
                         alt="Pattern"
                         src="https://thuthuatnhanh.com/wp-content/uploads/2021/06/Hinh-anh-lam-viec-nhom-hieu-qua-nhat.jpg"
-                        className="absolute inset-0 h-full w-full object-cover"
+                        className="absolute inset-0 w-full object-cover h-full"
                     />
                 </aside>
 
-                <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-8">
+                <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-7">
                     <div className="max-w-2xl">
                         <Link className="block text-blue-600" to="/">
                             <span className="sr-only">Home</span>
@@ -76,7 +80,8 @@ const SignUpCompanies = () => {
                                 name="password"
                                 rules={[
                                     { required: true, message: 'Mật khẩu không được bỏ trống!' },
-                                    { min: 6, message: 'Mật khẩu phải tối thiểu 6 ký tự!' }
+                                    { min: 6, message: 'Mật khẩu phải tối thiểu 6 ký tự!' },
+                                    { validator: (_, value) => !/\s/.test(value) ? Promise.resolve() : Promise.reject(new Error('Mật khẩu không được chứa dấu cách!')) },
                                 ]}
                             >
                                 <Input
@@ -168,6 +173,14 @@ const SignUpCompanies = () => {
                                     </Form.Item>
                                 </Col>
                             </Row>
+                            <Form.Item
+                                name="agreement"
+                                valuePropName="checked"
+                            >
+                                <Checkbox>
+                                    Tôi đã đọc và đồng ý với <a href="/help/policy" target="_blank" className="underline hover:no-underline">Điều khoản sử dụng</a>
+                                </Checkbox>
+                            </Form.Item>
                             <Form.Item className='text-center'>
                                 <Button type="primary" htmlType="submit" className="bg-blue-500 w-full" style={{ height: '45px' }}>
                                     Đăng kí
