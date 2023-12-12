@@ -20,7 +20,7 @@ export const schemaJobApply = yup.object({
     })
     .required("Trường dữ liệu bắt buộc"),
   introduce: yup.string().max(500, "Tối thiểu 500 ký tự"),
-  path_cv: yup.string(),
+  path_cv: yup.string().max(150, "Tối đa 180 ký tự"),
   curriculum_vitae_id: yup.string(),
 });
 export type FromApply = yup.InferType<typeof schemaJobApply>;

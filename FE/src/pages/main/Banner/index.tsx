@@ -21,7 +21,7 @@ const Banner = () => {
                         <h2 className='text-xl mb-2'>Tìm kiếm việc làm nhanh</h2>
                         <p className='mb-6'>Bạn có nhu cầu tìm kiếm việc làm nhanh, chỉ cần tìm kiếm và kết quả hiển thị chúng tôi sẽ tự động ứng tuyển cho bạn</p>
                         <div className='flex items-center justify-between'>
-                            <Link className='flex items-center text-blue-500 rounded-full bg-white gap-1 px-4 py-3' to="#">Tìm việc ngay <AiOutlineArrowRight /> </Link>
+                            <Link className='flex items-center text-blue-500 rounded-full bg-white gap-1 px-4 py-3' to="/find-job-fast">Tìm việc ngay <AiOutlineArrowRight /> </Link>
                             <img src="https://123job.vn/images/recruit/cover_letter.png" width={60} alt="" />
                         </div>
                     </div>

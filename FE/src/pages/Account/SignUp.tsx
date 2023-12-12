@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSignup, schemaSignup } from "../../schemas";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
-import { Skeleton } from "antd";
 
 const SignUp = React.memo(() => {
     const navigate = useNavigate();
@@ -23,7 +22,7 @@ const SignUp = React.memo(() => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormSignup>({
         resolver: yupResolver(schemaSignup)
     })
-    const [signup, { isLoading }] = useSignupMutation();
+    const [signup] = useSignupMutation();
     const onHandleSubmit = async (user: FormSignup) => {
         try {
             const result = await signup(user as any).unwrap();
@@ -47,7 +46,6 @@ const SignUp = React.memo(() => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
-    if (isLoading) return <Skeleton />
     return (
         <section className="bg-white">
             <div className="lg:grid lg:min-h-screen lg:grid-cols-12">

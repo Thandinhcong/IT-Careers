@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineClose, AiOutlineContainer, AiOutlineHdd, AiOutlineHeart, } from "react-icons/ai";
-import SearchJobs from "../Recruit/SearchJobs";
+import { AiOutlineClose, AiOutlineContainer, AiOutlineHdd } from "react-icons/ai";
+import { LoadingOutlined } from '@ant-design/icons';
 import {
     TETabs,
     TETabsContent,
@@ -101,7 +101,7 @@ const JobDetail = React.memo(() => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.data?.errors)
+            notyf.error("Thông tin tài khoản hoặc mật khẩu không đúng!");
         }
     };
     const onHandleSubmit = async (appply: FromApply) => {
@@ -157,10 +157,18 @@ const JobDetail = React.memo(() => {
         }
 
         if (files) {
-            try {
-                // Bắt đầu tải ảnh lên, thiết lập trạng thái loading thành true
-                setUploading(true);
+            const maxFileSizeMB = 5;
+            const fileSizeMB = files.size / (1024 * 1024);
 
+            if (fileSizeMB > maxFileSizeMB) {
+                alert(`Kích thước tệp vượt quá ${maxFileSizeMB}MB.`);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+                return;
+            }
+            try {
+                setUploading(true);
                 const Response = await UploadImage({
                     file: files,
                     upload_preset: "demo-upload",
@@ -426,7 +434,7 @@ const JobDetail = React.memo(() => {
                                     <div className="my-2">
                                         <label htmlFor="">
                                             Tải cv mới lên <span className="text-red-500">*</span>
-                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF & dung lượng dưới 5MB</i>
                                         </label>
 
                                         <input
@@ -441,7 +449,7 @@ const JobDetail = React.memo(() => {
 
                                         {uploading && (
                                             <span className="loading-text">
-                                                <Spin tip="Đang tải ảnh lên..."></Spin>
+                                                <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
                                             </span>
                                         )}
 
@@ -481,6 +489,7 @@ const JobDetail = React.memo(() => {
                                         rows={4}
                                         id="message"
                                     ></textarea>
+                                    {errors?.introduce && errors?.introduce?.message}
                                 </div>
                                 <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>

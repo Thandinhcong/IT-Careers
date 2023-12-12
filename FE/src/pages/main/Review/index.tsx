@@ -47,7 +47,7 @@ const Reviews = () => {
                         <p className='text-center'>Bạn cần tìm kiếm việc làm gấp. Bework chúng tôi sẽ giúp bạn tìm kiếm công việc phù hợp với bạn thật nhanh. Chỉ mất có hồ sơ trên website của chúng tôi, bạn sẽ được ứng tuyển các công việc vafbanj mong muốn nhất, chúng tôi sẽ tự động ứng tuyển cho bạn.</p>
                     </div>
                     <div className='flex justify-center'>
-                        <Link to="" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tìm việc nhanh</Link>
+                        <Link to="/find-job-fast" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tìm việc nhanh</Link>
                     </div>
                 </div>
             </div>

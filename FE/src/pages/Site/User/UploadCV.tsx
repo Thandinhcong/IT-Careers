@@ -53,6 +53,16 @@ const UploadCV = React.memo(() => {
             return;
         }
         if (files) {
+            const maxFileSizeMB = 5;
+            const fileSizeMB = files.size / (1024 * 1024);
+
+            if (fileSizeMB > maxFileSizeMB) {
+                alert(`Kích thước tệp vượt quá ${maxFileSizeMB}MB.`);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+                return;
+            }
             try {
                 setLoading(true);
                 const Response = await UploadImage({
@@ -111,6 +121,7 @@ const UploadCV = React.memo(() => {
                         <button className='border flex bg-blue-500 text-white px-2 py-1 rounded'>Upload</button>
                     </div>
                 </form>
+                <span className='text-red-500'>*</span><i className='text-warning text-sm'>Hệ thống chỉ nhận file FDF và dung lượng file dưới 5MB</i>
             </div>
         </div>
     )

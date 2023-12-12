@@ -13,7 +13,7 @@ const TopArea = () => {
                     sortedListAreaTop.map((item: any) => (
                         <div key={item?.id} className='shadow-md mt-10'>
                             <img
-                                src="https://media.vietravel.com/images/news/ha-noi-1.jpg"
+                                src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1702398408/hinh-nen-thanh-pho-ve-dem-dep-nhat_oivwxu.jpg"
                                 className='rounded-t-2xl mb-2'
                                 alt=""
                             />

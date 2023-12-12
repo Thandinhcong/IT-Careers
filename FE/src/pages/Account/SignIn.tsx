@@ -7,7 +7,6 @@ import { useLoginMutation } from "../../api/auths";
 import { useLocalStorage } from "../../useLocalStorage/useLocalStorage";
 import { Notyf } from "notyf";
 import { FaGooglePlusG } from "react-icons/fa";
-import { Skeleton } from "antd";
 
 
 const Login = React.memo(() => {
@@ -25,7 +24,7 @@ const Login = React.memo(() => {
     });
     const [user, setUser] = useLocalStorage("user", null);
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [login] = useLoginMutation();
     const loginGoogle = () => {
         window.location.href = 'http://127.0.0.1:8000/api/auth/google';
         const urlParams = new URLSearchParams(window.location.search);
@@ -63,7 +62,6 @@ const Login = React.memo(() => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, []);
-    if (isLoading) return <Skeleton />
     return (
         <>
             <section className="bg-white">

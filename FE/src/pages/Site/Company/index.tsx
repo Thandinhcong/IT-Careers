@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BsSearch } from 'react-icons/bs'; // Import BsSearch from react-icons/bs
+import { BsSearch } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useSearchCompaniesQuery } from '../../../api/companyApi';
 import { Skeleton } from 'antd';

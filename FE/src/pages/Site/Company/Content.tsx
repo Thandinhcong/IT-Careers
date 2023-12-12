@@ -3,7 +3,6 @@ import { ICompanys } from '../../../interfaces';
 import React, { useState } from 'react';
 import { Pagination } from 'antd';
 const ContentCompany = React.memo(({ data }: any) => {
-    console.log(data);
 
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;

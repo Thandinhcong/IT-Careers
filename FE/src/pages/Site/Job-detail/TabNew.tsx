@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineHeart, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
+import { LoadingOutlined } from '@ant-design/icons';
 import { Link, useParams } from "react-router-dom";
 import {
     TERipple,
@@ -75,7 +76,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.message)
+            notyf.error("Thông tin tài khoản hoặc mật khẩu không đúng!");
         }
     };
 
@@ -130,10 +131,18 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             return;
         }
         if (files) {
-            try {
-                // Bắt đầu tải ảnh lên, thiết lập trạng thái loading thành true
-                setUploading(true);
+            const maxFileSizeMB = 5;
+            const fileSizeMB = files.size / (1024 * 1024);
 
+            if (fileSizeMB > maxFileSizeMB) {
+                alert(`Kích thước tệp vượt quá ${maxFileSizeMB}MB.`);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+                return;
+            }
+            try {
+                setUploading(true);
                 const Response = await UploadImage({
                     file: files,
                     upload_preset: "demo-upload",
@@ -145,7 +154,6 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
             } catch (error) {
                 console.error(error);
             } finally {
-                // Kết thúc quá trình tải ảnh lên, thiết lập trạng thái loading thành false
                 setUploading(false);
             }
         }
@@ -433,7 +441,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                     <div className="my-2">
                                         <label htmlFor="">
                                             Tải cv mới lên <span className="text-red-500">*</span>
-                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF</i>
+                                            <i className="text-xs ml-2 text-red-500">Chỉ nhận file PDF & dung lượng dưới 5MB</i>
                                         </label>
 
                                         <input
@@ -447,9 +455,11 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         />
 
                                         {uploading && (
+
                                             <span className="loading-text">
-                                                <Spin tip="Đang tải ảnh lên..."></Spin>
+                                                <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />;
                                             </span>
+
                                         )}
 
                                         <div className="text-sm text-red-500">
@@ -489,6 +499,7 @@ const TabNew = React.memo(({ isJobSaved, onSaveJob, onCancelSaveJob }: any) => {
                                         rows={4}
                                         id="message"
                                     ></textarea>
+                                    {errors?.introduce && errors?.introduce?.message}
                                 </div>
                                 <i className="text-yellow-500">Lưu ý: bạn chỉ được chọn tải CV lên hoặc chọn CV đã tạo trên hệ thống!</i>
                             </TEModalBody>

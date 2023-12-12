@@ -3,15 +3,14 @@ import { useActive_cvMutation, useAddCvMutation, useDelete_cvMutation, useListCv
 import { Notyf } from 'notyf';
 import { GoTrash } from 'react-icons/go';
 import { CgEye } from 'react-icons/cg';
-import { CiEdit, CiStar } from 'react-icons/ci';
+import { CiEdit } from 'react-icons/ci';
 import React, { useEffect, useRef, useState } from 'react';
 import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
 import { FromUpload } from '../../../schemas/apply';
-import { Spin } from 'antd';
+import { Popconfirm, Spin } from 'antd';
 import { IoIosAdd, IoMdStar, IoMdStarOutline } from 'react-icons/io';
 import { LuUpload } from 'react-icons/lu';
-
 const ListCV = React.memo(() => {
     const fileInputRef: any = useRef(null);
     const [loading, setLoading] = useState(false);
@@ -62,15 +61,15 @@ const ListCV = React.memo(() => {
     //delete
     const [deleteCV] = useDelete_cvMutation();
     const handleDelete = async (id: any) => {
-        const confilm = window.confirm("Bạn có muốn xóa CV không ?");
-        if (confilm) {
-            try {
-                await deleteCV(id).unwrap();
-                notyf.success('Xóa thành công')
-            } catch (error: any) {
-                notyf.error(error?.data?.message)
-            }
+        // const confilm = window.confirm("Bạn có muốn xóa CV không ?");
+        // if (confilm) {
+        try {
+            await deleteCV(id).unwrap();
+            notyf.success('Xóa thành công')
+        } catch (error: any) {
+            notyf.error(error?.data?.message)
         }
+        // }
     }
     //active cv
     const [ActiveCv] = useActive_cvMutation();
@@ -97,6 +96,16 @@ const ListCV = React.memo(() => {
         }
         if (files) {
             try {
+                const maxFileSizeMB = 5;
+                const fileSizeMB = files.size / (1024 * 1024);
+
+                if (fileSizeMB > maxFileSizeMB) {
+                    alert(`Kích thước tệp vượt quá ${maxFileSizeMB}MB.`);
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = '';
+                    }
+                    return;
+                }
                 setLoading(true);
                 const Response = await UploadImage({
                     file: files,
@@ -141,7 +150,17 @@ const ListCV = React.memo(() => {
                                         <div className='shadow-sm my-5 shadow-blue-300 border h-40 py-4 px-3'>
                                             <p className='text-center'>Tiêu đề: {item?.title}</p>
                                             <div className='flex justify-center items-center gap-2 my-2'>
-                                                <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
+                                                <Popconfirm
+                                                    title="xóa Cv"
+                                                    description="Bạn có muốn xóa không?"
+                                                    cancelText="No"
+                                                    okText="Yes"
+                                                    okType='default'
+                                                    onConfirm={() => handleDelete(item?.id)}
+                                                >
+                                                    <button className='text-red-500 font-semibold '><GoTrash /></button>
+
+                                                </Popconfirm>
                                                 <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
 
                                                 {item?.type === 0 ? "" : (
@@ -191,7 +210,16 @@ const ListCV = React.memo(() => {
                                         <div key={item?.id} className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
                                             <p className='text-center'>Tiêu đề: {item?.title}</p>
                                             <div className='flex justify-center items-center gap-2 my-2'>
-                                                <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
+                                                <Popconfirm
+                                                    title="xóa Cv"
+                                                    description="Bạn có muốn xóa không?"
+                                                    cancelText="No"
+                                                    okText="Yes"
+                                                    okType='default'
+                                                    onConfirm={() => handleDelete(item?.id)}
+                                                >
+                                                    <button className='text-red-500 font-semibold '><GoTrash /></button>
+                                                </Popconfirm>
                                                 <Link to={item?.path_cv} target="_blank" rel="noopener noreferrer"><CgEye /></Link>
 
                                                 {item?.type === 0 ? "" : (

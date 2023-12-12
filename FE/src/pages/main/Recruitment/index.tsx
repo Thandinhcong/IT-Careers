@@ -91,7 +91,7 @@ const Recruitment = React.memo(() => {
             setShowModa2l(false);
             window.location.reload();
         } catch (error: any) {
-            notyf.error(error?.message)
+            notyf.error("Thông tin tài khoản hoặc mật khẩu không đúng!");
         }
     };
 

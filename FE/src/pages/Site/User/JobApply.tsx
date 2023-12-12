@@ -1,16 +1,27 @@
-import { Button, Skeleton } from 'antd'
+import { Button, Pagination, Skeleton } from 'antd'
 import { useGetJobApplyQuery } from '../../../api/jobPostApply'
 import { CiLocationOn, CiTimer } from 'react-icons/ci';
 import { MdOutlineAttachMoney } from 'react-icons/md';
 import { VND } from '../../../components/upload';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TbStatusChange } from 'react-icons/tb';
 
 const JobApply = React.memo(() => {
     const { data, isLoading } = useGetJobApplyQuery();
     const listJob = data?.job_list;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = currentPage * pageSize;
 
+    const filteredJobs = listJob?.filter((item: any) => {
+        return item
+    });
+    const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
     if (isLoading) return <Skeleton />
 
     return (
@@ -18,7 +29,7 @@ const JobApply = React.memo(() => {
             {listJob ? (
                 <div className='w-[800px] rounded'>
                     <h2 className='text-2xl font-semibold'>Việc làm đã ứng tuyển</h2>
-                    {listJob?.map((item: any) => {
+                    {displayedJobs?.map((item: any) => {
                         return (
                             <div key={item?.id} className='mt-5 grid grid-cols-[30%,70%] items-center gap-5 border mb-5 w-full  shadow-sm shadow-blue-300 h-auto py-4 px-5 '>
                                 <img src={item?.logo} alt="Anh logo" width={210} />
@@ -33,6 +44,14 @@ const JobApply = React.memo(() => {
                                 </div>
                             </div>)
                     })}
+                    <div className="pagination-container flex justify-center items-center">
+                        <Pagination
+                            current={currentPage}
+                            pageSize={pageSize}
+                            total={filteredJobs?.length}
+                            onChange={handlePageChange}
+                        />
+                    </div>
                 </div>
             ) : (
                 <div className='flex justify-between ml-6 shadow-sm shadow-blue-300 h-auto py-4'>

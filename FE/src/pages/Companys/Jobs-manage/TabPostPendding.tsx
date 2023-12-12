@@ -218,12 +218,12 @@ const TabPostPendding = () => {
                                             Xem tin đăng trên web
                                         </Link>
                                     </Menu.Item>
-                                    <Menu.Item key="2">
+                                    {/* <Menu.Item key="2">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">
                                             <AiOutlineDelete />
                                             <p>Xóa tin</p>
                                         </a>
-                                    </Menu.Item>
+                                    </Menu.Item> */}
                                     <Menu.Item key="3">
                                         <Popconfirm
                                             title="Dừng tuyển bài đăng"

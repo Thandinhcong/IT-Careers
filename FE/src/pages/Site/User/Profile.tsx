@@ -1,4 +1,4 @@
-import { Avatar, Col } from 'antd'
+import { Avatar, Col, InputNumber } from 'antd'
 import { useGetInfoUserQuery } from '../../../api/auths';
 import React, { useEffect, useState } from 'react';
 import { useGetDataFindJobQuery, useGetInfoFindJobQuery, useSaveInfoFindJobMutation } from '../../../api/find-Job/find_jobApi';
@@ -33,7 +33,6 @@ const Profile = React.memo(() => {
     const districts = dataFindJob?.data?.district;
     const { data: info } = useGetInfoFindJobQuery();
     const infoFindJob = info?.info_find_job?.info_find_job;
-    console.log("infoFindJob", infoFindJob);
 
     useEffect(() => {
         form.setFieldsValue({
@@ -127,14 +126,18 @@ const Profile = React.memo(() => {
                             <Form.Item<FieldType>
                                 label="Mức lương"
                                 name="desired_salary"
-                                rules={[{ required: true, message: 'Vui lòng nhập mức lương!' }]}
+                                rules={[
+                                    { required: true, message: 'Vui lòng nhập mức lương!' },
+                                    // { min: 5, message: "Tối thiểu 5 số" },
+
+                                ]}
                             >
-                                <Input />
+                                <InputNumber className='w-full' min={1} />
                             </Form.Item>
                             <Col >
                                 <Form.Item<any>
                                     label="Tỉnh/Thành phố"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Vui lòng chọn tỉnh/thành phố" }]}
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
                                         {province?.map((options: any) => (
@@ -169,7 +172,6 @@ const Profile = React.memo(() => {
                                 <Form.Item<any>
                                     label="Số năm kinh nghiệm"
                                     name="experience_id"
-
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} >
                                         {
