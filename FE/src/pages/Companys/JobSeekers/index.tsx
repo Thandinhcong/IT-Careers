@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import "./index.css"
 import { BsArrowRightShort } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useGetFindCandidateQuery, useOpenProfileMutation, useRateProfileMutation } from "../../../api/companies/findJob";
+import { useGetFindCandidateByIdQuery, useGetFindCandidateQuery, useOpenProfileMutation, useRateProfileMutation } from "../../../api/companies/findJob";
 import React, { useState } from "react";
 import { IFindJob } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
@@ -28,6 +28,7 @@ const JobSeekers = () => {
     const [openProfile] = useOpenProfileMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [rateProfile] = useRateProfileMutation();
+    const { data: detailFind } = useGetFindCandidateByIdQuery(selectedCandidateId || "");
     const settings: any = {
         dots: true,
         infinite: true,
@@ -121,7 +122,7 @@ const JobSeekers = () => {
         <section className='jobsee mt-5 border shadow  px-4 py-5 '>
             <div className='flex justify-between items-center  text-gray-400'>
                 <h5 className='font-semibold '>Ứng viên tìm việc</h5>
-                <Link to="/business/find-job" className='flex items-center gap-1'>Xem thêm các ứng viên khác <span className='text-xl'><BsArrowRightShort /> </span> </Link>
+                <Link to="/business/find-profile" className='flex items-center gap-1'>Xem thêm các ứng viên khác <span className='text-xl'><BsArrowRightShort /> </span> </Link>
             </div>
             <Slider {...settings} className='mt-10 p-2 overflow-x-hidden overflow-y-hidden '>
                 {data?.data?.map((candidate: IFindJob) => (
@@ -183,7 +184,7 @@ const JobSeekers = () => {
                         .filter((item: { id: null; }) => item.id === selectedCandidateId)// Lọc ứng viên với ID tương ứng
                         .map((item: IFindJob) => {
                             return (
-                                <TEModalContent >
+                                <TEModalContent>
                                     <TEModalHeader>
                                         {/* <!--Modal title--> */}
                                         <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
@@ -202,7 +203,19 @@ const JobSeekers = () => {
                                     {/* <!--Modal body--> */}
                                     <TEModalBody style={{ maxHeight: '75vh', overflowY: 'auto' }}>
                                         <div>
-                                            <h2 className="text-gray-700 font-semibold mb-4 text-lg">Thông tin công việc</h2>
+                                            <div className="flex justify-between">
+                                                <h2 className="text-gray-700 font-semibold mb-4 text-lg">Thông tin công việc</h2>
+                                                <div className="">
+                                                    {item.start !== null ? (
+                                                        <>
+                                                            <Rate allowHalf defaultValue={item.start} disabled />
+                                                            <span className="text-red-500 ml-1">{item.start}/5 ({item.count} đánh giá) </span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-red-500 font-medium">Hồ sơ này chưa có đánh giá từ công ty nào.</span>
+                                                    )}
+                                                </div>
+                                            </div>
                                             <div className="flex">
                                                 <div className="w-1/3 border border-slate-200 p-2">
                                                     <p className="font-semibold">Chức danh, tên công việc</p>
@@ -315,7 +328,7 @@ const JobSeekers = () => {
                                         <div className="border border-slate-200 p-2 my-3">
                                             <p className="flex justify-between">
                                                 <span>Phí mở liên hệ</span>
-                                                <span className="text-red-400">{item.coin} xu</span>
+                                                <span className="text-red-400">{detailFind?.data?.coin} xu</span>
                                             </p>
                                             <p className="flex justify-between">
                                                 <span>Số xu trong tài khoản</span>
@@ -323,43 +336,17 @@ const JobSeekers = () => {
                                             </p>
                                         </div>
                                         <div>
-                                            <h2 className="text-gray-700 font-semibold my-4 text-lg">Những công ty đã đánh giá</h2>
+                                            <h2 className="text-gray-700 font-semibold my-4 text-lg">Đánh giá của bạn</h2>
                                             <div className="pl-4">
-                                                {item.start !== null ? (
+                                                {detailFind?.comment?.comment !== null ? (
                                                     <>
-                                                        <Rate allowHalf defaultValue={item.start} disabled />
-                                                        <span className="text-red-500 ml-1">{item.start}/5 (71 đánh giá)</span>
+                                                        <Rate allowHalf key={detailFind?.comment?.start} defaultValue={detailFind?.comment?.start} disabled />
+                                                        <span className="text-red-500 ml-1">{detailFind?.comment?.start}/5</span>
                                                     </>
                                                 ) : (
-                                                    <span className="text-red-500 font-medium">Hồ sơ này chưa có đánh giá từ công ty nào.</span>
+                                                    <span className="text-red-500 font-medium">Bạn chưa đánh giá.</span>
                                                 )}
-
-                                                {/* <div className="grid-cols-1">
-                                                    <div className="border-t my-3 pt-3">
-                                                        <div className="flex items-center gap-2">
-                                                            <img src="data:image/jpeg;base64,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" alt="" className="w-14 h-14 rounded-full" />
-                                                            <div>
-                                                                <p className="text-base font-medium">Công ty cổ phần ABC</p>
-                                                                <Rate allowHalf defaultValue={item.start} disabled className="text-sm" />
-                                                            </div>
-                                                        </div>
-                                                        <p className="mt-2">Hàng thì oke đẹp mỗi tội k khâu đế khâu là k j phải bàn lun tuyệt🤭</p>
-                                                        <p className="text-gray-500 font-medium">7/10/2023 13:28</p>
-                                                    </div>
-                                                    <div className="border-t my-3 pt-3">
-                                                        <div className="flex items-center gap-2">
-                                                            <img src="data:image/jpeg;base64,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" alt="" className="w-14 h-14 rounded-full" />
-                                                            <div>
-                                                                <p className="text-base font-medium">Công ty cổ phần ABC</p>
-                                                                <Rate allowHalf defaultValue={item.start} disabled className="text-sm" />
-                                                            </div>
-                                                        </div>
-                                                        <p className="mt-2">Hàng thì oke đẹp mỗi tội k khâu đế khâu là k j phải bàn lun tuyệt🤭</p>
-                                                        <p className="text-gray-500 font-medium">7/10/2023 13:28</p>
-                                                    </div>
-                                                </div> */}
                                             </div>
-
                                         </div>
                                     </TEModalBody>
                                     <TEModalFooter>
@@ -382,7 +369,7 @@ const JobSeekers = () => {
                                                     <AiOutlineSwap /> <span>Mở liên hệ</span>
                                                 </button>
                                             ) : (
-                                                item.comment === null ? (
+                                                detailFind?.comment?.comment === null ? (
                                                     <button
                                                         type="button"
                                                         className="ml-3 flex items-center gap-1 bg-blue-500 text-white rounded-md p-2"

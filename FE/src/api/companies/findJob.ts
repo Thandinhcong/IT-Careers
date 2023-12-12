@@ -29,7 +29,10 @@ const FindJobCompanyApi = createApi({
       query: () => "/company/profile_save",
       providesTags: ["FindJobs"],
     }),
-
+    getFindCandidateById: builder.query<IFindJob | any, number | string>({
+      query: (id) => "/company/find_candidate_detail/" + id,
+      providesTags: ["FindJobs"],
+    }),
     openProfile: builder.mutation<void, number | string>({
       query: (id) => ({
         url: `/company/open_profile/${id}`,
@@ -65,6 +68,7 @@ export const {
   useGetFindCandidateQuery, //Hiển thị ứng viên bật tìm việc
   useGetProfileOpenQuery, //Hiển thị ứng viên đã mở khoá
   useGetProfileSaveQuery,
+  useGetFindCandidateByIdQuery,
   useRateProfileMutation,
   useOpenProfileMutation,
   useSaveProfileMutation,
