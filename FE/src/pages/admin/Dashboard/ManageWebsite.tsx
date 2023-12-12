@@ -3,7 +3,6 @@ import { CiSettings } from 'react-icons/ci';
 
 const ManageWebsite = React.memo(({ data }: any) => {
     const listMajor = data?.countMajor;
-    const listSkill = data?.countSkill;
     return (
         <div className="grid grid-cols-4 gap-5 mt-10">
             <div className="p-2 bg-green-500 flex gap-5 items-center">
@@ -15,16 +14,7 @@ const ManageWebsite = React.memo(({ data }: any) => {
                     <p className="mt-5 text-white">Tổng số chuyên ngành</p>
                 </div>
             </div>
-            <div className="p-2 bg-blue-500 text-white flex gap-5 items-center">
-                <div className='text-5xl text-white'>
-                    <CiSettings />
-                </div>
-                <div>
-                    <p className="text-2xl text-white">{listSkill?.length}</p>
-                    <p className="mt-5 text-white">Tổng số kỹ năng</p>
-                </div>
 
-            </div>
 
         </div>
     )

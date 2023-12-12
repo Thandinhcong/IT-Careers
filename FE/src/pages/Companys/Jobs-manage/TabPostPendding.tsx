@@ -7,6 +7,8 @@ import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import moment from "moment";
+import slugify from "slugify";
+import { Link } from "react-router-dom";
 
 
 const cancel = () => {
@@ -19,8 +21,6 @@ const isExpired = (endDate: string) => {
 };
 const TabPostPendding = () => {
     const { data, isLoading } = useGetJobPostByIdCompanyQuery();
-    console.log(data);
-
     const [extendJobPost] = useExtendJobPostMutation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -196,6 +196,7 @@ const TabPostPendding = () => {
                 const isExpiredValue = end_date ? isExpired(end_date) : true;
                 // Chỉ hiển thị nút đăng lại bài nếu end_date trước ngày hiện tại
                 const showExtendButton = isExpiredValue;
+                const slug = slugify(title, { lower: true });
                 return (
                     <div className="flex gap-2">
                         {showExtendButton && (
@@ -212,10 +213,10 @@ const TabPostPendding = () => {
                             <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key="1">
-                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${title}/${id}`}>
+                                        <Link target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" to={`/job-detail/${slug}/${id}`}>
                                             <AiOutlineTag />
                                             Xem tin đăng trên web
-                                        </a>
+                                        </Link>
                                     </Menu.Item>
                                     <Menu.Item key="2">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">

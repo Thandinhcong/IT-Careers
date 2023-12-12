@@ -7,6 +7,7 @@ import { vi } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import { useSearchQuery } from '../../../api/searchApi';
 import { Spin } from 'antd';
+import slugify from 'slugify';
 
 
 const Recruit = () => {
@@ -114,11 +115,12 @@ const Recruit = () => {
 
                         const startDate = parse(item.start_date, 'yyyy-MM-dd', new Date());
                         const timeDiff = formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
+                        const slug = slugify(item?.title, { lower: true });
                         return (
-                            <Spin spinning={isLoading}>
-                                < ul key={item.id}>
-                                    <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' key={item.id}>
-                                        <Link to={`/job-detail/${item?.title}/${item?.id}`}>
+                            <Spin key={item?.id} spinning={isLoading}>
+                                < ul >
+                                    <div className='grid grid-cols-5 mx-10 py-4 my-4 px-2 shadow-3xl rounded leading-7' >
+                                        <Link to={`/job-detail/${slug}/${item?.id}`}>
                                             {item?.logo == null ? (
                                                 <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700359570/glf34tttyauwoqpkbggt.png" alt="" className='w-28 h-28' />
                                             ) : (
@@ -129,7 +131,7 @@ const Recruit = () => {
 
                                         <div className='col-span-4 '>
 
-                                            <Link to={`/job-detail/${item?.title}/${item?.id}`} className=''>
+                                            <Link to={`/job-detail/${slug}/${item?.id}`} className=''>
                                                 <h1 className='text-xl'><b>{item.title}</b></h1>
                                                 <h2 className='text-gray-500'>{item.company_name}</h2>
                                                 <p className='flex items-center'>

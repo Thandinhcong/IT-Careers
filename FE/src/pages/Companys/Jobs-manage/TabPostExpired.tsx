@@ -7,6 +7,7 @@ import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 
 const cancel = () => {
@@ -191,10 +192,10 @@ const TabPostExpired = () => {
                             <Dropdown overlay={
                                 <Menu>
                                     <Menu.Item key="1">
-                                        <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/job-detail/${id}`}>
+                                        <Link target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" to={`/job-detail/${id}`}>
                                             <AiOutlineTag />
                                             Xem tin đăng trên web
-                                        </a>
+                                        </Link>
                                     </Menu.Item>
                                     <Menu.Item key="2">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.antgroup.com">

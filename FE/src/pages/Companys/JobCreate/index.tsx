@@ -31,7 +31,7 @@ const JobCreate = React.memo(() => {
         setSelectedProvincetId(rovinceId);
     }
 
-    const onFinish = (values: IJobPost) => {
+    const onFinish = (values: IJobPost | any) => {
         if (values.start_date !== undefined && values.end_date !== undefined) {
             const startDate = values.start_date.toDate();
             const endDate = values.end_date.toDate();
@@ -40,7 +40,6 @@ const JobCreate = React.memo(() => {
             values.start_date = moment(startDate).format('YYYY-MM-DD');
             values.end_date = moment(endDate).format('YYYY-MM-DD');
         }
-        console.log(values);
 
         if (values.min_salary !== undefined) {
             values.min_salary = parseFloat(values.min_salary);

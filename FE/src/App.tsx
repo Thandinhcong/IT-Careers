@@ -103,6 +103,8 @@ import PostingPackages from "./pages/admin/PostingPackages"
 import UpdatePostingPackages from "./pages/admin/PostingPackages/update"
 import AddPostingPackages from "./pages/admin/PostingPackages/add"
 import ForgotPassCompany from "./pages/Account/Companies/ForgotPassword"
+import FindJobFast from "./pages/Site/FindJobFast"
+import UploadCV from "./pages/Site/User/UploadCV"
 
 
 function App() {
@@ -120,20 +122,22 @@ function App() {
           <Route path="company/detail/:id" element={<CompanyDetail />} />
           <Route path="company/detail/reviews" element={<Reviews />} />
           <Route path="recruit" element={<Recruit />} />
+          <Route path="find-job-fast" element={<FindJobFast />} />
+
           <Route element={<IsCheckLogin />} >
             <Route path='account/' element={< Account />} >
               <Route index element={<CandidateInformation />} />
               <Route path="change_pass" element={<ChangePassCandidate />} />
             </Route>
             <Route path='user/' element={<LayoutUser />}>
+              <Route path='upload-cv' element={< UploadCV />} />
+
               <Route path='listcv' element={< ListCV />} />
               <Route path='jobapply' element={< JobApply />} />
               <Route path='jobfavor' element={< JobFavor />} />
               <Route path='profile' element={< Profile />} />
               <Route path='recharge' element={< RefillPackage />} />
               <Route path='historys-payment' element={< HistoryPayment />} />
-
-
             </Route >
             <Route path='account' element={< Account />} />
             <Route path="tao-cv/:id" element={<CreateCvTest />} />

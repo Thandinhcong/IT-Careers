@@ -15,7 +15,6 @@ import { useGetInforQuery } from "../../../api/CompanyInfoApi";
 const SaveJob = () => {
     const [form] = Form.useForm();
     const { data, isLoading } = useGetProfileSaveQuery();
-    console.log(data)
     const { data: Infor } = useGetInforQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -89,7 +88,6 @@ const SaveJob = () => {
                 message.success("Lưu thành công");
             })
             .catch((error) => {
-                console.log(error.data.error);
                 cancelSaveProfile(id)
                 message.info("Huỷ lưu");
             });

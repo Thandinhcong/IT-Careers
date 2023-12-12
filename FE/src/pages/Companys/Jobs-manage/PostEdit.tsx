@@ -14,7 +14,6 @@ import '../JobCreate/style.css';
 const PostEdit = () => {
     const { id } = useParams();
     const { data } = useGetJobPostSelectByIdQuery();
-    console.log(data);
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const { data: Infor } = useGetInforQuery();

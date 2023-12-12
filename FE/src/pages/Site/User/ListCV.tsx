@@ -9,7 +9,8 @@ import { UploadImage } from '../../../components/upload';
 import { useForm } from 'react-hook-form';
 import { FromUpload } from '../../../schemas/apply';
 import { Spin } from 'antd';
-import { IoMdStar, IoMdStarOutline } from 'react-icons/io';
+import { IoIosAdd, IoMdStar, IoMdStarOutline } from 'react-icons/io';
+import { LuUpload } from 'react-icons/lu';
 
 const ListCV = React.memo(() => {
     const fileInputRef: any = useRef(null);
@@ -22,8 +23,8 @@ const ListCV = React.memo(() => {
             y: 'top',
         },
     });
-    const [image, setImage] = useState<any>(null)
-    const [titleFile, SetTitleFile] = useState<any>(null)
+    const [image, setImage] = useState<any>(null);
+    const [titleFile, SetTitleFile] = useState<any>(null);
 
     const { data } = useListCvQuery();
     const listCv = data?.data;
@@ -123,13 +124,21 @@ const ListCV = React.memo(() => {
             {listCv && listCv.length ? (
                 <div className='border border-solid border-gray-300 rounded px-5 w-[800px]'>
                     <i className='text-sm my-2 text-yellow-500'>Lưu ý: CV của bạn tải lên thì sẽ không được chỉnh sửa thông tin</i>
+                    <div className='flex justify-between items-center'>
+                        <p className='text-xl text-blue-500 my-5'>CV đã tạo trên Bework</p>
+                        <button onClick={handleAddCV} className='text-white flex items-center bg-blue-500 px-3 py-2 rounded-full '>
+                            <div className='text-2xl'>
+                                <IoIosAdd />
+                            </div>
+                            Tạo mới
+                        </button>
+                    </div>
                     <div className='grid grid-cols-3 gap-5 '>
                         {listCv?.map((item: any) => {
                             if (item?.type === 1) {
                                 return (
-                                    <div className='Cv tải lên'>
-                                        <p className='text-xl text-blue-500 my-5'>CV đã tạo trên Bework</p>
-                                        <div key={item?.id} className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
+                                    <div className='Cv tải lên' key={item?.id}>
+                                        <div className='shadow-sm my-5 shadow-blue-300 border h-40 py-4 px-3'>
                                             <p className='text-center'>Tiêu đề: {item?.title}</p>
                                             <div className='flex justify-center items-center gap-2 my-2'>
                                                 <button onClick={() => handleDelete(item?.id)} className='text-red-500 font-semibold '><GoTrash /></button>
@@ -156,20 +165,24 @@ const ListCV = React.memo(() => {
                                                 )}
                                             </div>
                                         </div>
-
                                     </div>
                                 );
-
                             }
-
                         })}
 
                     </div>
-                    <div className='text-center m-5'>
-                        <button onClick={handleAddCV} className='text-white bg-blue-500 px-3 py-2 rounded '>Tạo CV</button>
-                    </div>
+
                     <hr className='border border-blue-500' />
-                    <p className='my-2 text-xl text-blue-500'>CV đã tải lên Bework</p>
+                    <div className='flex justify-between my-3 items-center'>
+
+                        <p className='my-2 text-xl text-blue-500'>CV đã tải lên Bework</p>
+                        <Link to={'/user/upload-cv'} className='text-white flex items-center bg-blue-500 px-3 py-2 rounded-full '>
+                            <div className='text-xl'>
+                                <LuUpload />
+                            </div>
+                            Tải cv lên
+                        </Link>
+                    </div>
                     <div className='grid grid-cols-3 gap-5 my-10 '>
                         {listCv?.map((item: any) => {
                             if (item?.type === 0) {
@@ -205,37 +218,9 @@ const ListCV = React.memo(() => {
 
                                     </div>
                                 );
-
                             }
-
                         })}
                     </div>
-                    <form
-                        onSubmit={handleSubmit(handleUploadCv)}
-                        className=" w-full mt-5 border"
-                    >
-                        <div className='flex justify-center  my-5 px-5 py-5'>
-
-                            <label className="block ">
-                                <span className="sr-only">Choose profile photo</span>
-                                <input
-                                    type="file"
-                                    {...register("path_cv")}
-                                    onChange={onChangeFile}
-                                    accept=".pdf"
-                                    id="dropzone-file"
-                                    disabled={loading}
-                                    ref={fileInputRef}
-                                    className="block w-full  text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:file:bg-blue-500 dark:hover:file:bg-blue-400"
-                                />
-                            </label>
-                            {loading && <span className="loading-text">  <Spin tip="Đang tải ảnh lên...">
-                            </Spin></span>}
-                        </div>
-                        <div className='flex justify-center mb-5'>
-                            <button className='border flex bg-blue-400 text-white px-2 py-1 rounded'>Upload</button>
-                        </div>
-                    </form>
                 </div>
 
             ) : (
