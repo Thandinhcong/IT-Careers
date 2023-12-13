@@ -22,8 +22,8 @@ const MainFindJob = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
     const { data: detailFind } = useGetFindCandidateByIdQuery(selectedCandidateId || "");
-    console.log(detailFind)
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
+    console.log(selectedProvinceId)
     const [openProfile] = useOpenProfileMutation();
     const [saveProfile] = useSaveProfileMutation();
     const [rateProfile] = useRateProfileMutation();
@@ -34,6 +34,7 @@ const MainFindJob = () => {
     const endIndex = startIndex + pageSize;
     const [filterName, setFilterName] = useState('');
     const [filterProvince, setFilterProvince] = useState('');
+    const [filterExp, setFilterExp] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
     const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
 
@@ -129,6 +130,11 @@ const MainFindJob = () => {
         setSelectedProvincetId(key);
         setFilterProvince(rovinceName?.children);
     }
+    //Hàm lấy số năm kinh nghiệm
+    const handleSelectExp = (values: string) => {
+        setFilterExp(values);
+    }
+
 
     const handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilterName(event.target.value);
@@ -154,6 +160,14 @@ const MainFindJob = () => {
                 const provinceLower = (item.province || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
 
                 return (!filterProvince || provinceLower.includes(filterProvince.toLowerCase()));
+            });
+        }
+        //Lọc theo số năm kinh nghiệm
+        if (filterExp) {
+            result = result.filter((item: { experience: string }) => {
+                const experienceLower = (item.experience || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
+
+                return (!filterExp || experienceLower.includes(filterExp.toLowerCase()));
             });
         }
         //Lọc theo mức lương
@@ -227,18 +241,13 @@ const MainFindJob = () => {
                         </Select.Option>
                     ))}
                 </Select>
-                <Select placeholder="--Quận, Huyện--" className="h-[37px] w-40">
-                    {select?.data?.district_id
-                        ?.filter((options: {
-                            province_id: string | number | null; id: string | number;
-                        }) => options.province_id == selectedProvinceId)
-                        .map((options: IJobPost) => (
-                            <Select.Option key={options.id} value={options.name}>
-                                {options.name}
-                            </Select.Option>
-                        ))}
+                <Select placeholder="--Số năm kinh nghiệm--" className="h-[37px] w-44" onChange={handleSelectExp}>
+                    {select?.data?.exp.map((options: IJobPost) => (
+                        <Select.Option key={options.id} value={options.experience} className="my-1">
+                            {options.experience}
+                        </Select.Option>
+                    ))}
                 </Select>
-
                 <select
                     className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40 "
                     onChange={(e) => handleSalarySelectChange(e.target.value)}
