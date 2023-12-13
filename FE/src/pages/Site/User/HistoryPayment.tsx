@@ -49,7 +49,7 @@ const HistoryPayment = () => {
         }
     ];
     return (
-        <div className='w-full'>
+        <div className='w-3/4'>
             <h2 className='text-3xl font-medium text-blue-500 mb-5'>Lịch sử thanh toán</h2>
             {listPayment ? (
                 <div className="overflow-x-auto rounded-lg   w-full">

@@ -15,6 +15,7 @@ const CvCandodateDetail = React.memo(() => {
     const listInfoCandidateApply = data?.data;
     const listImage = data?.data?.image;
     const [form] = Form.useForm();
+    console.log(data);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
