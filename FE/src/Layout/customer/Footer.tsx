@@ -139,9 +139,9 @@ const Footer = React.memo((dataFooter: any) => {
 
                 <hr className="my-6" />
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                    <div>
+                    <div className="text-center sm:text-left">
                         <div className="">
-                            <img src={listINfo?.logo} className="w-24 " alt="" />
+                            <img src={listINfo?.logo} className="w-24 mx-auto sm:ml-0" alt="" />
                             <p className="  mt-10 text-xl  font-semibold">{listINfo?.company_name}</p>
                         </div>
 

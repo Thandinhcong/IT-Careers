@@ -1,4 +1,4 @@
-import { AiFillCaretRight, AiOutlineReload } from 'react-icons/ai'
+import { AiFillCaretRight, AiOutlineReload } from 'react-icons/ai';
 import { Link, useLocation } from 'react-router-dom';
 import SearchJobs from './SearchJobs';
 import { MdOutlineAttachMoney } from 'react-icons/md';
@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { useSearchQuery } from '../../../api/searchApi';
 import { Spin } from 'antd';
 import slugify from 'slugify';
-
 
 const Recruit = () => {
     const location = useLocation();
@@ -23,11 +22,9 @@ const Recruit = () => {
     useEffect(() => {
         if (!location?.state) {
             handleSearchDataChange(data);
-
         } else if (location?.state) {
             handleSearchDataChange(location?.state?.searchData);
-        }
-        else {
+        } else {
             handleSearchDataChange(location?.state?.searchData);
         }
     }, [location?.state, data]);
@@ -42,14 +39,14 @@ const Recruit = () => {
     };
 
     const resetSearch = () => {
-        setDataSearch(data)
-    }
+        setDataSearch(data);
+    };
 
     return (
         <div className='max-w-screen-xl mx-auto'>
             <SearchJobs onSearchDataChange={handleSearchDataChange} />
             <div>
-                <div className='grid grid-cols-8 my-4 gap-8'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 my-4'>
                     {/* <select
                         name="HeadlineAct"
                         id="HeadlineAct"
@@ -98,11 +95,17 @@ const Recruit = () => {
                         <option value="7days">Desiger</option>
                         <option value="30days">Designer UX UI</option>
                     </select> */}
-                    <button className='rounded-lg bg-gray-200' onClick={resetSearch} ><AiOutlineReload className="inline-block base-line mr-1" />Đặt lại</button>
+                    <button
+                        className='rounded-lg bg-gray-200'
+                        onClick={resetSearch}
+                    >
+                        <AiOutlineReload className="inline-block base-line mr-1" />Đặt lại
+                    </button>
                 </div>
             </div>
 
             <hr className='py-4' />
+
             <div className='grid grid-cols-3 gap-8'>
                 <div className='col-span-2'>
                     <h2 className='font-semibold text-xl'>Tuyển dụng </h2>
@@ -257,6 +260,7 @@ const Recruit = () => {
                 </div>
             </div>
         </div >
-    )
-}
-export default Recruit
+    );
+};
+
+export default Recruit;

@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Reviews = () => {
     return (
         <section>
             <h2 className='text-xl md:text-2xl mt-10 my-5'><span className='text-blue-500'>BEWORK</span>  có thể giúp bạn những gì?</h2>
-            <div className='grid grid-cols-3 gap-4 mt-10'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-10'>
                 <div className='shadow-xl p-5 mb-8'>
                     <img
                         src="https://www.123job.vn/images/recruit/find_job.png"
@@ -44,7 +44,7 @@ const Reviews = () => {
                     />
                     <div className='mb-10'>
                         <h5 className='font-medium text-xl mt-6 mb-3 text-center'>Tìm kiếm việc làm nhanh</h5>
-                        <p className='text-center'>Bạn cần tìm kiếm việc làm gấp. Bework chúng tôi sẽ giúp bạn tìm kiếm công việc phù hợp với bạn thật nhanh. Chỉ mất có hồ sơ trên website của chúng tôi, bạn sẽ được ứng tuyển các công việc vafbanj mong muốn nhất, chúng tôi sẽ tự động ứng tuyển cho bạn.</p>
+                        <p className='text-center'>Bạn cần tìm kiếm việc làm gấp. Bework chúng tôi sẽ giúp bạn tìm kiếm công việc phù hợp với bạn thật nhanh. Chỉ mất có hồ sơ trên website của chúng tôi, bạn sẽ được ứng tuyển các công việc và bạn mong muốn nhất, chúng tôi sẽ tự động ứng tuyển cho bạn.</p>
                     </div>
                     <div className='flex justify-center'>
                         <Link to="/find-job-fast" className='px-7 bg-blue-500 rounded-full py-2 text-white  '>Tìm việc nhanh</Link>
@@ -52,7 +52,7 @@ const Reviews = () => {
                 </div>
             </div>
         </section>
-    )
+    );
 }
 
-export default Reviews
+export default Reviews;

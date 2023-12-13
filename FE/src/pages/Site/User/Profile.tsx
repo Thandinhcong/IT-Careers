@@ -185,7 +185,7 @@ const Profile = React.memo(() => {
                                 </Form.Item>
                             </Col>
                             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                <Button type="primary" className='bg-blue-500 mb-10 mx-auto' htmlType="submit">
+                                <Button type="primary" className='bg-blue-500 mb-10 mx-20' htmlType="submit">
                                     Submit
                                 </Button>
                             </Form.Item>

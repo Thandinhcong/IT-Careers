@@ -35,9 +35,9 @@ const LayoutUser = React.memo(() => {
     };
     if (isLoading) return <Skeleton />
     return (
-        <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
+        <div className='flex justify-between mx-auto max-w-screen-xl gap-8 mb-14'>
             <Outlet />
-            <div className='w-1/3'>
+            <div className="w-full lg:w-1/3 hidden lg:block">
                 <div className='sticky top-0'>
                     <div className='shadow-sm shadow-blue-300 px-6'>
                         <div className='flex justify-between'>

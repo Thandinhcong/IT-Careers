@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const customIcon = <MdRoom size={20} />;
 
 const SearchJobs = ({ onSearchDataChange }: any) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { data } = useGetJobPostSelectByIdQuery();
     const [searchValue, setSearchValue] = useState('');
     const [provinceValue, setProvinceValue] = useState(undefined);
@@ -33,14 +33,14 @@ const SearchJobs = ({ onSearchDataChange }: any) => {
     };
 
     return (
-        <form className="lg:flex items-center gap-2 my-5">
+        <form className="lg:flex items-center gap-2 my-5 mx-5 lg:mx-0">
             <div className="border rounded-md bg-white justify-between px-2 my-7 flex items-center lg:py-3 py-2">
                 <label htmlFor="search" className="lg:pl-4 pl-2">
                     Tìm kiếm
                 </label>
                 <input
                     type="text"
-                    className="outline-none ml-3 lg:w-[350px]"
+                    className="outline-none ml-3 w-full lg:w-[350px]"
                     placeholder="Chức danh, từ khóa hoặc công ty"
                     value={searchValue}
                     onChange={handleSearchInputChange}
@@ -51,7 +51,7 @@ const SearchJobs = ({ onSearchDataChange }: any) => {
             </div>
             <Select
                 placeholder="Chọn địa chỉ"
-                className='w-[400px] h-[50px] border-none'
+                className='w-full lg:w-[400px] h-[50px] border-none mb-6 lg:mb-0'
                 suffixIcon={customIcon}
                 value={provinceValue}
                 onChange={handleProvinceSelectChange}
@@ -63,7 +63,7 @@ const SearchJobs = ({ onSearchDataChange }: any) => {
                 ))}
             </Select>
             <button
-                className="bg-blue-600 px-10 lg:my-7 lg:ml-2 rounded-full text-white font-semibold w-full lg:w-auto py-3"
+                className="bg-blue-600 px-5 lg:px-10 lg:my-7 lg:ml-2 rounded-full text-white font-semibold w-full lg:w-auto py-3"
                 type="button"
                 onClick={handleSearchButtonClick}
             >

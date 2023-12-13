@@ -31,6 +31,10 @@ const Header = React.memo((data: any) => {
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: candidateData } = useGetCandidatesQuery();
+  const handleLinkClick = () => {
+    // Close the mobile menu when a link is clicked
+    setMobileMenuOpen(false);
+  };
 
   const [useLogout] = useLogOutMutation();
   const [isLogin] = useState(() => {
@@ -47,13 +51,13 @@ const Header = React.memo((data: any) => {
     }
   };
   const listImage = candidateData?.candidate?.image;
-  const CV = [
-    {
-      name: "Trang chủ  ",
-      href: "/",
-      icon: <AiOutlineProfile className="text-blue-500 text-2xl" />,
-    }
-  ];
+  // const CV = [
+  //   {
+  //     name: "Trang chủ",
+  //     href: "/",
+  //     icon: <AiOutlineProfile className="text-blue-500 text-2xl" />,
+  //   }
+  // ];
   const profile = [
     {
       name: "Profile cá nhân",
@@ -101,6 +105,53 @@ const Header = React.memo((data: any) => {
       icon: <AiOutlineLogout className="text-xl" />,
     },
   ];
+  const profileMobile = [
+    {
+      name: "Profile cá nhân",
+      href: "/user/profile",
+      // icon: <AiOutlineUser className="text-xl" />,
+    },
+    {
+      name: "Quản lý CV",
+      href: "/user/listcv",
+      // icon: <AiOutlineProfile className="text-xl" />,
+    },
+    {
+      name: "Việc làm đã ứng tuyển",
+      href: "/user/jobapply",
+      // icon: <AiOutlineCalendar className="text-xl" />,
+    },
+    {
+      name: "Việc làm đã lưu",
+      href: "/user/jobfavor",
+      // icon: <AiOutlineHeart className="text-xl" />,
+    },
+    {
+      name: "Đổi mật khẩu",
+      href: "/account/change_pass",
+      // icon: <AiOutlineKey className="text-xl" />,
+    },
+    {
+      name: "Thiết lập tài khoản",
+      href: "/account",
+      // icon: <AiOutlineSetting className="text-xl" />,
+    },
+    {
+      name: "Gói nạp",
+      href: "/user/recharge",
+      // icon: <TbRecharging className="text-xl" />,
+    },
+    {
+      name: "Lịch sử thanh toán",
+      href: "/user/historys-payment",
+      // icon: <MdHistory className="text-xl" />,
+    },
+    {
+      name: "Đăng xuất",
+      onclick: handleLogout,
+      // icon: <AiOutlineLogout className="text-xl" />,
+    },
+  ];
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
@@ -124,22 +175,47 @@ const Header = React.memo((data: any) => {
           </Link>
         </div>
         <div className="flex lg:hidden">
-          <button
-            type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <span className="sr-only">Open main menu</span>
-            <AiOutlineBars />
-          </button>
+          {isLogin && (
+            <button
+              type="button"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open main menu</span>
+              {listImage ? (
+                <img
+                  src={candidateData?.candidate?.image}
+                  className="rounded-full border w-8 h-8"
+                  alt="avatar"
+                />
+              ) : (
+                <img
+                  src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg"
+                  alt="icon"
+                  width={32}
+                  className="rounded-full"
+                />
+              )}
+            </button>
+          )}
+          {!isLogin && (
+            <button
+              type="button"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open main menu</span>
+              <AiOutlineBars />
+            </button>
+          )}
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link
+          {/* <Link
             to="/"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Trang chủ
-          </Link>
+          </Link> */}
           <Link
             to="/recruit"
             className="text-sm font-semibold leading-6 text-gray-900"
@@ -281,64 +357,108 @@ const Header = React.memo((data: any) => {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex w-full items-center rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        <AiOutlineProfile className="inline-block base-line text-blue-600" />
-                        <p>Hồ sơ CV</p>
-                        <AiFillCaretDown
+                        {/* <AiOutlineProfile className="inline-block base-line text-blue-600" /> */}
+                        {/* <p>Hồ sơ CV</p> */}
+                        {/* <AiFillCaretDown
                           className={classNames(
                             open ? "rotate-180" : "",
                             "h-5 w-5 flex"
                           )}
                           aria-hidden="true"
-                        />
+                        /> */}
                       </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
+                      {/* <Disclosure.Panel className="mt-2 space-y-2">
                         {[...CV].map((item) => (
                           <Disclosure.Button
                             key={item.name}
                             as="a"
                             href={item.href}
+                            onClick={handleLinkClick} // Close menu on link click
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                           >
                             {item.name}
                           </Disclosure.Button>
                         ))}
-                      </Disclosure.Panel>
+                      </Disclosure.Panel> */}
                     </>
                   )}
                 </Disclosure>
                 <Link
                   to="/recruit"
+                  onClick={handleLinkClick}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Việc làm
                 </Link>
                 <Link
                   to="/company"
+                  onClick={handleLinkClick}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Công ty
                 </Link>
+                <Link
+                  to="/find-job-fast"
+                  onClick={handleLinkClick}
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Tìm việc nhanh
+                </Link>
               </div>
               <div className="py-3">
-                <hr />
-                <Link
-                  to="/dang-nhap"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Đăng nhập
-                </Link>
-                <Link
-                  to="/business/signin"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Đăng nhập NTD
-                </Link>
+                {/* <hr /> */}
+                {isLogin ? (
+                  ""
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={handleLinkClick} // Close menu on link click
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Đăng nhập <span aria-hidden="true"></span>
+                    </Link>
+                    <Link
+                      to="/business/signin"
+                      onClick={handleLinkClick} // Close menu on link click
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Đăng nhập NDT <span aria-hidden="true"></span>
+                    </Link>
+                  </>
+                )}
+                {!isLogin ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="">
+                      {profileMobile.map((item: any) => (
+                        <div
+                          onClick={(e) => {
+                            handleLinkClick();
+                            item.onclick && item.onclick(e);
+                          }}
+                          key={item.name}
+                          className="group relative -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        >
+                          <Link
+                            to={item.href}
+                            className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          >
+                            {item.name}
+                            <span className="absolute inset-0" />
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </Dialog.Panel>
       </Dialog>
-    </header>
+    </header >
   );
 });
 
