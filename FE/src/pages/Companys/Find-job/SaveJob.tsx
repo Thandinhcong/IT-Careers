@@ -378,7 +378,7 @@ const SaveJob = () => {
                         <Pagination
                             current={currentPage}
                             onChange={(page) => setCurrentPage(page)}
-                            total={Math.ceil(filteredData?.length / pageSize)}
+                            total={filteredData ? Math.ceil(filteredData.length / pageSize) : 0}
                             pageSize={pageSize}
                         />
                     </div>
@@ -392,7 +392,7 @@ const SaveJob = () => {
                         .filter((item: { id: null; }) => item.id === selectedCandidateId)// Lọc ứng viên với ID tương ứng
                         .map((item: IFindJob) => {
                             return (
-                                <TEModalContent >
+                                <TEModalContent key={item.id}>
                                     <TEModalHeader>
                                         {/* <!--Modal title--> */}
                                         <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
@@ -416,8 +416,8 @@ const SaveJob = () => {
                                                 <div className="">
                                                     {item.start !== null ? (
                                                         <>
-                                                            <Rate allowHalf defaultValue={item.start} disabled />
-                                                            <span className="text-red-500 ml-1">{item.start}/5 ({item.count} đánh giá) </span>
+                                                            <Rate allowHalf key={detailFind?.data?.start} defaultValue={detailFind?.data?.start} disabled />
+                                                            <span className="text-red-500 ml-1">{detailFind?.data?.start}/5 ({item.count} đánh giá) </span>
                                                         </>
                                                     ) : (
                                                         <span className="text-red-500 font-medium">Hồ sơ này chưa có đánh giá từ công ty nào.</span>
@@ -543,19 +543,24 @@ const SaveJob = () => {
                                                 <span>{Infor?.company?.coin} xu</span>
                                             </p>
                                         </div>
-                                        <div>
-                                            <h2 className="text-gray-700 font-semibold my-4 text-lg">Đánh giá của bạn</h2>
-                                            <div className="pl-4">
-                                                {detailFind?.comment?.comment !== null ? (
-                                                    <>
-                                                        <Rate allowHalf defaultValue={detailFind?.comment?.start} disabled />
-                                                        <span className="text-red-500 ml-1">{detailFind?.comment?.start}/5</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="text-red-500 font-medium">Bạn chưa đánh giá.</span>
-                                                )}
+                                        {detailFind?.comment !== null && (
+                                            <div>
+                                                <h2 className="text-gray-700 font-semibold my-4 text-lg">Đánh giá của bạn</h2>
+                                                <div className="pl-4">
+                                                    {detailFind?.comment?.comment !== null ? (
+                                                        <>
+                                                            <Rate allowHalf key={detailFind?.comment?.start} defaultValue={detailFind?.comment?.start} disabled />
+                                                            <span className="text-red-500 ml-1">{detailFind?.comment?.start}/5</span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-red-500 font-medium">Bạn chưa đánh giá.</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
+                                        {detailFind?.comment === null && (
+                                            <span className="text-red-500 font-medium"></span>
+                                        )}
                                     </TEModalBody>
                                     <TEModalFooter>
                                         <TERipple rippleColor="light">

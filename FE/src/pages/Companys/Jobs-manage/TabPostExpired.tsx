@@ -1,8 +1,8 @@
-import { AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlinePauseCircle, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
-import React, { useState } from 'react';
-import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm } from 'antd';
+import { AiOutlineBulb, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEdit, AiOutlineEnvironment, AiOutlineFilter, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { useState } from 'react';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useExtendJobPostMutation, useGetJobPostExpiresByIdCompanyQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
+import { useExtendJobPostMutation, useGetJobPostExpiresByIdCompanyQuery } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -10,9 +10,9 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 
-const cancel = () => {
-    message.info('Huỷ dừng');
-};
+// const cancel = () => {
+//     message.info('Huỷ dừng');
+// };
 const TabPostExpired = () => {
     const { data } = useGetJobPostExpiresByIdCompanyQuery();
 
@@ -20,10 +20,7 @@ const TabPostExpired = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
-    const [stopJobPost] = useStopJobPostMutation();
-
-
-
+    // const [stopJobPost] = useStopJobPostMutation();
     const defaultEndDate = moment().add(5, 'days');
     const defaultQuantity = 5;
 
@@ -72,12 +69,12 @@ const TabPostExpired = () => {
         setIsModalOpen(false);
     };
 
-    const confirm = (id: number | string) => {
-        stopJobPost(id);
-        setTimeout(() => {
-            message.success('Bài đăng đã được dừng tuyển');
-        }, 1000);
-    };
+    // const confirm = (id: number | string) => {
+    //     stopJobPost(id);
+    //     setTimeout(() => {
+    //         message.success('Bài đăng đã được dừng tuyển');
+    //     }, 1000);
+    // };
 
     const columns: ColumnsType<any> = [
         {
@@ -203,7 +200,7 @@ const TabPostExpired = () => {
                                             <p>Xóa tin</p>
                                         </a>
                                     </Menu.Item> */}
-                                    <Menu.Item key="3">
+                                    {/* <Menu.Item key="3">
                                         <Popconfirm
                                             title="Dừng tuyển bài đăng"
                                             description="Bạn có muốn bài đăng này dừng tuyển không?"
@@ -219,7 +216,7 @@ const TabPostExpired = () => {
                                             </a>
                                         </Popconfirm>
 
-                                    </Menu.Item>
+                                    </Menu.Item> */}
                                     <Menu.Item key="4">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href="https://www.luohanacademy.com">
                                             <AiOutlineBulb />
@@ -262,14 +259,6 @@ const TabPostExpired = () => {
         }
     })
 
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[] | any) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: (record: IJobPost | any) => ({
-            name: record.title,
-        }),
-    };
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
@@ -281,9 +270,6 @@ const TabPostExpired = () => {
                 <Divider />
 
                 <Table
-                    rowSelection={{
-                        ...rowSelection,
-                    }}
                     columns={columns}
                     dataSource={jobPostData}
                 />

@@ -26,11 +26,11 @@ const JobsManage = React.memo(() => {
                             <span>Đang tuyển</span></p>}>
                         <TabPostPass />
                     </Tabs.TabPane>
-                    <Tabs.TabPane key="4"
+                    {/* <Tabs.TabPane key="4"
                         tab={<p className=' text-base text-[#526484] font-medium'>
                             <span>Dừng tuyển</span></p>}>
                         <TabPostStop />
-                    </Tabs.TabPane>
+                    </Tabs.TabPane> */}
                     <Tabs.TabPane key="5"
                         tab={<p className=' text-base text-[#526484] font-medium'>
                             <span>Chờ duyệt</span></p>}>

@@ -1,8 +1,8 @@
-import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineDelete, AiOutlineEdit, AiOutlineEnvironment, AiOutlinePauseCircle, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
-import React, { useState } from 'react';
-import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Popconfirm, Input, Skeleton } from 'antd';
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEdit, AiOutlineEnvironment, AiOutlineProfile, AiOutlineReload, AiOutlineSetting, AiOutlineTag } from "react-icons/ai"
+import { useState } from 'react';
+import { Button, Divider, Dropdown, Menu, Modal, Space, Table, Tag, Form, DatePicker, Select, Row, Col, InputNumber, message, Input, Skeleton } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useGetJobPostSelectByIdQuery, useStopJobPostMutation } from '../../../api/companies/jobPostCompany';
+import { useExtendJobPostMutation, useGetJobPostByIdCompanyQuery, useGetJobPostSelectByIdQuery } from '../../../api/companies/jobPostCompany';
 import { IJobPost } from "../../../interfaces";
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -11,9 +11,6 @@ import { Link } from "react-router-dom";
 import slugify from "slugify";
 
 
-const cancel = () => {
-    message.info('Huỷ dừng');
-};
 const isExpired = (endDate: string) => {
     const currentDate = moment();
     const end = moment(endDate);
@@ -25,14 +22,12 @@ const TabMain = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
-    const [stopJobPost] = useStopJobPostMutation();
     const { data: select } = useGetJobPostSelectByIdQuery();
-
     const defaultEndDate = moment().add(10, 'days'); //giá trị mặc định là sau 10 ngày hiện tại
     const defaultQuantity = 10;
-
     const [searchKeyword, setSearchKeyword] = useState(""); // Trạng thái lưu từ khoá tìm kiếm
     const [originalJobPostData, setOriginalJobPostData] = useState([]); // Trạng thái lưu mảng bài đăng ban đầu
+    console.log(originalJobPostData)
 
     const showModal = (jobId: number) => {
         setSelectedJobId(jobId);
@@ -88,13 +83,6 @@ const TabMain = () => {
 
     const handleCancel = () => {
         setIsModalOpen(false);
-    };
-
-    const confirm = (id: number | string) => {
-        stopJobPost(id);
-        setTimeout(() => {
-            message.success('Bài đăng đã được dừng tuyển');
-        }, 1000);
     };
 
     const handleChange = (value: string) => {
@@ -157,7 +145,7 @@ const TabMain = () => {
                 } else if (status === 3) {
                     color = 'gold';
                     text = 'Dừng tuyển';
-                } else {
+                } else if (status === 2) {
                     color = 'volcano';
                     text = 'Không duyệt';
                 }
@@ -223,7 +211,7 @@ const TabMain = () => {
                                             <p>Xóa tin</p>
                                         </a>
                                     </Menu.Item> */}
-                                    <Menu.Item key="3">
+                                    {/* <Menu.Item key="3">
                                         <Popconfirm
                                             title="Dừng tuyển bài đăng"
                                             description="Bạn có muốn bài đăng này dừng tuyển không?"
@@ -239,7 +227,7 @@ const TabMain = () => {
                                             </a>
                                         </Popconfirm>
 
-                                    </Menu.Item>
+                                    </Menu.Item> */}
                                     <Menu.Item key="4">
                                         <a target="_blank" rel="noopener noreferrer" className="flex items-center gap-1" href={`/business/cv-apply/job-post/${id}`}>
                                             <AiOutlineProfile />
@@ -286,15 +274,7 @@ const TabMain = () => {
     const filteredJobPostData = jobPostData?.filter((item: IJobPost) => {
         return item.title?.toLowerCase().includes(searchKeyword.toLowerCase()); // Lọc theo từ khoá trong tiêu đề bài đăng
     });
-    // rowSelection object indicates the need for row selection
-    const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: IJobPost[]) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: (record: IJobPost) => ({
-            name: record.title,
-        }),
-    };
+
     return (
         <div>
             <div className="flex gap-4 text-sm my-4">
@@ -320,9 +300,6 @@ const TabMain = () => {
                 <Divider />
                 {filteredJobPostData && filteredJobPostData.length > 0 ? (
                     <Table
-                        rowSelection={{
-                            ...rowSelection,
-                        }}
                         columns={columns}
                         dataSource={filteredJobPostData || jobPostData}
                     />
