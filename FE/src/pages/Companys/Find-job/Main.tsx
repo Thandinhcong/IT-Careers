@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
+import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { useCancelSaveProfileMutation, useGetFindCandidateByIdQuery, useGetFindCandidateQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
@@ -34,7 +34,6 @@ const MainFindJob = () => {
     const endIndex = startIndex + pageSize;
     const [filterName, setFilterName] = useState('');
     const [filterProvince, setFilterProvince] = useState('');
-    const [filterDistrict, setFilterDistrict] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
     const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
 
@@ -127,17 +126,12 @@ const MainFindJob = () => {
     };
 
     const handleSelectProvinceId = (key: number | string, rovinceName: BaseOptionType | DefaultOptionType) => {
-        setSelectedProvincetId(key); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+        setSelectedProvincetId(key);
         setFilterProvince(rovinceName?.children);
     }
 
     const handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilterName(event.target.value);
-    };
-
-    const handleDistrictSelectChange = (value: string) => {
-        // Cập nhật giá trị của select Quận/Huyện
-        setFilterDistrict(value);
     };
     // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
     const handleSalarySelectChange = (value: string) => {
@@ -160,14 +154,6 @@ const MainFindJob = () => {
                 const provinceLower = (item.province || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
 
                 return (!filterProvince || provinceLower.includes(filterProvince.toLowerCase()));
-            });
-        }
-        //Lọc theo quận huyện
-        if (filterDistrict) {
-            result = result.filter((item: { district: string }) => {
-                const districtLower = (item.district || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
-
-                return (!filterDistrict || districtLower.includes(filterDistrict.toLowerCase()));
             });
         }
         //Lọc theo mức lương
@@ -209,7 +195,6 @@ const MainFindJob = () => {
     const handleClearFilterButtonClick = () => {
         // Xóa tất cả các giá trị lọc và cập nhật state
         setFilterName('');
-        setFilterDistrict('');
         setFilterSalary('');
         setFilteredData((data?.data || []) as IFindJob[]);
         setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
@@ -242,7 +227,7 @@ const MainFindJob = () => {
                         </Select.Option>
                     ))}
                 </Select>
-                <Select placeholder="--Quận, Huyện--" className="h-[37px] w-40" onChange={handleDistrictSelectChange}>
+                <Select placeholder="--Quận, Huyện--" className="h-[37px] w-40">
                     {select?.data?.district_id
                         ?.filter((options: {
                             province_id: string | number | null; id: string | number;
@@ -331,7 +316,7 @@ const MainFindJob = () => {
                                             {item.province} {item.district === null ? 'Chưa cập nhật' : item.district}
                                         </span>
                                     </p>
-                                    <p className="flex items-center"><AiOutlineDollarCircle /> <span className="w-28">Mức lương:</span>
+                                    <p className="flex items-center"><span className="w-28">Mức lương:</span>
                                         <span>{item.desired_salary === null ? (
                                             <p>Chưa cập nhật</p>
                                         ) : (
@@ -341,9 +326,9 @@ const MainFindJob = () => {
                                 <div className="mt-3 flex justify-between">
 
                                     <p className="flex items-center gap-2 text-gray-500"><AiOutlineClockCircle /><span>{item.created_at ? (
-                                        <span>{formatTimeDifference(item.created_at)}</span>
+                                        <span></span>
                                     ) : (
-                                        <span>Ngày không xác định</span>
+                                        <span></span>
                                     )}</span></p>
                                     <div>
                                         <button

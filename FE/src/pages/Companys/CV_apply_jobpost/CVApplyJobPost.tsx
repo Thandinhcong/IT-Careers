@@ -1,6 +1,6 @@
 import { Form, Radio, Modal, message, Pagination, Skeleton } from "antd"
 import React, { useState } from "react";
-import { AiOutlineCalendar, AiOutlineDownload, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone, AiOutlineSetting, AiOutlineSwap } from "react-icons/ai"
+import { AiOutlineCalendar, AiOutlineEdit, AiOutlineEye, AiOutlineMail, AiOutlinePhone } from "react-icons/ai"
 import { TERipple, } from "tw-elements-react";
 import { useAssseCandidateMutation, useGetCvApllyByIdJobPostIdQuery } from "../../../api/companies/cvApply";
 import { Link, useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ const CVApplyJobPost = React.memo(() => {
     const { data, isLoading } = useGetCvApllyByIdJobPostIdQuery(id || "");
     const [form] = Form.useForm();
     const [assse] = useAssseCandidateMutation();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedCvApplyId, setSlectedCvApplyId] = useState<number | null>(null);//lưu id hồ sơ
@@ -62,10 +61,6 @@ const CVApplyJobPost = React.memo(() => {
             .catch((errorInfo) => {
                 console.log('Xác minh lỗi:', errorInfo);
             });
-    };
-
-    const handleDropdownToggle = () => {
-        setIsDropdownOpen(!isDropdownOpen);
     };
 
     if (isLoading) return <Skeleton />
@@ -178,38 +173,6 @@ const CVApplyJobPost = React.memo(() => {
                                         ><AiOutlineEdit /><span> Đánh giá</span>
                                         </button>
                                     </TERipple>
-                                    <div className="relative">
-                                        <button
-                                            className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm"
-                                            onClick={handleDropdownToggle}
-                                        >
-                                            <AiOutlineSetting />
-                                            <span> Thao tác</span>
-                                        </button>
-
-                                        {isDropdownOpen && (
-                                            <div className="absolute end-0 z-10 mt-2 w-48 rounded-md border border-gray-100 bg-white shadow-lg">
-                                                <ul className="p-1">
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block rounded-lg px-4 py-2 text-[13px] text-gray-500 hover:bg-gray-50 hover:text-blue-500"                                    >
-                                                            <AiOutlineDownload className="inline-block mr-1" />Tải xuống cv
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block rounded-lg px-4 py-2 text-[13px] text-gray-500 hover:bg-gray-50 hover:text-blue-500"                                    >
-                                                            <AiOutlineSwap className="inline-block mr-1" />
-                                                            Lịch sử ghi chú
-                                                        </a>
-                                                    </li>
-                                                </ul>
-
-                                            </div>
-                                        )}
-                                    </div>
                                 </div>
                             </div >
                         </div>

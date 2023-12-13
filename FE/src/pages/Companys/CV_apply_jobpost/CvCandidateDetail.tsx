@@ -187,7 +187,7 @@ const CvCandodateDetail = React.memo(() => {
 
                                                     : ''
                                                 }`}>
-                                                {data?.data?.qualifying_round_id === 0 ? 'không phù hợp' : data?.data?.qualifying_round_id === 1 ? 'phù hợp' : ''}
+                                                {data?.data?.qualifying_round_id === 0 ? 'không phù hợp' : data?.data?.qualifying_round_id === 1 ? 'phù hợp' : 'chưa đánh giá'}
                                             </p>
                                         </td>
                                     </tr>
