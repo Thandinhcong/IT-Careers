@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
+import { AiFillHeart, AiOutlineCalendar, AiOutlineClose, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { useCancelSaveProfileMutation, useGetFindCandidateByIdQuery, useGetFindCandidateQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
 import { Form, Input, Modal, Pagination, Rate, Select, Spin, message } from "antd";
-import { formatDistanceToNow, parse } from 'date-fns';
-import { vi } from 'date-fns/locale';
 import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostCompany";
 import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
@@ -51,20 +49,6 @@ const MainFindJob = () => {
         setModalVisible(true);
         setSelectedCandidateId(candidateId);
     }
-    //Hàm đếm thời gian
-    const formatTimeDifference = (createdAt: string) => {
-        if (!createdAt || typeof createdAt !== 'string') {
-            return "Ngày không xác định";
-        }
-
-        const startDate = parse(createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
-
-        if (isNaN(startDate.getTime())) {
-            return "Ngày không xác định";
-        }
-
-        return formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
-    };
     //Hàm mở khoá hồ sơ
     const handleModalConfirm = () => {
         if (selectedCandidateId) {
@@ -209,6 +193,7 @@ const MainFindJob = () => {
     const handleClearFilterButtonClick = () => {
         // Xóa tất cả các giá trị lọc và cập nhật state
         setFilterName('');
+        setFilterExp('')
         setFilterSalary('');
         setFilteredData((data?.data || []) as IFindJob[]);
         setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
@@ -334,7 +319,7 @@ const MainFindJob = () => {
                                 </div>
                                 <div className="mt-3 flex justify-between">
 
-                                    <p className="flex items-center gap-2 text-gray-500"><AiOutlineClockCircle /><span>{item.created_at ? (
+                                    <p className="flex items-center gap-2 text-gray-500"><span>{item.created_at ? (
                                         <span></span>
                                     ) : (
                                         <span></span>
@@ -442,18 +427,6 @@ const MainFindJob = () => {
                                                     ) : (
                                                         <p className="text-red-500">{formatCurrency(item.desired_salary, 'VND')}</p>
                                                     )}
-                                                </div>
-                                            </div>
-                                            <div className="flex">
-                                                <div className="w-1/3 border border-slate-200 p-2">
-                                                    <p className="font-semibold">Thời gian</p>
-                                                </div>
-                                                <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>{item.created_at ? (
-                                                        <span>{formatTimeDifference(item.created_at)}</span>
-                                                    ) : (
-                                                        <span>Ngày không xác định</span>
-                                                    )}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">

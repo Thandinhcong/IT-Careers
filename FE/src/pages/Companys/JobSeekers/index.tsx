@@ -1,5 +1,5 @@
 import { CgWorkAlt } from "react-icons/cg"
-import { CiLocationOn, CiMoneyBill, CiTimer } from 'react-icons/ci'
+import { CiLocationOn, CiMoneyBill } from 'react-icons/ci'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -9,8 +9,6 @@ import { Link } from 'react-router-dom';
 import { useGetFindCandidateByIdQuery, useGetFindCandidateQuery, useOpenProfileMutation, useRateProfileMutation } from "../../../api/companies/findJob";
 import React, { useState } from "react";
 import { IFindJob } from "../../../interfaces";
-import { formatDistanceToNow, parse } from 'date-fns';
-import { vi } from 'date-fns/locale';
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { AiOutlineClose, AiOutlineSwap } from "react-icons/ai";
 import { Form, Input, Modal, Rate, message } from "antd";
@@ -40,19 +38,6 @@ const JobSeekers = () => {
         autoplaySpeed: 2000,
     }
 
-    const formatTimeDifference = (createdAt: string) => {
-        if (!createdAt || typeof createdAt !== 'string') {
-            return "Ngày không xác định";
-        }
-
-        const startDate = parse(createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
-
-        if (isNaN(startDate.getTime())) {
-            return "Ngày không xác định";
-        }
-
-        return formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
-    };
     //hàm mở modal mở khoá
     const handleOpenModalUnlock = (candidateId: number | string | null) => {
         setModalVisible(true);
@@ -168,9 +153,7 @@ const JobSeekers = () => {
                             </p>
                             <hr className='mt-3' />
                             <div className='flex justify-between items-center my-5 font-normal gap-3'>
-                                <span className='flex gap-2 items-center'>
-                                    <CiTimer /> Đăng {formatTimeDifference(candidate.created_at)}
-                                </span>
+                                <span className='flex gap-2 items-center'></span>
                                 <button onClick={() => handleOpenModal(candidate.id)} className='py-2 hover:bg-blue-500 rounded px-5 border border-solid border-blue-500 hover:text-white text-blue-500 font-medium'>Xem ngay</button>
                             </div>
                         </div>
@@ -246,18 +229,6 @@ const JobSeekers = () => {
                                                     ) : (
                                                         <p className="text-red-500">{formatCurrency(item.desired_salary, 'VND')}</p>
                                                     )}
-                                                </div>
-                                            </div>
-                                            <div className="flex">
-                                                <div className="w-1/3 border border-slate-200 p-2">
-                                                    <p className="font-semibold">Thời gian</p>
-                                                </div>
-                                                <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>{item.created_at ? (
-                                                        <span>{formatTimeDifference(item.created_at)}</span>
-                                                    ) : (
-                                                        <span>Ngày không xác định</span>
-                                                    )}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">

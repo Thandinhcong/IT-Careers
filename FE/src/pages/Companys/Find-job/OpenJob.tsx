@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineDollarCircle, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
+import { AiFillHeart, AiOutlineCalendar, AiOutlineClose, AiOutlineEnvironment, AiOutlineFilter, AiOutlineHeart, AiOutlineReload, AiOutlineSwap } from "react-icons/ai"
 import { TERipple, TEModal, TEModalDialog, TEModalContent, TEModalHeader, TEModalBody, TEModalFooter, } from "tw-elements-react";
 import { useCancelSaveProfileMutation, useGetFindCandidateByIdQuery, useGetProfileOpenQuery, useOpenProfileMutation, useRateProfileMutation, useSaveProfileMutation } from "../../../api/companies/findJob";
 import { IFindJob, IJobPost } from "../../../interfaces";
 import { Form, Input, Modal, Pagination, Rate, Select, Spin, message } from "antd";
-import { formatDistanceToNow, parse } from 'date-fns';
-import { vi } from 'date-fns/locale';
 import { useGetJobPostSelectByIdQuery } from "../../../api/companies/jobPostCompany";
 import { BaseOptionType } from "antd/es/select";
 import { DefaultOptionType } from "antd/es/cascader";
@@ -15,7 +13,6 @@ import { useGetInforQuery } from "../../../api/CompanyInfoApi";
 const OpenJob = () => {
     const [form] = Form.useForm();
     const { data, isLoading } = useGetProfileOpenQuery();
-    console.log(data)
     const { data: Infor } = useGetInforQuery();
     const { data: select } = useGetJobPostSelectByIdQuery();
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -24,6 +21,7 @@ const OpenJob = () => {
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | number | null>(null); // lưu trữ id của ứng viên được chọn
     const { data: detailFind } = useGetFindCandidateByIdQuery(selectedCandidateId || "");
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
+    console.log(selectedProvinceId)
     const [openProfile] = useOpenProfileMutation();
     const [saveProfile] = useSaveProfileMutation();
     const [rateProfile] = useRateProfileMutation();
@@ -34,7 +32,7 @@ const OpenJob = () => {
     const endIndex = startIndex + pageSize;
     const [filterName, setFilterName] = useState('');
     const [filterProvince, setFilterProvince] = useState('');
-    const [filterDistrict, setFilterDistrict] = useState('');
+    const [filterExp, setFilterExp] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
     const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
 
@@ -51,20 +49,6 @@ const OpenJob = () => {
         setModalVisible(true);
         setSelectedCandidateId(candidateId);
     }
-    //Hàm đếm thời gian
-    const formatTimeDifference = (createdAt: string) => {
-        if (!createdAt || typeof createdAt !== 'string') {
-            return "Ngày không xác định";
-        }
-
-        const startDate = parse(createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
-
-        if (isNaN(startDate.getTime())) {
-            return "Ngày không xác định";
-        }
-
-        return formatDistanceToNow(startDate, { locale: vi, addSuffix: true });
-    };
     //Hàm mở khoá hồ sơ
     const handleModalConfirm = () => {
         if (selectedCandidateId) {
@@ -127,17 +111,17 @@ const OpenJob = () => {
     };
 
     const handleSelectProvinceId = (key: number | string, rovinceName: BaseOptionType | DefaultOptionType) => {
-        setSelectedProvincetId(key); // Lưu ID của tỉnh thành phố vào state selectedProvinceId
+        setSelectedProvincetId(key);
         setFilterProvince(rovinceName?.children);
     }
+    //Hàm lấy số năm kinh nghiệm
+    const handleSelectExp = (values: string) => {
+        setFilterExp(values);
+    }
+
 
     const handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilterName(event.target.value);
-    };
-
-    const handleDistrictSelectChange = (value: string) => {
-        // Cập nhật giá trị của select Quận/Huyện
-        setFilterDistrict(value);
     };
     // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
     const handleSalarySelectChange = (value: string) => {
@@ -162,12 +146,12 @@ const OpenJob = () => {
                 return (!filterProvince || provinceLower.includes(filterProvince.toLowerCase()));
             });
         }
-        //Lọc theo quận huyện
-        if (filterDistrict) {
-            result = result.filter((item: { district: string }) => {
-                const districtLower = (item.district || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
+        //Lọc theo số năm kinh nghiệm
+        if (filterExp) {
+            result = result.filter((item: { experience: string }) => {
+                const experienceLower = (item.experience || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
 
-                return (!filterDistrict || districtLower.includes(filterDistrict.toLowerCase()));
+                return (!filterExp || experienceLower.includes(filterExp.toLowerCase()));
             });
         }
         //Lọc theo mức lương
@@ -209,7 +193,7 @@ const OpenJob = () => {
     const handleClearFilterButtonClick = () => {
         // Xóa tất cả các giá trị lọc và cập nhật state
         setFilterName('');
-        setFilterDistrict('');
+        setFilterExp('')
         setFilterSalary('');
         setFilteredData((data?.data || []) as IFindJob[]);
         setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
@@ -221,6 +205,7 @@ const OpenJob = () => {
             style: 'currency',
             currency: currency,
         }).format(amount);
+
         return formattedAmount;
     };
 
@@ -241,18 +226,13 @@ const OpenJob = () => {
                         </Select.Option>
                     ))}
                 </Select>
-                <Select placeholder="--Quận, Huyện--" className="h-[37px] w-40" onChange={handleDistrictSelectChange}>
-                    {select?.data?.district_id
-                        ?.filter((options: {
-                            province_id: string | number | null; id: string | number;
-                        }) => options.province_id == selectedProvinceId)
-                        .map((options: IJobPost) => (
-                            <Select.Option key={options.id} value={options.name}>
-                                {options.name}
-                            </Select.Option>
-                        ))}
+                <Select placeholder="--Số năm kinh nghiệm--" className="h-[37px] w-44" onChange={handleSelectExp}>
+                    {select?.data?.exp.map((options: IJobPost) => (
+                        <Select.Option key={options.id} value={options.experience} className="my-1">
+                            {options.experience}
+                        </Select.Option>
+                    ))}
                 </Select>
-
                 <select
                     className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40 "
                     onChange={(e) => handleSalarySelectChange(e.target.value)}
@@ -282,14 +262,6 @@ const OpenJob = () => {
                 <div className="bg-gray-100 -mx-4">
                     <div className="pt-4 bg-gray-100 mb-2 flex justify-between">
                         <p className="text-gray-700">Có {filteredData?.length || 0} kết quả tìm kiếm.</p>
-                        {/* <select
-                            name=""
-                            className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-48"
-                        >
-                            <option value="">- Tin mới nhất -</option>
-                            <option value="JM">- Mức lương giảm dần -</option>
-                            <option value="SRV">- Mức lương tăng dần -</option>
-                        </select> */}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {filteredData?.slice(startIndex, endIndex).map((item: IFindJob) => (
@@ -338,7 +310,7 @@ const OpenJob = () => {
                                             {item.province} {item.district === null ? 'Chưa cập nhật' : item.district}
                                         </span>
                                     </p>
-                                    <p className="flex items-center"><AiOutlineDollarCircle /> <span className="w-28">Mức lương:</span>
+                                    <p className="flex items-center"><span className="w-28">Mức lương:</span>
                                         <span>{item.desired_salary === null ? (
                                             <p>Chưa cập nhật</p>
                                         ) : (
@@ -347,10 +319,10 @@ const OpenJob = () => {
                                 </div>
                                 <div className="mt-3 flex justify-between">
 
-                                    <p className="flex items-center gap-2 text-gray-500"><AiOutlineClockCircle /><span>{item.created_at ? (
-                                        <span>{formatTimeDifference(item.created_at)}</span>
+                                    <p className="flex items-center gap-2 text-gray-500"><span>{item.created_at ? (
+                                        <span></span>
                                     ) : (
-                                        <span>Ngày không xác định</span>
+                                        <span></span>
                                     )}</span></p>
                                     <div>
                                         <button
@@ -455,18 +427,6 @@ const OpenJob = () => {
                                                     ) : (
                                                         <p className="text-red-500">{formatCurrency(item.desired_salary, 'VND')}</p>
                                                     )}
-                                                </div>
-                                            </div>
-                                            <div className="flex">
-                                                <div className="w-1/3 border border-slate-200 p-2">
-                                                    <p className="font-semibold">Thời gian</p>
-                                                </div>
-                                                <div className="w-2/3 border border-slate-200 p-2">
-                                                    <p>{item.created_at ? (
-                                                        <span>{formatTimeDifference(item.created_at)}</span>
-                                                    ) : (
-                                                        <span>Ngày không xác định</span>
-                                                    )}</p>
                                                 </div>
                                             </div>
                                             <div className="flex">
@@ -642,6 +602,7 @@ const OpenJob = () => {
                     }
                 </TEModalDialog>
             </TEModal>
+
         </div>
     )
 };
