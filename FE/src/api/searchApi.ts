@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IJobPost } from '../interfaces';
 
 const searchApi = createApi({
     reducerPath: 'search',
@@ -23,7 +24,7 @@ const searchApi = createApi({
                 return `search${queryParams ? `?${queryParams}` : ''}`;
             },
         }),
-        getJobPostSelectById: builder.query<any, void>({
+        getJobPostSelectById: builder.query<IJobPost, void>({
             query: () => "/job_post_select",
             providesTags: ["search"],
         }),

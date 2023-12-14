@@ -3,7 +3,7 @@ import { MdOutlineFavorite, MdOutlineFavoriteBorder, MdRoom } from 'react-icons/
 import { Link } from 'react-router-dom'
 import { useGetAllJobsQuery } from '../../../api/jobApi'
 import { VND } from '../../../components/upload'
-import { Pagination, Skeleton } from 'antd'
+import { Pagination, Select, Skeleton } from 'antd'
 import React, { useState } from 'react'
 import { useAddSaveJobsMutation, useGetAllSaveJobsQuery, useUnsaveJobMutation } from '../../../api/savejobpostapi'
 import { useGetInfoUserQuery, useLoginMutation } from '../../../api/auths'
@@ -16,6 +16,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { RiVipCrown2Line } from 'react-icons/ri'
 import slugify from 'slugify';
+import { IFindJob, IJobPost } from '../../../interfaces'
+import { BaseOptionType } from 'antd/es/select'
+import { DefaultOptionType } from 'antd/es/cascader'
+import { useGetJobPostSelectByIdQuery } from '../../../api/searchApi'
+import { AiOutlineFilter, AiOutlineReload } from 'react-icons/ai'
 const Recruitment = React.memo(() => {
     const notyf = new Notyf({
         duration: 2000,
@@ -27,6 +32,24 @@ const Recruitment = React.memo(() => {
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
     const [currentPage, setCurrentPage] = useState(1);
+    // const { data: search } = useGetJobPostSelectByIdQuery();
+    const [provinceValue, setProvinceValue] = useState(undefined);
+    const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+    const { data: select } = useGetJobPostSelectByIdQuery();
+    // const [selectedSalary, setSelectedSalary] = useState<string>('');
+    const [filterProvince, setFilterProvince] = useState<string>('');
+    console.log(filterProvince);
+
+    const [filterExp, setFilterExp] = useState('');
+    const [filterSalary, setFilterSalary] = useState('');
+    console.log(filterSalary);
+
+    const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
+    console.log(filteredData);
+
+    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
+    console.log(selectedProvinceId);
+
     const pageSize = 12;
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -38,7 +61,7 @@ const Recruitment = React.memo(() => {
     const filteredJobs = listJobs?.filter((item) => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
-    const displayedJobs = filteredJobs?.slice(startIndex, endIndex);
+    const displayedJobs = filteredData?.slice(startIndex, endIndex);
     //lưu việc làm
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
@@ -95,6 +118,107 @@ const Recruitment = React.memo(() => {
         }
     };
 
+    //Lọc
+    const handleSelectProvinceId = (key: number | string, province: BaseOptionType | DefaultOptionType) => {
+        setSelectedProvincetId(key);
+        setFilterProvince(province?.children); // Use province object to get the name
+        console.log(province); // Access the id property
+    }
+    // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
+    const handleSalarySelectChange = (value: string) => {
+        setFilterSalary(value);
+        console.log(value);
+
+    };
+    const handleSelectExp = (values: string) => {
+        setFilterExp(values);
+    }
+
+    const handleFilter = () => {
+        let result: any = filteredJobs || [];
+
+
+        //Lọc theo tỉnh thành phố
+        if (filterProvince) {
+            result = result.filter((item: { province: string }) => {
+                const provinceLower = (item.province || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
+
+                return (!filterProvince || provinceLower.includes(filterProvince.toLowerCase()));
+            });
+        }
+        //Lọc theo số năm kinh nghiệm
+        if (filterExp) {
+            result = result.filter((item: { experience: string }) => {
+                const experienceLower = (item.experience || '').toLowerCase(); // Thêm điều kiện kiểm tra trước khi sử dụng toLowerCase
+
+                return (!filterExp || experienceLower.includes(filterExp.toLowerCase()));
+            });
+        }
+        // //Lọc theo mức lương
+        if (filterSalary) {
+            // Lọc theo mức lương dựa trên giá trị được chọn
+            result = result.filter((item: any) => {
+                const minSalary = parseInt(item.min_salary);
+                // const maxSalary = parseInt(item.max_salary);
+                switch (filterSalary) {
+                    case '1':
+                        // Dưới 1 triệu
+                        return minSalary < 1000000;
+                        break;
+                    case '2':
+                        // 1-5 triệu
+                        return minSalary >= 1000000;
+                        break;
+                    case '3':
+                        // 5-10 triệu
+                        return minSalary >= 5000000;
+                        break;
+                    case '4':
+                        // 10-15 triệu
+                        return minSalary >= 10000000;
+                        break;
+                    case '5':
+                        // 15-20 triệu
+                        return minSalary >= 15000000;
+                        break;
+                    case '6':
+                        // 20-25 triệu
+                        return minSalary >= 20000000;
+                        break;
+                    case '7':
+                        // 25-30 triệu
+                        return minSalary >= 30000000;
+                        break;
+                    case '8':
+                        // 30-35 triệu
+                        return minSalary >= 30000000;
+                        break;
+                    case '9':
+                        // Trên 35 triệu
+                        return minSalary > 35000000;
+                        break;
+                    default:
+                        return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
+                }
+            });
+        }
+        setFilteredData(result);
+    };
+
+    // const handleClearFilterButtonClick = () => {
+    //     // Xóa tất cả các giá trị lọc và cập nhật state
+    //     setFilterSalary('');
+    //     setFilteredData((data?.data || []) as IFindJob[]);
+    //     setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
+    //     setFilterExp(''); // Reset giá trị của quận/huyện
+    // };
+
+    const handleFilterButtonClick = () => {
+        // Gọi hàm lọc dữ liệu
+        handleFilter();
+    };
+
+
     if (isLoading) return <Skeleton />
     return (
         <div>
@@ -105,6 +229,54 @@ const Recruitment = React.memo(() => {
                         <span className='text-blue-500'> tốt nhất</span>
                     </h2>
                     <Link to="/recruit" className='flex items-center gap-2  hover:text-blue-500'>Xem tất cả  <BsArrowRight /></Link>
+                </div>
+                <div className="flex gap-4 text-sm my-4">
+                    <Select
+                        placeholder="Chọn địa chỉ"
+                        className="h-[37px] w-40"
+                        onChange={(value, option) => handleSelectProvinceId(value, option)}
+                    >
+                        {select?.data?.province_id.map((options: IJobPost) => (
+                            <Select.Option key={options.id} value={options.id} rovinceName={options.province} className="my-1">
+                                {options.province}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                    <Select placeholder="--Số năm kinh nghiệm--" className="h-[37px] w-44" onChange={handleSelectExp}>
+                        {select?.data?.exp.map((options: IJobPost) => (
+                            <Select.Option key={options.id} value={options.experience} className="my-1">
+                                {options.experience}
+                            </Select.Option>
+                        ))}
+                    </Select>
+
+                    <select
+                        className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40 "
+                        onChange={(e) => handleSalarySelectChange(e.target.value)}
+                    >
+                        <option value="">- Mức lương -</option>
+                        <option value="1">Dưới 1 triệu</option>
+                        <option value="2">1-5 triệu</option>
+                        <option value="3">5-10 triệu</option>
+                        <option value="4">10-15 triệu</option>
+                        <option value="5">15-20 triệu</option>
+                        <option value="6">20-25 triệu</option>
+                        <option value="7">25-30 triệu</option>
+                        <option value="8">30-35 triệu</option>
+                        <option value="9">Trên 35 triệu</option>
+                    </select>
+
+                    <button className="bg-blue-600 text-white flex items-center rounded-md px-3" onClick={handleFilterButtonClick}>
+                        <AiOutlineFilter className="text-lg" />
+                        <p>Lọc</p>
+                    </button>
+                    {/* <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-3" onClick={handleClearFilterButtonClick}>
+                        <AiOutlineReload />
+                        <p>Xóa lọc</p>
+                    </button> */}
+                </div>
+                <div className="pt-4 bg-gray-100 mb-2 flex justify-between">
+                    <p className="text-gray-700">Có {filteredData?.length || 0} kết quả tìm kiếm.</p>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {
@@ -221,5 +393,3 @@ const Recruitment = React.memo(() => {
 });
 
 export default Recruitment
-
-
