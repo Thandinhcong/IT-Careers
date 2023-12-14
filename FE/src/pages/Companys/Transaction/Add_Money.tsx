@@ -16,7 +16,6 @@ interface DataType {
 
 const Add_Money = React.memo(() => {
     const { data, isLoading } = useGetAllHistoryPaymentsQuery();
-    console.log(data);
     const datas: DataType[] = data?.data?.history?.map((item: any, index: number) => {
         return {
             key: item?.id,
@@ -25,7 +24,6 @@ const Add_Money = React.memo(() => {
         }
 
     })
-
     const columns: ColumnsType<DataType> = [
         {
             title: 'STT',
@@ -34,7 +32,7 @@ const Add_Money = React.memo(() => {
         {
             title: 'Số tiền nạp',
             dataIndex: 'coin',
-            render: (text, record: any) => {
+            render: (_text, record: any) => {
                 const exchangeRate = 1;
                 const vndAmount = record.coin * exchangeRate;
                 const formattedAmount = formatCurrency(vndAmount, 'VND');
@@ -42,10 +40,15 @@ const Add_Money = React.memo(() => {
             },
         },
         {
+            title: 'Mô tả',
+            dataIndex: 'note',
+            key: 'note'
+        },
+        {
             title: 'Thời gian',
             dataIndex: 'created_at',
-            render: (text, record: any) => {
-                return moment(record.created_at).format('YYYY-MM-DD HH:mm:ss');
+            render: (_text, record: any) => {
+                return moment(record.created_at).format('HH:mm:ss DD-MM-YYYY ');
             },
         },
     ];

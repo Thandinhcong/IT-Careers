@@ -5,9 +5,10 @@ import { MdOutlineAttachMoney } from 'react-icons/md';
 import { formatDistanceToNow, parse } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
-import { useSearchQuery } from '../../../api/searchApi';
-import { Spin } from 'antd';
+import { useGetJobPostSelectByIdQuery, useSearchQuery } from '../../../api/searchApi';
+import { Select, Spin } from 'antd';
 import slugify from 'slugify';
+import { IJobPost } from '../../../interfaces';
 
 
 const Recruit = () => {
@@ -15,7 +16,9 @@ const Recruit = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, isLoading } = useSearchQuery({ search: '', province: '' });
     const [searchData, setDataSearch] = useState(data?.data);
-
+    const { data: select } = useGetJobPostSelectByIdQuery();
+    const [selectedExp, setSelectedExp] = useState<string>('');
+    const [selectedSalary, setSelectedSalary] = useState<string>('');
     const handleSearchDataChange = (searchData: any) => {
         setDataSearch(searchData);
     };
@@ -35,70 +38,122 @@ const Recruit = () => {
     const itemsPerPage = 10;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const displayedData = searchData && searchData?.data && searchData?.data?.slice(startIndex, endIndex);
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
-
     const resetSearch = () => {
-        setDataSearch(data)
+        setSelectedExp('');  // Đặt lại số năm kinh nghiệm
+        setSelectedSalary('');  // Đặt lại mức lương
+        setDataSearch(data);  // Đặt lại dữ liệu tìm kiếm
     }
+    const filteredData = searchData?.data?.filter((item: any) => {
+        // Lọc theo số năm kinh nghiệm
+        if (selectedExp && item.experience !== selectedExp) {
+            return false;
+        }
 
+        // Lọc theo mức lương
+        if (selectedSalary) {
+            const minSalary = parseInt(item.min_salary);
+            const maxSalary = parseInt(item.max_salary);
+            console.log(minSalary)
+
+            switch (selectedSalary) {
+                case '1':
+                    // Dưới 1 triệu
+                    if (!(maxSalary < 1000000 || minSalary < 1000000)) {
+                        return false;
+                    }
+                    break;
+                case '2':
+                    // 1-5 triệu
+                    if (!(minSalary >= 1000000)) {
+                        return false;
+                    }
+                    break;
+                case '3':
+                    // 5-10 triệu
+                    if (!(minSalary >= 5000000)) {
+                        return false;
+                    }
+                    break;
+                case '4':
+                    // 10-15 triệu
+                    if (!(minSalary >= 10000000)) {
+                        return false;
+                    }
+                    break;
+                case '5':
+                    // 15-20 triệu
+                    if (!(minSalary >= 15000000)) {
+                        return false;
+                    }
+                    break;
+                case '6':
+                    // 20-25 triệu
+                    if (!(minSalary >= 20000000)) {
+                        return false;
+                    }
+                    break;
+                case '7':
+                    // 25-30 triệu
+                    if (!(minSalary >= 25000000)) {
+                        return false;
+                    }
+                    break;
+                case '8':
+                    // 30-35 triệu
+                    if (!(minSalary >= 30000000)) {
+                        return false;
+                    }
+                    break;
+                case '9':
+                    // Trên 35 triệu
+                    if (!(minSalary > 35000000)) {
+                        return false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return true;
+    });
+    const displayedData = filteredData?.slice(startIndex, endIndex);
     return (
         <div className='max-w-screen-xl mx-auto'>
             <SearchJobs onSearchDataChange={handleSearchDataChange} />
             <div>
-                <div className='grid grid-cols-8 my-4 gap-8'>
-                    {/* <select
-                        name="HeadlineAct"
-                        id="HeadlineAct"
-                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                <div className='flex items-center my-4 gap-8'>
+                    <Select
+                        placeholder="--Số năm kinh nghiệm--"
+                        className="h-[37px] w-44"
+                        onChange={(value) => setSelectedExp(value)}
                     >
-                        <option value="date" hidden>Ngày đăng</option>
-                        <option value="24hours" className=''>24 giờ qua</option>
-                        <option value="3days">3 ngày qua</option>
-                        <option value="7days">7 ngày qua</option>
-                        <option value="30days">30 ngày qua</option>
-                    </select> */}
-                    {/* <select
-                        name="HeadlineAct"
-                        id="HeadlineAct"
-                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
-                    >
-                        <option value="date" hidden>Cấp bậc</option>
-                        <option value="24hours" className=''>TSS</option>
-                        <option value="3days">Fresher Developer</option>
-                        <option value="7days">Junior Developer</option>
-                        <option value="30days">Mid-level Developer</option>
-                        <option value="30days">Senior Developer</option>
-                        <option value="30days">Leader</option>
-                    </select>
+                        {select?.data?.exp.map((options: IJobPost) => (
+                            <Select.Option key={options.id} value={options.experience} className="my-1">
+                                {options.experience}
+                            </Select.Option>
+                        ))}
+                    </Select>
                     <select
-                        name="HeadlineAct"
-                        id="HeadlineAct"
-                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
+                        className="border border-gray-200 p-2 rounded-md outline-blue-400 text-gray-700 w-40"
+                        onChange={(e) => setSelectedSalary(e.target.value)}
                     >
-                        <option value="date" hidden>Kinh nghiệm</option>
-                        <option value="24hours" className=''>Dưới 1 năm</option>
-                        <option value="3days">1 năm</option>
-                        <option value="7days">2 năm</option>
-                        <option value="30days">4 năm</option>
-                        <option value="30days">5 năm</option>
-                        <option value="30days">Trên 5 năm</option>
+                        <option value="">- Mức lương -</option>
+                        <option value="1">Dưới 1 triệu</option>
+                        <option value="2">1-5 triệu</option>
+                        <option value="3">5-10 triệu</option>
+                        <option value="4">10-15 triệu</option>
+                        <option value="5">15-20 triệu</option>
+                        <option value="6">20-25 triệu</option>
+                        <option value="7">25-30 triệu</option>
+                        <option value="8">30-35 triệu</option>
+                        <option value="9">Trên 35 triệu</option>
                     </select>
-                    <select
-                        name="HeadlineAct"
-                        id="HeadlineAct"
-                        className="w-full outline-none rounded-lg border-gray-300 text-gray-800 sm:text-sm col-span-1 text-center py-2 bg-gray-200"
-                    >
-                        <option value="date" hidden>Chuyên ngành</option>
-                        <option value="24hours" className=''>Front-end</option>
-                        <option value="3days">Back-end(Website)</option>
-                        <option value="7days">Desiger</option>
-                        <option value="30days">Designer UX UI</option>
-                    </select> */}
-                    <button className='rounded-lg bg-gray-200' onClick={resetSearch} ><AiOutlineReload className="inline-block base-line mr-1" />Đặt lại</button>
+                    <button className='rounded-lg bg-gray-200 py-1.5 px-5' onClick={resetSearch} ><AiOutlineReload className="inline-block mr-1" />Đặt lại</button>
                 </div>
             </div>
 
@@ -107,7 +162,7 @@ const Recruit = () => {
                 <div className='col-span-2'>
                     <h2 className='font-semibold text-xl'>Tuyển dụng </h2>
                     <p className='py-4'>
-                        Có <span className='font-bold'>{searchData ? searchData?.data?.length : 0}</span> việc làm phù hợp với tìm kiếm của bạn
+                        Có <span className='font-bold'>{filteredData ? filteredData?.length : 0}</span> việc làm phù hợp với tìm kiếm của bạn
                     </p>
 
                     {/* item 1 */}
