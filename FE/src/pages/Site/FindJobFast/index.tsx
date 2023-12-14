@@ -24,15 +24,14 @@ const FindJobFast = () => {
     const [applyFast] = useFindJobFastMutation();
     const onFinish = async (values: any) => {
         try {
-            const results = await applyFast({
+            await applyFast({
                 candidate_id: idUser,
                 ...values
             }).unwrap();
-            console.log(results);
-        } catch (error: any) {
-            console.log("errorInfo", error);
+            notyf.success("Ứng tuyển nhanh thành công!")
 
-            notyf.error(error?.data?.message)
+        } catch (error: any) {
+            notyf.error(error?.data?.message);
         }
 
     };
@@ -142,7 +141,7 @@ const FindJobFast = () => {
                     </div>
                 </div>
 
-                <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
+                <Form.Item wrapperCol={{ offset: 11, span: 16 }}>
                     <Button type="primary" className='bg-blue-500 mb-10 mx-auto' htmlType="submit">
                         Tìm kiếm
                     </Button>
