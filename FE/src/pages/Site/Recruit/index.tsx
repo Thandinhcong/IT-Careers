@@ -68,49 +68,49 @@ const Recruit = () => {
                     break;
                 case '2':
                     // 1-5 triệu
-                    if (!(minSalary >= 1000000)) {
+                    if (!(maxSalary >= 1000000)) {
                         return false;
                     }
                     break;
                 case '3':
                     // 5-10 triệu
-                    if (!(minSalary >= 5000000)) {
+                    if (!(maxSalary >= 5000000)) {
                         return false;
                     }
                     break;
                 case '4':
                     // 10-15 triệu
-                    if (!(minSalary >= 10000000)) {
+                    if (!(maxSalary >= 10000000)) {
                         return false;
                     }
                     break;
                 case '5':
                     // 15-20 triệu
-                    if (!(minSalary >= 15000000)) {
+                    if (!(maxSalary >= 15000000)) {
                         return false;
                     }
                     break;
                 case '6':
                     // 20-25 triệu
-                    if (!(minSalary >= 20000000)) {
+                    if (!(maxSalary >= 20000000)) {
                         return false;
                     }
                     break;
                 case '7':
                     // 25-30 triệu
-                    if (!(minSalary >= 25000000)) {
+                    if (!(maxSalary >= 25000000)) {
                         return false;
                     }
                     break;
                 case '8':
                     // 30-35 triệu
-                    if (!(minSalary >= 30000000)) {
+                    if (!(maxSalary >= 30000000)) {
                         return false;
                     }
                     break;
                 case '9':
                     // Trên 35 triệu
-                    if (!(minSalary > 35000000)) {
+                    if (!(maxSalary > 35000000)) {
                         return false;
                     }
                     break;

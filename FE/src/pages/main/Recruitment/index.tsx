@@ -32,23 +32,15 @@ const Recruitment = React.memo(() => {
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
     const [currentPage, setCurrentPage] = useState(1);
-    // const { data: search } = useGetJobPostSelectByIdQuery();
-    const [provinceValue, setProvinceValue] = useState(undefined);
-    const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-    const { data: select } = useGetJobPostSelectByIdQuery();
-    // const [selectedSalary, setSelectedSalary] = useState<string>('');
-    const [filterProvince, setFilterProvince] = useState<string>('');
-    console.log(filterProvince);
 
+    const { data: select } = useGetJobPostSelectByIdQuery();
+    const [filterProvince, setFilterProvince] = useState<string>('');
     const [filterExp, setFilterExp] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
     console.log(filterSalary);
-
-    const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
-    console.log(filteredData);
+    const [filteredData, setFilteredData] = useState<IFindJob[] | null>(listJobs);
 
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
-    console.log(selectedProvinceId);
 
     const pageSize = 12;
     const handlePageChange = (page: number) => {
@@ -122,12 +114,10 @@ const Recruitment = React.memo(() => {
     const handleSelectProvinceId = (key: number | string, province: BaseOptionType | DefaultOptionType) => {
         setSelectedProvincetId(key);
         setFilterProvince(province?.children); // Use province object to get the name
-        console.log(province); // Access the id property
     }
     // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
     const handleSalarySelectChange = (value: string) => {
         setFilterSalary(value);
-        console.log(value);
 
     };
     const handleSelectExp = (values: string) => {
@@ -159,7 +149,7 @@ const Recruitment = React.memo(() => {
             // Lọc theo mức lương dựa trên giá trị được chọn
             result = result.filter((item: any) => {
                 const minSalary = parseInt(item.min_salary);
-                // const maxSalary = parseInt(item.max_salary);
+                const maxSalary = parseInt(item.max_salary);
                 switch (filterSalary) {
                     case '1':
                         // Dưới 1 triệu
@@ -167,35 +157,35 @@ const Recruitment = React.memo(() => {
                         break;
                     case '2':
                         // 1-5 triệu
-                        return minSalary >= 1000000;
+                        return maxSalary >= 1000000;
                         break;
                     case '3':
                         // 5-10 triệu
-                        return minSalary >= 5000000;
+                        return maxSalary >= 5000000;
                         break;
                     case '4':
                         // 10-15 triệu
-                        return minSalary >= 10000000;
+                        return maxSalary >= 10000000;
                         break;
                     case '5':
                         // 15-20 triệu
-                        return minSalary >= 15000000;
+                        return maxSalary >= 15000000;
                         break;
                     case '6':
                         // 20-25 triệu
-                        return minSalary >= 20000000;
+                        return maxSalary >= 20000000;
                         break;
                     case '7':
                         // 25-30 triệu
-                        return minSalary >= 30000000;
+                        return maxSalary >= 30000000;
                         break;
                     case '8':
                         // 30-35 triệu
-                        return minSalary >= 30000000;
+                        return maxSalary >= 30000000;
                         break;
                     case '9':
                         // Trên 35 triệu
-                        return minSalary > 35000000;
+                        return maxSalary > 35000000;
                         break;
                     default:
                         return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
