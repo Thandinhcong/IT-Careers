@@ -3,6 +3,7 @@ import { Button, Form, Input, Select } from 'antd';
 import { useDataFastJobQuery, useFindJobFastMutation } from "../../../api/find-Job/find_jobApi";
 import { Notyf } from "notyf";
 import { useGetInfoUserQuery } from "../../../api/auths";
+import { useEffect } from "react";
 
 const FindJobFast = () => {
     const { data } = useDataFastJobQuery();
@@ -17,7 +18,6 @@ const FindJobFast = () => {
     const listExp = data?.data?.experiences;
     const listWorkingForm = data?.data?.working_form;
     const listJobPost = data?.data.job_position;
-    console.log(data);
     const { data: infoUser, isLoading: isLoadingInfo } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
@@ -47,7 +47,9 @@ const FindJobFast = () => {
         experiences?: string;
         province?: string;
     };
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
     return (
         <div className='max-w-6xl mx-auto my-10'>
             <h3 className='text-center text-2xl font-semibold mb-10 text-blue-500'>Tìm kiếm nhanh</h3>
