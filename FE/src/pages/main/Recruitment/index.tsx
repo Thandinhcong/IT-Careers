@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { RiVipCrown2Line } from 'react-icons/ri'
 import slugify from 'slugify';
-import { IFindJob, IJobPost } from '../../../interfaces'
+import { IJobPost } from '../../../interfaces'
 import { BaseOptionType } from 'antd/es/select'
 import { DefaultOptionType } from 'antd/es/cascader'
 import { useGetJobPostSelectByIdQuery } from '../../../api/searchApi'
@@ -32,21 +32,10 @@ const Recruitment = React.memo(() => {
     const { data, isLoading } = useGetAllJobsQuery();
     const listJobs = data?.job_list;
     const [currentPage, setCurrentPage] = useState(1);
-    // const { data: search } = useGetJobPostSelectByIdQuery();
-    const [provinceValue, setProvinceValue] = useState(undefined);
-    const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
     const { data: select } = useGetJobPostSelectByIdQuery();
-    // const [selectedSalary, setSelectedSalary] = useState<string>('');
     const [filterProvince, setFilterProvince] = useState<string>('');
-    console.log(filterProvince);
-
     const [filterExp, setFilterExp] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
-    console.log(filterSalary);
-
-    const [filteredData, setFilteredData] = useState<IFindJob[] | null>(null);
-    console.log(filteredData);
-
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
     console.log(selectedProvinceId);
 
@@ -61,17 +50,26 @@ const Recruitment = React.memo(() => {
     const filteredJobs = listJobs?.filter((item) => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
-    const displayedJobs = filteredData?.slice(startIndex, endIndex);
+    console.log(filteredJobs);
+
+    const [filteredData, setFilteredData] = useState(filteredJobs);
+    let displayedJobs;
+
+    if (filteredData === undefined) {
+        displayedJobs = filteredJobs?.slice(startIndex, endIndex);
+    } else {
+        displayedJobs = filteredData?.slice(startIndex, endIndex);
+    }
+
+    // const displayedJobs = filteredData?.slice(startIndex, endIndex);
     //lưu việc làm
     const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
     const [saveJob] = useAddSaveJobsMutation();
     const [cancelSaveJob] = useUnsaveJobMutation();
-
     const { data: JobSave } = useGetAllSaveJobsQuery();
     const listJobSave = JobSave?.data;
-
     const handleSaveJob = async (id: any) => {
         try {
             await saveJob({
@@ -133,11 +131,8 @@ const Recruitment = React.memo(() => {
     const handleSelectExp = (values: string) => {
         setFilterExp(values);
     }
-
     const handleFilter = () => {
         let result: any = filteredJobs || [];
-
-
         //Lọc theo tỉnh thành phố
         if (filterProvince) {
             result = result.filter((item: { province: string }) => {
@@ -159,43 +154,43 @@ const Recruitment = React.memo(() => {
             // Lọc theo mức lương dựa trên giá trị được chọn
             result = result.filter((item: any) => {
                 const minSalary = parseInt(item.min_salary);
-                // const maxSalary = parseInt(item.max_salary);
+                const maxSalary = parseInt(item.max_salary);
                 switch (filterSalary) {
                     case '1':
                         // Dưới 1 triệu
-                        return minSalary < 1000000;
+                        return maxSalary < 1000000;
                         break;
                     case '2':
                         // 1-5 triệu
-                        return minSalary >= 1000000;
+                        return maxSalary >= 1000000;
                         break;
                     case '3':
                         // 5-10 triệu
-                        return minSalary >= 5000000;
+                        return maxSalary >= 5000000;
                         break;
                     case '4':
                         // 10-15 triệu
-                        return minSalary >= 10000000;
+                        return maxSalary >= 10000000;
                         break;
                     case '5':
                         // 15-20 triệu
-                        return minSalary >= 15000000;
+                        return maxSalary >= 15000000;
                         break;
                     case '6':
                         // 20-25 triệu
-                        return minSalary >= 20000000;
+                        return maxSalary >= 20000000;
                         break;
                     case '7':
                         // 25-30 triệu
-                        return minSalary >= 30000000;
+                        return maxSalary >= 30000000;
                         break;
                     case '8':
                         // 30-35 triệu
-                        return minSalary >= 30000000;
+                        return maxSalary >= 30000000;
                         break;
                     case '9':
                         // Trên 35 triệu
-                        return minSalary > 35000000;
+                        return maxSalary > 35000000;
                         break;
                     default:
                         return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
@@ -205,13 +200,13 @@ const Recruitment = React.memo(() => {
         setFilteredData(result);
     };
 
-    // const handleClearFilterButtonClick = () => {
-    //     // Xóa tất cả các giá trị lọc và cập nhật state
-    //     setFilterSalary('');
-    //     setFilteredData((data?.data || []) as IFindJob[]);
-    //     setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
-    //     setFilterExp(''); // Reset giá trị của quận/huyện
-    // };
+    const handleClearFilterButtonClick = () => {
+        // Xóa tất cả các giá trị lọc và cập nhật state
+        setFilterSalary('');
+        setFilteredData(filteredJobs);
+        setSelectedProvincetId(null); // Reset giá trị của tỉnh/thành phố
+        setFilterExp(''); // Reset giá trị của quận/huyện
+    };
 
     const handleFilterButtonClick = () => {
         // Gọi hàm lọc dữ liệu
@@ -270,13 +265,13 @@ const Recruitment = React.memo(() => {
                         <AiOutlineFilter className="text-lg" />
                         <p>Lọc</p>
                     </button>
-                    {/* <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-3" onClick={handleClearFilterButtonClick}>
+                    <button className="bg-[#eaebee] text-gray-500 flex items-center rounded-md px-3" onClick={handleClearFilterButtonClick}>
                         <AiOutlineReload />
                         <p>Xóa lọc</p>
-                    </button> */}
+                    </button>
                 </div>
-                <div className="pt-4 bg-gray-100 mb-2 flex justify-between">
-                    <p className="text-gray-700">Có {filteredData?.length || 0} kết quả tìm kiếm.</p>
+                <div className="pt-4 mb-2 flex justify-between">
+                    <p className="text-gray-700 font-semibold">Có {filteredData === undefined ? filteredJobs?.length : filteredData?.length || 0} kết quả tìm kiếm.</p>
                 </div>
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {
