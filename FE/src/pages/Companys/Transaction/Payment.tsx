@@ -6,57 +6,83 @@ import moment from 'moment';
 
 interface DataType {
     key: React.Key;
-    time: string | number;
-    desc: string;
     coin: string;
-    last_coin: string;
+    note: string;
+    created_at: string;
 }
-
 
 const Payment = () => {
     const { data, isLoading } = useGetAllHistoryPaymentsQuery();
-    const datas: DataType[] = data?.data?.history_all?.map((item: any, index: number) => {
-        return {
-            key: item?.id,
-            index: index + 1,
-            ...item
-        }
+    const formatCurrency = (amount: number, currency: string) => {
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: currency,
+        }).format(amount);
 
-    })
+        return formattedAmount;
+    };
+    // Kết hợp hai mảng thành một mảng mới
+    const combinedData: DataType[] = [];
+
+    if (data?.data?.history_payment && data?.data?.profileHistory) {
+        const maxItems = Math.max(data.data.history_payment.length, data.data.profileHistory.length);
+
+        for (let i = 0; i < maxItems; i++) {
+            const historyPaymentItem = data.data.history_payment[i];
+            const profileHistoryItem = data.data.profileHistory[i];
+
+            if (historyPaymentItem) {
+                combinedData.push({
+                    key: historyPaymentItem.id,
+                    coin: historyPaymentItem.coin,
+                    note: historyPaymentItem.note,
+                    created_at: moment(historyPaymentItem.created_at).format('HH:mm:ss DD-MM-YYYY'),
+                });
+            }
+
+            if (profileHistoryItem) {
+                combinedData.push({
+                    key: profileHistoryItem.id,
+                    coin: profileHistoryItem.coin,
+                    note: profileHistoryItem.note,
+                    created_at: moment(profileHistoryItem.created_at).format('HH:mm:ss DD-MM-YYYY'),
+                });
+            }
+        }
+    }
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            render: (text: string) => <p>{text}</p>,
-        },
-        {
             title: 'Mô tả',
             dataIndex: 'note',
-            render: (text: string) => <p>{text}</p>,
+            render: (text, record: any) => <p>{record.note}</p>,
         },
         {
             title: 'Số xu',
             dataIndex: 'coin',
-            render: (text: string) => <p>{text}</p>,
+            render: (_text, record: any) => {
+                const exchangeRate = 1;
+                const vndAmount = record.coin * exchangeRate;
+                const formattedAmount = formatCurrency(vndAmount, 'VND');
+                return (
+                    <span className={record.type_coin === 0 ? 'text-green-500' : 'text-red-500'}>
+                        {record.type_coin === 0 ? '+ ' : '- '}
+                        {formattedAmount}
+                    </span>
+                )
+            },
         },
         {
             title: 'Thời gian',
             dataIndex: 'created_at',
-            render: (text, record: any) => {
-                return moment(record.created_at).format('HH:mm:ss YYYY-MM-DD');
-            },
         },
     ];
+
     return (
         <div>
             <Divider />
             <Spin spinning={isLoading}>
-                <Table
-                    columns={columns}
-                    dataSource={datas}
-                    className='grid col-span-3'
-                />
+                <Table columns={columns} dataSource={combinedData} className='grid col-span-3' />
             </Spin>
         </div>
     );

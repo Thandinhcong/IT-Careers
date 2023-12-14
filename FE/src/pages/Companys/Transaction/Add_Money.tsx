@@ -16,7 +16,7 @@ interface DataType {
 
 const Add_Money = React.memo(() => {
     const { data, isLoading } = useGetAllHistoryPaymentsQuery();
-    const datas: DataType[] = data?.data?.history?.map((item: any, index: number) => {
+    const datas: DataType[] = data?.data?.history_deposit?.map((item: any, index: number) => {
         return {
             key: item?.id,
             index: index + 1,
