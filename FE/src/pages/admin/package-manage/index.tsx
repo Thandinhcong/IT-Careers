@@ -81,7 +81,7 @@ const PackageManage = () => {
             width: 100,
             render: ({ key: id }: { key: string | number }) => (
                 <div className="flex gap-2">
-                    <Popconfirm
+                    {/* <Popconfirm
                         title="Delete the task"
                         description="Are you sure to delete this task?"
                         onConfirm={() => confirm(id)}
@@ -97,7 +97,7 @@ const PackageManage = () => {
                                 "Xóa"
                             )}
                         </Button >
-                    </Popconfirm>
+                    </Popconfirm> */}
                     <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`package-manage/edit/${id}`}>
                         <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
                     </Button>
