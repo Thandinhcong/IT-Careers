@@ -1,9 +1,8 @@
-import React from 'react';
-import { Button, Skeleton, Switch } from 'antd';
-import { AiOutlineArrowRight } from 'react-icons/ai'
+import React, { useState } from 'react';
+import { Button, Popconfirm, Skeleton, Switch } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
-import { useFindJobsMutation, useGetInfoUserQuery } from '../../../api/find-Job/find_jobApi';
+import { useFindJobsMutation, useGetInfoFindJobQuery, useGetInfoUserQuery, useProfileToTopMutation } from '../../../api/find-Job/find_jobApi';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import { FaCoins } from 'react-icons/fa';
@@ -20,22 +19,50 @@ const LayoutUser = React.memo(() => {
     const { data, isLoading } = useGetInfoUserQuery();
     const [findJob] = useFindJobsMutation();
     const listInfo = data?.candidate;
+
     const listImage = data?.candidate?.image;
     const isCheckFindJob = listInfo?.find_job;
     const { data: dataCoin } = useGetInfoUsersQuery();
     const listCoin = dataCoin?.candidate?.coin;
+    const [Top] = useProfileToTopMutation();
+    const [showPopconfirm, setShowPopconfirm] = useState(false);
+    const { data: dataFindJob } = useGetInfoFindJobQuery();
+    console.log("dataFindJob", dataFindJob);
+
+    const confirmTopProfile = async () => {
+        try {
+            const results = await Top(data).unwrap();
+            console.log(results);
+            notyf.success("Đẩy top thành công!");
+        } catch (error: any) {
+            notyf.error(error?.data?.errors);
+            console.log('error', error);
+        }
+    };
+
     const onChange = async (checked: boolean) => {
         if (checked) {
+            // Hiển thị Popconfirm khi người dùng bật tìm việc
+            setShowPopconfirm(true);
             await findJob().unwrap();
-            notyf.success("Bật tìm việc thành công");
+            notyf.success('Bật tìm việc thành công');
         } else {
             findJob().unwrap();
-            notyf.success("Tắt tìm việc thành công")
+            notyf.success('Tắt tìm việc thành công');
         }
+    };
+
+    const handlePopconfirmConfirm = () => {
+        setShowPopconfirm(false);
+        confirmTopProfile();
+    };
+
+    const handlePopconfirmCancel = () => {
+        setShowPopconfirm(false);
     };
     if (isLoading) return <Skeleton />
     return (
-        <div className='flex justify-between mx-auto max-w-screen-xl gap-8'>
+        <div className='flex justify-between mx-auto max-w-screen-xl gap-5'>
             <Outlet />
             <div className='w-1/3'>
                 <div className='sticky top-0'>
@@ -44,11 +71,9 @@ const LayoutUser = React.memo(() => {
                             <div className='w-28'>
                                 {listImage ? (
                                     <img src={data?.candidate?.image} alt="" className='h-28 w-28 rounded-full' />
-
                                 ) : (
                                     <img src="https://res.cloudinary.com/dxzlnojyv/image/upload/v1700739389/aa_ymumup.jpg" alt="icon" className='rounded-full' />
-                                )
-                                }
+                                )}
                             </div>
                             <div className='text-lg mt-2'>
                                 <p>Chào mừng bạn trở lại</p>
@@ -64,22 +89,34 @@ const LayoutUser = React.memo(() => {
                         </div>
                         <div className=''>
                             <div className='my-5'>
-                                <div className="flex justify-between items-baseline mr-14">
-                                    <label className="h-0 w-0">
-                                        <Switch defaultChecked={isCheckFindJob}
-                                            onClick={onChange} className='bg-gray-400'
-                                        />
+                                <div className='flex justify-between items-baseline mr-14'>
+
+
+                                    <label className='h-0 w-0'>
+                                        {/* {showPopconfirm ? (
+                                            <Popconfirm
+                                                title='Bạn có muốn đẩy cv lên top không?'
+                                                placement='top'
+                                                onConfirm={handlePopconfirmConfirm}
+                                                onCancel={handlePopconfirmCancel}
+                                                okText='Có'
+                                                cancelText='Không'
+                                                okType='default'
+                                            >
+                                                <Switch defaultChecked={isCheckFindJob} onClick={onChange} className='bg-gray-400' />
+                                            </Popconfirm>
+                                        ) : ( */}
+                                        <Switch defaultChecked={isCheckFindJob} onClick={onChange} className='bg-gray-400' />
+                                        {/* )} */}
                                     </label>
 
-                                    <b className="text-gray-600 text-2xl">
+                                    <b className='text-gray-600 text-2xl'>
                                         Trạng thái tìm việc<span>{isCheckFindJob === 1 ? ' Bật' : ' Tắt'}</span>
                                     </b>
+
                                 </div>
-
                             </div>
-                            <div className='text-red-500 w-96 pl-3'>
 
-                            </div>
                         </div>
 
                         <Link to={'/user/profile'} className='mb-9'>

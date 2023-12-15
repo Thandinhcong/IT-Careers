@@ -46,7 +46,7 @@ const LayoutAdmin = () => {
         { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
         { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'experience-manage' },
         { key: '4', icon: <AiOutlineCalendar />, label: 'Quản lý hình thức', path: 'working-form' },
-        { key: '5', icon: <UserOutlined />, label: 'Quản lý tài khoản', path: 'account-manage' },
+        { key: '5', icon: <UserOutlined />, label: 'Quản lý ứng viên', path: 'account-manage' },
         { key: '6', icon: <HddOutlined />, label: 'Quản lý Công Ty', path: 'company-manage' },
         { key: '7', icon: <ApartmentOutlined />, label: 'Quản lý Chức vụ', path: 'jobposition-manage' },
         { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },

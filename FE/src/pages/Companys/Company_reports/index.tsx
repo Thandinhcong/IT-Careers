@@ -40,7 +40,7 @@ const CompanyReports = () => {
     const countSpendCoin = datastati?.finalSpendCoin;
     const arrayDate = datastati?.arrayDate;
     const totalApplied = datastati?.totalApplied
-    const countView = datastati?.countView?.view;
+    const countView = datastati?.totalView;
     const datas: any = {
         labels: ['Hủy nạp', 'Nạp thành công', 'Đang giao dịch'],
         datasets: [

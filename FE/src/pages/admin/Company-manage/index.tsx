@@ -166,7 +166,7 @@ const CompanyManage = () => {
                         <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết
                     </Button> */}
-                    <Popconfirm
+                    {/* <Popconfirm
                         placement='topLeft'
                         title={"Bạn Chắc Chắn Xóa k?"}
                         onConfirm={() => deleteCompany(id as number)}
@@ -177,7 +177,7 @@ const CompanyManage = () => {
                         <Button danger type='primary' className='flex - mx-7'>
                             Xoá
                         </Button>
-                    </Popconfirm >
+                    </Popconfirm > */}
                 </div>
             ),
         },

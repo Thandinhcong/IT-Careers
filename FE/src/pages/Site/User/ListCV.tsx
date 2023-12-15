@@ -206,8 +206,8 @@ const ListCV = React.memo(() => {
                         {listCv?.map((item: any) => {
                             if (item?.type === 0) {
                                 return (
-                                    <div className='Cv tải lên'>
-                                        <div key={item?.id} className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
+                                    <div key={item?.id} className='Cv tải lên'>
+                                        <div className='shadow-sm shadow-blue-300 border h-40 py-4 px-3'>
                                             <p className='text-center'>Tiêu đề: {item?.title}</p>
                                             <div className='flex justify-center items-center gap-2 my-2'>
                                                 <Popconfirm

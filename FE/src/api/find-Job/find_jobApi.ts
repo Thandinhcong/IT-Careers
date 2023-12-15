@@ -46,6 +46,25 @@ const findJobApi = createApi({
       query: () => "/get_info_find_job",
       providesTags: ["FindJob"],
     }),
+    ProfileToTop: buidler.mutation<any, any>({
+      query: () => ({
+        url: "/profile_to_top",
+        method: "GET",
+      }),
+      invalidatesTags: ["FindJob"],
+    }),
+    dataFastJob: buidler.query<any, void>({
+      query: () => "/data_fast_job",
+      providesTags: ["FindJob"],
+    }),
+    findJobFast: buidler.mutation<any, any>({
+      query: (data) => ({
+        url: "/find_job_fast",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["FindJob"],
+    }),
   }),
 });
 export const {
@@ -54,6 +73,9 @@ export const {
   useSaveInfoFindJobMutation,
   useGetDataFindJobQuery,
   useGetInfoFindJobQuery,
+  useProfileToTopMutation,
+  useDataFastJobQuery,
+  useFindJobFastMutation,
 } = findJobApi;
 export const findJobReducer = findJobApi.reducer;
 export default findJobApi;

@@ -125,7 +125,7 @@ const AccountManage = () => {
             width: 100,
             render: ({ key: id }: { key: string | number }) => (
                 <div className="flex gap-2">
-                    <Popconfirm
+                    {/* <Popconfirm
                         title="Delete the task"
                         description="Are you sure to delete this task?"
                         onConfirm={() => confirm(id)}
@@ -141,7 +141,7 @@ const AccountManage = () => {
                                 "Xóa"
                             )}
                         </Button >
-                    </Popconfirm>
+                    </Popconfirm> */}
                     {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
                         <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
                     </Button> */}
@@ -153,7 +153,7 @@ const AccountManage = () => {
     return (
         <div>
             <div className="flex justify-between mb-6">
-                <h2 className="text-2xl font-semibold">Quản lý tài khoản </h2>
+                <h2 className="text-2xl font-semibold">Quản lý ứng viên </h2>
                 {/* <Button type="primary" className="bg-blue-500">
                     <Link to="add">Thêm tài khoản</Link>
                 </Button> */}

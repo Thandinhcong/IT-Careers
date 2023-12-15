@@ -14,7 +14,7 @@ const companysApi = createApi({
   reducerPath: "Company",
   tagTypes: ["company"],
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_COMPANYS,
+    baseUrl: import.meta.env.VITE_API_ADMIN,
     fetchFn: async (...arg) => {
       await pause(1000);
       return fetch(...arg);
