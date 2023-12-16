@@ -211,7 +211,7 @@ function App() {
         <Route path="/admin/login" element={<LoginAdmin />} />
         <Route element={<IsCheckLoginAdmin />}>
           <Route path="/admin" element={<LayoutAdmin />}>
-            <Route index path="dashboard" element={<DashBoard />} />
+            <Route index element={<DashBoard />} />
             <Route path="level-manage" element={<LevelManage />} />
             {/* <Route path="level-manage/create-level" element={<CreateLevel />} /> */}
             {/* <Route path="level-manage/update-level" element={<UpdateLevel />} /> */}
