@@ -20,7 +20,11 @@ export const schemaSignup = yup.object({
     .required("Trường dữ liệu bắt buộc!"),
   email: yup
     .string()
-    .email("Email không đúng địng dạng!")
+    .email("Email không đúng định dạng!")
+    .matches(
+      /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
+      "Email không được chứa ký tự đặc biệt!"
+    )
     .required("Trường dữ liệu bắt buộc"),
   password: yup
     .string()
