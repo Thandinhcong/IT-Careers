@@ -42,21 +42,42 @@ const LayoutAdmin = () => {
         }
     }
     const menuItems = [
-        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashboard', path: 'dashboard' },
-        { key: '2', icon: <VideoCameraOutlined />, label: 'Quản lý bài đăng', path: 'post-manage' },
-        { key: '3', icon: <UploadOutlined />, label: 'Quản lý kinh nghiệm', path: 'experience-manage' },
-        { key: '4', icon: <AiOutlineCalendar />, label: 'Quản lý hình thức', path: 'working-form' },
-        { key: '5', icon: <UserOutlined />, label: 'Quản lý ứng viên', path: 'account-manage' },
-        { key: '6', icon: <HddOutlined />, label: 'Quản lý Công Ty', path: 'company-manage' },
-        { key: '7', icon: <ApartmentOutlined />, label: 'Quản lý Chức vụ', path: 'jobposition-manage' },
-        { key: '8', icon: <ControlOutlined />, label: 'Quản lý kĩ năng', path: 'skill-manage' },
-        { key: '9', icon: <GiftOutlined />, label: 'Quản lý gói nạp', path: 'package-manage' },
-        { key: '10', icon: <FileProtectOutlined />, label: 'Quản lý trình độ', path: 'level-manage' },
-        // { key: '11', icon: <MoneyCollectOutlined />, label: 'Quản mức lương', path: 'salary-type-manage' },
-        { key: '12', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
-        { key: '13', icon: <FileProtectOutlined />, label: 'Quản lý Website', path: 'manage-website' },
-        { key: '14', icon: <FileProtectOutlined />, label: 'Quản lý gói đăng', path: 'posting-packages' },
+        { key: '1', icon: <FundProjectionScreenOutlined />, label: 'Dashboard', path: '' },
 
+        {
+            key: 'company-management',
+            icon: <UserOutlined />,
+            label: 'Quản lý công ty',
+            items: [
+                { key: '2', icon: <VideoCameraOutlined />, label: 'Bài đăng', path: 'post-manage' },
+            ],
+        },
+
+        {
+            key: 'account-management',
+            icon: <UserOutlined />,
+            label: 'Quản lý tài khoản',
+            items: [
+                { key: '3', label: 'Tài khoản ứng viên', path: 'account-manage' },
+                { key: '4', label: 'Tài khoản công Ty', path: 'company-manage' },
+            ],
+        },
+        {
+            key: 'admin-management',
+            icon: <UserOutlined />,
+            label: 'Quản lý Website',
+            items: [
+                { key: '5', icon: <UploadOutlined />, label: 'Kinh nghiệm', path: 'experience-manage' },
+                { key: '6', icon: <AiOutlineCalendar />, label: 'Hình thức', path: 'working-form' },
+                { key: '7', icon: <ApartmentOutlined />, label: 'Chức vụ', path: 'jobposition-manage' },
+                { key: '8', icon: <ControlOutlined />, label: 'Kĩ năng', path: 'skill-manage' },
+                { key: '9', icon: <GiftOutlined />, label: 'Gói nạp', path: 'package-manage' },
+                { key: '10', icon: <FileProtectOutlined />, label: 'Trình độ', path: 'level-manage' },
+                { key: '11', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
+                { key: '12', icon: <FileProtectOutlined />, label: 'Gói đăng', path: 'posting-packages' },
+                { key: '13', icon: <FileProtectOutlined />, label: 'Thông tin Website', path: 'manage-website' },
+            ],
+        },
     ];
 
     const items: MenuProps['items'] = [
@@ -90,9 +111,19 @@ const LayoutAdmin = () => {
                     defaultSelectedKeys={['1']}
                 >
                     {menuItems.map((menuItem) => (
-                        <Menu.Item key={menuItem.key} icon={menuItem.icon} onClick={() => handleBreadcrumbClick(menuItem.key)}>
-                            <Link to={menuItem.path}>{menuItem.label}</Link>
-                        </Menu.Item>
+                        menuItem.items ? (
+                            <Menu.SubMenu key={menuItem.key} icon={menuItem.icon} title={menuItem.label}>
+                                {menuItem.items.map((subItem) => (
+                                    <Menu.Item key={subItem.key} onClick={() => handleBreadcrumbClick(subItem.key)}>
+                                        <Link to={subItem.path}>{subItem.label}</Link>
+                                    </Menu.Item>
+                                ))}
+                            </Menu.SubMenu>
+                        ) : (
+                            <Menu.Item key={menuItem.key} icon={menuItem.icon} onClick={() => handleBreadcrumbClick(menuItem.key)}>
+                                <Link to={menuItem.path}>{menuItem.label}</Link>
+                            </Menu.Item>
+                        )
                     ))}
                 </Menu>
             </Sider>
