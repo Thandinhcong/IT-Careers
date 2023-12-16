@@ -180,7 +180,6 @@ const JobDetail = React.memo(() => {
             } catch (error) {
                 console.error(error);
             } finally {
-                // Kết thúc quá trình tải ảnh lên, thiết lập trạng thái loading thành false
                 setUploading(false);
             }
         }
@@ -287,7 +286,6 @@ const JobDetail = React.memo(() => {
                                     onClick={() => setShowModa2l(true)}
                                     className="bg-white border-2 border-blue-600 text-blue-600 py-3 hover:text-white hover:bg-blue-600 font-medium rounded-lg"
                                 >
-
                                     Lưu việc làm
                                 </button>
 

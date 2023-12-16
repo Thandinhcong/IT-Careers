@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Popconfirm, Skeleton, Switch } from 'antd';
+import { Button, Skeleton, Switch } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useFindJobsMutation, useGetInfoFindJobQuery, useGetInfoUserQuery, useProfileToTopMutation } from '../../../api/find-Job/find_jobApi';
@@ -27,12 +27,13 @@ const LayoutUser = React.memo(() => {
     const [Top] = useProfileToTopMutation();
     const [showPopconfirm, setShowPopconfirm] = useState(false);
     const { data: dataFindJob } = useGetInfoFindJobQuery();
-    console.log("dataFindJob", dataFindJob);
+    const find_job = dataFindJob?.info_find_job?.count_open_profile;
+
+
 
     const confirmTopProfile = async () => {
         try {
             const results = await Top(data).unwrap();
-            console.log(results);
             notyf.success("Đẩy top thành công!");
         } catch (error: any) {
             notyf.error(error?.data?.errors);
@@ -137,7 +138,7 @@ const LayoutUser = React.memo(() => {
                         <div className='grid grid-cols-3 my-4'>
                             <div className=' col-span-1 max-w-[96px] max-h-24 h-full bg-blue-500 border rounded-full text-center pt-5'>
                                 <div className='text-white'>
-                                    <p>0</p>
+                                    <p>{find_job}</p>
                                     <p>Lượt</p>
                                 </div>
                             </div>
