@@ -5,12 +5,11 @@ import { useDeleteMajorMutation, useGetMajorQuery } from "../../../api/majorApi"
 import { IMajors } from "../../../interfaces";
 
 const MajorManage = () => {
-    const { data, isLoading, error } = useGetMajorQuery();
+    const { data, isLoading } = useGetMajorQuery();
 
     const [deleteMajor, { isLoading: isRemoveLoading }] = useDeleteMajorMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
-    if (error) return <div>error</div>;
     const dataSource = data?.major?.map((item: IMajors) => {
 
         return {

@@ -5,12 +5,11 @@ import { IJobposition } from "../../../interfaces";
 import { ColumnsType } from "antd/es/table";
 
 const JobpositionManage = () => {
-    const { data, isLoading, error } = useGetjobpositionQuery();
+    const { data, isLoading } = useGetjobpositionQuery();
 
     const [deleteJobposition, { isLoading: isRemoveLoading }] = useDeletejobpositionMutation();
     if (isLoading) return <Skeleton loading />;
     if (isRemoveLoading) return <Skeleton />
-    if (error) return <div>error</div>;
     const dataSource = data?.Job_position?.map(({ id, job_position, description }: IJobposition) => {
         return {
             key: id,

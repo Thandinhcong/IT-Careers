@@ -2,8 +2,14 @@ import { Link } from "react-router-dom"
 import { Button, Form, Input, Select } from 'antd';
 import { useDataFastJobQuery, useFindJobFastMutation } from "../../../api/find-Job/find_jobApi";
 import { Notyf } from "notyf";
-import { useGetInfoUserQuery } from "../../../api/auths";
-import { useEffect } from "react";
+import { useGetInfoUserQuery, useLoginMutation } from "../../../api/auths";
+import { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { TEModal, TEModalBody, TEModalContent, TEModalDialog, TEModalHeader } from "tw-elements-react";
+import { FormLogin, schemaLogin } from "../../../schemas";
+import { useForm } from "react-hook-form";
+import { useLocalStorage } from "../../../useLocalStorage/useLocalStorage";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const FindJobFast = () => {
     const { data } = useDataFastJobQuery();
@@ -14,6 +20,7 @@ const FindJobFast = () => {
             y: 'top',
         },
     });
+    const [showModal2, setShowModa2l] = useState(false);
     const listProvince = data?.data?.province;
     const listExp = data?.data?.experiences;
     const listWorkingForm = data?.data?.working_form;
@@ -21,6 +28,27 @@ const FindJobFast = () => {
     const { data: infoUser, isLoading: isLoadingInfo } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
+    //login
+    const [login] = useLoginMutation();
+    const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
+        resolver: yupResolver(schemaLogin),
+    });
+    const [users, setUser] = useLocalStorage("user", null);
+
+
+    const onHandleSubmitLogin = async (data: FormLogin) => {
+        try {
+            const results = await login(data).unwrap();
+            setUser({
+                accessToken: results.access_token,
+                users: results.user,
+            });
+            setShowModa2l(false);
+            window.location.reload();
+        } catch (error: any) {
+            notyf.error("Thông tin tài khoản hoặc mật khẩu không đúng!");
+        }
+    };
     const [applyFast] = useFindJobFastMutation();
     const onFinish = async (values: any) => {
         try {
@@ -96,7 +124,7 @@ const FindJobFast = () => {
                         <Form.Item<any>
                             label="Kinh nghiệm làm việc"
                             name="experiences"
-                            rules={[{ required: true, message: "Vui lòng chọn địa chỉ làm việc" }]}
+                            rules={[{ required: true, message: "Vui lòng chọn kinh nghiệm làm việc" }]}
                         >
                             <Select placeholder="--Chọn--" style={{ width: '100%' }} >
                                 {listExp?.map((options: any) => (
@@ -142,13 +170,73 @@ const FindJobFast = () => {
                         </Form.Item>
                     </div>
                 </div>
-
-                <Form.Item wrapperCol={{ offset: 11, span: 16 }}>
-                    <Button type="primary" className='bg-blue-500 mb-10 mx-auto' htmlType="submit">
-                        Tìm kiếm
-                    </Button>
-                </Form.Item>
+                {!user ? (
+                    <Form.Item wrapperCol={{ offset: 11, span: 16 }}>
+                        <Button type="primary" onClick={() => setShowModa2l(true)} className='bg-blue-500 mb-10 mx-auto'>
+                            Tìm kiếm
+                        </Button>
+                    </Form.Item>
+                ) : (
+                    <Form.Item wrapperCol={{ offset: 11, span: 16 }}>
+                        <Button type="primary" className='bg-blue-500 mb-10 mx-auto' htmlType="submit">
+                            Tìm kiếm
+                        </Button>
+                    </Form.Item>
+                )}
             </Form>
+            <TEModal show={showModal2} setShow={setShowModa2l}>
+                <TEModalDialog>
+                    <TEModalContent>
+                        <TEModalHeader>
+                            Đăng nhập
+                        </TEModalHeader>
+                        <TEModalBody>
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmitLogin(onHandleSubmitLogin)} >
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input
+                                        {...regiterLogin("email")}
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none"
+                                        placeholder="name@company.com" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.email && ErrorLogin.email.message}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                                    <input
+                                        {...regiterLogin('password')}
+                                        type="password"
+                                        name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" />
+                                    <div className="text-red-500 my-2">
+                                        {ErrorLogin.password && ErrorLogin.password.message}
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between">
+
+                                    <Link to="/forgot" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Quên mật khẩu?</Link>
+
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full mx-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Đăng nhập</button>
+                                <div className="flex justify-center">
+                                    <button className="rounded-lg w-full justify-center bg-gray-200 text-black flex items-center space-x-2 px-9 py-2 mt-4 mr-2">
+                                        <span className="w-10"><FcGoogle /></span>
+                                        <span> Google</span>
+                                    </button>
+
+                                </div>
+                                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
+                                </p>
+                            </form>
+                        </TEModalBody>
+
+                    </TEModalContent>
+                </TEModalDialog>
+            </TEModal>
         </div>
 
         // </div>

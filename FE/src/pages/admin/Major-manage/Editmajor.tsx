@@ -44,7 +44,7 @@ const EditMajors = () => {
 
     return (
         <div>
-            <Link to="/admin/jobposition-manage">Quay lại <EnterOutlined /></Link>
+            <Link to="/admin/major-manage">Quay lại <EnterOutlined /></Link>
             <h2 className="m-6 text-2xl font-semibold">Cập Nhật Chuyên ngành </h2>
             {contextHolder}
             <Form className="mx-40"

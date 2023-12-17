@@ -69,7 +69,7 @@ const JobDetail = React.memo(() => {
     //id bài đăng
     const [applyJob] = useApplyJobMutation();
     const { data, isLoading } = useGetOneJobsQuery(id || "");
-    const { data: infoUser, isLoading: isLoadingInfo } = useGetInfoUserQuery();
+    const { data: infoUser } = useGetInfoUserQuery();
     const user = infoUser?.candidate;
     const idUser: any = user?.id;
     const listOne: any = data?.job_detail;
@@ -81,6 +81,8 @@ const JobDetail = React.memo(() => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FromApply>({
         resolver: yupResolver(schemaJobApply),
     });
+    const { data: listCv } = useListCvQuery();
+    const listAllCv = listCv?.data;
     //login
     const [login] = useLoginMutation();
     const { register: regiterLogin, handleSubmit: handleSubmitLogin, formState: { errors: ErrorLogin } } = useForm<FormLogin>({
@@ -88,8 +90,6 @@ const JobDetail = React.memo(() => {
     });
     const [users, setUser] = useLocalStorage("user", null);
 
-    const { data: listCv } = useListCvQuery();
-    const listAllCv = listCv?.data;
 
     const onHandleSubmitLogin = async (data: FormLogin) => {
         try {

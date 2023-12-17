@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import {
     MenuFoldOutlined, MenuUnfoldOutlined, ControlOutlined, UserOutlined, VideoCameraOutlined, FundProjectionScreenOutlined, DownOutlined,
-    LoginOutlined, SettingFilled, RollbackOutlined, QuestionCircleOutlined, GiftOutlined, UploadOutlined, ApartmentOutlined, FileProtectOutlined,
-    HddOutlined
+    LoginOutlined, RollbackOutlined, GiftOutlined, UploadOutlined, ApartmentOutlined, FileProtectOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Breadcrumb, Space, Avatar, Dropdown, MenuProps } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { useLogoutMutation } from '../../api/admin/loginAdminApi';
 import { Notyf } from 'notyf';
+import { CgWebsite } from 'react-icons/cg';
+import { MdOutlineAddBusiness } from 'react-icons/md';
 const { Header, Sider, Content } = Layout;
 
 const LayoutAdmin = () => {
@@ -32,11 +33,9 @@ const LayoutAdmin = () => {
                 await logout(data).unwrap();
                 localStorage.removeItem("admin");
                 window.location.href = "/admin/login"
+                notyf.success("Đăng xuất thành công!")
             }
-            notyf.success("Đăng xuất thành công!")
-
         } catch (error) {
-
             notyf.error("Đăng xuất thất bại !")
 
         }
@@ -46,7 +45,7 @@ const LayoutAdmin = () => {
 
         {
             key: 'company-management',
-            icon: <UserOutlined />,
+            icon: <MdOutlineAddBusiness />,
             label: 'Quản lý công ty',
             items: [
                 { key: '2', icon: <VideoCameraOutlined />, label: 'Bài đăng', path: 'post-manage' },
@@ -64,7 +63,7 @@ const LayoutAdmin = () => {
         },
         {
             key: 'admin-management',
-            icon: <UserOutlined />,
+            icon: <CgWebsite />,
             label: 'Quản lý Website',
             items: [
                 { key: '5', icon: <UploadOutlined />, label: 'Kinh nghiệm', path: 'experience-manage' },
@@ -73,7 +72,7 @@ const LayoutAdmin = () => {
                 { key: '8', icon: <ControlOutlined />, label: 'Kĩ năng', path: 'skill-manage' },
                 { key: '9', icon: <GiftOutlined />, label: 'Gói nạp', path: 'package-manage' },
                 { key: '10', icon: <FileProtectOutlined />, label: 'Trình độ', path: 'level-manage' },
-                { key: '11', icon: <FileProtectOutlined />, label: 'Quản lý Chuyên Ngành', path: 'major-manage' },
+                { key: '11', icon: <FileProtectOutlined />, label: 'Chuyên Ngành', path: 'major-manage' },
                 { key: '12', icon: <FileProtectOutlined />, label: 'Gói đăng', path: 'posting-packages' },
                 { key: '13', icon: <FileProtectOutlined />, label: 'Thông tin Website', path: 'manage-website' },
             ],
@@ -81,9 +80,6 @@ const LayoutAdmin = () => {
     ];
 
     const items: MenuProps['items'] = [
-        { key: '0', label: <a href="#" className='mx-4'><UserOutlined className='mr-2' />My profile</a>, },
-        { label: <a href="#" className='mx-4'><SettingFilled className='mr-2' />Setting</a>, key: '1', },
-        { type: 'divider' },
         { label: <button onClick={handleLogout} className='mx-4'><LoginOutlined className='mr-2' />Logout</button>, key: '3', },
     ];
     const handleBreadcrumbClick = (key: string) => {
@@ -147,13 +143,11 @@ const LayoutAdmin = () => {
                             <Dropdown menu={{ items }} trigger={['click']}>
                                 <a onClick={(e) => e.preventDefault()}>
                                     <Space>
-                                        John Doe
                                         <DownOutlined />
                                     </Space>
                                 </a>
                             </Dropdown>
                         </div>
-                        <Link className='mx-3' to=""><QuestionCircleOutlined /></Link>
                         <Link className='border-l px-3' to="/">Quay lại web <RollbackOutlined /></Link>
                     </div>
                 </Header>

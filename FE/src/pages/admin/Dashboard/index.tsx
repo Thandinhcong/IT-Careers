@@ -4,6 +4,7 @@ import Statistical from "./Statistical";
 import { Link } from "react-router-dom";
 import ManageWebsite from "./ManageWebsite";
 import React from "react";
+import JobPost from "./JobPost";
 
 
 const DashBoard = React.memo(() => {
@@ -40,6 +41,7 @@ const DashBoard = React.memo(() => {
             </div>
             <ManageWebsite data={data} />
             <Statistical data={data} />
+            <JobPost data={data} />
         </div>
 
     )
