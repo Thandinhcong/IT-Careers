@@ -9,14 +9,18 @@ import DescPackage from './DescPackage';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './style.css';
+import { useNavigate } from 'react-router-dom';
 
 const JobCreate = React.memo(() => {
+    const navigate = useNavigate()
     const { data } = useGetJobPostSelectByIdQuery();
     const { data: Infor, isLoading } = useGetInforQuery();
     const [form] = Form.useForm();
     const [jobPost, { isLoading: isCreatePost }] = useAddJobPostMutation();
-    const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null); //lưu id Tỉnh Thành phố
-
+    const [selectedProvinces, setSelectedProvinces] = useState<string[] | number[]>([]);
+    const [showDetailInputs, setShowDetailInputs] = useState<{ [key: string]: boolean }>({});
+    const [areaJobDetails, setAreaJobDetails] = useState<{ [key: string]: string }>({});
+    console.log(areaJobDetails)
     useEffect(() => {
         form.setFieldsValue({
             name: Infor?.company?.name,
@@ -25,11 +29,16 @@ const JobCreate = React.memo(() => {
             email: Infor?.company?.email,
             id: Infor?.company?.id,
         });
-    }, [Infor]);
-
-    const handleSelectProvinceId = (rovinceId: number | string) => {
-        setSelectedProvincetId(rovinceId);
-    }
+        setAreaJobDetails((prevDetails) => {
+            const updatedDetails = { ...prevDetails };
+            selectedProvinces.forEach((provinceId) => {
+                if (!Object.prototype.hasOwnProperty.call(prevDetails, provinceId)) {
+                    updatedDetails[provinceId] = '';
+                }
+            });
+            return updatedDetails;
+        });
+    }, [Infor, selectedProvinces]);
 
     const onFinish = (values: IJobPost | any) => {
         if (values.start_date !== undefined && values.end_date !== undefined) {
@@ -56,12 +65,22 @@ const JobCreate = React.memo(() => {
                 return; // Dừng việc đăng bài nếu kiểm tra không thành công
             }
         }
-        jobPost(values)
+        const { province_id, ...valuesWithoutProvinceId } = values;
+        const areaJobArray = Object.keys(areaJobDetails).map((id) => ({
+            province_id: parseInt(id),
+            detail: areaJobDetails[id],
+        }));
 
+        values.area_job = areaJobArray;
+        console.log(valuesWithoutProvinceId, areaJobArray)
+        jobPost({
+            ...valuesWithoutProvinceId,
+            area_job: areaJobArray,
+        })
             .unwrap()
             .then(() => {
                 message.success('Đăng bài thành công');
-                window.location.href = '/business/jobs-manage';
+                navigate("/business/jobs-manage");
             })
             .catch((error) => {
                 message.error(error?.data?.errors);
@@ -161,47 +180,102 @@ const JobCreate = React.memo(() => {
                                 </Form.Item>
                             </Col>
                             {/* Tỉnh/Thành phố */}
-                            <Col span={12}>
+                            <Col span={24}>
                                 <Form.Item<IJobPost>
                                     label="Tỉnh/Thành phố"
-
-                                    rules={[{ required: true }]}
+                                    name="province_id"
+                                    rules={[{ required: true, message: "Vui lòng chọn tỉnh thành phố" }]}
                                 >
-                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleSelectProvinceId}>
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="--Chọn--"
+                                        style={{ width: '100%' }}
+                                        onChange={(selectedValues) => {
+                                            setSelectedProvinces(selectedValues);
+                                            setAreaJobDetails((prevDetails) => {
+                                                const updatedDetails = { ...prevDetails };
+
+                                                // Lặp qua tất cả các key trong areaJobDetails
+                                                Object.keys(prevDetails).forEach((provinceId) => {
+                                                    // Kiểm tra xem key có tồn tại trong danh sách selectedValues hay không
+                                                    if (!selectedValues.includes(provinceId)) {
+                                                        // Nếu không tồn tại, xóa key đó khỏi areaJobDetails
+                                                        delete updatedDetails[provinceId];
+
+                                                        // Cần cập nhật giá trị của biểu mẫu cho chi tiết tương ứng
+                                                        form.setFieldsValue({
+                                                            [`areaJobDetails[${provinceId}]`]: undefined,
+                                                        });
+                                                    }
+                                                });
+
+                                                // Lặp qua danh sách selectedValues để cập nhật hoặc thêm mới giá trị
+                                                selectedValues.forEach((provinceId) => {
+                                                    // Nếu key chưa tồn tại hoặc có giá trị là undefined (do key này vừa mới thêm vào)
+                                                    if (!Object.prototype.hasOwnProperty.call(updatedDetails, provinceId) || updatedDetails[provinceId] === undefined) {
+                                                        // Cập nhật giá trị chi tiết của key này, hoặc giữ nguyên nếu đã có giá trị
+                                                        updatedDetails[provinceId] = prevDetails[provinceId] || '';
+
+                                                        // Cần cập nhật giá trị của biểu mẫu cho chi tiết tương ứng
+                                                        form.setFieldsValue({
+                                                            [`areaJobDetails[${provinceId}]`]: prevDetails[provinceId] || '',
+                                                        });
+                                                    }
+                                                });
+
+                                                return updatedDetails;
+                                            });
+
+                                            setShowDetailInputs((prev) => {
+                                                const updatedShowDetailInputs = { ...prev };
+                                                Object.keys(prev).forEach((provinceId) => {
+                                                    updatedShowDetailInputs[provinceId] = selectedValues.includes(provinceId);
+                                                });
+                                                return updatedShowDetailInputs;
+                                            });
+                                        }}
+                                    >
                                         {data?.data?.province_id.map((options: IJobPost) => (
-                                            <Select.Option key={options.id} rovinceId={options.id}>
+                                            <Select.Option key={options.id} value={options.id}>
                                                 {options.province}
                                             </Select.Option>
                                         ))}
                                     </Select>
+
+
+
                                 </Form.Item>
                             </Col>
-                            {/* Quận/Huyện*/}
-                            <Col span={12}>
-                                <Form.Item<IJobPost>
-                                    label="Quận/Huyện"
-                                    name="area_id"
-                                    rules={[{ required: true }]}
-                                >
-                                    <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
-                                        {data?.data?.district_id
-                                            ?.filter((options: {
-                                                province_id: string | number | null; id: string | number;
-                                            }) => options.province_id == selectedProvinceId)
-                                            .map((options: IJobPost) => (
-                                                <Select.Option key={options.id} value={options.id}>
-                                                    {options.name}
-                                                </Select.Option>
-                                            ))}
-                                    </Select>
-                                </Form.Item>
-                            </Col>
+                            {/* Chi tiết tỉnh thành phố */}
+                            {selectedProvinces.map((provinceId) => (
+                                <Col span={24} key={provinceId}>
+                                    <Form.Item
+                                        label={`Chi tiết Tỉnh/Thành phố - ${data?.data?.province_id.find((p) => p.id === provinceId)?.province}`}
+                                        name={`areaJobDetails[${provinceId}]`} // Đây là tên trường
+                                        rules={[
+                                            { required: true, message: 'Trường này không được bỏ trống !' },
+                                        ]}
+                                    >
+                                        <Input
+                                            placeholder={`Địa chỉ chi tiết cho ${data?.data?.province_id.find((p) => p.id === provinceId)?.province}`}
+                                            value={areaJobDetails[provinceId]}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                setAreaJobDetails((prevDetails) => ({
+                                                    ...prevDetails,
+                                                    [provinceId]: value,
+                                                }));
+                                            }}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                            ))}
                             {/* Trình độ  học vấn*/}
                             <Col span={12}>
                                 <Form.Item<IJobPost>
                                     label="Trình độ học vấn"
                                     name="academic_level_id"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Trường này không được bỏ trống" }]}
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                         {data?.data?.academic_level.map((options: IJobPost) => (
@@ -217,7 +291,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Kinh nghiệm"
                                     name="exp_id"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Trường này không được bỏ trống" }]}
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                         {data?.data?.exp.map((options: IJobPost) => (
@@ -233,7 +307,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Giới tính"
                                     name="gender"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Trường này không được bỏ trống" }]}
                                 >
                                     <Select
                                         placeholder="--Chọn--"
@@ -253,7 +327,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Chuyên ngành hẹp"
                                     name="major_id"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Trường này không được bỏ trống" }]}
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                         {data?.data?.major_id.map((options: IJobPost) => (
@@ -269,7 +343,7 @@ const JobCreate = React.memo(() => {
                                 <Form.Item<IJobPost>
                                     label="Loại tin"
                                     name="type_job_post_id"
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: true, message: "Trường này không được bỏ trống" }]}
                                 >
                                     <Select placeholder="--Chọn--" style={{ width: '100%' }} onChange={handleChange}>
                                         {data?.data?.type_job_post.map((options: IJobPost) => (
