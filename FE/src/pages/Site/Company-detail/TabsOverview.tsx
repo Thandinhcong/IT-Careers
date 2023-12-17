@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { useParams } from "react-router-dom"
 import { useGetOneCompanysQuery } from "../../../api/companyApi"
-import { Swiper, SwiperSlide } from 'swiper/react';
 import './style.css'
 
 import 'swiper/css';

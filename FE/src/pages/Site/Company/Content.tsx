@@ -45,8 +45,11 @@ const ContentCompany = React.memo(({ data }: any) => {
 
                             <div className='grid grid-cols-3 gap-8 py-5'>
                                 <div>
-                                    <p className='font-bold'>Địa chỉ</p>
-                                    <p className='text-gray-500'>{item.address}</p>
+                                    <p className='font-bold '>Địa chỉ</p>
+                                    <div className='line-clamp-2'>
+
+                                        <p className='text-gray-500'>{item.address}</p>
+                                    </div>
                                 </div>
                                 <div>
                                     <p className='font-bold'>Quy mô</p>
