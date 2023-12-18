@@ -118,36 +118,36 @@ const AccountManage = () => {
                 );
             },
         },
-        {
-            title: 'Action',
-            key: 'action',
-            fixed: 'right',
-            width: 100,
-            render: ({ key: id }: { key: string | number }) => (
-                <div className="flex gap-2">
-                    {/* <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        onConfirm={() => confirm(id)}
-                        onCancel={cancel}
-                        okText="Yes"
-                        okType="default"
-                        cancelText="No"
-                    >
-                        <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />
-                            {isRemoveLoading ? (
-                                <AiOutlineLoading3Quarters className="animate-spin inline-block" />
-                            ) : (
-                                "Xóa"
-                            )}
-                        </Button >
-                    </Popconfirm> */}
-                    {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
-                        <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
-                    </Button> */}
-                </div>
-            ),
-        },
+        // {
+        //     title: 'Action',
+        //     key: 'action',
+        //     fixed: 'right',
+        //     width: 100,
+        //     render: ({ key: id }: { key: string | number }) => (
+        //         <div className="flex gap-2">
+        //             {/* <Popconfirm
+        //                 title="Delete the task"
+        //                 description="Are you sure to delete this task?"
+        //                 onConfirm={() => confirm(id)}
+        //                 onCancel={cancel}
+        //                 okText="Yes"
+        //                 okType="default"
+        //                 cancelText="No"
+        //             >
+        //                 <Button type="primary" danger> <AiOutlineDelete className="inline-block mr-2 text-xl" />
+        //                     {isRemoveLoading ? (
+        //                         <AiOutlineLoading3Quarters className="animate-spin inline-block" />
+        //                     ) : (
+        //                         "Xóa"
+        //                     )}
+        //                 </Button >
+        //             </Popconfirm> */}
+        //             {/* <Button className="bg-yellow-400 border-none hover:bg-yellow-300" href={`level-manage/edit/${id}`}>
+        //                 <p className="text-white"><AiOutlineEdit className="inline-block mr-2 text-xl " />Sửa</p>
+        //             </Button> */}
+        //         </div>
+        //     ),
+        // },
 
     ];
     return (

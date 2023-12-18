@@ -29,7 +29,6 @@ import ContactCompanySetting from "./pages/Companys/Business_Setting/Contact"
 import ChangePassCompany from "./pages/Companys/Business_Setting/ChangePass"
 import BusinessSetting from "./pages/Companys/Business_Setting/Business"
 import CompanySetting from "./pages/Companys/Business_Setting/Company"
-import RecruimentCampaign from "./pages/Companys/RecruimentCampaign"
 import FindJob from "./pages/Companys/Find-job"
 import Deposit from "./pages/Companys/Deposit/Deposit"
 import CVApply from "./pages/Companys/CV_apply"
@@ -189,7 +188,6 @@ function App() {
               <Route path="contact" element={<ContactCompanySetting />} />
               <Route path="changepass" element={<ChangePassCompany />} />
             </Route>
-            <Route path="recruitment-campaign/form/create" element={<RecruimentCampaign />} />
             <Route path="find-profile" element={<FindJob />} />
             <Route path="deposit" element={<Deposit />} />
             <Route path="cv-apply" element={<CVApply />} />

@@ -1,7 +1,7 @@
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
-    BarElement,  // Thay LineElement bằng BarElement
+    BarElement,
     CategoryScale,
     LinearScale,
     PointElement,
@@ -9,10 +9,10 @@ import {
     Tooltip,
     Legend
 } from "chart.js";
-import React, { useState } from "react";
+import { useState } from "react";
 
 ChartJS.register(
-    BarElement,  // Thay LineElement bằng BarElement
+    BarElement,
     CategoryScale,
     LinearScale,
     PointElement,
@@ -23,7 +23,6 @@ ChartJS.register(
 
 const Statistical = ({ data }: any) => {
     const months = data?.months;
-    console.log(data);
     const day = data?.data?.day;
     const staticMoneyFollowDay = data?.data?.folowDay?.staticMoneyFollowDay;
     const [selectedOption1, setSelectedOption1] = useState('normal');

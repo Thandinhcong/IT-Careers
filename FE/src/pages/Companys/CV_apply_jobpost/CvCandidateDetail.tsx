@@ -11,6 +11,7 @@ const CvCandodateDetail = React.memo(() => {
 
     const { id } = useParams();
     const { data, isLoading } = useGetCandidateDetailQuery(id || "");
+    // console.log("data detail", data);
     const [assse] = useAssseCandidateMutation();
     const listInfoCandidateApply = data?.data;
     const listImage = data?.data?.image;

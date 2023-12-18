@@ -75,6 +75,9 @@ const Policy = () => {
                     </p>
                     <p><span className="w-10 inline-block base-line"></span>Nhà tuyển dụng tự chịu trách nhiệm về nội dung, hình ảnh của thông tin Doanh nghiệp và các thông tin khác cũng như toàn bộ quá trình giao dịch với các đối tác/ Người tìm việc trên BEWORK.</p>
                     <p><span className="w-10 inline-block base-line"></span>Nhà tuyển dụng cam kết, đồng ý không sử dụng dịch vụ của BEWORK vào những mục đích bất hợp pháp, không hợp lý, lừa đảo, đe doạ, thăm dò thông tin bất hợp pháp, phá hoại, tạo ra và phát tán virus gây hư hại tới hệ thống, cấu hình, truyền tải thông tin của BEWORK. Trong trường hợp vi phạm thì Nhà tuyển dụng phải chịu trách nhiệm về các hành vi của mình trước pháp luật.</p>
+                    <p>BEWORK có quyền khóa tài khoản  của Nhà tuyển dụng nếu phát hiện thấy dấu hiệu bất thường trong việc truy cập tài khoản. Những dấu hiệu này bao gồm nhưng không giới hạn ở việc: Lưu lượng truy cập rất cao và thường xuyên (giống hệ thống máy tự động quét dữ liệu - crawl bot) đang truy cập hệ thống BEWORK và có thể bao gồm những dấu hiệu khác mà BEWORK có căn cứ cho rằng cần phải khóa tài khoản để bảo vệ hệ thống cũng như dữ liệu người dùng. Trong trường hợp có tranh chấp về vấn đề này, quyết định của BEWORK sẽ là quyết định cuối cùng.
+                    </p>
+                    <p>  Trong trường hợp phát hiện dấu hiệu Nhà tuyển dụng vi phạm quy định của pháp luật về hành vi xử lý dữ liệu cá nhân, tùy vào đánh giá của BEWORK tại thời điểm phát hiện, BEWORK có quyền tạm khóa tại khoản của Nhà tuyển dụng để phục vụ cho mục đích điều tra xác minh. Thời gian tạm khóa sẽ kéo dài cho đến khi Nhà tuyển dụng chứng minh được việc không vi phạm quy định pháp luật.</p>
                 </div>
             </div>
         </div>

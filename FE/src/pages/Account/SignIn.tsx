@@ -26,7 +26,7 @@ const Login = React.memo(() => {
 
     const [login] = useLoginMutation();
     const loginGoogle = () => {
-        window.location.href = 'http://127.0.0.1:8000/api/auth/google';
+        window.location.href = 'http://127.0.0.1:8000/api/auth/google/callback';
         const urlParams = new URLSearchParams(window.location.search);
 
         const token = urlParams.get('token');

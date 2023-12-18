@@ -10,17 +10,15 @@ import React from "react";
 const CompanyManage = () => {
     const { data, isLoading, error } = useGetcompanysQuery();
     const [updateStatus] = useUpdateStatuscompanysMutation();
-    const [deleteCompany] = useDeletecompanysMutation()
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedCompany, setSelectedCompany] = React.useState<any | null>(null);
 
 
     const handleUpdateStatus = (companyId: number | string, currentStatus: number) => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-        const newStatus = currentStatus === 1 ? 0 : 1;
+        const newStatus = currentStatus === 1 ? 2 : 1;
 
         if (currentStatus === 2) {
-            // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
             setSelectedCompany({ id: companyId, status: newStatus });
         } else {
@@ -136,8 +134,8 @@ const CompanyManage = () => {
                     color = 'volcano';
                     text = 'Khóa';
                 } else {
-                    color = 'geekblue';
-                    text = 'Chưa Kích Hoạt';
+                    color = 'volcano';
+                    text = 'Khóa';
                 }
 
                 return (
@@ -190,15 +188,15 @@ const CompanyManage = () => {
                 <h2 className="text-2xl font-semibold">Quản lý Công Ty</h2>
             </div>
 
-            <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />; {/* Chỉnh độ rộng của bảng */}
+            <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />;
             <Modal
-                title="Xác nhận duyệt bài đăng"
+                title="Bạn có chắc chắn khóa công nay này không?"
                 visible={modalVisible}
                 okText="Có"
                 cancelText="Không"
                 okType="default"
                 onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
-                onCancel={() => handleModalConfirm(0)} // Không duyệt (Trạng thái 0)
+                onCancel={() => handleModalConfirm(0)}
             >
             </Modal>
 

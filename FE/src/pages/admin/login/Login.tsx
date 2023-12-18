@@ -34,8 +34,7 @@ const LoginAdmin = () => {
             }, 1000)
 
         } catch (error: any) {
-            notyf.error(error?.message);
-
+            notyf.error(error?.data?.message);
         }
     }
 

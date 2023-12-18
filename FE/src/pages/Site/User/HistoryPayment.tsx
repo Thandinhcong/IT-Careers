@@ -33,7 +33,7 @@ const HistoryPayment = () => {
                 const exchangeRate = 1;
                 const vndAmount = record.coin * exchangeRate;
                 const formattedAmount = formatCurrency(vndAmount, 'VND');
-                return <span className='text-green-500'> {formattedAmount}</span>;
+                return <span className=''> {formattedAmount}</span>;
             },
         },
         {
