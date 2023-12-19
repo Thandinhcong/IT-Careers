@@ -190,7 +190,7 @@ const CompanyManage = () => {
 
             <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />; {/* Chỉnh độ rộng của bảng */}
             <Modal
-                title="Xác nhận duyệt bài đăng"
+                title="Bạn có chắc chắn khóa công ty này không?"
                 visible={modalVisible}
                 okText="Có"
                 cancelText="Không"
