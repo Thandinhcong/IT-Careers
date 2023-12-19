@@ -200,96 +200,89 @@ const CompanyManage = () => {
             >
             </Modal>
             <Modal
-                title="Xem chi tiết bài đăng"
+                title="Xem chi tiết nhà tuyển dụng"
                 centered
                 open={open}
-                // onOk={() => {
-                //     // handleUpdateStatus(selectedPostId, selectedJobPost?.status || 0);
-                //     setOpen(false);
-                // }}
                 onCancel={() => setOpen(false)}
-                // okType='default'
                 cancelText="Đóng"
                 width={1000}
             >
-                {data?.data
-                    // ?.filter((item: { id: null; }) => item.id === selectedPostId)// Lọc bài đăng với ID tương ứng
-                    .map((item: ICompanys) => {
-                        return (
-                            <div key={item.id}>
-                                <div className='flex justify-between items-center'>
-                                    <div className='w-28 h-28 rounded-full border border-gray-200 mb-3 mr-36 relative overflow-hidden'>
-                                        <img src={item.logo} alt="" className='absolute w-full h-full rounded-full object-cover' />
-                                    </div>
-                                </div>
-                                <div className="text-gray-700">
-                                    <div >
-                                        <div className="grid grid-cols-2 border text-[15px]">
-                                            <div className="grid grid-cols-1 gap-2 border-r py-2">
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineClockCircle className="col-span-1" />
-                                                    <p className="col-span-3">Tên công ty</p>
-                                                    <p className="col-span-7">{item.company_name}</p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineEnvironment />
-                                                    <p className="col-span-3">Địa điểm:</p>
-                                                    <p className="col-span-8">{item.address}</p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineCalendar className="col-span-1" />
-                                                    <p className="col-span-3">Số điện thoại:</p>
-                                                    <p className="col-span-7">{item.phone}</p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2">
-                                                    <AiOutlineUsergroupAdd className="col-span-1" />
-                                                    <p className="col-span-3">Email:</p>
-                                                    <p className="col-span-7">{item.email}</p>
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-1 gap-2 py-2">
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineMoneyCollect className="col-span-1" />
-                                                    <p className="col-span-3">Mã số thuế:</p>
-                                                    <p className="col-span-7 font-medium">
-                                                        {item.tax_code}
-                                                    </p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineUser className="col-span-1" />
-                                                    <p className="col-span-3">Người đại diện:</p>
-                                                    <p className="col-span-7">
-                                                        {item.name}
-                                                    </p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                    <AiOutlineFileDone className="col-span-1" />
-                                                    <p className="col-span-3">Ngày thành lập:</p>
-                                                    <p className="col-span-7">{item.founded_in}</p>
-                                                </div>
-                                                <div className="grid grid-cols-12 items-center gap-2">
-                                                    <AiOutlineStar className="col-span-1" />
-                                                    <p className="col-span-3">Văn phòng:</p>
-                                                    <p className="col-span-7">{item.office}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h2 className="font-semibold text-lg my-4">Mô tả công ty </h2>
-                                        <div className="" >{item.description}</div>
-                                    </div>
-                                    <div>
-                                        <h2 className="font-semibold text-lg my-4">Giấy phép kinh doanh</h2>
-                                        <div className="">
-                                            <Image src={item.image_paper} alt="Avatar" width={50} />
-                                        </div>
-
-                                    </div>
+                {data?.data.map((item: ICompanys) => {
+                    return (
+                        <div key={item.id}>
+                            <div className='flex justify-between items-center'>
+                                <div className='w-28 h-28 rounded-full border border-gray-200 mb-3 mr-36 relative overflow-hidden'>
+                                    <img src={item.logo} alt="" className='absolute w-full h-full rounded-full object-cover' />
                                 </div>
                             </div>
-                        );
-                    })}
+                            <div className="text-gray-700">
+                                <div >
+                                    <div className="grid grid-cols-2 border text-[15px]">
+                                        <div className="grid grid-cols-1 gap-2 border-r py-2">
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineClockCircle className="col-span-1" />
+                                                <p className="col-span-3">Tên công ty</p>
+                                                <p className="col-span-7">{item.company_name}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineEnvironment />
+                                                <p className="col-span-3">Địa điểm:</p>
+                                                <p className="col-span-8">{item.address}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineCalendar className="col-span-1" />
+                                                <p className="col-span-3">Số điện thoại:</p>
+                                                <p className="col-span-7">{item.phone}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2">
+                                                <AiOutlineUsergroupAdd className="col-span-1" />
+                                                <p className="col-span-3">Email:</p>
+                                                <p className="col-span-7">{item.email}</p>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-1 gap-2 py-2">
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineMoneyCollect className="col-span-1" />
+                                                <p className="col-span-3">Mã số thuế:</p>
+                                                <p className="col-span-7 font-medium">
+                                                    {item.tax_code}
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineUser className="col-span-1" />
+                                                <p className="col-span-3">Người đại diện:</p>
+                                                <p className="col-span-7">
+                                                    {item.name}
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineFileDone className="col-span-1" />
+                                                <p className="col-span-3">Ngày thành lập:</p>
+                                                <p className="col-span-7">{item.founded_in}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2">
+                                                <AiOutlineStar className="col-span-1" />
+                                                <p className="col-span-3">Văn phòng:</p>
+                                                <p className="col-span-7">{item.office}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold text-lg my-4">Mô tả công ty </h2>
+                                    <div className="" >{item.description}</div>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold text-lg my-4">Giấy phép kinh doanh</h2>
+                                    <div className="">
+                                        <Image src={item.image_paper} alt="Avatar" width={50} />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
             </Modal>
 
         </div>
