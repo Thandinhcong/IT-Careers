@@ -203,9 +203,8 @@ const CompanyManage = () => {
                 title="Xem chi tiết nhà tuyển dụng"
                 centered
                 open={open}
-                onCancel={() => setOpen(false)}
-                cancelText="Đóng"
                 width={1000}
+                footer={<Button onClick={() => setOpen(false)}>Đóng</Button>}
             >
                 {data?.data.map((item: ICompanys) => {
                     return (
@@ -285,7 +284,7 @@ const CompanyManage = () => {
                 })}
             </Modal>
 
-        </div>
+        </div >
     )
 }
 
