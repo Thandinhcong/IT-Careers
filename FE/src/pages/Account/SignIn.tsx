@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormLogin, schemaLogin } from "../../schemas";
@@ -26,22 +26,25 @@ const Login = React.memo(() => {
 
     const [login] = useLoginMutation();
     const loginGoogle = () => {
-        window.location.href = 'http://127.0.0.1:8000/api/auth/google/callback';
-        const urlParams = new URLSearchParams(window.location.search);
+        window.location.href = 'http://127.0.0.1:8000/api/auth/google';
 
-        const token = urlParams.get('token');
-        console.log("token", token);
-
-        if (token) {
-            // Lưu token vào localStorage
-            localStorage.setItem('token', token);
-            navigate("/")
-
-        } else {
-
-        }
     }
+    const location = useLocation();
 
+    useEffect(() => {
+        // Trích xuất token từ query parameters
+        const urlParams = new URLSearchParams(location.search);
+        const token = urlParams.get('token');
+        console.log(token);
+
+        // Lưu token vào local storage
+        if (token) {
+            localStorage.setItem('access_token', token);
+            navigate('/')
+        } else {
+            console.error('Không tìm thấy token trong query parameters.');
+        }
+    }, [location, history]);
     const onHandleSubmit = async (data: FormLogin) => {
         try {
             const results = await login(data).unwrap();

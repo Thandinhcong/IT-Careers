@@ -37,7 +37,6 @@ const Recruitment = React.memo(() => {
     const [filterExp, setFilterExp] = useState('');
     const [filterSalary, setFilterSalary] = useState('');
     const [selectedProvinceId, setSelectedProvincetId] = useState<string | number | null>(null);
-    console.log(selectedProvinceId);
 
     const pageSize = 12;
     const handlePageChange = (page: number) => {
@@ -50,7 +49,6 @@ const Recruitment = React.memo(() => {
     const filteredJobs = listJobs?.filter((item) => {
         return (item.status !== 0 && item.status !== 2) || (new Date() <= new Date(item?.end_date));
     });
-    console.log(filteredJobs);
 
     const [filteredData, setFilteredData] = useState(filteredJobs);
     let displayedJobs;
@@ -125,7 +123,6 @@ const Recruitment = React.memo(() => {
     // Thêm hàm để xử lý sự kiện khi giá trị mức lương thay đổi
     const handleSalarySelectChange = (value: string) => {
         setFilterSalary(value);
-        console.log(value);
 
     };
     const handleSelectExp = (values: string) => {
@@ -286,7 +283,11 @@ const Recruitment = React.memo(() => {
                                             {item?.id_type_job_post === 2 ? <div className='text-yellow-500 text-2xl;'><RiVipCrown2Line /></div> : ""}
                                             <div>
                                                 <Link to="/">
-                                                    <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
+                                                    {item?.id_type_job_post === 2 ? (
+                                                        <p className='text-red-500 font-semibold text-lg'>{item?.title}</p>
+                                                    ) : (
+                                                        <p className='text-slate-500 font-semibold text-lg'>{item?.title}</p>
+                                                    )}
                                                 </Link>
                                                 <p className='text-lg'>{item?.company_name}</p>
                                             </div>

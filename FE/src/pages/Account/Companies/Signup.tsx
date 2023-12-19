@@ -183,7 +183,7 @@ const SignUpCompanies = () => {
                             </Form.Item>
                             <Form.Item className='text-center'>
                                 <Button type="primary" htmlType="submit" className="bg-blue-500 w-full" style={{ height: '45px' }}>
-                                    Đăng kí
+                                    Đăng ký
                                 </Button>
                                 <p className='my-2'>Hoặc</p>
                                 <p>Đã có tài khoản? <Link to="/business/signin" className='text-blue-500 hover:text-blue-800 hover:underline'>Đăng nhập ngay</Link></p>

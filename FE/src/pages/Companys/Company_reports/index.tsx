@@ -29,12 +29,8 @@ ChartJS.register(
 )
 const CompanyReports = () => {
     const { data: datastati }: any = useGetSatisicalJobQuery();
-    console.log("datastati", datastati);
-
     const [selectedOption1, setSelectedOption1] = useState('all');
     const Applied = datastati?.count_all_apply;
-    const countSuitable = datastati?.countSuitable;
-    const countNotSuitable = datastati?.countNotSuitable;
     const JobPost = datastati?.count_apply_post;
     const countAddCoin = datastati?.coin_payment;
 
@@ -108,17 +104,7 @@ const CompanyReports = () => {
                 };
         }
     };
-    const data: any = {
-        labels: arrayDate,
-        datasets: [{
-            data: totalApplied,
-            backgroundColor: 'transparent',
-            borderColor: '#f26c6d',
-            pointBorderColor: 'transparent',
-            pointBorderWidth: 4,
-            tension: 0.5
-        }]
-    }
+
     const options: any = {
         plugins: {
             legend: false
@@ -156,12 +142,6 @@ const CompanyReports = () => {
                     </ul>
                 </nav>
                 <hr className='w-full my-5 ' />
-
-                {/* <select name="" id="" className='border px-2 py-1 outline-none text-sm  select-all '>
-                    <option className='outline-none ' value="">7 ngày qua</option>
-                    <option className='outline-none ' value="">14 ngày qua</option>
-                    <option className='outline-none ' value="">30 ngày qua</option>
-                </select> */}
                 <div className='pt-3 grid grid-cols-4 gap-5'>
                     <div className='border shadow p-3 '>
                         <p className='font-semibold'> Số tin đăng</p>

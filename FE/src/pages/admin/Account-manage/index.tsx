@@ -1,6 +1,5 @@
-import { Button, Table, Popconfirm, message, Skeleton, Result, Tag, Image } from 'antd';
+import { Table, message, Skeleton, Tag, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { AiOutlineDelete, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IAccount } from "../../../interfaces";
 import { useDeleteCandidateMutation, useGetCandidatesQuery } from '../../../api/candidateApi';
 
@@ -8,33 +7,11 @@ const cancel = () => {
     message.info('Huỷ xoá');
 };
 const AccountManage = () => {
-    const { data, isLoading, error } = useGetCandidatesQuery();
-    const [removeAccount, { isLoading: isRemoveLoading }] = useDeleteCandidateMutation();
+    const { data, isLoading } = useGetCandidatesQuery();
+    const [removeAccount] = useDeleteCandidateMutation();
     if (isLoading) return <Skeleton loading />;
 
-    if (error) {
-        if ('status' in error) {
-            if (error.status === 404) {
-                return (
-                    <Result
-                        status="404"
-                        title="404"
-                        subTitle="Forbidden: You do not have permission to access this resource."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            } else {
-                return (
-                    <Result
-                        status="403"
-                        title="403"
-                        subTitle="Sorry, something went wrong."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
-                );
-            }
-        }
-    }
+
 
     const accountData = data?.data?.map(({ id, name, email, phone, address, image, status, coin }: IAccount) => {
         return {
@@ -152,7 +129,7 @@ const AccountManage = () => {
     ];
     return (
         <div>
-            <div className="flex justify-between mb-6">
+            <div className="flex justify-between mb-6 w-full">
                 <h2 className="text-2xl font-semibold">Quản lý ứng viên </h2>
                 {/* <Button type="primary" className="bg-blue-500">
                     <Link to="add">Thêm tài khoản</Link>
