@@ -10,6 +10,8 @@ export interface IPackages {
   title?: string;
   coin?: number;
   price?: number;
+  reduced_price?: string;
+  type_account?: string;
   status?: number;
   amount?: number;
   invoice_id: number;

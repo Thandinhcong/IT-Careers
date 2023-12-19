@@ -113,7 +113,7 @@ const PackageManage = () => {
                     <Link to="add">Tạo gói nạp</Link>
                 </Button>
             </div>
-            <Table columns={columns} dataSource={packageData} />;
+            <Table columns={columns} dataSource={packageData} />
         </div>
     )
 }

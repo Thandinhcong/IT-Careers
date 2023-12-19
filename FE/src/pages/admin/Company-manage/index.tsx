@@ -1,25 +1,29 @@
-import { Button, Modal, Result, Skeleton, Table, Tag, message } from 'antd';
+import { Button, Image, Modal, Result, Skeleton, Table, Tag, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { CheckOutlined, FolderViewOutlined } from '@ant-design/icons';
+import { CheckOutlined } from '@ant-design/icons';
 
 import { ICompanys } from "../../../interfaces";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineFolderView, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { useGetcompanysQuery, useUpdateStatuscompanysMutation } from "../../../api/CompanymanagerApi";
-import React from "react";
+import React, { useState } from "react";
 
 const CompanyManage = () => {
     const { data, isLoading, error } = useGetcompanysQuery();
-    console.log(data)
+    console.log(data);
+
     const [updateStatus] = useUpdateStatuscompanysMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedCompany, setSelectedCompany] = React.useState<any | null>(null);
+    const [open, setOpen] = useState(false);
+    const [selectedPostId, setSelectedPostId] = useState<string | number | null>(null);
 
 
     const handleUpdateStatus = (companyId: number | string, currentStatus: number) => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-        const newStatus = currentStatus === 1 ? 2 : 1;
+        const newStatus = currentStatus === 1 ? 0 : 1;
 
         if (currentStatus === 2) {
+            // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
             setSelectedCompany({ id: companyId, status: newStatus });
         } else {
@@ -38,6 +42,11 @@ const CompanyManage = () => {
 
         setModalVisible(false);
     };
+
+    const handleViewJobPost = (jobPostId: number | string) => {
+        setOpen(true);
+        setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
+    }
 
 
 
@@ -75,8 +84,8 @@ const CompanyManage = () => {
         office,
         logo,
         link_web,
-        image_paper,
-        description, }: ICompanys) => {
+        description,
+        image_paper }: ICompanys) => {
         return {
             key: id,
             status,
@@ -91,7 +100,7 @@ const CompanyManage = () => {
             logo,
             link_web,
             description,
-            image_paper,
+            image_paper
         }
     })
     const columns: ColumnsType<any> = [
@@ -105,35 +114,21 @@ const CompanyManage = () => {
             title: 'Mã Số Thuế',
             dataIndex: 'tax_code',
             key: 'tax_code',
-            render: (tax_code: string | undefined) => (
-                <span>
-                    {tax_code ? <span className='font-semibold'>{tax_code}</span>
-                        : <span className='text-red-500'>Chưa cập nhật</span>}
-                </span>
-            ),
-            onFilter: (value, record) => {
-                if (value === 'hasData') {
-                    return record.tax_code !== undefined && record.tax_code !== null;
-                } else if (value === 'noData') {
-                    return record.tax_code === undefined || record.tax_code === null;
-                }
-                return false;
-            },
-            filters: [
-                { text: 'Đã cập nhật', value: 'hasData' },
-                { text: 'Chưa cập nhật', value: 'noData' },
-            ],
         },
         {
-            title: 'Giấy phép kinh doanh',
-            dataIndex: 'image_paper',
-            key: 'image_paper',
-            render: (image_paper: string | undefined) => (
-                <span>
-                    {image_paper ? <a className='text-blue-500 underline' href={image_paper}>Giấy phép kinh doanh</a>
-                        : <span className='text-red-500' > Chưa cập nhật</span >}
-                </span >
-            ),
+            title: 'Địa Chỉ ',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
+            title: 'Số Điện Thoại',
+            dataIndex: 'phone',
+            key: 'phone',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
         },
         {
             title: 'Status',
@@ -147,12 +142,12 @@ const CompanyManage = () => {
                     color = 'green';
                     text = 'Kích Hoạt';
 
-                } else if (status === 2) {
+                } else if (status === 0) {
                     color = 'volcano';
                     text = 'Khóa';
                 } else {
-                    color = 'processing';
-                    text = 'Chưa kích hoạt';
+                    color = 'geekblue';
+                    text = 'Chưa Kích Hoạt';
                 }
 
                 return (
@@ -163,22 +158,12 @@ const CompanyManage = () => {
             },
         },
         {
-            title: 'Số Điện Thoại',
-            dataIndex: 'phone',
-            key: 'phone',
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
             title: 'Action',
             key: 'action',
             fixed: 'right',
-            width: 230,
+            width: 200,
             render: ({ key: id, status }: { key: string | number, status: number }) => (
-                <div className="flex -mx-6">
+                <div className="flex -mx-8">
                     <Button type="link" onClick={() => handleUpdateStatus(id, status)}>
                         <CheckOutlined style={{ fontSize: '18px', color: '#4eff3a' }} />
                         {isLoading ? (
@@ -187,10 +172,10 @@ const CompanyManage = () => {
                             <span className='text-[#49eb47]'>Trạng Thái</span>
                         )}
                     </Button >
-                    {/* <Button type='link' className="text-[#3eb7ee] px-0">
-                        <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
+                    <Button type='link' className="text-[#3eb7ee] px-0 flex items-center" onClick={() => handleViewJobPost(id)}>
+                        <AiOutlineFolderView style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết
-                    </Button> */}
+                    </Button>
                 </div>
             ),
         },
@@ -203,21 +188,104 @@ const CompanyManage = () => {
                 <h2 className="text-2xl font-semibold">Quản lý Công Ty</h2>
             </div>
 
-            <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />;
+            <Table columns={columns} dataSource={dataCompany} scroll={{ x: 1300 }} />; {/* Chỉnh độ rộng của bảng */}
             <Modal
-                title="Bạn có chắc chắn khóa công nay này không?"
+                title="Bạn có chắc chắn khóa công ty này không?"
                 visible={modalVisible}
                 okText="Có"
                 cancelText="Không"
                 okType="default"
                 onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
-                onCancel={() => handleModalConfirm(0)}
+                onCancel={() => handleModalConfirm(0)} // Không duyệt (Trạng thái 0)
             >
             </Modal>
+            <Modal
+                title="Xem chi tiết nhà tuyển dụng"
+                centered
+                open={open}
+                width={1000}
+                footer={<Button onClick={() => setOpen(false)}>Đóng</Button>}
+            >
+                {data?.data.map((item: ICompanys) => {
+                    return (
+                        <div key={item.id}>
+                            <div className='flex justify-between items-center'>
+                                <div className='w-28 h-28 rounded-full border border-gray-200 mb-3 mr-36 relative overflow-hidden'>
+                                    <img src={item.logo} alt="" className='absolute w-full h-full rounded-full object-cover' />
+                                </div>
+                            </div>
+                            <div className="text-gray-700">
+                                <div >
+                                    <div className="grid grid-cols-2 border text-[15px]">
+                                        <div className="grid grid-cols-1 gap-2 border-r py-2">
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineClockCircle className="col-span-1" />
+                                                <p className="col-span-3">Tên công ty</p>
+                                                <p className="col-span-7">{item.company_name}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineEnvironment />
+                                                <p className="col-span-3">Địa điểm:</p>
+                                                <p className="col-span-8">{item.address}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineCalendar className="col-span-1" />
+                                                <p className="col-span-3">Số điện thoại:</p>
+                                                <p className="col-span-7">{item.phone}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2">
+                                                <AiOutlineUsergroupAdd className="col-span-1" />
+                                                <p className="col-span-3">Email:</p>
+                                                <p className="col-span-7">{item.email}</p>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-1 gap-2 py-2">
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineMoneyCollect className="col-span-1" />
+                                                <p className="col-span-3">Mã số thuế:</p>
+                                                <p className="col-span-7 font-medium">
+                                                    {item.tax_code}
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineUser className="col-span-1" />
+                                                <p className="col-span-3">Người đại diện:</p>
+                                                <p className="col-span-7">
+                                                    {item.name}
+                                                </p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                <AiOutlineFileDone className="col-span-1" />
+                                                <p className="col-span-3">Ngày thành lập:</p>
+                                                <p className="col-span-7">{item.founded_in}</p>
+                                            </div>
+                                            <div className="grid grid-cols-12 items-center gap-2">
+                                                <AiOutlineStar className="col-span-1" />
+                                                <p className="col-span-3">Văn phòng:</p>
+                                                <p className="col-span-7">{item.office}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold text-lg my-4">Mô tả công ty </h2>
+                                    <div className="" >{item.description}</div>
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold text-lg my-4">Giấy phép kinh doanh</h2>
+                                    <div className="">
+                                        <Image src={item.image_paper} alt="Avatar" width={50} />
+                                    </div>
 
-        </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </Modal>
+
+        </div >
     )
 }
 
 export default CompanyManage
-
