@@ -564,7 +564,7 @@ const JobDetail = React.memo(() => {
 
                                 </div>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Bạn chưa có tài khoản? <Link to="/dang=ky-tai-khoan" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
+                                    Bạn chưa có tài khoản? <Link to="/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Đăng ký </Link>
                                 </p>
                             </form>
                         </TEModalBody>
