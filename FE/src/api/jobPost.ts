@@ -3,6 +3,7 @@ import { IJobPost } from "../interfaces";
 export interface IJobPosts {
   status?: string;
   jobPost: IJobPost[];
+  assess_admin?: string;
 }
 const JobPostApi = createApi({
   reducerPath: "job-post",
@@ -32,12 +33,12 @@ const JobPostApi = createApi({
     }),
     editJobPostStatus: builder.mutation<
       IJobPost,
-      { id: number | string; status: number }
+      { id: number | string; status: number; assess_admin: string }
     >({
-      query: ({ id, status }) => ({
+      query: ({ id, status, assess_admin }) => ({
         url: `/job-post/${id}`,
         method: "PUT",
-        body: { status },
+        body: { status, assess_admin },
       }),
       invalidatesTags: ["Job-post"],
     }),
