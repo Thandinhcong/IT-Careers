@@ -172,7 +172,7 @@ const CompanySetting = React.memo(() => {
                             name="tax_code"
                             rules={[
                                 { required: true, message: 'Trường này không được bỏ trống !' },
-                                { min: 6, message: "Tên kĩ năng phải trên 6 kí tự" }
+                                { min: 6, message: "Mã số thuế phải trên 6 kí tự" }
                             ]}
                         >
                             <Input />
