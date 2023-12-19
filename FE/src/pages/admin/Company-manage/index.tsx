@@ -297,4 +297,3 @@ const CompanyManage = () => {
 }
 
 export default CompanyManage
-

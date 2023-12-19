@@ -9,6 +9,7 @@ interface DataType {
     coin: string;
     note: string;
     created_at: string;
+    type_coin: number
 }
 
 const Payment = () => {
@@ -34,6 +35,7 @@ const Payment = () => {
             if (historyPaymentItem) {
                 combinedData.push({
                     key: historyPaymentItem.id,
+                    type_coin: historyPaymentItem.type_coin,
                     coin: historyPaymentItem.coin,
                     note: historyPaymentItem.note,
                     created_at: moment(historyPaymentItem.created_at).format('HH:mm:ss DD-MM-YYYY'),
@@ -43,6 +45,7 @@ const Payment = () => {
             if (profileHistoryItem) {
                 combinedData.push({
                     key: profileHistoryItem.id,
+                    type_coin: historyPaymentItem.type_coin,
                     coin: profileHistoryItem.coin,
                     note: profileHistoryItem.note,
                     created_at: moment(profileHistoryItem.created_at).format('HH:mm:ss DD-MM-YYYY'),

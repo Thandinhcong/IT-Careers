@@ -2,6 +2,8 @@ import React from 'react'
 import { CiSettings } from 'react-icons/ci';
 
 const ManageWebsite = React.memo(({ data }: any) => {
+    console.log(data);
+
     const listMajor = data?.countMajor;
     return (
         <div className="grid grid-cols-4 gap-5 mt-10">

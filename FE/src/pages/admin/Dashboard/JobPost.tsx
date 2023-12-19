@@ -10,7 +10,6 @@ const JobPost = ({ data }: any) => {
     const staticJobNormalFollowDay = data?.data?.folowDay?.staticJobNormalFollowDay;
     const staticJobVipFollowDay = data?.data?.folowDay?.['staticJobVipFollowDay '];
     const months = data?.data?.time;
-    console.log(months);
     const staticJobFollowMonth = data?.data?.folowMonth?.staticJobFollowMonth;
     const staticJobNormalFollowMonth = data?.data?.folowMonth?.staticJobNormalFollowMonth;
     const staticJobVipFollowMonth = data?.data?.folowMonth?.staticJobVipFollowMonth;

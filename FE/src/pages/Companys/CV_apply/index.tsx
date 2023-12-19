@@ -10,6 +10,8 @@ import TextArea from "antd/es/input/TextArea";
 const CVApply = React.memo(() => {
 
     const { data, isLoading } = useGetCvApllyJobPostIdQuery();
+    console.log("data", data);
+
     const [form] = Form.useForm();
     const [assse] = useAssseCandidateMutation();
     const [filterOption, setFilterOption] = useState("newest"); //lưu trữ và cập nhật biến để kiểm tra lọc
@@ -162,14 +164,14 @@ const CVApply = React.memo(() => {
                                     </div>
                                 </div>
                                 <div className="flex gap-1 text-gray-700">
-                                    <Link to={`/business/cv-apply/candidate-detail/${item.curriculum_vitae_id}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
+                                    <Link to={`/business/cv-apply/candidate-detail/${item?.candidate_code}`} className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm">
                                         <AiOutlineEye /><span>Chi tiết</span>
                                     </Link>
                                     <TERipple rippleColor="white">
                                         <button
                                             className="flex items-center bg-[#f5f6fa] px-3 py-1 border border-[#dbdfea] rounded-sm"
                                             type="button"
-                                            onClick={() => showModal(item.candidate_code)}
+                                            onClick={() => showModal(item?.candidate_code)}
                                         ><AiOutlineEdit /><span> Đánh giá</span>
                                         </button>
                                     </TERipple>
