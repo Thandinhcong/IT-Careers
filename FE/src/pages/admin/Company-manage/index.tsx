@@ -1,14 +1,15 @@
-import { Button, Modal, Popconfirm, Result, Skeleton, Table, Tag, message } from 'antd';
+import { Button, Modal, Result, Skeleton, Table, Tag, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { CheckOutlined } from '@ant-design/icons';
+import { CheckOutlined, FolderViewOutlined } from '@ant-design/icons';
 
 import { ICompanys } from "../../../interfaces";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useDeletecompanysMutation, useGetcompanysQuery, useUpdateStatuscompanysMutation } from "../../../api/CompanymanagerApi";
+import { useGetcompanysQuery, useUpdateStatuscompanysMutation } from "../../../api/CompanymanagerApi";
 import React from "react";
 
 const CompanyManage = () => {
     const { data, isLoading, error } = useGetcompanysQuery();
+    console.log(data)
     const [updateStatus] = useUpdateStatuscompanysMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedCompany, setSelectedCompany] = React.useState<any | null>(null);
@@ -74,6 +75,7 @@ const CompanyManage = () => {
         office,
         logo,
         link_web,
+        image_paper,
         description, }: ICompanys) => {
         return {
             key: id,
@@ -89,6 +91,7 @@ const CompanyManage = () => {
             logo,
             link_web,
             description,
+            image_paper,
         }
     })
     const columns: ColumnsType<any> = [
@@ -102,21 +105,35 @@ const CompanyManage = () => {
             title: 'Mã Số Thuế',
             dataIndex: 'tax_code',
             key: 'tax_code',
+            render: (tax_code: string | undefined) => (
+                <span>
+                    {tax_code ? <span className='font-semibold'>{tax_code}</span>
+                        : <span className='text-red-500'>Chưa cập nhật</span>}
+                </span>
+            ),
+            onFilter: (value, record) => {
+                if (value === 'hasData') {
+                    return record.tax_code !== undefined && record.tax_code !== null;
+                } else if (value === 'noData') {
+                    return record.tax_code === undefined || record.tax_code === null;
+                }
+                return false;
+            },
+            filters: [
+                { text: 'Đã cập nhật', value: 'hasData' },
+                { text: 'Chưa cập nhật', value: 'noData' },
+            ],
         },
         {
-            title: 'Địa Chỉ ',
-            dataIndex: 'address',
-            key: 'address',
-        },
-        {
-            title: 'Số Điện Thoại',
-            dataIndex: 'phone',
-            key: 'phone',
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Giấy phép kinh doanh',
+            dataIndex: 'image_paper',
+            key: 'image_paper',
+            render: (image_paper: string | undefined) => (
+                <span>
+                    {image_paper ? <a className='text-blue-500 underline' href={image_paper}>Giấy phép kinh doanh</a>
+                        : <span className='text-red-500' > Chưa cập nhật</span >}
+                </span >
+            ),
         },
         {
             title: 'Status',
@@ -130,12 +147,12 @@ const CompanyManage = () => {
                     color = 'green';
                     text = 'Kích Hoạt';
 
-                } else if (status === 0) {
+                } else if (status === 2) {
                     color = 'volcano';
                     text = 'Khóa';
                 } else {
-                    color = 'volcano';
-                    text = 'Khóa';
+                    color = 'processing';
+                    text = 'Chưa kích hoạt';
                 }
 
                 return (
@@ -146,10 +163,20 @@ const CompanyManage = () => {
             },
         },
         {
+            title: 'Số Điện Thoại',
+            dataIndex: 'phone',
+            key: 'phone',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
             title: 'Action',
             key: 'action',
             fixed: 'right',
-            width: 200,
+            width: 230,
             render: ({ key: id, status }: { key: string | number, status: number }) => (
                 <div className="flex -mx-6">
                     <Button type="link" onClick={() => handleUpdateStatus(id, status)}>
@@ -164,18 +191,6 @@ const CompanyManage = () => {
                         <FolderViewOutlined style={{ fontSize: '18px', color: '#3eb7ee' }} />
                         Xem chi tiết
                     </Button> */}
-                    {/* <Popconfirm
-                        placement='topLeft'
-                        title={"Bạn Chắc Chắn Xóa k?"}
-                        onConfirm={() => deleteCompany(id as number)}
-                        okText="yes"
-                        okType="default"
-                        cancelText="no"
-                    >
-                        <Button danger type='primary' className='flex - mx-7'>
-                            Xoá
-                        </Button>
-                    </Popconfirm > */}
                 </div>
             ),
         },

@@ -18,13 +18,6 @@ const PostManage = () => {
     const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
         // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
         const newStatus = currentStatus === 1 ? 2 : 1;
-
-        // if (currentStatus === 1 || currentStatus === 2) {
-        //     // Nếu trạng thái là 1 (Duyệt) hoặc 2 (Không duyệt)
-        //     message.warning("Bài đăng đã được kiểm duyệt trước đó.");
-        //     return;
-        // }
-
         if (currentStatus === 0) {
             // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
@@ -83,6 +76,12 @@ const PostManage = () => {
     })
 
     const columns: ColumnsType<IJobPost> = [
+        {
+            title: 'Tiêu đề',
+            dataIndex: 'title',
+            key: 'title',
+
+        },
         {
             title: 'Status',
             key: 'status',
@@ -157,27 +156,6 @@ const PostManage = () => {
             ),
         },
         {
-            title: 'Tiêu đề',
-            dataIndex: 'title',
-            key: 'title',
-
-        },
-        {
-            title: 'Công ty đăng bài',
-            dataIndex: 'company_name',
-            key: 'company_name',
-        },
-        // {
-        //     title: 'Thời gian đăng',
-        //     dataIndex: 'start_date',
-        //     key: 'start_date',
-        // },
-        // {
-        //     title: 'Thời gian kết thúc',
-        //     dataIndex: 'end_date',
-        //     key: 'end_date',
-        // },
-        {
             title: 'Gói đăng tin',
             dataIndex: 'type_job_post_id',
             key: 'type_job_post_id',
@@ -243,8 +221,11 @@ const PostManage = () => {
                 <FilterOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
             ),
         },
-
-
+        {
+            title: 'Công ty đăng bài',
+            dataIndex: 'company_name',
+            key: 'company_name',
+        },
         {
             title: 'Action',
             key: 'action',
