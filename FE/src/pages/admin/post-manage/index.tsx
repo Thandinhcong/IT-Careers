@@ -50,45 +50,16 @@ const PostManage = () => {
     };
 
     const handleRejectReasonModalConfirm = () => {
-        if (selectedJobPost) {
+        if (selectedJobPost && rejectReason.trim() !== '') { // Kiểm tra xem lý do có được nhập hay không
             updateStatus({ id: selectedJobPost.id, status: 2, assess_admin: rejectReason }).unwrap();
             message.success("Cập nhật trạng thái thành công");
+            setRejectReasonModalVisible(false);
+            setModalVisible(false);
+            setRejectReason('');
+        } else {
+            message.error("Vui lòng nhập lý do từ chối");
         }
-        setRejectReasonModalVisible(false);
-        setModalVisible(false);
-        setRejectReason('');
     };
-
-
-    // const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
-    //     // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-    //     const newStatus = currentStatus === 1 ? 2 : 1;
-    //     if (currentStatus === 0) {
-    //         // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
-    //         setModalVisible(true);
-    //         setSelectedJobPost({ id: jobPostId, status: newStatus });
-    //     } else {
-    //         // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
-    //         updateStatus({ id: jobPostId, status: newStatus }).unwrap();
-    //         message.success("Cập nhật trạng thái thành công");
-    //     }
-    // };
-
-    // const handleViewJobPost = (jobPostId: number | string) => {
-    //     setOpen(true);
-    //     setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
-    // }
-
-    // const handleModalConfirm = (newStatus: number, assess_admin: string) => {
-    //     if (selectedJobPost) {
-    //         const updatedJobPost = { ...selectedJobPost, status: newStatus, assess_admin };
-    //         updateStatus(updatedJobPost);
-    //         message.success("Cập nhật trạng thái thành công");
-    //         console.log(updatedJobPost)
-    //     }
-
-    //     setModalVisible(false);
-    // };
 
     if (isLoading) return <Skeleton loading />;
 
@@ -304,25 +275,13 @@ const PostManage = () => {
                 <h2 className="text-2xl font-semibold">Quản lý bài đăng</h2>
             </div>
             <Table columns={columns} dataSource={dataJobPost} scroll={{ x: 1500 }} loading={isLoading} pagination={{ pageSize: 10 }} /> {/* Chỉnh độ rộng của bảng */}
-            {/* <Modal
-                title="Xác nhận duyệt bài đăng"
-                visible={modalVisible}
-                okText="Có"
-                cancelText="Không"
-                okType="default"
-                onOk={() => handleModalConfirm(1, '')} // Duyệt (Trạng thái 1)
-                onCancel={() => handleModalConfirm(2)} // Không duyệt (Trạng thái 0)
-            >
-                Bạn có muốn cho phép bài đăng này được được đăng tuyển không?
-            </Modal> */}
-
             <Modal
                 title="Xác nhận duyệt bài đăng"
                 visible={modalVisible}
                 okText="Có"
                 cancelText="Không"
                 okType="default"
-                onOk={() => handleModalConfirm(1, '')}
+                onOk={() => handleModalConfirm(1, "")}
                 onCancel={() => handleModalConfirm(2)}
             >
                 Bạn có muốn cho phép bài đăng này được đăng tuyển không?
@@ -333,6 +292,7 @@ const PostManage = () => {
                 visible={rejectReasonModalVisible}
                 okText="Xác nhận"
                 cancelText="Hủy"
+                okType='default'
                 onOk={handleRejectReasonModalConfirm}
                 onCancel={() => setRejectReasonModalVisible(false)}
             >
