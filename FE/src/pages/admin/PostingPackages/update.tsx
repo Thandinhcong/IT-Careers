@@ -94,7 +94,7 @@ const UpdatePostingPackages = () => {
                         {isLoading ? (
                             <AiOutlineLoading3Quarters className="animate-spin" />
                         ) : (
-                            "Cập nhật kĩ năng"
+                            "Cập nhật"
                         )}
                     </Button>
                 </Form.Item>

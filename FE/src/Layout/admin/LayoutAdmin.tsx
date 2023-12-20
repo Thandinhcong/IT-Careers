@@ -69,7 +69,7 @@ const LayoutAdmin = () => {
                 { key: '5', icon: <UploadOutlined />, label: 'Kinh nghiệm', path: 'experience-manage' },
                 { key: '6', icon: <AiOutlineCalendar />, label: 'Hình thức', path: 'working-form' },
                 { key: '7', icon: <ApartmentOutlined />, label: 'Chức vụ', path: 'jobposition-manage' },
-                { key: '8', icon: <ControlOutlined />, label: 'Kĩ năng', path: 'skill-manage' },
+                // { key: '8', icon: <ControlOutlined />, label: 'Kĩ năng', path: 'skill-manage' },
                 { key: '9', icon: <GiftOutlined />, label: 'Gói nạp', path: 'package-manage' },
                 { key: '10', icon: <FileProtectOutlined />, label: 'Trình độ', path: 'level-manage' },
                 { key: '11', icon: <FileProtectOutlined />, label: 'Chuyên Ngành', path: 'major-manage' },
