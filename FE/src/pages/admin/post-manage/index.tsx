@@ -1,4 +1,4 @@
-import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox, Input } from 'antd';
+import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
 import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
@@ -10,21 +10,23 @@ import { FilterOutlined } from '@ant-design/icons';
 const PostManage = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading, error } = useGetJobPostQuery();
+    console.log(data);
+
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [rejectReasonModalVisible, setRejectReasonModalVisible] = useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<any | null>(null);
     const [selectedPostId, setSelectedPostId] = useState<string | number | null>(null); //Lưu id bài đăng đã chọn
-    const [rejectReason, setRejectReason] = useState('');
+    const [companyInfoVisible, setCompanyInfoVisible] = useState(false);
 
     const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
+        // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
         const newStatus = currentStatus === 1 ? 2 : 1;
-        setSelectedPostId(jobPostId);
-
         if (currentStatus === 0) {
+            // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
             setModalVisible(true);
             setSelectedJobPost({ id: jobPostId, status: newStatus });
         } else {
+            // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
             updateStatus({ id: jobPostId, status: newStatus }).unwrap();
             message.success("Cập nhật trạng thái thành công");
         }
@@ -32,64 +34,17 @@ const PostManage = () => {
 
     const handleViewJobPost = (jobPostId: number | string) => {
         setOpen(true);
-        setSelectedPostId(jobPostId);
+        setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
     }
 
     const handleModalConfirm = (newStatus: number) => {
-        if (newStatus === 2) {
-            setRejectReasonModalVisible(true);
-        } else {
-            if (selectedJobPost) {
-                const updatedJobPost = { ...selectedJobPost, status: newStatus, assess_admin: '' };
-                updateStatus(updatedJobPost).unwrap();
-                message.success("Cập nhật trạng thái thành công");
-            }
-            setModalVisible(false);
-        }
-
-    };
-
-    const handleRejectReasonModalConfirm = () => {
         if (selectedJobPost) {
-            updateStatus({ id: selectedJobPost.id, status: 2, assess_admin: rejectReason }).unwrap();
+            const updatedJobPost = { ...selectedJobPost, status: newStatus };
+            updateStatus(updatedJobPost);
             message.success("Cập nhật trạng thái thành công");
         }
-        setRejectReasonModalVisible(false);
         setModalVisible(false);
-        setRejectReason('');
     };
-
-
-    // const handleUpdateStatus = (jobPostId: number | string, currentStatus: number) => {
-    //     // Kiểm tra trạng thái và cập nhật trạng thái mới (đảo ngược)
-    //     const newStatus = currentStatus === 1 ? 2 : 1;
-    //     if (currentStatus === 0) {
-    //         // Nếu trạng thái là 2 (Chưa duyệt) khi bấm nút "Duyệt" sẽ hiển thị Modal xác nhận
-    //         setModalVisible(true);
-    //         setSelectedJobPost({ id: jobPostId, status: newStatus });
-    //     } else {
-    //         // Nếu trạng thái là 1 (Duyệt) hoặc 0 (Không duyệt), gọi mutation để cập nhật trạng thái
-    //         updateStatus({ id: jobPostId, status: newStatus }).unwrap();
-    //         message.success("Cập nhật trạng thái thành công");
-    //     }
-    // };
-
-    // const handleViewJobPost = (jobPostId: number | string) => {
-    //     setOpen(true);
-    //     setSelectedPostId(jobPostId); // Lưu ID của bài đăng vào state selectedPostId
-    // }
-
-    // const handleModalConfirm = (newStatus: number, assess_admin: string) => {
-    //     if (selectedJobPost) {
-    //         const updatedJobPost = { ...selectedJobPost, status: newStatus, assess_admin };
-    //         updateStatus(updatedJobPost);
-    //         message.success("Cập nhật trạng thái thành công");
-    //         console.log(updatedJobPost)
-    //     }
-
-    //     setModalVisible(false);
-    // };
-
     if (isLoading) return <Skeleton loading />;
 
     if (error) {
@@ -304,44 +259,16 @@ const PostManage = () => {
                 <h2 className="text-2xl font-semibold">Quản lý bài đăng</h2>
             </div>
             <Table columns={columns} dataSource={dataJobPost} scroll={{ x: 1500 }} loading={isLoading} pagination={{ pageSize: 10 }} /> {/* Chỉnh độ rộng của bảng */}
-            {/* <Modal
+            <Modal
                 title="Xác nhận duyệt bài đăng"
                 visible={modalVisible}
                 okText="Có"
                 cancelText="Không"
                 okType="default"
-                onOk={() => handleModalConfirm(1, '')} // Duyệt (Trạng thái 1)
+                onOk={() => handleModalConfirm(1)} // Duyệt (Trạng thái 1)
                 onCancel={() => handleModalConfirm(2)} // Không duyệt (Trạng thái 0)
             >
                 Bạn có muốn cho phép bài đăng này được được đăng tuyển không?
-            </Modal> */}
-
-            <Modal
-                title="Xác nhận duyệt bài đăng"
-                visible={modalVisible}
-                okText="Có"
-                cancelText="Không"
-                okType="default"
-                onOk={() => handleModalConfirm(1, '')}
-                onCancel={() => handleModalConfirm(2)}
-            >
-                Bạn có muốn cho phép bài đăng này được đăng tuyển không?
-            </Modal>
-
-            <Modal
-                title="Xác nhận từ chối bài đăng"
-                visible={rejectReasonModalVisible}
-                okText="Xác nhận"
-                cancelText="Hủy"
-                onOk={handleRejectReasonModalConfirm}
-                onCancel={() => setRejectReasonModalVisible(false)}
-            >
-                <Input.TextArea
-                    placeholder="Nhập lý do từ chối"
-                    value={rejectReason}
-                    onChange={(e) => setRejectReason(e.target.value)}
-                    rows={4}
-                />
             </Modal>
             {/* Xem chi tiết */}
             <Modal
@@ -429,13 +356,76 @@ const PostManage = () => {
                                     <div>
                                         <h2 className="font-semibold text-lg my-4"> Yêu cầu</h2>
                                         <div className="" dangerouslySetInnerHTML={{ __html: item?.require }}></div>
-
                                     </div>
 
                                     <div>
                                         <h2 className="font-semibold text-lg my-4">Quyền lợi</h2>
                                         <div className="" dangerouslySetInnerHTML={{ __html: item?.interest }}></div>
                                     </div>
+                                    <Button
+                                        type="link"
+                                        onClick={() => setCompanyInfoVisible(!companyInfoVisible)}
+                                        className="text-[#3eb7ee] px-0 py-5"
+                                    >
+                                        {companyInfoVisible ? 'Ẩn thông tin công ty' : 'Xem thông tin công ty'}
+                                    </Button>
+
+                                    {/* Company information section */}
+                                    {companyInfoVisible && (
+                                        <div>
+                                            <h2 className="font-semibold text-lg my-4">Thông tin công ty</h2>
+                                            <div >
+                                                <div className="grid grid-cols-1 border text-[15px]">
+                                                    <div className="grid grid-cols-1 gap-2 border-r py-2">
+                                                        <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineClockCircle className="col-span-1" />
+                                                            <p className="col-span-3">Tên công ty</p>
+                                                            <p className="col-span-7">{item.company_name}</p>
+                                                        </div>
+                                                        <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineEnvironment />
+                                                            <p className="col-span-3">Địa điểm:</p>
+                                                            <p className="col-span-8">{item.address}</p>
+                                                        </div>
+                                                        {/* <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineCalendar className="col-span-1" />
+                                                            <p className="col-span-3">Mô tả công ty</p>
+                                                            <p className="col-span-7">{item.description}</p>
+                                                        </div>
+                                                        <div className="grid grid-cols-12 items-center gap-2">
+                                                            <AiOutlineUsergroupAdd className="col-span-1" />
+                                                            <p className="col-span-3">Email:</p>
+                                                            <p className="col-span-7">{item.email}</p>
+                                                        </div> */}
+                                                    </div>
+                                                    <div className="grid grid-cols-1 gap-2 py-2">
+                                                        <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineMoneyCollect className="col-span-1" />
+                                                            <p className="col-span-3">Mã số thuế:</p>
+                                                            <p className="col-span-7 font-medium">
+                                                                {/* {item.tax_code} */}
+                                                            </p>
+                                                        </div>
+                                                        <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineCalendar className="col-span-1" />
+                                                            <p className="col-span-3">Mô tả công ty</p>
+                                                            <p className="col-span-7">{item.description}</p>
+                                                        </div>
+                                                        {/* <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                            <AiOutlineFileDone className="col-span-1" />
+                                                            <p className="col-span-3">Ngày thành lập:</p>
+                                                            <p className="col-span-7">{item.founded_in}</p>
+                                                        </div>
+                                                        <div className="grid grid-cols-12 items-center gap-2">
+                                                            <AiOutlineStar className="col-span-1" />
+                                                            <p className="col-span-3">Văn phòng:</p>
+                                                            <p className="col-span-7">{item.office}</p>
+                                                        </div> */}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         );
