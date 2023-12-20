@@ -155,27 +155,27 @@ const Recruitment = React.memo(() => {
                 switch (filterSalary) {
                     case '1':
                         // Dưới 1 triệu
-                        return maxSalary < 1000000;
+                        return maxSalary >= 1000000;
                         break;
                     case '2':
                         // 1-5 triệu
-                        return maxSalary >= 1000000;
+                        return maxSalary >= 5000000;
                         break;
                     case '3':
                         // 5-10 triệu
-                        return maxSalary >= 5000000;
+                        return maxSalary >= 10000000;
                         break;
                     case '4':
                         // 10-15 triệu
-                        return maxSalary >= 10000000;
+                        return maxSalary >= 15000000;
                         break;
                     case '5':
                         // 15-20 triệu
-                        return maxSalary >= 15000000;
+                        return maxSalary >= 20000000;
                         break;
                     case '6':
                         // 20-25 triệu
-                        return maxSalary >= 20000000;
+                        return maxSalary >= 25000000;
                         break;
                     case '7':
                         // 25-30 triệu
@@ -183,11 +183,11 @@ const Recruitment = React.memo(() => {
                         break;
                     case '8':
                         // 30-35 triệu
-                        return maxSalary >= 30000000;
+                        return maxSalary >= 35000000;
                         break;
                     case '9':
                         // Trên 35 triệu
-                        return maxSalary > 35000000;
+                        return maxSalary > 40000000;
                         break;
                     default:
                         return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
@@ -247,15 +247,15 @@ const Recruitment = React.memo(() => {
                         onChange={(e) => handleSalarySelectChange(e.target.value)}
                     >
                         <option value="">- Mức lương -</option>
-                        <option value="1">Dưới 1 triệu</option>
-                        <option value="2">1-5 triệu</option>
-                        <option value="3">5-10 triệu</option>
-                        <option value="4">10-15 triệu</option>
-                        <option value="5">15-20 triệu</option>
-                        <option value="6">20-25 triệu</option>
-                        <option value="7">25-30 triệu</option>
-                        <option value="8">30-35 triệu</option>
-                        <option value="9">Trên 35 triệu</option>
+                        <option value="1">Trên 1 triệu</option>
+                        <option value="2">Trên 5 triệu</option>
+                        <option value="3">Trên 10 triệu</option>
+                        <option value="4">Trên 15 triệu</option>
+                        <option value="5">Trên 20 triệu</option>
+                        <option value="6">Trên 25 triệu</option>
+                        <option value="7">Trên 30 triệu</option>
+                        <option value="8">Trên 35 triệu</option>
+                        <option value="9">Trên 40 triệu</option>
                     </select>
 
                     <button className="bg-blue-600 text-white flex items-center rounded-md px-3" onClick={handleFilterButtonClick}>

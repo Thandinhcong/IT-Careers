@@ -10,8 +10,6 @@ import { FilterOutlined } from '@ant-design/icons';
 const PostManage = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading, error } = useGetJobPostQuery();
-    console.log(data);
-
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<any | null>(null);
