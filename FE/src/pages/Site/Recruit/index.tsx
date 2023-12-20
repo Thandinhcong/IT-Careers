@@ -55,11 +55,9 @@ const Recruit = () => {
 
         // Lọc theo mức lương
         if (selectedSalary) {
-            const minSalary = parseInt(item.min_salary);
             const maxSalary = parseInt(item.max_salary);
-            console.log(minSalary)
 
-            switch (filterSalary) {
+            switch (selectedSalary) {
                 case '1':
                     // Dưới 1 triệu
                     return maxSalary >= 1000000;
@@ -97,7 +95,7 @@ const Recruit = () => {
                     return maxSalary > 40000000;
                     break;
                 default:
-                    return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
+                    return true;
             }
         }
 
@@ -125,15 +123,15 @@ const Recruit = () => {
                         onChange={(e) => setSelectedSalary(e.target.value)}
                     >
                         <option value="">- Mức lương -</option>
-                        <option value="1">Trên 1 triệu</option>
-                        <option value="2">Trên 5 triệu</option>
-                        <option value="3">Trên 10 triệu</option>
-                        <option value="4">Trên 15 triệu</option>
-                        <option value="5">Trên 20 triệu</option>
-                        <option value="6">Trên 25 triệu</option>
-                        <option value="7">Trên 30 triệu</option>
-                        <option value="8">Trên 35 triệu</option>
-                        <option value="9">Trên 40 triệu</option>
+                        <option value="1">Dưới 1 triệu</option>
+                        <option value="2">1-5 triệu</option>
+                        <option value="3">5-10 triệu</option>
+                        <option value="4">10-15 triệu</option>
+                        <option value="5">15-20 triệu</option>
+                        <option value="6">20-25 triệu</option>
+                        <option value="7">25-30 triệu</option>
+                        <option value="8">30-35 triệu</option>
+                        <option value="9">Trên 35 triệu</option>
                     </select>
                     <button className='rounded-lg bg-gray-200 py-1.5 px-5' onClick={resetSearch} ><AiOutlineReload className="inline-block mr-1" />Đặt lại</button>
                 </div>
