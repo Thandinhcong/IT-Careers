@@ -152,14 +152,15 @@ const Recruitment = React.memo(() => {
             result = result.filter((item: any) => {
                 const minSalary = parseInt(item.min_salary);
                 const maxSalary = parseInt(item.max_salary);
+
                 switch (filterSalary) {
                     case '1':
                         // Dưới 1 triệu
-                        return maxSalary < 1000000;
+                        return !(maxSalary > 1000000);
                         break;
                     case '2':
                         // 1-5 triệu
-                        return maxSalary >= 1000000;
+                        return !(maxSalary >= 1000000 && minSalary <= 5000000);
                         break;
                     case '3':
                         // 5-10 triệu
@@ -267,9 +268,9 @@ const Recruitment = React.memo(() => {
                         <p>Xóa lọc</p>
                     </button>
                 </div>
-                <div className="pt-4 mb-2 flex justify-between">
+                {/* <div className="pt-4 mb-2 flex justify-between">
                     <p className="text-gray-700 font-semibold">Có {filteredData === undefined ? filteredJobs?.length : filteredData?.length || 0} kết quả tìm kiếm.</p>
-                </div>
+                </div> */}
                 <div className='my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 '>
                     {displayedJobs?.map((item: any) => {
                         const isCheckJobSave = listJobSave?.some((data: any) => data?.id === item?.id)

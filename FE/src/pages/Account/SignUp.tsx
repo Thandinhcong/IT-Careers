@@ -164,7 +164,7 @@ const SignUp = React.memo(() => {
                                 .
                             </p>
                         </form>
-                        <div className="col-span-6 ">
+                        {/* <div className="col-span-6 ">
                             <button
                                 onClick={() => loginGoogle()}
                                 className="flex items-center gap-2 px-2 justify-center border w-full py-1 rounded mt-2"
@@ -174,7 +174,7 @@ const SignUp = React.memo(() => {
                                 </div>
                                 <span>Google</span>
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </main>
             </div>
