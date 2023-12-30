@@ -1,4 +1,4 @@
-import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox } from 'antd';
+import { Button, Result, Skeleton, Table, Tag, Modal, message, Checkbox, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { FolderViewOutlined, CheckOutlined } from '@ant-design/icons';
 import { AiOutlineCalendar, AiOutlineClockCircle, AiOutlineEnvironment, AiOutlineFileDone, AiOutlineLoading3Quarters, AiOutlineMoneyCollect, AiOutlineStar, AiOutlineUser, AiOutlineUsergroupAdd } from "react-icons/ai";
@@ -10,8 +10,6 @@ import { FilterOutlined } from '@ant-design/icons';
 const PostManage = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading, error } = useGetJobPostQuery();
-    console.log(data);
-
     const [updateStatus] = useEditJobPostStatusMutation();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedJobPost, setSelectedJobPost] = React.useState<any | null>(null);
@@ -387,23 +385,13 @@ const PostManage = () => {
                                                             <p className="col-span-3">Địa điểm:</p>
                                                             <p className="col-span-8">{item.address}</p>
                                                         </div>
-                                                        {/* <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
-                                                            <AiOutlineCalendar className="col-span-1" />
-                                                            <p className="col-span-3">Mô tả công ty</p>
-                                                            <p className="col-span-7">{item.description}</p>
-                                                        </div>
-                                                        <div className="grid grid-cols-12 items-center gap-2">
-                                                            <AiOutlineUsergroupAdd className="col-span-1" />
-                                                            <p className="col-span-3">Email:</p>
-                                                            <p className="col-span-7">{item.email}</p>
-                                                        </div> */}
                                                     </div>
                                                     <div className="grid grid-cols-1 gap-2 py-2">
                                                         <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                                             <AiOutlineMoneyCollect className="col-span-1" />
                                                             <p className="col-span-3">Mã số thuế:</p>
-                                                            <p className="col-span-7 font-medium">
-                                                                {/* {item.tax_code} */}
+                                                            <p className="col-span-7">
+                                                                {item.tax_code}
                                                             </p>
                                                         </div>
                                                         <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
@@ -411,16 +399,11 @@ const PostManage = () => {
                                                             <p className="col-span-3">Mô tả công ty</p>
                                                             <p className="col-span-7">{item.description}</p>
                                                         </div>
-                                                        {/* <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
+                                                        <div className="grid grid-cols-12 items-center gap-2 border-b pb-2">
                                                             <AiOutlineFileDone className="col-span-1" />
-                                                            <p className="col-span-3">Ngày thành lập:</p>
-                                                            <p className="col-span-7">{item.founded_in}</p>
+                                                            <p className="col-span-3">Giấy phép</p>
+                                                            <Image src={item.image_paper} alt="Avatar" width={50} />
                                                         </div>
-                                                        <div className="grid grid-cols-12 items-center gap-2">
-                                                            <AiOutlineStar className="col-span-1" />
-                                                            <p className="col-span-3">Văn phòng:</p>
-                                                            <p className="col-span-7">{item.office}</p>
-                                                        </div> */}
                                                     </div>
                                                 </div>
                                             </div>

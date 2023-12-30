@@ -59,63 +59,45 @@ const Recruit = () => {
             const maxSalary = parseInt(item.max_salary);
             console.log(minSalary)
 
-            switch (selectedSalary) {
+            switch (filterSalary) {
                 case '1':
                     // Dưới 1 triệu
-                    if (!(maxSalary < 1000000 || minSalary < 1000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 1000000;
                     break;
                 case '2':
                     // 1-5 triệu
-                    if (!(maxSalary >= 1000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 5000000;
                     break;
                 case '3':
                     // 5-10 triệu
-                    if (!(maxSalary >= 5000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 10000000;
                     break;
                 case '4':
                     // 10-15 triệu
-                    if (!(maxSalary >= 10000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 15000000;
                     break;
                 case '5':
                     // 15-20 triệu
-                    if (!(maxSalary >= 15000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 20000000;
                     break;
                 case '6':
                     // 20-25 triệu
-                    if (!(maxSalary >= 20000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 25000000;
                     break;
                 case '7':
                     // 25-30 triệu
-                    if (!(maxSalary >= 25000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 30000000;
                     break;
                 case '8':
                     // 30-35 triệu
-                    if (!(maxSalary >= 30000000)) {
-                        return false;
-                    }
+                    return maxSalary >= 35000000;
                     break;
                 case '9':
                     // Trên 35 triệu
-                    if (!(maxSalary > 35000000)) {
-                        return false;
-                    }
+                    return maxSalary > 40000000;
                     break;
                 default:
-                    break;
+                    return true; // Nếu không có mức lương nào được chọn, hiển thị tất cả
             }
         }
 
@@ -143,15 +125,15 @@ const Recruit = () => {
                         onChange={(e) => setSelectedSalary(e.target.value)}
                     >
                         <option value="">- Mức lương -</option>
-                        <option value="1">Dưới 1 triệu</option>
-                        <option value="2">1-5 triệu</option>
-                        <option value="3">5-10 triệu</option>
-                        <option value="4">10-15 triệu</option>
-                        <option value="5">15-20 triệu</option>
-                        <option value="6">20-25 triệu</option>
-                        <option value="7">25-30 triệu</option>
-                        <option value="8">30-35 triệu</option>
-                        <option value="9">Trên 35 triệu</option>
+                        <option value="1">Trên 1 triệu</option>
+                        <option value="2">Trên 5 triệu</option>
+                        <option value="3">Trên 10 triệu</option>
+                        <option value="4">Trên 15 triệu</option>
+                        <option value="5">Trên 20 triệu</option>
+                        <option value="6">Trên 25 triệu</option>
+                        <option value="7">Trên 30 triệu</option>
+                        <option value="8">Trên 35 triệu</option>
+                        <option value="9">Trên 40 triệu</option>
                     </select>
                     <button className='rounded-lg bg-gray-200 py-1.5 px-5' onClick={resetSearch} ><AiOutlineReload className="inline-block mr-1" />Đặt lại</button>
                 </div>
