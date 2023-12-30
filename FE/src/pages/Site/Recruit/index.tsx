@@ -55,11 +55,9 @@ const Recruit = () => {
 
         // Lọc theo mức lương
         if (selectedSalary) {
-            const minSalary = parseInt(item.min_salary);
             const maxSalary = parseInt(item.max_salary);
-            console.log(minSalary)
 
-            switch (filterSalary) {
+            switch (selectedSalary) {
                 case '1':
                     // Dưới 1 triệu
                     return maxSalary >= 1000000;
